@@ -2,9 +2,9 @@ import { v2 as cloudinary } from "cloudinary";
 import { executeQuery } from "../config/db.js";
 import bodyParser from "body-parser";
 import dayjs from "dayjs";
-import "dayjs/locale/vi.js"; 
+import "dayjs/locale/vi.js";
 
-dayjs.locale("vi"); 
+dayjs.locale("vi");
 
 cloudinary.config({
   cloud_name: "drh4upxz5",
@@ -147,17 +147,17 @@ export const articleController = {
     const subParamName = ['id'];
 
     try {
-        const subResult = await executeQuery(subQuery, subValues, subParamName, false);
-        console.log(subResult.recordset)
-        const query = `SELECT *
+      const subResult = await executeQuery(subQuery, subValues, subParamName, false);
+      console.log(subResult.recordset)
+      const query = `SELECT *
                 FROM Article WHERE id_category = @id
                 ORDER BY day_created ASC;`
-        const values = [subResult.recordset[0].id_category];
-        const paramNames = ['id'];
-        const result = await executeQuery(query, values, paramNames, false);
-        res.json({ success: 'Thanh cong !', name: subResult.recordset, data: result.recordset})
+      const values = [subResult.recordset[0].id_category];
+      const paramNames = ['id'];
+      const result = await executeQuery(query, values, paramNames, false);
+      res.json({ success: 'Thanh cong !', name: subResult.recordset, data: result.recordset })
     } catch (error) {
-        console.error(error);
+      console.error(error);
       res
         .status(500)
         .json({ success: false, message: "Có lỗi xảy ra, vui lòng thử lại!" });
@@ -191,13 +191,13 @@ export const articleController = {
         const values = [req.params.id]
         const paramName = ['name_alias']
         try {
-        const result = await executeQuery(query, values, paramName, false);
-        // res.json({ success: "Thanh cong !"})
+          const result = await executeQuery(query, values, paramName, false);
+          // res.json({ success: "Thanh cong !"})
         } catch (error) {
-        res.json({success: error})
+          res.json({ success: error })
         }
       } catch (error) {
-        res.json({success: error})
+        res.json({ success: error })
       }
       console.log(res.locals.email)
       // Gửi email trong phản hồi
@@ -222,13 +222,13 @@ export const articleController = {
 
     try {
       const result = await executeQuery(query, values, paramName, false)
-      res.json({success: "Thanh cong !", data: result.recordset})
-    } catch(error) {
-      res.json( { success: error } )
+      res.json({ success: "Thanh cong !", data: result.recordset })
+    } catch (error) {
+      res.json({ success: error })
     }
   },
 
-  sortArticlesByViewsCount: async(req, res) => {
+  sortArticlesByViewsCount: async (req, res) => {
     const query = `SELECT *
         FROM [dbo].[Article]
         WHERE id_category = (
@@ -241,10 +241,10 @@ export const articleController = {
     const paramName = ['id']
 
     try {
-    const result = await executeQuery(query, values, paramName, false)
-    res.json({success: "Thanh cong !", data: result.recordset})
-    } catch(error) {
-    res.json( { success: error } )
+      const result = await executeQuery(query, values, paramName, false)
+      res.json({ success: "Thanh cong !", data: result.recordset })
+    } catch (error) {
+      res.json({ success: error })
     }
   },
 
@@ -274,13 +274,13 @@ export const articleController = {
         const values = [req.params.id]
         const paramName = ['name_alias']
         try {
-        const result = await executeQuery(query, values, paramName, false);
-        // res.json({ success: "Thanh cong !"})
+          const result = await executeQuery(query, values, paramName, false);
+          // res.json({ success: "Thanh cong !"})
         } catch (error) {
-        res.json({success: error})
+          res.json({ success: error })
         }
       } catch (error) {
-        res.json({success: error})
+        res.json({ success: error })
       }
       console.log(res.locals.email)
       // Gửi email trong phản hồi
@@ -289,6 +289,32 @@ export const articleController = {
       // console.log(res.locals.email)
       res.json({ success: false, message: "Có lỗi xảy ra!" });
     }
+  },
+
+
+  getOutstandingArticle: async (req, res) => {
+    const query = `
+      SELECT TOP 9 * 
+      FROM [dbo].[Article]
+      WHERE is_featured = 1
+      ORDER BY day_created DESC
+    `;
+    const values = [];
+    const paramNames = [];
+    const isStoredProcedure = false;
+  
+    try {
+      const result = await executeQuery(query, values, paramNames, isStoredProcedure);
+      res.json({ success: true, data: result.recordset });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Có lỗi xảy ra khi lấy bài viết nổi bật. Vui lòng thử lại!",
+      });
+    }
   }
+  
+
 
 };
