@@ -51,9 +51,19 @@ router.get('/api/weather', async (req, res) => {
 //     res.render('admin.ejs')
 // })
 
-router.get('/admin', async (req, res) => {
-    res.render('admin.ejs')
+router.get('/backdetails', async (req, res) => {
+    const role = res.locals.role;
+    if ( role == "Admin") {
+        res.render('admin.ejs')
+    }
+    else if ( role == "NhaBao") {
+        res.render('admin.ejs')
+    }
+    else if ( role == "DocGia") {
+        res.render('admin.ejs')
+    }
 })
+
 
 router.get('/test12', articleController.searchArticles)
 
