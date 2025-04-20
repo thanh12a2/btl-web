@@ -23,4 +23,6 @@ router.get("/sortArticlesByViews/:id", articleController.sortArticlesByViewsCoun
 
 router.post("/comment/:id", authController.authenticateToken, commentController.commentParent)
 
+router.get("/getOutstandingArticle", articleController.getOutstandingArticle);
+
 export { router }
