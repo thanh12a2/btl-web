@@ -534,7 +534,7 @@ a {
 }
 
 .day-stats p {
-    font-size: medium !important;
+    font-size: 15px !important;
 }
 
 .weather-stats p:not(:first-of-type) {

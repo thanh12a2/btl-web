@@ -21,8 +21,16 @@ router.get("/sortArticlesByLikes/:id", articleController.sortArticlesByLikesCoun
 
 router.get("/sortArticlesByViews/:id", articleController.sortArticlesByViewsCount);
 
-router.post("/comment/:id", authController.authenticateToken, commentController.commentParent)
+router.post("/comment/:id", authController.authenticateToken, commentController.commentParent);
 
 router.get("/getOutstandingArticle", articleController.getOutstandingArticle);
+
+router.post("/likeComment", authController.authenticateToken, commentController.likeComment);
+
+router.delete("/unlikeComment", authController.authenticateToken, commentController.unlikeComment);
+
+router.get("/getCommentByArticle/:id", authController.authenticateToken, commentController.getCommentByArticle);
+
+router.get("/sortCommentLatest/:id", authController.authenticateToken, commentController.sortCommentLatest);
 
 export { router }
