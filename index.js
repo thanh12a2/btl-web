@@ -7,7 +7,6 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv'; 
 import jwt from "jsonwebtoken";
 
-
 // Khai báo các route
 import { router as mainRoutes } from "./routes/mainRoute.js"; // Route chính
 import { router as authRoutes } from "./routes/authRoute.js"; // Route xác thực
