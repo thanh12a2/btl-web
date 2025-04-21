@@ -18,6 +18,7 @@ import { router as testRoutes } from "./routes/testRoute.js"; // Route cho tất
 import { router as uploadRoutes } from "./routes/uploadPics.js"; // Route cho tất cả item bao gồm article, category, user
 import { authController } from "./controllers/authController.js"; // Import controller cho xác thực
 import { connect } from "./config/db.js"; 
+import { router as commentItems } from "./routes/commentItems.js";
 import { articleController } from './controllers/articleController.js';
 
 const app = express();
@@ -39,6 +40,7 @@ app.use("/article", articleRoutes);
 app.use("/pagination", paginationRoutes);
 app.use("/test", testRoutes); // Route cho tất cả item bao gồm article, category, user
 app.use("/upload", uploadRoutes); // Route cho tất cả item bao gồm article, category, user
+app.use("/comment", commentItems); 
 
 // Kết nối đến cơ sở dữ liệu SQL Server
 connect()
