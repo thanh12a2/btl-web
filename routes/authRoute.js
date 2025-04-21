@@ -13,4 +13,6 @@ router.get('/sendotp', authController.authenticateToken, authController.sendOTP)
 
 router.put("/updatePwd", authController.authenticateToken, authController.resetPassword);
 
+router.put("/changeUsername", authController.authenticateToken, authController.changeUsername);
+
 export { router };

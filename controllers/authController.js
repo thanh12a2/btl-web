@@ -276,4 +276,19 @@ export const authController = {
       res.status(500).json({ success: false, message: "Không thể đặt lại mật khẩu!" });
     }
   },
-};
+
+  changeUsername: async (req, res) => {
+    const emailUser = res.locals.email;
+    const username = req.body.newUsername;
+    const query = `UPDATE [dbo].[User] SET username = @username WHERE email = @email`;
+    const values = [username, emailUser]
+    const paramNames = ['username', 'email']
+
+    try {
+      await executeQuery(query, values, paramNames, false)
+      res.json({ success: "Thay doi ten nguoi dung thanh cong !"})
+    } catch (error) {
+      res.json({ failed: "Thay doi ten nguoi dung khong thanh cong"})
+    }
+  }
+}; 
