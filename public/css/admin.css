@@ -45,7 +45,7 @@ body {
 }
 
 
-.sidebar .logo_content .logo{
+.sidebar .logo_content .logo {
     color: #fff;
     display: flex;
     height: 50px;
@@ -59,7 +59,7 @@ body {
 
 
 
-.sidebar.active .logo_content .logo{
+.sidebar.active .logo_content .logo {
     opacity: 1;
     pointer-events: none;
 }
@@ -100,7 +100,7 @@ body {
 
 
 
-.logo_content .logo i{
+.logo_content .logo i {
     font-size: 28px;
     margin-right: 5px;
 }
@@ -108,7 +108,7 @@ body {
 
 
 
-.logo_content .logo .logo_name{
+.logo_content .logo .logo_name {
     font-size: 20px;
     font-weight: 400;
 }
@@ -116,7 +116,7 @@ body {
 
 
 
-.sidebar #btn{
+.sidebar #btn {
     color: #fff;
     font-size: 20px;
     text-align: center;
@@ -125,21 +125,21 @@ body {
 
 
 
-.sidebar.active #btn{
+.sidebar.active #btn {
     left: 90%;
 }
 
 
 
 
-.sidebar ul{
+.sidebar ul {
     margin-top: 20px;
 }
 
 
 
 
-.sidebar ul li{
+.sidebar ul li {
     position: relative;
     height: 50px;
     width: 100%;
@@ -151,7 +151,7 @@ body {
 
 
 
-.sidebar ul li .tooltip{
+.sidebar ul li .tooltip {
     position: absolute;
     left: 130px;
     top: 0;
@@ -162,7 +162,7 @@ body {
     background: #fff;
     line-height: 35px;
     text-align: center;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     transition: 0s;
     opacity: 0;
     pointer-events: none;
@@ -176,14 +176,14 @@ body {
 
 
 
-.sidebar.active ul li .tooltip{
+.sidebar.active ul li .tooltip {
     display: none;
 }
 
 
 
 
-.sidebar ul li:hover .tooltip{
+.sidebar ul li:hover .tooltip {
     transition: all 0.5s ease;
     opacity: 1;
     top: 50%;
@@ -192,7 +192,7 @@ body {
 
 
 
-.sidebar ul li input{
+.sidebar ul li input {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -210,7 +210,7 @@ body {
 
 
 
-.sidebar ul li a{
+.sidebar ul li a {
     color: #fff;
     display: flex;
     align-items: center;
@@ -234,15 +234,15 @@ body {
 
 
 
-.sidebar ul li a:hover{
-    color:#11101d;
+.sidebar ul li a:hover {
+    color: #11101d;
     background: #fff;
 }
 
 
 
 
-.sidebar ul li i{
+.sidebar ul li i {
     height: 50px;
     min-width: 50px;
     border-radius: 12px;
@@ -253,7 +253,7 @@ body {
 
 
 
-.sidebar .links_name{
+.sidebar .links_name {
     opacity: 0;
     pointer-events: none;
     transition: all 0.5s ease;
@@ -262,7 +262,7 @@ body {
 
 
 
-.sidebar.active .links_name{
+.sidebar.active .links_name {
     opacity: 1;
     pointer-events: auto;
 }
@@ -270,7 +270,7 @@ body {
 
 
 
-.home_content{
+.home_content {
     position: absolute;
     height: 100%;
     left: 78px;
@@ -281,7 +281,7 @@ body {
 
 
 
-.sidebar.active ~ .home_content{
+.sidebar.active~.home_content {
     width: calc(100% - 240px);
     left: 240px;
 }
@@ -350,7 +350,8 @@ body {
 
 /* Ảo hóa khoảng trống cho ô Email */
 .info_management-email-placeholder {
-    width: 40px; /* Độ rộng bằng nút bấm để căn đều */
+    width: 40px;
+    /* Độ rộng bằng nút bấm để căn đều */
     visibility: hidden;
 }
 
@@ -609,7 +610,8 @@ table td {
 
 /* Modal bị ẩn mặc định */
 .modal {
-    display: none; /* Đảm bảo modal không hiển thị lúc load trang */
+    display: none;
+    /* Đảm bảo modal không hiển thị lúc load trang */
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -736,15 +738,17 @@ table td {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    display: none; /* Thay đổi từ flex thành none */
+    display: none;
+    /* Thay đổi từ flex thành none */
     justify-content: center;
     align-items: center;
     z-index: 1000;
 }
+
 .action-modal-content {
     background-color: white;
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     width: 900px;
     padding: 30px;
     display: grid;
@@ -752,6 +756,7 @@ table td {
     gap: 30px;
     position: relative;
 }
+
 .action-modal-close {
     position: absolute;
     top: 15px;
@@ -762,27 +767,32 @@ table td {
     cursor: pointer;
     color: #B32A45;
 }
+
 .action-modal-header {
     grid-column: 1 / -1;
     text-align: center;
     margin-bottom: 20px;
 }
+
 .action-modal-header h2 {
     color: #B32A45;
     margin: 0;
     font-size: 40px;
 }
+
 .action-form-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
+
 .action-form-group label {
     font-weight: 600;
     color: #333;
 }
-.action-form-group input, 
-.action-form-group select, 
+
+.action-form-group input,
+.action-form-group select,
 .action-form-group textarea {
     width: 100%;
     padding: 10px;
@@ -790,16 +800,19 @@ table td {
     border-radius: 5px;
     font-size: 14px;
 }
+
 .action-form-group textarea {
     resize: vertical;
     min-height: 150px;
 }
+
 .action-modal-footer {
     grid-column: 1 / -1;
     display: flex;
     justify-content: center;
     margin-top: 20px;
 }
+
 .btn-add {
     background-color: #B32A45;
     color: white;
@@ -810,6 +823,7 @@ table td {
     transition: background-color 0.3s ease;
     font-size: 16px;
 }
+
 .btn-add:hover {
     background-color: #921F36;
 }
@@ -837,6 +851,7 @@ table td {
     transition: background-color 0.3s ease;
     font-size: 16px;
 }
+
 .btn-edit:hover {
     background-color: #921F36;
 }
@@ -860,7 +875,7 @@ table td {
 }
 
 .logo-content {
-    
+
     display: flex;
     justify-content: space-between;
 
@@ -930,12 +945,14 @@ table td {
     align-items: center;
     z-index: 1000;
 }
+
 /* Quản lí người dùng */
 .user-actions {
     display: flex;
     align-items: center;
     gap: 10px;
 }
+
 .btn-add-user {
     background: #B32A45;
     color: white;
@@ -950,13 +967,16 @@ table td {
 }
 
 .btn-add-user:hover {
-    background: #921F36;/* Màu đỏ đậm hơn khi hover */
+    background: #921F36;
+    /* Màu đỏ đậm hơn khi hover */
 }
+
 .section-actions {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 15px; /* Khoảng cách giữa các phần tử */
+    gap: 15px;
+    /* Khoảng cách giữa các phần tử */
     margin-bottom: 15px;
 }
 
@@ -1003,12 +1023,13 @@ table td {
 
 .btn-search i {
     font-size: 15px;
-    
+
 }
+
 .toggle-switch {
     display: flex;
     align-items: center;
-    
+
 }
 
 .toggle-input {
@@ -1023,7 +1044,7 @@ table td {
     background-color: #cccccc;
     border-radius: 20px;
     cursor: pointer;
-   
+
 }
 
 .toggle-label::before {
@@ -1038,11 +1059,11 @@ table td {
     transition: transform 0.3s ease;
 }
 
-.toggle-input:checked + .toggle-label {
-    background-color:  #B32A45;
+.toggle-input:checked+.toggle-label {
+    background-color: #B32A45;
 }
 
-.toggle-input:checked + .toggle-label::before {
+.toggle-input:checked+.toggle-label::before {
     transform: translateX(25px);
 }
 
@@ -1066,7 +1087,7 @@ table td {
     width: 900px;
     position: relative;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    
+
 }
 
 .modal-title {
@@ -1078,11 +1099,13 @@ table td {
 
 .modal-form {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Chia thành 2 cột */
+    grid-template-columns: 1fr 1fr;
+    /* Chia thành 2 cột */
     gap: 30px;
-    
+
 }
-.modal-form label{
+
+.modal-form label {
     font-weight: 600;
     color: #333;
 }
@@ -1090,18 +1113,20 @@ table td {
 
 
 .form-group label {
-    
+
     margin-bottom: 18px;
-    
+
 }
+
 .form-submit-wrapper {
-    grid-column: span 2; 
+    grid-column: span 2;
     display: flex;
-    justify-content: center; 
-    margin-top: 20px; 
-    
-    
+    justify-content: center;
+    margin-top: 20px;
+
+
 }
+
 .modal-submit-btn {
     background-color: #B32A45;
     color: white;
@@ -1109,7 +1134,7 @@ table td {
     padding: 12px 30px;
     border-radius: 5px;
     cursor: pointer;
-    
+
     font-size: 16px;
 }
 
@@ -1144,14 +1169,15 @@ table td {
 
 
 /* Quản lí bình luận */
-.section-title{
+.section-title {
     font-size: 35px;
     margin-bottom: 15px;
 }
+
 .action-group {
     display: flex;
     gap: 10px;
-    
+
 }
 
 .btn-action {
@@ -1159,24 +1185,26 @@ table td {
     cursor: pointer;
     padding: 5px;
     border-radius: 4px;
-    
+
 }
 
 .btn-action.btn-delete {
     color: #fff;
-   
+
     background-color: #e74c3c;
-   
+
 }
-.btn-action.btn-approve{
+
+.btn-action.btn-approve {
     background-color: #2ecc71;
     color: #fff;
 }
 
 .btn-action.btn-edit {
     color: #fff;
-    
+
 }
+
 .comment-status.pending {
     background-color: #ffc107;
     color: #fff;
@@ -1185,6 +1213,7 @@ table td {
     font-weight: bold;
     display: inline-block;
 }
+
 .approval-modal .modal-overlay {
     position: fixed;
     top: 0;
@@ -1289,6 +1318,7 @@ table td {
 .approval-modal .modal-buttons button:hover {
     opacity: 0.9;
 }
+
 #deleteConfirmModal .modal-overlay {
     position: fixed;
     top: 0;
@@ -1336,4 +1366,23 @@ table td {
     order: 2;
 }
 
+/* Cho nội dung văn bản dài */
+.ellipsis-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5em;
+    max-height: 3em;
+    max-width: 200px;
+}
 
+/* Cho URL ảnh hoặc chuỗi không cần ngắt dòng */
+.ellipsis-url {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    display: inline-block;
+}
