@@ -11,7 +11,7 @@ async function getLastRecordId() {
     const result = await executeQuery(query, [], [], false);
 
     if (result && result.recordset && result.recordset.length > 0) {
-      const lastId = result.recordset[0].id_User;
+      const lastId = result.recordset[0].id_comment; // Sửa chỗ này
       const lastNumber = parseInt(lastId.substring(1));
       return `C${String(lastNumber + 1).padStart(3, "0")}`;
     }
@@ -21,6 +21,7 @@ async function getLastRecordId() {
     throw error;
   }
 }
+
 
 export const commentController = {
   commentParent: async (req, res) => {
