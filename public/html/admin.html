@@ -632,25 +632,27 @@
              * @param {Object} config - Cấu hình
              * @returns {Object} - Trạng thái phân trang
              */
-            init(tableId, config = {}) {
-                // Giá trị mặc định cơ bản
+            init(tableId, config = {}, force = false) {
                 const defaultConfig = {
-                    pageSize: 4,
+                    pageSize: 10,
                     sortField: null,
-                    sortOrder: 'asc', // 'asc' hoặc 'desc'
-                    visiblePages: 4
+                    sortOrder: 'asc',
+                    visiblePages: 10
                 };
 
-                this.states[tableId] = {
-                    ...defaultConfig,
-                    ...config,
-                    currentPage: 1,
-                    totalItems: 0,
-                    totalPages: 0
-                };
+                if (!this.states[tableId] || force) {
+                    this.states[tableId] = {
+                        ...defaultConfig,
+                        ...config,
+                        currentPage: 1,
+                        totalItems: 0,
+                        totalPages: 0
+                    };
+                }
 
                 return this.states[tableId];
             },
+
 
             /**
              * Cập nhật tổng số items
@@ -972,14 +974,12 @@
                 const tableId = "articleTable";
 
                 // Khởi tạo phân trang nếu chưa có
-                if (!PaginationUtils.getState(tableId)) {
-                    PaginationUtils.init(tableId, {
-                        pageSize: 4,
-                        sortField: "id_article",
-                        sortOrder: "desc",
-                        visiblePages: 4
-                    });
-                }
+                PaginationUtils.init(tableId, {
+                    pageSize: 4,
+                    sortField: "id_article",
+                    sortOrder: "desc",
+                    visiblePages: 4
+                });
 
                 // Cập nhật tổng số mục cho phân trang
                 PaginationUtils.setTotalItems(tableId, allArticles.length);
@@ -1010,7 +1010,7 @@
             articles.forEach(article => {
                 const row = `<tr>
             <td>${article.id_article}</td>
-            <td>${article.username}</td>
+            <td><div class="ellipsis-text">${article.username}</div></td>
             <td><div class="ellipsis-text">${article.heading}</div></td>
             <td><div class="ellipsis-text">${article.parent_category_name || "None"}, ${article.category_name}</div></td>
             <td><div class="ellipsis-url">${article.hero_image}</div></td>
@@ -1347,7 +1347,7 @@
 
                 // Xử lý trạng thái nổi bật
                 const isFeaturedValue = cells[9].textContent;
-                document.getElementById("editIsFeatured").value = isFeaturedValue === "Có"? "true":"false";
+                document.getElementById("editIsFeatured").value = isFeaturedValue === "Có" ? "true" : "false";
 
                 // Xử lý danh mục
                 const categoryText = cells[3].textContent;
