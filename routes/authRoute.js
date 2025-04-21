@@ -15,4 +15,6 @@ router.put("/updatePwd", authController.authenticateToken, authController.resetP
 
 router.put("/changeUsername", authController.authenticateToken, authController.changeUsername);
 
+router.put("/changePwdQuanTri", authController.authenticateToken, authController.changePwdQuanTri);
+
 export { router };
