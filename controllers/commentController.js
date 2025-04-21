@@ -152,4 +152,48 @@ export const commentController = {
       res.json({ failed: "Khong thanh cong !" });
     }
   },
+
+  deleteComment: async (req, res) => {
+    try {
+      // Bước 1: Xóa tất cả comment con (nếu có)
+      const deleteChildrenQuery = `
+        DELETE FROM [dbo].[Comment]
+        WHERE id_parent = @id_comment
+      `;
+      const childrenValues = [req.body["data-id"]];
+      const childrenParamNames = ["id_comment"];
+      await executeQuery(deleteChildrenQuery, childrenValues, childrenParamNames, false);
+      
+      // Bước 2: Xóa comment chính
+      const deleteCommentQuery = `
+        DELETE FROM [dbo].[Comment]
+        WHERE id_comment = @id_comment
+      `;
+      const commentValues = [req.body["data-id"]];
+      const commentParamNames = ["id_comment"];
+      await executeQuery(deleteCommentQuery, commentValues, commentParamNames, false);
+      
+      res.json({ success: "Xóa bình luận thành công" });
+    } catch (error) {
+      console.error("Lỗi khi xóa bình luận:", error);
+      res.status(500).json({ failed: "Xóa bình luận không thành công", error: error.message });
+    }
+  },
+
+  getAllComments: async (req, res) => {
+    try {
+      const query = `
+        SELECT c.*, u.username, a.heading as article_title 
+        FROM [dbo].[Comment] c
+        LEFT JOIN [dbo].[User] u ON c.id_user = u.id_user
+        LEFT JOIN [dbo].[Article] a ON c.id_article = a.id_article
+        ORDER BY c.day_created DESC
+      `;
+      const result = await executeQuery(query, [], [], false);
+      res.json({ success: "Lấy danh sách bình luận thành công", data: result.recordset });
+    } catch (error) {
+      console.error("Lỗi khi lấy danh sách bình luận:", error);
+      res.status(500).json({ failed: "Lấy danh sách bình luận không thành công", error: error.message });
+    }
+  },
 };
