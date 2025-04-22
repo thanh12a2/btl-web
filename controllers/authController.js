@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import axios from "axios";
 import nodemailer from "nodemailer";
 import otpGenerator from "otp-generator";
+import e from "express";
 
 dotenv.config();
 
@@ -276,4 +277,33 @@ export const authController = {
       res.status(500).json({ success: false, message: "Không thể đặt lại mật khẩu!" });
     }
   },
-};
+
+  changeUsername: async (req, res) => {
+    const emailUser = res.locals.email;
+    const username = req.body.newUsername;
+    const query = `UPDATE [dbo].[User] SET username = @username WHERE email = @email`;
+    const values = [username, emailUser]
+    const paramNames = ['username', 'email']
+
+    try {
+      await executeQuery(query, values, paramNames, false)
+      res.json({ success: "Thay doi ten nguoi dung thanh cong !"})
+    } catch (error) {
+      res.json({ failed: "Thay doi ten nguoi dung khong thanh cong"})
+    }
+  },
+
+  changePwdQuanTri: async (req, res) => {
+    const emailUser = res.locals.email;
+    const newPwd = req.body.pwdInp;
+    const query = `UPDATE [dbo].[User] SET password = @password WHERE email = @email`
+    const values = [newPwd, emailUser]
+    const paramNames = ['password', 'email']
+    try {
+      await executeQuery(query, values, paramNames, false);
+      res.json({ success: "Thanh cong"})
+    } catch (error) {
+      res.json({ failed: "Thay doi mat khau ko thanh cong !"})
+    }
+  }
+}; 
