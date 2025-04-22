@@ -138,9 +138,9 @@
             <h2>Quản lý bài viết</h2>
             <div class="search-container">
                 <div class="search-container-box">
-                    <div class="search-box">
+                    <div class="search-box" id="search-box1">
                         <input type="text" placeholder="Tìm kiếm...">
-                        <label class="search-icon">
+                        <label class="search-icon" id="search-icon1">
                             <i class="bi bi-search"></i>
                         </label>
                     </div>
@@ -353,13 +353,12 @@
                     <div class="action-form-group">
                         <label>Danh mục cha</label>
                         <select id="mainCategory2">
-                            <option value="" disabled selected>Chọn danh mục cha</option>
-                            <option value="society">Xã hội</option>
-                            <option value="science">Khoa học & Công nghệ</option>
-                            <option value="health">Sức khỏe</option>
-                            <option value="sports">Thể Thao</option>
-                            <option value="entertainment">Giải trí</option>
-                            <option value="education">Giáo dục</option>
+                            <option>Xã hội</option>
+                            <option>Khoa học & Công nghệ</option>
+                            <option>Sức khỏe</option>
+                            <option>Thể Thao</option>
+                            <option>Giải trí</option>
+                            <option>Giáo dục</option>
                         </select>
                     </div>
 
@@ -371,7 +370,7 @@
 
             <!-- Modal chỉnh sửa danh mục -->
             <div id="editCategoryModal" class="action-modal-overlay">
-                <div class="action-modal-content">
+                <div class="action-modal-content" style="margin-left: 22%;margin-top: 10%;">
                     <button class="action-modal-close">&times;</button>
                     <div class="action-modal-header">
                         <h2>Chỉnh sửa danh mục</h2>
@@ -391,6 +390,12 @@
                         <label>Danh mục cha</label>
                         <select id="editParentCategory">
                             <!-- Các lựa chọn khác sẽ được cập nhật động từ API -->
+                            <option>Xã hội</option>
+                            <option>Khoa học & Công nghệ</option>
+                            <option>Sức khỏe</option>
+                            <option>Thể Thao</option>
+                            <option>Giải trí</option>
+                            <option>Giáo dục</option>
                         </select>
                     </div>
 
@@ -420,7 +425,7 @@
                     <div class="search-container-box">
                         <div class="search-box">
                             <input type="text" placeholder="Tìm kiếm...">
-                            <label class="search-icon">
+                            <label class="search-icon1">
                                 <i class="bi bi-search"></i>
                             </label>
                         </div>
@@ -652,7 +657,24 @@
 
                 return this.states[tableId];
             },
+            reset(tableId, keepConfig = true) {
+                if (!this.states[tableId]) return;
 
+                const currentConfig = keepConfig ? {
+                    pageSize: this.states[tableId].pageSize,
+                    sortField: this.states[tableId].sortField,
+                    sortOrder: this.states[tableId].sortOrder,
+                    visiblePages: this.states[tableId].visiblePages
+                } : {};
+
+                // Reset về trang 1 và giữ nguyên config nếu cần
+                this.states[tableId] = {
+                    ...currentConfig,
+                    currentPage: 1,
+                    totalItems: 0,
+                    totalPages: 0
+                };
+            },
 
             /**
              * Cập nhật tổng số items
@@ -711,6 +733,7 @@
              * @returns {Array}
              */
             getPageData(tableId, data) {
+                const safeData = Array.isArray(data) ? data : []
                 const state = this.getState(tableId);
                 const start = (state.currentPage - 1) * state.pageSize;
                 const end = start + state.pageSize;
@@ -733,7 +756,7 @@
                     });
                 }
 
-                return data.slice(start, end);
+                return safeData.slice(start, end);
             },
 
             /**
@@ -956,12 +979,12 @@
         // Tự động thêm CSS khi load
         PaginationUtils.injectStyles();
 
-
-        // 1. Hàm lấy danh sách bài viết có phân trang
-        async function fetchArticles() {
+        // 1. Hàm lấy danh sách bài viết có phân trang (có thể nhận tham số tìm kiếm)
+        async function fetchArticles(searchParams = {}) {
             try {
-                // Lấy tất cả bài viết từ API
-                const response = await fetch("http://localhost:3000/api/articles");
+                let url = "http://localhost:3000/api/articles";
+
+                const response = await fetch(url);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -970,32 +993,28 @@
                 // Lưu tất cả bài viết vào biến toàn cục để dễ dàng phân trang
                 allArticles = await response.json();
 
-                // Khởi tạo phân trang cho bảng với ID "articleTable"
+                // Khởi tạo hoặc cập nhật phân trang
                 const tableId = "articleTable";
 
-                // Khởi tạo phân trang nếu chưa có
+                // Nếu là lần đầu thì khởi tạo, 
                 PaginationUtils.init(tableId, {
                     pageSize: 4,
                     sortField: "id_article",
-                    sortOrder: "desc",
+                    sortOrder: "asc",
                     visiblePages: 4
                 });
 
-                // Cập nhật tổng số mục cho phân trang
+                PaginationUtils.reset(tableId); // Thêm hàm reset nếu chưa có
                 PaginationUtils.setTotalItems(tableId, allArticles.length);
 
-                // Lấy dữ liệu cho trang hiện tại
                 const currentPageData = PaginationUtils.getPageData(tableId, allArticles);
-
-                // Cập nhật bảng với dữ liệu của trang hiện tại
                 renderArticles(currentPageData);
 
-                // Render điều khiển phân trang
+                // 6. Render lại phân trang
                 PaginationUtils.render(tableId, "articlePagination", (state) => {
                     const pageData = PaginationUtils.getPageData(tableId, allArticles);
                     renderArticles(pageData);
                 });
-
             } catch (error) {
                 console.error("Error fetching articles:", error);
                 alert("Lỗi khi tải dữ liệu: " + error.message);
@@ -1006,7 +1025,6 @@
         function renderArticles(articles) {
             const tableBody = document.getElementById("tbodyArticle");
             tableBody.innerHTML = ""; // Xóa dữ liệu cũ
-
             articles.forEach(article => {
                 const row = `<tr>
             <td>${article.id_article}</td>
@@ -1025,7 +1043,7 @@
                 <button class="Post-btn-delete" data-id="${article.id_article}"><i class="bi bi-trash"></i> Xóa</button>
             </td>
             <td class="actions-button">
-                <button class="Post-btn-approve" data-id="${article.id_article}"><i class="bi bi-check-circle" style="padding-top: 10px;"> </i>Duyệt bài</button>
+                <button class="Post-btn-approve" style='margin-left: 15%' data-id="${article.id_article}"><input type='checkbox'></button>
             </td>
         </tr>`;
                 tableBody.innerHTML += row;
@@ -1374,7 +1392,6 @@
         }
         // Khởi tạo trang
         document.addEventListener("DOMContentLoaded", function () {
-
             initializeAddEvents();
             initializeEditEvents();
             initializeDeleteEvents();
@@ -1390,131 +1407,98 @@
             }
         });
 
-        // 1. Hàm lấy danh sách danh mục
+        // 1. Hàm lấy danh sách danh mục với phân trang
         async function fetchCategories() {
             try {
                 const response = await fetch("http://localhost:3000/api/categories");
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
+                // Lưu tất cả danh mục vào biến toàn cục
                 const categories = await response.json();
-                const tableBody = document.getElementById("tbodyCategories");
-                tableBody.innerHTML = "";
+                window.categoriesData = categories; // Đảm bảo lưu dữ liệu vào biến toàn cục
 
-                // Lưu trữ dữ liệu danh mục để sử dụng sau này
-                window.categoriesData = categories;
+                // Khởi tạo hoặc cập nhật phân trang
+                const tableId = "categoryTable";
 
-                // Phân loại danh mục cha và con
-                const rootCategories = categories.filter(cat => cat.id_parent === null);
-                const childCategories = categories.filter(cat => cat.id_parent !== null);
+                // Reset phân trang trước khi khởi tạo lại
+                PaginationUtils.reset(tableId);
 
-                categories.forEach(category => {
-                    const isRootCategory = category.id_parent;
-                    const row = `<tr>
-                <td>${category.id_category}</td>
-                <td>${category.category_name}</td>
-                <td>${category.alias_name || ""}</td>
-                <td>${category.parent_category_name || ""}</td>
-                <td class="actions-button">
-                    <button class="Cate-btn-edit" data-id="${category.id_category}">
-                        <i class="bi bi-pencil-square"></i> Chỉnh sửa
-                    </button>
-                    <button class="Cate-btn-delete" data-id="${category.id_category}" ${isRootCategory === null ? 'disabled' : ''}>
-                        <i class="bi bi-trash"></i> Xóa
-                    </button>
-                </td>
-            </tr>`;
-                    tableBody.innerHTML += row;
+                // Nếu là lần đầu thì khởi tạo
+                PaginationUtils.init(tableId, {
+                    pageSize: 9,
+                    sortField: "id_category",
+                    sortOrder: "asc",
+                    visiblePages: 9,
                 });
 
-                // Gắn sự kiện cho nút chỉnh sửa
-                document.querySelectorAll(".Cate-btn-edit").forEach(button => {
-                    button.addEventListener("click", function () {
-                        const categoryId = this.getAttribute("data-id");
+                PaginationUtils.setTotalItems(tableId, categories.length);
 
-                        // Tìm thông tin danh mục từ dữ liệu đã lưu
-                        const category = window.categoriesData.find(cat => cat.id_category === categoryId);
-                        if (!category) return;
+                const currentPageData = PaginationUtils.getPageData(tableId, categories);
+                renderCategories(currentPageData);
 
-                        const isRootCategory = category.id_parent === null;
-
-                        // Điền dữ liệu vào form chỉnh sửa
-                        document.getElementById("editCategoryName").value = category.category_name;
-
-                        // Hiển thị hoặc ẩn phần chọn danh mục cha tùy vào loại danh mục
-                        const parentCategoryContainer = document.getElementById("editParentCategoryContainer");
-                        if (isRootCategory) {
-                            // Nếu là danh mục cha, không cho phép thay đổi parent_id
-                            parentCategoryContainer.style.display = "none";
-                        } else {
-                            // Nếu là danh mục con, cho phép chọn danh mục cha
-                            parentCategoryContainer.style.display = "block";
-
-                            // Cập nhật dropdown với các danh mục cha
-                            populateParentCategoryDropdown("editParentCategory", categoryId);
-
-                            // Chọn giá trị parent_id nếu có
-                            if (category.id_parent) {
-                                document.getElementById("editParentCategory").value = category.id_parent;
-                            }
-                        }
-
-                        // Hiển thị modal
-                        document.getElementById("editCategoryModal").style.display = "flex";
-
-                        // Lưu categoryId và loại danh mục vào thuộc tính data của modal
-                        document.getElementById("editCategoryModal").dataset.categoryId = categoryId;
-                        document.getElementById("editCategoryModal").dataset.isRoot = isRootCategory;
-                    });
+                // Render lại phân trang với style phù hợp
+                PaginationUtils.render(tableId, "categoryPagination", (state) => {
+                    const pageData = PaginationUtils.getPageData(tableId, categories);
+                    renderCategories(pageData);
                 });
-
-                // Gắn sự kiện cho nút xóa
-                document.querySelectorAll(".Cate-btn-delete:not([disabled])").forEach(button => {
-                    button.addEventListener("click", function () {
-                        const categoryId = this.getAttribute("data-id");
-                        showDeleteModal(categoryId);
-                    });
-                });
-
-                // Cập nhật dropdown cho form thêm mới
-                populateParentCategoryDropdown("mainCategory2");
 
             } catch (error) {
                 console.error("Lỗi khi tải danh sách:", error);
                 alert("Lỗi khi tải dữ liệu: " + error.message);
             }
         }
+        // Hàm render danh mục từ dữ liệu đã phân trang
+        function renderCategories(categories) {
+            const tableBody = document.getElementById("tbodyCategories");
+            tableBody.innerHTML = ""; // Xóa dữ liệu cũ
 
-        // Hàm cập nhật danh sách danh mục trong dropdown (chỉ lấy danh mục gốc làm danh mục cha)
-        function populateParentCategoryDropdown(dropdownId, excludeId = null) {
-            const dropdown = document.getElementById(dropdownId);
-            if (!dropdown) return;
+            categories.forEach(category => {
+                const isRootCategory = category.id_parent;
+                const row = `<tr>
+            <td>${category.id_category}</td>
+            <td>${category.category_name}</td>
+            <td>${category.alias_name || ""}</td>
+            <td>${category.parent_category_name || ""}</td>
+            <td class="actions-button">
+                <button class="Cate-btn-edit" data-id="${category.id_category}" ${isRootCategory === null ? 'disabled' : ''}>
+                    <i class="bi bi-pencil-square"></i> Chỉnh sửa
+                </button>
+                <button class="Cate-btn-delete" data-id="${category.id_category}" ${isRootCategory === null ? 'disabled' : ''}>
+                    <i class="bi bi-trash"></i> Xóa
+                </button>
+            </td>
+        </tr>`;
+                tableBody.innerHTML += row;
+            });
 
-            // Xóa các option cũ
-            dropdown.innerHTML = '<option value="">-- Chọn danh mục cha --</option>';
-
-            // Thêm danh mục cha (không có parent_id) từ dữ liệu đã lưu
-            if (window.categoriesData && Array.isArray(window.categoriesData)) {
-                // Lọc ra chỉ các danh mục có thể làm danh mục cha (không có parent_id)
-                const potentialParents = window.categoriesData.filter(cat => cat.id_parent === null);
-
-                potentialParents.forEach(category => {
-                    // Bỏ qua nếu là ID cần loại trừ (tránh chọn chính nó làm parent)
-                    if (excludeId === category.id_category) return;
-
-                    const option = document.createElement('option');
-                    option.value = category.id_category;
-                    option.textContent = category.category_name;
-                    dropdown.appendChild(option);
+            // Gắn sự kiện cho nút chỉnh sửa
+            document.querySelectorAll(".Cate-btn-edit").forEach(button => {
+                button.addEventListener("click", function () {
+                    const categoryId = this.getAttribute("data-id");
+                    openEditModal(categoryId);
                 });
-            }
-        }
+            });
 
+            // Gắn sự kiện cho nút xóa
+            document.querySelectorAll(".Cate-btn-delete:not([disabled])").forEach(button => {
+                button.addEventListener("click", function () {
+                    const categoryId = this.getAttribute("data-id");
+                    showDeleteModal(categoryId);
+                });
+            });
+        }
         // 2. Hàm hiển thị modal xác nhận xóa
         function showDeleteModal(categoryId) {
             const modal = document.getElementById("deleteCategoryModal");
-            const confirmBtn = document.getElementById("confirmDeleteCate");
-            const cancelBtn = document.getElementById("cancelDeleteCate");
+            console.log("Modal:", modal);
 
+            const confirmBtn = document.getElementById("confirmDeleteCate");
+            console.log("Confirm Button:", confirmBtn);
+
+            const cancelBtn = document.getElementById("cancelDeleteCate");
+            console.log("Cancel Button:", cancelBtn);
+
+            console.log(categoryId);
             modal.style.display = "flex";
 
             // Xử lý khi xác nhận xóa
@@ -1560,7 +1544,7 @@
                     }
                     return { success: false, message: data.message || "Xóa thất bại" };
                 }
-
+                fetchCategories()
                 return { success: true, message: "Xóa thành công" };
             } catch (error) {
                 console.error("Lỗi khi xóa:", error);
@@ -1626,12 +1610,12 @@
 
             // Các phần tử form
             const addCategoryName = addCategoryModal.querySelector('input[type="text"]');
+            const addLink = addCategoryModal.querySelector('input[placeholder="Nhập link"]')
             const addParentCategory = document.getElementById("mainCategory2");
 
             // Mở modal
             addCategoryBtn.addEventListener("click", () => {
                 addCategoryModal.style.display = "flex";
-                populateParentCategoryDropdown("mainCategory2"); // Cập nhật dropdown danh mục cha
             });
 
             // Đóng modal
@@ -1657,10 +1641,11 @@
                     alert("Vui lòng chọn danh mục cha");
                     return;
                 }
-
+                console.log(addCategoryName.value.trim() + " " + addLink.value.trim() + " " + addParentCategory.value)
                 const categoryData = {
                     category_name: addCategoryName.value.trim(),
-                    id_parent: addParentCategory.value
+                    link: addLink.value.trim(),
+                    parent_category_name: addParentCategory.value
                 };
 
                 try {
@@ -1669,7 +1654,8 @@
 
                     // Reset form
                     addCategoryName.value = '';
-                    addParentCategory.value = '';
+                    addLink.value = '',
+                        addParentCategory.value = '';
 
                     // Đóng modal và tải lại danh sách
                     addCategoryModal.style.display = "none";
@@ -1680,46 +1666,96 @@
             });
         }
 
+        // Mở modal chỉnh sửa và khởi tạo dữ liệu
+        function openEditModal(categoryId) {
+            // Tìm thông tin danh mục từ dữ liệu đã lưu
+            const category = window.categoriesData.find(cat => cat.id_category === categoryId);
+            if (!category) return;
+
+            const isRootCategory = category.id_parent === null;
+            console.log(isRootCategory);
+            const editCategoryModal = document.getElementById("editCategoryModal");
+
+            // Điền dữ liệu vào form chỉnh sửa
+            document.getElementById("editCategoryName").value = category.category_name;
+            document.getElementById("editCategoryLink").value = category.alias_name;
+
+
+            // Lấy trường link nếu có
+            const linkInput = editCategoryModal.querySelector('input[placeholder="Nhập link"]');
+            if (linkInput && category.link) {
+                linkInput.value = category.link;
+            }
+
+            // Xử lý select box danh mục cha
+            if (!isRootCategory) {
+                const editParentCategory = document.getElementById("editParentCategory");
+                editParentCategory.value = category.parent_category_name;
+            }
+            else {
+                const editParentCategory = document.getElementById("editParentCategory");
+                editParentCategory.value = "";
+            }
+
+            // Hiển thị modal
+            editCategoryModal.style.display = "block";
+
+            // Lưu categoryId và loại danh mục vào thuộc tính data của modal
+            editCategoryModal.dataset.categoryId = categoryId;
+            editCategoryModal.dataset.isRoot = isRootCategory;
+
+            // Đảm bảo event listener chỉ được gắn một lần
+            initializeEditEvents2();
+        }
         // 7. Khởi tạo sự kiện cho form chỉnh sửa danh mục
         function initializeEditEvents2() {
             const editCategoryModal = document.getElementById("editCategoryModal");
             const btnUpdateCategory = document.getElementById("btnUpdateCategory");
             const closeModalBtn = editCategoryModal.querySelector(".action-modal-close");
 
+            // Xóa event listeners cũ để tránh duplicate
+            const newCloseBtn = closeModalBtn.cloneNode(true);
+            closeModalBtn.parentNode.replaceChild(newCloseBtn, closeModalBtn);
+
+            const newUpdateBtn = btnUpdateCategory.cloneNode(true);
+            btnUpdateCategory.parentNode.replaceChild(newUpdateBtn, btnUpdateCategory);
+
             // Đóng modal chỉnh sửa
-            closeModalBtn.addEventListener("click", function () {
+            newCloseBtn.addEventListener("click", function () {
                 editCategoryModal.style.display = "none";
             });
 
             // Xử lý cập nhật danh mục
-            btnUpdateCategory.addEventListener("click", async function () {
+            newUpdateBtn.addEventListener("click", async function () {
                 const categoryId = editCategoryModal.dataset.categoryId;
                 const isRootCategory = editCategoryModal.dataset.isRoot === "true";
                 const editCategoryName = document.getElementById("editCategoryName").value.trim();
-
+                const linkInput = document.getElementById("editCategoryLink");
+                const link = linkInput ? linkInput.value : "";
                 if (!editCategoryName) {
                     alert("Vui lòng điền tên danh mục");
                     return;
                 }
-
+                console.log(isRootCategory);
                 // Lấy parent_id chỉ khi không phải danh mục gốc
                 let updateData;
                 if (isRootCategory) {
                     // Nếu là danh mục gốc, giữ nguyên parent_id là null
                     updateData = {
                         category_name: editCategoryName,
-                        id_parent: null
+                        link: link,
+                        parent_category_name: ""
                     };
                 } else {
-                    const editParentCategory = document.getElementById("editParentCategory").value;
-                    if (!editParentCategory) {
+                    const editParentCategory = document.getElementById("editParentCategory");
+                    if (editParentCategory && !editParentCategory.value) {
                         alert("Vui lòng chọn danh mục cha");
                         return;
                     }
-
                     updateData = {
                         category_name: editCategoryName,
-                        id_parent: editParentCategory
+                        link: link,
+                        parent_category_name: editParentCategory ? editParentCategory.value : null
                     };
                 }
 
@@ -1734,10 +1770,21 @@
             });
         }
 
-        // Khởi tạo khi trang tải xong
+        // Thay đổi đoạn code tạo container phân trang như sau:
         document.addEventListener("DOMContentLoaded", function () {
             initializeAddEvents2();
             initializeEditEvents2();
+
+            // Tạo container cho phân trang nếu chưa có
+            if (!document.getElementById("categoryPagination")) {
+                const paginationContainer = document.createElement("div");
+                paginationContainer.id = "categoryPagination";
+
+                // Thêm vào sau bảng - chọn đúng bảng danh mục
+                const categoryTable = document.querySelectorAll("table")[1];
+                categoryTable.parentNode.insertBefore(paginationContainer, categoryTable.nextSibling);
+            }
+
             fetchCategories();
         });
 
