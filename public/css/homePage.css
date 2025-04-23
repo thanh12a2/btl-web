@@ -120,6 +120,7 @@ a {
 .big-news-title {
     width: 100%;
     max-height: 160px;
+    padding-right: 10px;
 }
 
 .big-news-title a {
@@ -1026,6 +1027,17 @@ a {
     top: 0 !important;
     bottom: 0 !important;
 } */
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+    margin-top: 178px !important;
+}
+
+.carousel-control-next,
+.carousel-control-prev {
+    display: flex !important;
+    align-items: flex-start !important;
+}
 
 /* MEDIA QUERRIES */
 

@@ -19,6 +19,7 @@ router.get('/', async (req, res) => {
                 A.heading,
 				A.hero_image,
 				A.content,
+				A.name_alias,
                 A.views,
                 A.like_count,
                 COUNT(C.id_comment) AS comment_count,
@@ -29,7 +30,7 @@ router.get('/', async (req, res) => {
             WHERE
                 A.day_created >= DATEADD(YEAR, -2, GETDATE())
             GROUP BY
-                A.id_article, A.heading, A.views, A.like_count, A.hero_image, A.content
+                A.id_article, A.heading, A.views, A.like_count, A.hero_image, A.content, A.name_alias
             ORDER BY
                 interaction_score DESC;
           `;
