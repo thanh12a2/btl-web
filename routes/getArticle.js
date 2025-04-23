@@ -9,7 +9,7 @@ router.get("/getarticle", articleController.getArticles);
 
 router.get("/transportArticle/:id", articleController.transportArticle);
 
-router.get("/searchArticle", articleController.searchArticles);
+router.post("/searchArticle", articleController.searchArticles);
 
 router.get("/getArticlesOldest/:id", articleController.getArticlesOldest);
 

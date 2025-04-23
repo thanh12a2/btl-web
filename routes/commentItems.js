@@ -4,7 +4,7 @@ import { authController } from '../controllers/authController.js';
 
 const router = express.Router();
 
-router.delete('/deleteComment/:id', authController.authenticateToken, commentController.deleteComment);
+router.delete('/deleteComment', authController.authenticateToken, commentController.deleteComment);
 router.get('/getAllComments', authController.authenticateToken, commentController.getAllComments);
 
 export { router };

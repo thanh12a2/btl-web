@@ -112,7 +112,10 @@ export const articleController = {
 
     try {
       const result = await executeQuery(query, values, paramNames, false);
-      res.json({ success: true, data: result.recordset }); // Gửi lại kết quả nếu đúng
+      // res.json({ success: true, data: result.recordset }); 
+      res.render("trangTimKiemBaiViet.ejs", {
+        data: result.recordset
+      })
     } catch (error) {
       console.error(error);
       res.render("notFound404.ejs");
