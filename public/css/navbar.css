@@ -315,9 +315,21 @@ a {
     align-items: center;
     border: 2px solid transparent;
 }
+/* 
+.bi-search {
+    margin-right: 10px !important;
+} */
 
 .search-bar:hover input {
-    width: 400px;
+    width: 300px;
+}
+
+.search-bar .bi-search {
+    transition: margin-right 0.5s ease-in-out;
+}
+
+.search-bar:hover .bi-search {
+    margin-right: 10px !important;
 }
 
 .search-bar:hover {
@@ -637,3 +649,6 @@ a {
 .logo-duoi-container a img.show-class ~ .cat-set {
     margin-left: 60px; /* Điều chỉnh khoảng cách này tùy theo kích thước logo */
 }
+
+
+  

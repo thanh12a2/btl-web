@@ -998,6 +998,35 @@ a {
     display: contents;
 }
 
+/* Lớp để ẩn tiêu đề */
+.hidden-title {
+    opacity: 0;
+    transition: opacity 0.1s ease-in;
+}
+
+/* Lớp để tạo hiệu ứng fade khi tiêu đề xuất hiện */
+.fade-title {
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+}
+
+/* .carousel-item .big-news-title {
+    display: none;
+}
+
+.carousel-item .active .big-news-title {
+    display: inline-block;
+} */
+
+/* .carousel-control-prev,
+.carousel-control-next {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    top: 0 !important;
+    bottom: 0 !important;
+} */
+
 /* MEDIA QUERRIES */
 
 @media (max-width: 1400px) {
