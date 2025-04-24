@@ -158,6 +158,10 @@ a {
     z-index: 2;
 }
 
+.second-news-title-text {
+    z-index: 3 !important
+}
+
 #carouselExampleSlidesOnlySecondNews {
     position: absolute;
     width: 100%;
@@ -179,6 +183,10 @@ a {
     position: absolute;
 }
 
+.second-news-title {
+    position: relative;
+}
+
 .second-news .second-news-title h2 {
     font-family: Roboto;
     font-weight: 700;
@@ -186,11 +194,11 @@ a {
     color: white;
     letter-spacing: 0%;
     z-index: 2;
-
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
+    height: fit-content !important;
+    position: absolute !important;
+    bottom: 0px;
+    padding: 20px;
+    padding-left: 20px;
 }
 
 #carouselExampleSlidesOnlyThirdNews {
