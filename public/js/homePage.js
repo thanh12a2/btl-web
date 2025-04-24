@@ -37,3 +37,34 @@ document.querySelector('#carouselExampleAutoplaying').addEventListener('slid.bs.
         image.classList.add('fade-image');
     }, 100); // Đặt độ trễ 100ms để ảnh xuất hiện sau text
 });
+
+
+document.querySelector('#carouselExampleSlidesOnlyThirdNews').addEventListener('slide.bs.carousel', function (event) {
+    const currentItem = event.relatedTarget;
+    const title = currentItem.querySelector('.third-news-title');
+    const image = currentItem.querySelector('img');
+
+    // Ẩn cả text và ảnh
+    title.classList.add('third-hidden-title');
+    image.classList.add('third-hidden-image');
+
+    // Xoá lớp fade cũ nếu có
+    title.classList.remove('third-fade-title');
+    image.classList.remove('third-fade-image');
+});
+
+document.querySelector('#carouselExampleSlidesOnlyThirdNews').addEventListener('slid.bs.carousel', function (event) {
+    const currentItem = event.relatedTarget;
+    const title = currentItem.querySelector('.third-news-title');
+    const image = currentItem.querySelector('img');
+
+    // Hiện text ngay lập tức
+    setTimeout(() => {
+        title.classList.add('third-fade-title');
+    }, 0);
+
+    // Hiện ảnh sau 100ms
+    setTimeout(() => {
+        image.classList.add('third-fade-image');
+    }, 100);
+});
