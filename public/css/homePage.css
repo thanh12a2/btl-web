@@ -106,6 +106,7 @@ a {
 .big-news-image img {
     width: 800px;
     height: 400px;
+    object-position: top;
 }
 
 .big-news .big-news-title h2 {
