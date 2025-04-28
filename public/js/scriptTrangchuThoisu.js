@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const articleTitleTs = document.querySelector('.articleTitleThoisu');
     const articleParagraphTs = document.querySelector('.articleParagraphThoisu');
     const containerThoisu = document.querySelector('.containerThoisu');
+     const leftColumnThoisu = document.querySelector('.leftColumnThoisu');
+    const rightColumnThoisu = document.querySelector('.rightColumnThoisu');
 
 
     if (!scrollableContentTs || !scrollbarButtonTs || !customScrollbarTs || !mainImageTs || !articleTitleTs || !articleParagraphTs || !containerThoisu) {
@@ -155,18 +157,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
      // Scroll
-     containerThoisu.addEventListener('wheel', function(e) {
-        e.preventDefault(); // ko default scroll
+     rightColumnThoisu.addEventListener('wheel', function(e) {
+        e.preventDefault(); // ngăn default scroll
 
         const scrollSensitivityTs = 80; // scroll speed
-        const scrollAmountTs = e.deltaY * (scrollSensitivityTs/100) ; // so luong scroll
+        const scrollAmountTs = e.deltaY * (scrollSensitivityTs/100); // số lượng scroll
         const scrollbarTrackHeightTs = customScrollbarTs.offsetHeight;
         const scrollButtonHeightTs = scrollbarButtonTs.offsetHeight;
         const maxScrollTopButtonTs = scrollbarTrackHeightTs - scrollButtonHeightTs;
         const contentScrollHeightTs = scrollableContentTs.scrollHeight - scrollableContentTs.offsetHeight;
 
-
-        // tinh scrollTop moi cho content
+        // tính scrollTop mới cho content
         contentScrollTopTs += scrollAmountTs; // update tracked contentScrollTop
         if (contentScrollTopTs < 0) {
             contentScrollTopTs = 0;
@@ -174,14 +175,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (contentScrollTopTs > contentScrollHeightTs) {
             contentScrollTopTs = contentScrollHeightTs;
         }
-        scrollableContentTs.scrollTop = contentScrollTopTs; // ap dung scroll cho content
+        scrollableContentTs.scrollTop = contentScrollTopTs; // áp dụng scroll cho content
 
-
-        // tinh % scroll cho content (not button)
+        // tính % scroll cho content (not button)
         const scrollPercentageTs = contentScrollHeightTs === 0 ? 0 : contentScrollTopTs / contentScrollHeightTs;
 
-
-        // tinh vi tri top moi cho scroll button
+        // tính vị trí top mới cho scroll button
         let newScrollButtonTopTs = scrollPercentageTs * maxScrollTopButtonTs;
         if (newScrollButtonTopTs < 0) {
             newScrollButtonTopTs = 0;
@@ -190,9 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
             newScrollButtonTopTs = maxScrollTopButtonTs;
         }
 
-
-        scrollbarButtonTs.style.top = newScrollButtonTopTs + 'px'; // di chuyen button
-
+        scrollbarButtonTs.style.top = newScrollButtonTopTs + 'px'; // di chuyển button
     });
 
 
