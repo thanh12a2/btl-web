@@ -413,7 +413,7 @@ span {
 
 .tin-lien-quan-section {
     margin-top: 100px;
-    height: 700px;
+    height: 100%;
     background-color: #F1F1F1;
     padding-top: 50px;
 
@@ -441,8 +441,7 @@ span {
     margin-top: 50px !important;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    /* height: 518px; */
-    grid-template-rows: repeat(3, 140px);
+    grid-template-rows: repeat(2, 140px);
     gap: 30px;
     margin: auto;
 }

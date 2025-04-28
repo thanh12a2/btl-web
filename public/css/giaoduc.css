@@ -9,7 +9,9 @@
 
 .edu-section {
     max-width: 1320px;
+    width: 100%;
     margin: auto;
+    padding: 0 15px;
 }
 
 .edu-section-heading {
@@ -17,18 +19,20 @@
     align-items: center;
     gap: 25px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 .edu-section-title h3 {
     font-size: 32px;
-    font-weight: 700px;
+    font-weight: 700;
     border-bottom: 6px solid rgba(179, 42, 69, 1);
-    
+    display: inline-block;
 }
 
 .edu-section-sub-title {
     display: flex;
     gap: 25px;
+    flex-wrap: wrap;
 }
 
 .edu-section-sub-title p {
@@ -50,25 +54,26 @@
 }
 
 .edu-item-1 img {
-    width: 625px;
-    height: 350px;
-    
-
+    width: 100%;
+    height: auto;
+    max-height: 350px;
+    object-fit: cover;
 }
+
 .edu-item-1-article h3 {
     margin: 10px 0;
     color: rgba(0, 0, 0, 1);
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     font-weight: bold;
     font-size: 32px;
-    letter-spacing: 0%;
-
+    letter-spacing: 0;
 }
+
 .edu-item-1-article p {
-    font-family: Open Sans;
-    font-weight: 400px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
     font-size: 20px;
-    letter-spacing: 0%;
+    letter-spacing: 0;
     color: rgba(77, 77, 77, 1);
     max-width: 97%;
 
@@ -79,64 +84,62 @@
     display: grid;
 }
 
-.right-container img{
-    width: 305px;
-    height: 166px;
+.right-container img {
+    width: 100%;
+    height: auto;
+    max-height: 166px;
+    object-fit: cover;
 }
 
-.right-container h3{
-    width: 305px;
-    height: 700px;
-    font-family: Roboto;
+.right-container h3 {
+    width: 100%;
+    font-family: Roboto, sans-serif;
     font-weight: bold;
     font-size: 24px;
     text-align: left;
     margin-top: 10px;
+    height: auto;
 }
 
 .right-container .edu-item-2 {
     display: flex;
-    width: 305px;
-    height: 105px;
-    align-items: center;
+    width: 100%;
+    height: auto;
+    align-items: flex-start;
     flex-direction: column;
     text-align: left;
-    margin-left: 10px;
+    margin-left: 0;
+    margin-bottom: 20px;
 }
 
 .extra-container {
-    gap: 20px;    
+    gap: 20px;
 }
 
 .extra-container .edu-item-3 {
     display: flex;
-    align-items: center;
-    width: 295px;
-   height: 125px;
-   margin-bottom: 10px;
-   align-items:flex-start;
-   margin-left: 10px;
-   
+    align-items: flex-start;
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    margin-left: 0;
 }
 
 .extra-container img {
     width: 120px;
     height: 125px;
+    object-fit: cover;
 }
 
-.extra-container h3{
-    font-family: Roboto;
+.extra-container h3 {
+    font-family: Roboto, sans-serif;
     font-weight: bold;
     font-size: 20px;
-   letter-spacing: 0%;
-   text-align: left;
-   margin-left: 10px;
-   width: 165;
-   height: 58;
-
-
-
-
+    letter-spacing: 0;
+    text-align: left;
+    margin-left: 10px;
+    width: auto;
+    height: auto;
 }
 
 /* Responsive */
