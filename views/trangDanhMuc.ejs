@@ -9,475 +9,71 @@
             </div>
         </div>
 
-        <% if ( subCategoryData.length ) { %>
-            <% for ( let i = 0; i < subCategoryData.length; i++ ) { %>
+        <% if ( subCategoryData.length ) { %> 
+            <% for ( let i = 0; i < subCategoryData.length; i++ ) { %>  
                 <div class="section con1000">
                     <div class="title-section">
-                        <h2>
-                            <%= subCategoryData[i].category_name%><span><i class="bi bi-arrow-bar-right fs-2" ></i></span>
-                        </h2>
+                        <a href="">
+                            <h2>
+                                <%= subCategoryData[i].category_name%><span><i class="bi bi-arrow-bar-right fs-2" ></i></span>  
+                            </h2>
+                        </a>
                         <img src="/../assets/trangDanhMucImages/danhMucRedLine.png"/>
                     </div>
-                    <div class="grid-section">
-                        <div class="grid-section-items">
-                            <a href="../html/chiTietBaiViet.html">
-                                <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                            </a>
-                            <div class="news-content">
-                                <a href="../html/chiTietBaiViet.html">
-                                    <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                                </a>
-                                <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                                <p class="content-danh-muc">
-                                    <a href="../html/chiTietBaiViet.html" class="news-link">
-                                        Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                                    </a>
-                                </p>
-                            </div>
+                    <% let check = false; %>
+
+                    <% if ( paginatedGroupedByCategory.length ) { %>
+                        <% for ( let k = 0; k < paginatedGroupedByCategory.length; k++ ) { %>
+                            <% if ( paginatedGroupedByCategory[k].categoryId == subCategoryData[i].id_category && paginatedGroupedByCategory[k].articles ) { %>
+                                <% check = true; %>
+                                <% break; %>
+                            <% } %>
+                        <% } %>
+                    <% } else { %>
+                        <% check = false; %>
+                    <% } %>
+
+                    <% if ( !check ) { %>
+                        <div class="no-article-container">
+                            <img src="/../assets/noArticle.png" alt="" class="no-article-img">
+                            <h2 class="no-article-heading">Danh mục hiện chưa có bài viết !</h2>
                         </div>
-                        
-                        <div class="grid-section-items">
-                            <a href="../html/chiTietBaiViet.html">
-                                <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                            </a>
-                            <div class="news-content">
-                                <a href="../html/chiTietBaiViet.html">
-                                    <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                                </a>
-                                <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                                <p class="content-danh-muc">
-                                    <a href="../html/chiTietBaiViet.html" class="news-link">
-                                        Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                                    </a>
-                                </p>
-                            </div>
+                    <% } else {%>
+                        <div class="grid-section">
+                            <% for ( let k = 0; k < paginatedGroupedByCategory.length; k++ ) { %>
+                                <% if ( paginatedGroupedByCategory[k].categoryId == subCategoryData[i].id_category && paginatedGroupedByCategory[k].articles ) { %>
+                                    <% for ( let g = 0; g < paginatedGroupedByCategory[k].articles.length; g++) { %>
+                                        <div class="grid-section-items">
+                                            <a href="/article/transportArticle/<%= paginatedGroupedByCategory[k].articles[g].name_alias %>">
+                                                <img src="<%= paginatedGroupedByCategory[k].articles[g].hero_image %>" alt="">
+                                            </a>
+                                            <div class="news-content">
+                                                <a href="/article/transportArticle/<%= paginatedGroupedByCategory[k].articles[g].name_alias %>">
+                                                    <h3 class="news-title"><%=  paginatedGroupedByCategory[k].articles[g].heading %></h3>
+                                                    <p class="date"><%=  paginatedGroupedByCategory[k].articles[g].day_created %></p>
+                                                </a>
+                                                
+                                                <p class="content-danh-muc">
+                                                    <a href="/article/transportArticle/<%= paginatedGroupedByCategory[k].articles[g].name_alias %>" class="news-link">
+                                                        <%=  paginatedGroupedByCategory[k].articles[g].content %>
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                <% } %>
+                            <% } %>
                         </div>
-                        <div class="grid-section-items">
-                            <a href="../html/chiTietBaiViet.html">
-                                <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                            </a>
-                            <div class="news-content">
-                                <a href="../html/chiTietBaiViet.html">
-                                    <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                                </a>
-                                <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                                <p class="content-danh-muc">
-                                    <a href="../html/chiTietBaiViet.html" class="news-link">
-                                        Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="grid-section-items">
-                            <a href="../html/chiTietBaiViet.html">
-                                <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                            </a>
-                            <div class="news-content">
-                                <a href="../html/chiTietBaiViet.html">
-                                    <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                                </a>
-                                <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                                <p class="content-danh-muc">
-                                    <a href="../html/chiTietBaiViet.html" class="news-link">
-                                        Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="grid-section-items">
-                            <a href="../html/chiTietBaiViet.html">
-                                <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                            </a>
-                            <div class="news-content">
-                                <a href="../html/chiTietBaiViet.html">
-                                    <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                                </a>
-                                <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                                <p class="content-danh-muc">
-                                    <a href="../html/chiTietBaiViet.html" class="news-link">
-                                        Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="grid-section-items">
-                            <a href="../html/chiTietBaiViet.html">
-                                <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                            </a>
-                            <div class="news-content">
-                                <a href="../html/chiTietBaiViet.html">
-                                    <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                                </a>
-                                <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                                <p class="content-danh-muc">
-                                    <a href="../html/chiTietBaiViet.html" class="news-link">
-                                        Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-            
-            
-                    <div class="view-more">
-                        <a href="../html/trangDanhMuc2.html">
-                            <p>Xem thêm
-                                <span><i class="bi bi-arrow-right"></i></span>
-                            </p>
-                        </a>
-                    </div>
+                    <% }%>
+
+                    
                 </div>
             <% } %>
+        <% } else { %>
+            <div class="no-article-container">
+                <img src="/../assets/noArticle.png" alt="" class="no-article-img">
+                <h2 class="no-article-heading">Danh mục hiện chưa có bài viết !</h2>
+            </div>
         <% } %>
-        <!-- <div class="section con1000 margin-50">
-            <div class="title-section">
-                <h2>
-                    <span><i class="bi bi-arrow-bar-right fs-2" ></i></span>
-                </h2>
-                <img src="/../assets/trangDanhMucImages/danhMucRedLine.png"/>
-            </div>
-            <div class="grid-section">
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-    
-    
-            <div class="view-more">
-                <a href="../html/trangDanhMuc2.html">
-                    <p>Xem thêm
-                        <span><i class="bi bi-arrow-right"></i></span>
-                    </p>
-                </a>
-            </div>
-        </div>
-    
-    
-        <div class="section con1000">
-            <div class="title-section">
-                <h2>
-                    <span><i class="bi bi-arrow-bar-right fs-2" ></i></span>
-                </h2>
-                <img src="/../assets/trangDanhMucImages/danhMucRedLine.png"/>
-            </div>
-            <div class="grid-section">
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-    
-    
-            <div class="view-more">
-                <a href="../html/trangDanhMuc2.html">
-                    <p>Xem thêm
-                        <span><i class="bi bi-arrow-right"></i></span>
-                    </p>
-                </a>
-            </div>
-        </div>
-    
-    
-        <div class="section con1000">
-            <div class="title-section">
-                <h2>
-                    <span><i class="bi bi-arrow-bar-right fs-2" ></i></span>
-                </h2>
-                <img src="/../assets/trangDanhMucImages/danhMucRedLine.png"/>
-            </div>
-            <div class="grid-section">
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="grid-section-items">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMucImages/tienLinh.png" alt="Tiến Linh giành Quả bóng vàng">
-                    </a>
-                    <div class="news-content">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3 class="news-title">Tiến Linh giành Quả bóng vàng Việt Nam</h3>
-                        </a>
-                        <p class="date">Thứ Tư, 26/2/2025 19:22 (GMT+7)</p>
-                        <p class="content">
-                            <a href="../html/chiTietBaiViet.html" class="news-link">
-                                Vượt qua Nguyễn Hoàng Đức và Phạm Tuấn Hải, tiền đạo Nguyễn Tiến Linh giành giải Quả Bóng Vàng nam Việt Nam 2024.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-    
-    
-            <div class="view-more">
-                <a href="../html/trangDanhMuc2.html">
-                    <p>Xem thêm
-                        <span><i class="bi bi-arrow-right"></i></span>
-                    </p>
-                </a>
-            </div>
-        </div> -->
-
+        
 <%- include("partials/footer.ejs") %>

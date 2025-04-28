@@ -1,27 +1,67 @@
 <%- include("partials/header.ejs") %>
 
         <div class="red-background-homepage"></div>
-        <!-- <div class="red-background-2"></div> -->
 
         <div class="page-body">
 
             <div class="tin-tuc-noi-bat container">
+                
                     <div class="heading">
                         <h2>Tin tức nổi bật</h2>
                     </div>
 
                     <div class="big-news">
+                        
                         <div class="big-news-image">
                             <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                   <div class="carousel-item active" data-bs-interval="4000">
-                                    <a href="../html/chiTietBaiViet.html"><img src="../assets/trangChuImages/bigNewsImage.png" class="d-block w-100 big-news-img"  alt="..."></a>
+                                    <a href="/article/transportArticle/<%= topArticles[0].name_alias %>"><img src="<%= topArticles[0].hero_image %>" class="d-block w-100 big-news-img" alt="..."></a>
+                                    <div class="big-news-title">
+                                        <a href="/article/transportArticle/<%= topArticles[0].name_alias %>">
+                                            <h2 class="big-news-heading">
+                                                <%= topArticles[0].heading %>
+                                            </h2>
+                                        </a>
+            
+                                        <a href="/article/transportArticle/<%= topArticles[0].name_alias %>">
+                                            <p class="big-news-article">
+                                                <%= topArticles[0].content %>
+                                            </p>
+                                        </a>
+                                    </div>
                                   </div>
                                   <div class="carousel-item" data-bs-interval="4000">
-                                    <a href="../html/chiTietBaiViet.html"><img src="../assets/trangChuImages/bigNewsImage1.png" class="d-block w-100 big-news-img" alt="..."></a>
+                                    <a href="/article/transportArticle/<%= topArticles[1].name_alias %>"><img src="<%= topArticles[1].hero_image %>" class="d-block w-100 big-news-img" alt="..."></a>
+                                    <div class="big-news-title">
+                                        <a href="/article/transportArticle/<%= topArticles[1].name_alias %>">
+                                            <h2 class="big-news-heading">
+                                                <%= topArticles[1].heading %>
+                                            </h2>
+                                        </a>
+            
+                                        <a href="/article/transportArticle/<%= topArticles[1].name_alias %>">
+                                            <p class="big-news-article">
+                                                <%= topArticles[1].content %>
+                                            </p>
+                                        </a>
+                                    </div>
                                   </div>
                                   <div class="carousel-item" data-bs-interval="4000">
-                                    <a href="../html/chiTietBaiViet.html"><img src="../assets/trangChuImages/bigNewsImage2.png" class="d-block w-100 big-news-img" alt="..."></a>
+                                    <a href="/article/transportArticle/<%= topArticles[2].name_alias %>"><img src="<%= topArticles[2].hero_image %>" class="d-block w-100 big-news-img" alt="..."></a>
+                                    <div class="big-news-title">
+                                        <a href="/article/transportArticle/<%= topArticles[2].name_alias %>">
+                                            <h2 class="big-news-heading">
+                                                <%= topArticles[2].heading %>
+                                            </h2>
+                                        </a>
+            
+                                        <a href="/article/transportArticle/<%= topArticles[2].name_alias %>">
+                                            <p class="big-news-article">
+                                                <%= topArticles[2].content %>
+                                            </p>
+                                        </a>
+                                    </div>
                                   </div>
                                 </div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
@@ -35,76 +75,115 @@
                               </div>
                         </div>
 
-                        <div class="big-news-title">
-                            <a href="../html/chiTietBaiViet.html">
-                                <h2 class="big-news-heading">
-                                    Nvidia reports earnings today. 
-                                    Here's what to expect after the DeepSeek shock
-                                </h2>
-                            </a>
-
-                            <a href="../html/chiTietBaiViet.html">
-                                <p class="big-news-article">
-                                    Nvidia (NVDA) stock advanced by more than 3% ahead of the AI 
-                                    chip giant's scheduled release of its fiscal fourth-quarter 
-                                    earnings after the close today. The shares of chip designers 
-                                    Broadcom (AVGO) and Micron (MU) also gained.
-                                </p>
-                            </a>
-                        </div>
                     </div>
 
                     <div class="second-news">
                         <div id="carouselExampleSlidesOnlySecondNews" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                            <img src="../assets/transparentPanel.png" alt="" class="transparent-panel-second-news">
+                            
                             <div class="carousel-inner">
-                                <div class="carousel-item active" data-bs-interval="7000">
-                                    <a href="../html/chiTietBaiViet.html"><img src="../assets/trangChuImages/secondNewsImage.png" class="d-block w-100 image-content" alt="..."></a>
+                                <!--  -->
+                                <div class="carousel-item active" data-bs-interval="7000"> 
+                                    <img src="../assets/transparentPanel.png" alt="" class="transparent-panel-second-news">
+                                    <a href="/article/transportArticle/<%= topArticles[3].name_alias %>"><img src="<%= topArticles[3].hero_image %>" class="d-block w-100 image-content" alt="..."></a>
+                                    <div class="second-news-title">
+                                        <a href="/article/transportArticle/<%= topArticles[3].name_alias %>">
+                                            <h2 class="second-news-title-text">
+                                                <%= topArticles[3].heading %>
+                                            </h2>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="carousel-item" data-bs-interval="7000">
-                                    <a href="../html/chiTietBaiViet.html"><img src="../assets/trangChuImages/secondNewsImage1.png" class="d-block w-100 image-content" alt="..."></a>
+                                    <img src="../assets/transparentPanel.png" alt="" class="transparent-panel-second-news">
+                                    <a href="/article/transportArticle/<%= topArticles[4].name_alias %>"><img src="<%= topArticles[4].hero_image %>" class="d-block w-100 image-content" alt="..."></a>
+                                    <div class="second-news-title">
+                                        <a href="/article/transportArticle/<%= topArticles[4].name_alias %>">
+                                            <h2 class="second-news-title-text">
+                                                <%= topArticles[4].heading %>
+                                            </h2>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="carousel-item" data-bs-interval="7000">
-                                    <a href="../html/chiTietBaiViet.html"><img src="../assets/trangChuImages/secondNewsImage2.png" class="d-block w-100 image-content" alt="..."></a>
+                                    <img src="../assets/transparentPanel.png" alt="" class="transparent-panel-second-news">
+                                    <a href="/article/transportArticle/<%= topArticles[5].name_alias %>"><img src="<%= topArticles[5].hero_image %>" class="d-block w-100 image-content" alt="..."></a>
+                                    <div class="second-news-title">
+                                        <a href="/article/transportArticle/<%= topArticles[5].name_alias %>">
+                                            <h2 class="second-news-title-text">
+                                                <%= topArticles[5].heading %>
+                                            </h2>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="second-news-title">
-                            <a href="../html/chiTietBaiViet.html">
-                                <h2 class="second-news-title-text">
-                                    Hà Nội công bố Môn thi thứ 3 vào lớp 10
-                                </h2>
-                            </a>
-                        </div>
+
                     </div>
 
                     <div class="third-news">
                         <div id="carouselExampleSlidesOnlyThirdNews" class="carousel slide carousel-fade" data-bs-ride="carousel">
                             <div class="carousel-inner">
-                                <div class="carousel-item active" data-bs-interval="10000">
-                                    <a href="../html/chiTietBaiViet.html"><img src="../assets/trangChuImages/thirdNewsImage.png" class="d-block w-100 image-content-1" alt="..."></a>
+                                <!--  -->
+                                <div class="carousel-item active carousel-item-2" data-bs-interval="10000">
+
+                                    <a href="/article/transportArticle/<%= topArticles[6].name_alias %>">
+                                        <img src="<%= topArticles[6].hero_image %>" class="d-block w-100 image-content-1" alt="...">
+                                    </a>
+
+                                    <div class="third-news-title">
+
+                                        <a href="/article/transportArticle/<%= topArticles[6].name_alias %>">
+                                            <h2 class="third-news-heading">
+                                                <%= topArticles[6].heading %>
+                                            </h2>
+                                        </a>
+
+                                        <a href="/article/transportArticle/<%= topArticles[6].name_alias %>">
+                                            <p class="third-news-article">
+                                                <%= topArticles[6].content %>
+                                            </p>
+                                        </a>
+
+                                    </div>
+
                                 </div>
-                                <div class="carousel-item" data-bs-interval="10000">
-                                    <a href="../html/chiTietBaiViet.html"><img src="../assets/trangChuImages/thirdNewsImage1.png" class="d-block w-100 image-content-1" alt="..."></a>
+                                <div class="carousel-item carousel-item-2" data-bs-interval="10000">
+                                    <a href="/article/transportArticle/<%= topArticles[7].name_alias %>"><img src="<%= topArticles[7].hero_image %>" class="d-block w-100 image-content-1" alt="..."></a>
+                                    <div class="third-news-title">
+
+                                        <a href="/article/transportArticle/<%= topArticles[7].name_alias %>">
+                                            <h2 class="third-news-heading">
+                                                <%= topArticles[7].heading %>
+                                            </h2>
+                                        </a>
+
+                                        <a href="/article/transportArticle/<%= topArticles[7].name_alias %>">
+                                            <p class="third-news-article">
+                                                <%= topArticles[7].content %>
+                                            </p>
+                                        </a>
+
+                                    </div>
                                 </div>
-                                <div class="carousel-item" data-bs-interval="10000">
-                                    <a href="../html/chiTietBaiViet.html"><img src="../assets/trangChuImages/thirdNewsImage2.png" class="d-block w-100 image-content-1" alt="..."></a>
+                                <div class="carousel-item carousel-item-2" data-bs-interval="10000">
+                                    <a href="/article/transportArticle/<%= topArticles[8].name_alias %>"><img src="<%= topArticles[8].hero_image %>" class="d-block w-100 image-content-1" alt="..."></a>
+                                    <div class="third-news-title">
+
+                                        <a href="/article/transportArticle/<%= topArticles[8].name_alias %>">
+                                            <h2 class="third-news-heading">
+                                                <%= topArticles[8].heading %>
+                                            </h2>
+                                        </a>
+
+                                        <a href="/article/transportArticle/<%= topArticles[8].name_alias %>">
+                                            <p class="third-news-article">
+                                                <%= topArticles[8].content %>
+                                            </p>
+                                        </a>
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- <img src="../assets/trangChuImages/thirdNewsImage.png" alt=""> -->
-                        <div class="third-news-title">
-                            <a href="../html/chiTietBaiViet.html">
-                                <h2 class="third-news-heading">
-                                    Cú đúp danh hiệu cho Nguyễn Xuân Son
-                                </h2>
-                            </a>
-                            <a href="../html/chiTietBaiViet.html">
-                                <p class="third-news-article">
-                                    Đúng với dự đoán, tiền đạo Nguyễn Xuân Son đã dễ dàng giành giải thưởng 
-                                    Ngoại binh Xuất sắc nhất giải đấu.
-                                </p>
-                            </a>
                         </div>
                         
                     </div>
@@ -650,6 +729,7 @@
                             <h3><%= articles[0].heading %></h3>
                             <p>
                                 <%= articles[0].content %>
+                            </p>
                         </div>
                     </a>
                 </div>
@@ -792,7 +872,7 @@
                     </div>
                 </div>
             </div>
-
+            
 <%- include("partials/footer.ejs") %>
 
 

@@ -50,17 +50,21 @@ body {
 
 .section {
     width: 1020px;
-    height: 1190px;
     /* padding: 50px 256px; */
-    margin-bottom: 20px;
+    margin-bottom: 50px !important;
+    height: fit-content !important;
 }
 
+.section:not(:first-of-type) {
+    margin-top: 20px;
+}
 
 .section h2 {
     font-family: "Roboto", sans-serif;
     font-weight: 700;
     font-size: 40px;
     color: #B32A45;
+    cursor: pointer;
 }
 
 .title-section img {
@@ -89,6 +93,15 @@ body {
     width: 320px;
     height: 213px;
     border-radius: 25px 25px 0 0;
+    object-fit: cover !important;
+}
+
+.news-content {
+    height: 287px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    justify-content: flex-start;
 }
 
 .news-content h3 {
@@ -96,8 +109,10 @@ body {
     font-size: 22px;
     font-weight:700;
     color: black;
-    margin: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
     margin-top: 20px;
+    margin-bottom: 5px;
 }
 
 .news-content .date {
@@ -115,6 +130,11 @@ body {
     color: black;
     margin: 15px;
     font-size: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .view-more {
@@ -177,3 +197,49 @@ body {
 .news-link:hover {
     color: #B32A45;
 }
+
+.no-article-container {
+    /* height: 500px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-article-img {
+    /* width: 100%; */
+    height: 400px;
+    object-fit: cover;
+    border-radius: 25px;
+}
+
+.no-article-heading {
+    font-family: 'Lexend Deca', sans-serif !important;
+    font-size: 26px !important;
+}
+
+.page-link {
+    color: #B32A45 !important;
+    font-size: 20px !important;
+    font-family: 'Lexend Deca', sans-serif !important;
+}
+
+.active>.page-link {
+    background-color: #B32A45 !important;
+    color: white !important;
+    border-color: #661827 !important;
+}
+
+.disabled a {
+    color: gray !important;
+    font-size: 20px !important;
+    font-family: 'Lexend Deca', sans-serif !important;
+}
+
+.page-link-p {
+    color: #000000 !important;
+    font-size: 20px !important;
+    font-family: 'Lexend Deca', sans-serif !important;
+    padding: 0px 10px !important;
+}
+

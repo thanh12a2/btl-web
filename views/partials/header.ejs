@@ -31,6 +31,7 @@
         <link rel="stylesheet" href="/../css/quantri.css">
         <link rel="stylesheet" href="/../css/trangTimKiemBaiViet.css"/>
         <link rel="stylesheet" href="/../css/congDangNhap.css">
+        <link rel="stylesheet" href="/../css/notFound404.css">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
@@ -73,7 +74,9 @@
     
                     <div class="navbar-tren-tien-ich">
                         <div class="search-bar">
-                            <input type="text" placeholder="Search..." class="search-bar-input">
+                            <form action="/article/searchArticle" method="POST">
+                                <input type="text" placeholder="Search..." class="search-bar-input" name="navbarTrenSb">
+                            </form>
                             <i class="bi bi-search fs-1"></i>
                         </div>
                         <% if (isLoggedIn) { %>
@@ -121,12 +124,12 @@
                             <% if (categoryTree.length > 6 ) { catlen = 6 } else { catlen = categoryTree.length }%>
                             <% for ( var i = 0; i < catlen; i++) { %>
                                 <li class="sub-menu-parent">
-                                    <a href="/category/firstcategory/<%= categoryTree[i].name_alias%>"><p class="cat-set-title xa-hoi-title"><%= categoryTree[i].name %></p></a>
+                                    <a href="/category/firstcategory/<%= categoryTree[i].name_alias%>?page=1&limit=15"><p class="cat-set-title xa-hoi-title"><%= categoryTree[i].name %></p></a>
                                     <% if (categoryTree[i].children.length) { %>
                                         <div class="drop-down-menu">
                                             <ul class="sub-menu">
                                                 <% for ( var j = 0; j < categoryTree[i].children.length; j++ ) { %>
-                                                    <a href="/category/secondcategory/<%= categoryTree[i].children[j].name_alias%>"><li class="sub-menu-button"><%= categoryTree[i].children[j].name %></li></a>
+                                                    <a href="/category/secondcategory/<%= categoryTree[i].children[j].name_alias%>?page=1&limit=10"><li class="sub-menu-button"><%= categoryTree[i].children[j].name %></li></a>
                                                 <% } %>
                                             </ul>
                                         </div>
@@ -144,7 +147,9 @@
     
                     <div class="search-bar-big-container">
                         <div class="search-bar-big">
-                            <input type="text" placeholder="Search..." class="search-bar-big-input-menu">
+                            <form action="/article/searchArticle" method="POST">
+                                <input type="text" placeholder="Search..." class="search-bar-big-input-menu" name="navbarTrenSb">
+                            </form>
                             <i class="bi bi-search fs-1"></i>
                         </div>
                     </div>
@@ -154,11 +159,11 @@
                         <ul class="cat-set-ul">
                             <% for ( var i = 0; i < categoryTree.length; i++) { %>
                                 <li>
-                                    <a href="/category/firstcategory/<%= categoryTree[i].name_alias%>"><p class="cat-set-big-title xa-hoi-title"><%= categoryTree[i].name %></p></a>
+                                    <a href="/category/firstcategory/<%= categoryTree[i].name_alias%>?page=1&limit=15"><p class="cat-set-big-title xa-hoi-title"><%= categoryTree[i].name %></p></a>
                                     <% if (categoryTree[i].children.length) { %>
                                         <ul class="sub-menu-big">
                                             <% for ( var j = 0; j < categoryTree[i].children.length; j++ ) { %>
-                                                <a href="/category/secondcategory/<%= categoryTree[i].children[j].name_alias%>"><li class="sub-menu-button"><%= categoryTree[i].children[j].name %></li></a>
+                                                <a href="/category/secondcategory/<%= categoryTree[i].children[j].name_alias%>?page=1&limit=10"><li class="sub-menu-button"><%= categoryTree[i].children[j].name %></li></a>
                                             <% } %>
                                         </ul>
                                     <% } %>

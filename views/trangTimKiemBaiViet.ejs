@@ -5,67 +5,40 @@
 
             <div class="search-bar-big-container-on-page">
                 <div class="search-bar-big">
-                    <input type="text" placeholder="Search..." class="search-bar-big-input">
+                    <form action="/article/searchArticle" method="POST">
+                        <input type="text" placeholder="Search..." class="search-bar-big-input" name="navbarTrenSb">
+                    </form>
                     <i class="bi bi-search fs-1"></i>
                 </div>
             </div>
 
             <img class="line6" src="../assets/timKiemBaiVietImages/dongKeMauDo.png" />
-            
-            <div class="search-items">
-                <div class="image">
-                    <img src="../assets/timKiemBaiVietImages/anhMessi.png" alt="Messi bị phạt">
-                </div>
-                <div class="content">
-                    <div class="title">Messi và Suarez bị phạt vì túm cổ đối phương</div>
-                    <div class="date">Thứ Tư, 14:56, 26/02/2025</div>
-                    <div class="description">
-                        VOV.VN - Messi và Luis Suarez bị Ban tổ chức MLS phạt tiền vì có hành vi túm cổ đối phương trong trận đấu giữa Inter Miami và New York City vào ngày 22/2.
+
+            <% if (data) { %>
+                <% for ( let i = 0; i < data.length; i++ ) { %>
+                    <div class="search-items">
+                        <div class="image">
+                            <a href="/article/transportArticle/<%= data[i].name_alias %>">
+                                <img src="<%= data[i].hero_image%>" alt="">
+                            </a>
+                        </div>
+                        <div class="content">
+                            <a href="/article/transportArticle/<%= data[i].name_alias %>"><div class="title-section"><%=data[i].heading%></div></a>
+                            <div class="date"><%=data[i].day_created%></div>
+                            <div class="description">
+                                <p>
+                                    <a href="/article/transportArticle/<%= data[i].name_alias %>">
+                                        <%=data[i].content%>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-    
-    
-            <div class="search-items">
-                <div class="image">
-                    <img src="../assets/timKiemBaiVietImages/anhMessi.png" alt="Messi bị phạt">
-                </div>
-                <div class="content">
-                    <div class="title">Messi và Suarez bị phạt vì túm cổ đối phương</div>
-                    <div class="date">Thứ Tư, 14:56, 26/02/2025</div>
-                    <div class="description">
-                        VOV.VN - Messi và Luis Suarez bị Ban tổ chức MLS phạt tiền vì có hành vi túm cổ đối phương trong trận đấu giữa Inter Miami và New York City vào ngày 22/2.
-                    </div>
-                </div>
-            </div>
-    
-    
-            <div class="search-items">
-                <div class="image">
-                    <img src="../assets/timKiemBaiVietImages/anhMessi.png" alt="Messi bị phạt">
-                </div>
-                <div class="content">
-                    <div class="title">Messi và Suarez bị phạt vì túm cổ đối phương</div>
-                    <div class="date">Thứ Tư, 14:56, 26/02/2025</div>
-                    <div class="description">
-                        VOV.VN - Messi và Luis Suarez bị Ban tổ chức MLS phạt tiền vì có hành vi túm cổ đối phương trong trận đấu giữa Inter Miami và New York City vào ngày 22/2.
-                    </div>
-                </div>
-            </div>
-    
-    
-            <div class="search-items">
-                <div class="image">
-                    <img src="../assets/timKiemBaiVietImages/anhMessi.png" alt="Messi bị phạt">
-                </div>
-                <div class="content">
-                    <div class="title">Messi và Suarez bị phạt vì túm cổ đối phương</div>
-                    <div class="date">Thứ Tư, 14:56, 26/02/2025</div>
-                    <div class="description">
-                        VOV.VN - Messi và Luis Suarez bị Ban tổ chức MLS phạt tiền vì có hành vi túm cổ đối phương trong trận đấu giữa Inter Miami và New York City vào ngày 22/2.
-                    </div>
-                </div>
-            </div>
+                <% } %> 
+            <% } else { %>
+
+            <% } %>
+
         </div>
 
 <%- include("partials/footer.ejs") %>

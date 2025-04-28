@@ -36,9 +36,10 @@
 
             <div class="hero-image container">
                 <img src="<%= articleDetals.hero_image%>" alt="">
+                <div class="red-background"></div>
             </div>
 
-            <div class="red-background"></div>
+            
 
             <div class="article-body con900">
                 <% articleDetals.content.split(/\r\n+/).forEach(function(paragraph) { %>
@@ -64,10 +65,12 @@
                         </div>
 
                         <div class="comment-input">
-                            <input type="text" placeholder="Hãy để lại bình luận của bạn." class="user-comment">
-                            <div class="comment-input-button">
-                                <button type="submit" disabled id="publish-button" class="btn btn-outline-primary">Đăng tải</button>
-                            </div>
+                            <form action="/article/comment/<%= articleDetals.name_alias%>" method="POST">
+                                <input type="text" placeholder="Hãy để lại bình luận của bạn." class="user-comment" name="comment">
+                                <div class="comment-input-button">
+                                    <button type="submit" disabled id="publish-button" class="btn btn-outline-primary">Đăng tải</button>
+                                </div>
+                        </form>
                         </div>
                         
                     </div>

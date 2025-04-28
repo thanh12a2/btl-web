@@ -9,192 +9,72 @@
             </div>
         </div>
     
-        <div class="container-back">
-            <a href="../html/trangDanhMuc.html">
-                <i class="bi bi-arrow-left fs-4"></i>
-                <span><p>Trở về</p></span>
-            </a>
-        </div>
-    
         <div class="section-1020">
-            <h2>Bóng Đá
-                <span><i class="bi bi-arrow-bar-right fs-2" ></i></span>
-            </h2>
+
             <img class="redLine" src="/../assets/trangDanhMuc2Images/dongKeMauDo.png"/>
-    
-            <div class="search-items">
-                <div class="image">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMuc2Images/anhMessi.png" alt="Messi bị phạt">
-                    </a>
-                </div>
-                <div class="content">
-                    <a href="../html/chiTietBaiViet.html"><div class="title-section">Messi và Suarez bị phạt vì túm cổ đối phương</div></a>
-                    <div class="date">Thứ Tư, 14:56, 26/02/2025</div>
-                    <div class="description">
-                        <p>
-                            <a href="../html/chiTietBaiViet.html">
-                                VOV.VN - Messi và Luis Suarez bị Ban tổ chức MLS phạt tiền vì có hành vi túm cổ đối phương trong trận đấu giữa Inter Miami và New York City vào ngày 22/2.
+
+            <% if ( articles.length ) { %>
+                <% for ( let i = 0; i < articles.length; i++ ) { %>
+                    <div class="search-items">
+                        <div class="image">
+                            <a href="/article/transportArticle/<%= articles[i].name_alias %>">
+                                <img src="<%= articles[i].hero_image %>" alt="">
                             </a>
-                        </p>
+                        </div>
+                        <div class="content">
+                            <a href="/article/transportArticle/<%= articles[i].name_alias %>"><div class="title-section"><%= articles[i].heading %></div></a>
+                            <div class="date"><%= articles[i].day_created %></div>
+                            <div class="description">
+                                <p>
+                                    <a href="/article/transportArticle/<%= articles[i].name_alias %>">
+                                        <%= articles[i].content %>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
                     </div>
+                <% } %>
+            <% } else { %>
+                <div class="no-article-container">
+                    <img src="/../assets/noArticle.png" alt="" class="no-article-img">
+                    <h2 class="no-article-heading">Danh mục hiện chưa có bài viết !</h2>
                 </div>
-            </div>
+            <% } %>
     
-    
-            <div class="search-items">
-                <div class="image">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMuc2Images/anhMessi.png" alt="Messi bị phạt">
-                    </a>
-                </div>
-                <div class="content">
-                    <a href="../html/chiTietBaiViet.html"><div class="title-section">Messi và Suarez bị phạt vì túm cổ đối phương</div></a>
-                    <div class="date">Thứ Tư, 14:56, 26/02/2025</div>
-                    <div class="description">
-                        <p>
-                            <a href="../html/chiTietBaiViet.html">
-                                VOV.VN - Messi và Luis Suarez bị Ban tổ chức MLS phạt tiền vì có hành vi túm cổ đối phương trong trận đấu giữa Inter Miami và New York City vào ngày 22/2.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-    
-    
-            <div class="search-items">
-                <div class="image">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMuc2Images/anhMessi.png" alt="Messi bị phạt">
-                    </a>
-                </div>
-                <div class="content">
-                    <a href="../html/chiTietBaiViet.html"><div class="title-section">Messi và Suarez bị phạt vì túm cổ đối phương</div></a>
-                    <div class="date">Thứ Tư, 14:56, 26/02/2025</div>
-                    <div class="description">
-                        <p>
-                            <a href="../html/chiTietBaiViet.html">
-                                VOV.VN - Messi và Luis Suarez bị Ban tổ chức MLS phạt tiền vì có hành vi túm cổ đối phương trong trận đấu giữa Inter Miami và New York City vào ngày 22/2.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-    
-    
-            <div class="search-items">
-                <div class="image">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMuc2Images/anhMessi.png" alt="Messi bị phạt">
-                    </a>
-                </div>
-                <div class="content">
-                    <a href="../html/chiTietBaiViet.html"><div class="title-section">Messi và Suarez bị phạt vì túm cổ đối phương</div></a>
-                    <div class="date">Thứ Tư, 14:56, 26/02/2025</div>
-                    <div class="description">
-                        <p>
-                            <a href="../html/chiTietBaiViet.html">
-                                VOV.VN - Messi và Luis Suarez bị Ban tổ chức MLS phạt tiền vì có hành vi túm cổ đối phương trong trận đấu giữa Inter Miami và New York City vào ngày 22/2.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="search-items">
-                <div class="image">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMuc2Images/anhMessi.png" alt="Messi bị phạt">
-                    </a>
-                </div>
-                <div class="content">
-                    <a href="../html/chiTietBaiViet.html"><div class="title-section">Messi và Suarez bị phạt vì túm cổ đối phương</div></a>
-                    <div class="date">Thứ Tư, 14:56, 26/02/2025</div>
-                    <div class="description">
-                        <p>
-                            <a href="../html/chiTietBaiViet.html">
-                                VOV.VN - Messi và Luis Suarez bị Ban tổ chức MLS phạt tiền vì có hành vi túm cổ đối phương trong trận đấu giữa Inter Miami và New York City vào ngày 22/2.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="search-items">
-                <div class="image">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMuc2Images/anhMessi.png" alt="Messi bị phạt">
-                    </a>
-                </div>
-                <div class="content">
-                    <a href="../html/chiTietBaiViet.html"><div class="title-section">Messi và Suarez bị phạt vì túm cổ đối phương</div></a>
-                    <div class="date">Thứ Tư, 14:56, 26/02/2025</div>
-                    <div class="description">
-                        <p>
-                            <a href="../html/chiTietBaiViet.html">
-                                VOV.VN - Messi và Luis Suarez bị Ban tổ chức MLS phạt tiền vì có hành vi túm cổ đối phương trong trận đấu giữa Inter Miami và New York City vào ngày 22/2.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="search-items">
-                <div class="image">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMuc2Images/anhMessi.png" alt="Messi bị phạt">
-                    </a>
-                </div>
-                <div class="content">
-                    <a href="../html/chiTietBaiViet.html"><div class="title-section">Messi và Suarez bị phạt vì túm cổ đối phương</div></a>
-                    <div class="date">Thứ Tư, 14:56, 26/02/2025</div>
-                    <div class="description">
-                        <p>
-                            <a href="../html/chiTietBaiViet.html">
-                                VOV.VN - Messi và Luis Suarez bị Ban tổ chức MLS phạt tiền vì có hành vi túm cổ đối phương trong trận đấu giữa Inter Miami và New York City vào ngày 22/2.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="search-items">
-                <div class="image">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="/../assets/trangDanhMuc2Images/anhMessi.png" alt="Messi bị phạt">
-                    </a>
-                </div>
-                <div class="content">
-                    <a href="../html/chiTietBaiViet.html"><div class="title-section">Messi và Suarez bị phạt vì túm cổ đối phương</div></a>
-                    <div class="date">Thứ Tư, 14:56, 26/02/2025</div>
-                    <div class="description">
-                        <p>
-                            <a href="../html/chiTietBaiViet.html">
-                                VOV.VN - Messi và Luis Suarez bị Ban tổ chức MLS phạt tiền vì có hành vi túm cổ đối phương trong trận đấu giữa Inter Miami và New York City vào ngày 22/2.
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        
-        
+            <% if ( pageStatus.total > 1 ) { %>
+                <nav aria-label="...">
+                    <ul class="pagination mt-5 px-1 justify-content-end">
+                        <% if (pageStatus.previous) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<%= pageStatus.previous.page %>&limit=<%= pageStatus.previous.limit %>">Previous</a>
+                            </li>
+                        <% } else { %>
+                            <li class="page-item disabled">
+                                <a class="page-link" href="">Previous</a>
+                            </li>
+                        <% }%>
+                            
+                        <div class="page-link">
+                            <% if (pageStatus.previous) { %>
+                                <p class="page-link-p"><%= pageStatus.previous.page + 1 %>/<%= pageStatus.total %></p>
+                            <% } else { %>
+                                <p class="page-link-p"> 1/<%= pageStatus.total %></p>
+                            <% } %>
+                        </div> 
+            
+                        <% if (pageStatus.next) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<%= pageStatus.next.page %>&limit=<%= pageStatus.next.limit %>">Next</a>
+                            </li>
+                        <% } else { %>
+                            <li class="page-item disabled">
+                                <a class="page-link" href="">Next</a>
+                            </li>
+                        <% }%>
+                    </ul>
+                </nav>
+            <% } %>
+
         </div>
         
-        <nav aria-label="..." class="container-pagination">
-            <ul class="pagination">
-              <li class="page-item disabled">
-                <a class="page-link">Previous</a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item active" aria-current="page">
-                <a class="page-link" href="#">2</a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-              </li>
-            </ul>
-          </nav>
-    
-    
 <%- include("partials/footer.ejs") %>

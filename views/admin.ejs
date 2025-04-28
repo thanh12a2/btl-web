@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,9 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
@@ -15,6 +18,7 @@
 
 
 </head>
+
 <body>
     <div class="sidebar">
         <div class="logo_content">
@@ -30,47 +34,49 @@
                     <i class="bi bi-person-circle"></i>
                     <span class="links_name">Thông tin cá nhân</span>
                 </a>
-                <span class="tooltip">Thông tin cá nhân</span>  
+                <span class="tooltip">Thông tin cá nhân</span>
             </li>
             <li>
                 <a href="#">
                     <i class='bx bxs-bar-chart-square'></i>
                     <span class="links_name">Thống kê dữ liệu</span>
                 </a>
-                <span class="tooltip">Thống kê dữ liệu</span>  
+                <span class="tooltip">Thống kê dữ liệu</span>
             </li>
             <li>
                 <a href="#">
-                    <i class='bx bxs-folder-open' ></i>
+                    <i class='bx bxs-folder-open'></i>
                     <span class="links_name">Quản lý bài viết</span>
                 </a>
-                <span class="tooltip">Quản lý bài viết</span>  
+                <span class="tooltip">Quản lý bài viết</span>
             </li>
             <li>
                 <a href="#">
-                    <i class='bx bxs-category-alt' ></i>
+                    <i class='bx bxs-category-alt'></i>
                     <span class="links_name">Quản lý danh mục</span>
                 </a>
-                <span class="tooltip">Quản lý danh mục</span>  
+                <span class="tooltip">Quản lý danh mục</span>
             </li>
             <li>
                 <a href="#">
-                    <i class='bx bxs-user' ></i>
+                    <i class='bx bxs-user'></i>
                     <span class="links_name">Quản lý người dùng</span>
                 </a>
-                <span class="tooltip">Quản lý người dùng</span>  
+                <span class="tooltip">Quản lý người dùng</span>
             </li>
             <li>
                 <a href="#">
-                    <i class='bx bxs-comment-detail' ></i>
+                    <i class='bx bxs-comment-detail'></i>
                     <span class="links_name">Quản lý bình luận</span>
                 </a>
-                <span class="tooltip">Quản lý bình luận</span>  
+                <span class="tooltip">Quản lý bình luận</span>
             </li>
             <li>
                 <a href="#">
-                    <i class='bx bx-log-out' ></i>
+                    <a href="/">
+                    <i class='bx bx-log-out'></i>
                     <span class="links_name">Quay lại</span>
+                </a>
                 </a>
                 <span class="tooltip">Quay lại</span>
             </li>
@@ -82,12 +88,13 @@
         <div id="infoManagement" class="info_management" style="display: none;">
             <h2 class="info_management-title">Thông tin cá nhân</h2>
             <div class="info_management-content">
-        
+
                 <!-- Họ và Tên -->
                 <div class="info_management-row">
                     <label class="info_management-label">Họ và Tên:</label>
                     <div class="info_management-input-group">
-                        <input type="text" id="info_management-name" class="info_management-input" value="Nguyễn Văn A" disabled>
+                        <input type="text" id="info_management-name" class="info_management-input" value="Nguyễn Văn A"
+                            disabled>
                         <div class="info_management-button-group">
                             <button id="info_management-edit-name" class="info_management-button">✏️</button>
                         </div>
@@ -98,7 +105,8 @@
                 <div class="info_management-row">
                     <label class="info_management-label">Email:</label>
                     <div class="info_management-input-group">
-                        <input type="email" id="info_management-email" class="info_management-input" value="nguyenvana@gmail.com" disabled>
+                        <input type="email" id="info_management-email" class="info_management-input"
+                            value="nguyenvana@gmail.com" disabled>
                         <div class="info_management-email-placeholder"></div> <!-- Placeholder để căn bằng -->
                     </div>
                 </div>
@@ -107,7 +115,8 @@
                 <div class="info_management-row">
                     <label class="info_management-label">Mật khẩu:</label>
                     <div class="info_management-input-group">
-                        <input type="password" id="info_management-password" class="info_management-input" value="passwordcc" disabled>
+                        <input type="password" id="info_management-password" class="info_management-input"
+                            value="passwordcc" disabled>
                         <div class="info_management-button-group">
                             <button id="info_management-change-password" class="info_management-button">🔑</button>
                         </div>
@@ -118,13 +127,13 @@
 
 
         </div>
-        
+
 
 
         <div id="staticManagement" class="static_management" style="display: none;">
             <h2>Thống kê dữ liệu</h2>
         </div>
-        
+
 
 
         <div id="postManagement" class="post_management" style="display: none;">
@@ -143,66 +152,21 @@
             <table>
                 <thead>
                     <tr>
-                        <th>STT</th>
-                        <th>Tên bài báo</th>
+                        <th>ID bài báo</th>
                         <th>Tác giả</th>
-                        <th>Xem chi tiết</th>
-                        <th>Danh mục chính</th>
-                        <th>Danh mục phụ</th>
+                        <th>Tên tiêu đề</th>
+                        <th>Tên danh mục</th>
+                        <th>Ảnh bìa</th>
                         <th>Nội dung bài báo</th>
-                        <th>Trạng thái</th>
+                        <th>Số lượt xem</th>
+                        <th>Số lượt thích</th>
+                        <th>Nổi bật</th>
+                        <th>Ngày đăng bài</th>
                         <th>Hành động</th>
+                        <th>Trạng thái</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Ngủ đủ giấc</td>
-                        <td>Quang Trung</td>
-                        <td>//////</td>
-                        <td>Sức khỏe</td>
-                        <td>Dinh dưỡng</td>
-                        <td>Tôi muốn khỏe mạnh</td>
-                        <td class="status">Đang chờ duyệt</td>
-                        <td class-="actions-button">
-                            <button class="Post-btn-edit"><i class="bi bi-pencil-square"></i> Chỉnh sửa</button>
-                            <button class="Post-btn-delete"><i class="bi bi-trash"></i> Xóa</button>
-                            <button class="Post-btn-approve"><i class="bi bi-check-circle" style="padding-top: 10px;"> </i>Duyệt bài</button> <!-- Chỉ hiển thị nếu bài đang chờ duyệt -->
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td>2</td>
-                        <td>CSGT đón lõng 'ma men'</td>
-                        <td>Quang Nam</td>
-                        <td>.....</td>
-                        <td>Xã hội</td>
-                        <td>Giao thông</td>
-                        <td>Đội CSGT số 6 nhận định,...</td>
-                        <td class="status">Đang chờ duyệt</td>
-                        <td class-="actions-button">
-                            <button class="Post-btn-edit"><i class="bi bi-pencil-square"></i> Chỉnh sửa</button>
-                            <button class="Post-btn-delete"><i class="bi bi-trash"></i> Xóa</button>
-                            <button class="Post-btn-approve"><i class="bi bi-check-circle"> </i>Duyệt bài</button> <!-- Chỉ hiển thị nếu bài đang chờ duyệt -->
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td>2</td>
-                        <td>CSGT đón lõng 'ma men'</td>
-                        <td>Quang Nam</td>
-                        <td>.....</td>
-                        <td>Xã hội</td>
-                        <td>Giao thông</td>
-                        <td>Đội CSGT số 6 nhận định,...</td>
-                        <td class="status">Đã duyệt</td>
-                        <td class-="actions-button">
-                            <button class="Post-btn-edit"><i class="bi bi-pencil-square"></i> Chỉnh sửa</button>
-                            <button class="Post-btn-delete"><i class="bi bi-trash"></i> Xóa</button>
-                            <button class="Post-btn-approve">Duyệt bài</button> <!-- Chỉ hiển thị nếu bài đang chờ duyệt -->
-                        </td>
-                    </tr>
-                </tbody>
+                <tbody id="tbodyArticle"></tbody>
             </table>
 
             <div id="addPostModal" class="action-modal-overlay">
@@ -211,22 +175,17 @@
                     <div class="action-modal-header">
                         <h2>Thêm bài báo</h2>
                     </div>
-                    
+
                     <div class="action-form-group">
                         <label>Tên Bài báo</label>
                         <input type="text" placeholder="Nhập tên bài báo">
                     </div>
-                    
+
                     <div class="action-form-group">
                         <label>Tác giả</label>
                         <input type="text" placeholder="Nhập tên tác giả">
                     </div>
-                    
-                    <div class="action-form-group">
-                        <label>Slug-Liên Kết</label>
-                        <input type="text" placeholder="Nhập link bài báo">
-                    </div>
-                    
+
                     <div class="action-form-group">
                         <label>Danh mục chính</label>
                         <select id="mainCategory">
@@ -239,19 +198,19 @@
                             <option value="education">Giáo dục</option>
                         </select>
                     </div>
-                    
+
                     <div class="action-form-group">
                         <label>Danh mục phụ</label>
                         <select id="subCategory">
                             <option value="" disabled selected>Chọn danh mục phụ</option>
                         </select>
                     </div>
-                    
+
                     <div class="action-form-group" style="grid-column: 1 / -1;">
                         <label>Nội dung bài báo</label>
                         <textarea placeholder="Nhập nội dung bài báo"></textarea>
                     </div>
-                    
+
                     <div class="action-modal-footer">
                         <button class="btn-add">Thêm bài báo</button>
                     </div>
@@ -274,22 +233,17 @@
                     <div class="action-modal-header">
                         <h2>Chỉnh sửa bài báo</h2>
                     </div>
-                    
+
                     <div class="action-form-group">
                         <label>Tên Bài báo</label>
                         <input type="text" id="editPostTitle" placeholder="Nhập tên bài báo">
                     </div>
-                    
+
                     <div class="action-form-group">
-                        <label>Tác giả</label>
-                        <input type="text" id="editPostAuthor" placeholder="Nhập tên tác giả">
+                        <label>ID nhà báo</label>
+                        <input type="text" id="editPostAuthorId" placeholder="Nhập ID nhà báo">
                     </div>
-                    
-                    <div class="action-form-group">
-                        <label>Slug-Liên Kết</label>
-                        <input type="text" id="editPostSlug" placeholder="Nhập link bài báo">
-                    </div>
-                    
+
                     <div class="action-form-group">
                         <label>Danh mục chính</label>
                         <select id="editMainCategory">
@@ -302,19 +256,27 @@
                             <option value="education">Giáo dục</option>
                         </select>
                     </div>
-                    
+
                     <div class="action-form-group">
                         <label>Danh mục phụ</label>
                         <select id="editSubCategory">
                             <option value="" disabled selected>Chọn danh mục phụ</option>
                         </select>
                     </div>
-                    
+
+                    <div class="action-form-group">
+                        <label>Nổi bật</label>
+                        <select id="editIsFeatured">
+                            <option value="false">Không</option>
+                            <option value="true">Có</option>
+                        </select>
+                    </div>
+
                     <div class="action-form-group" style="grid-column: 1 / -1;">
                         <label>Nội dung bài báo</label>
                         <textarea id="editPostContent" placeholder="Nhập nội dung bài báo"></textarea>
                     </div>
-                    
+
                     <div class="action-modal-footer">
                         <button id="btnUpdatePost" class="btn-edit">Cập nhật bài báo</button>
                     </div>
@@ -351,44 +313,13 @@
             <table>
                 <thead>
                     <tr>
-                        <th>STT</th>
+                        <th>ID danh mục</th>
                         <th>Tên danh mục</th>
-                        <th>Danh mục cha</th>
-                        <th>Số lượng bài báo</th>
+                        <th>Tên danh mục cha</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Xã hội</td>
-                        <td>Không</td>
-                        <td>?</td>
-                        <td class="actions-button">
-                            <button class="Category-btn-edit"><i class="bi bi-pencil-square"></i> Chỉnh sửa</button>
-                            <button class="Category-btn-delete"><i class="bi bi-trash"></i> Xóa</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Bóng đá</td>
-                        <td>Thể thao</td>
-                        <td>?</td>
-                        <td class="actions-button">
-                            <button class="Category-btn-edit"><i class="bi bi-pencil-square"></i> Chỉnh sửa</button>
-                            <button class="Category-btn-delete"><i class="bi bi-trash"></i> Xóa</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Dinh dưỡng</td>
-                        <td>Sức khỏe</td>
-                        <td>?</td>
-                        <td class="actions-button">
-                            <button class="Category-btn-edit"><i class="bi bi-pencil-square"></i> Chỉnh sửa</button>
-                            <button class="Category-btn-delete"><i class="bi bi-trash"></i> Xóa</button>
-                        </td>
-                    </tr>
+                <tbody id="tbodyCategories">
                 </tbody>
             </table>
 
@@ -398,12 +329,12 @@
                     <div class="action-modal-header">
                         <h2>Thêm danh mục</h2>
                     </div>
-                    
+
                     <div class="action-form-group">
                         <label>Tên danh mục</label>
                         <input type="text" placeholder="Nhập tên danh mục">
                     </div>
-                    
+
                     <div class="action-form-group">
                         <label>Danh mục cha</label>
                         <select id="mainCategory">
@@ -417,13 +348,7 @@
                             <option value="none">Không</option>
                         </select>
                     </div>
-                
-                    
-                    <div class="action-form-group" >
-                        <label>Số lượng bài báo</label>
-                        <input type="text" placeholder="Nhập số lượng bài báo">
-                    </div>
-                    
+
                     <div class="action-modal-footer">
                         <button class="btn-add">Thêm danh mục</button>
                     </div>
@@ -436,31 +361,23 @@
                     <div class="action-modal-header">
                         <h2>Chỉnh sửa danh mục</h2>
                     </div>
-                    
+
                     <div class="action-form-group">
                         <label>Tên Danh mục</label>
                         <input type="text" id="editCategoryName" placeholder="Nhập tên danh mục">
                     </div>
-                    
+
                     <div class="action-form-group">
                         <label>Danh mục cha</label>
                         <select id="editParentCategory">
                             <option value="" disabled selected>Chọn danh mục cha</option>
-                            <option value="society">Xã hội</option>
-                            <option value="science">Khoa học & Công nghệ</option>
-                            <option value="health">Sức khỏe</option>
-                            <option value="sports">Thể Thao</option>
-                            <option value="entertainment">Giải trí</option>
-                            <option value="education">Giáo dục</option>
-                            <option value="none">Không</option>
+                            <option value="DM_1">DM_1</option>
+                            <option value="DM_2">DM_2</option>
+                            <option value="DM_3">DM_3</option>
+                            <option value="Không">Không</option>
                         </select>
                     </div>
-                    
-                    <div class="action-form-group" style="grid-column: 1 / -1;">
-                        <label>Số lượng bài báo của danh mục</label>
-                        <input type="text" id="editNumberPost">
-                    </div>
-                    
+
                     <div class="action-modal-footer">
                         <button id="btnUpdateCategory" class="btn-edit">Cập nhật danh mục</button>
                     </div>
@@ -492,54 +409,21 @@
                         </div>
                     </div>
                     <button class="btn-primary btn-add-user">
-                         Thêm người dùng
+                        Thêm người dùng
                     </button>
                 </div>
                 <div class="table-responsive">
                     <table class="dashboard-table">
                         <thead>
                             <tr>
-                                <th>STT</th>
+                                <th>ID người dùng</th>
                                 <th>Họ và tên</th>
                                 <th>Email</th>
-                                <th>Tài khoản</th>
                                 <th>Mật khẩu</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Nguyễn Văn A</td>
-                                <td>nguyenvana@example.com</td>
-                                <td>nguyenvana</td>
-                                <td>********</td>
-                                <td>
-                                    <div class="user-actions">
-                                        <button class="User-btn-delete"><i class="bi bi-trash"></i> Xóa</button>
-                                        <div class="toggle-switch">
-                                            <input type="checkbox" id="userToggle1" class="toggle-input" checked>
-                                            <label for="userToggle1" class="toggle-label"></label>
-                                        </div> 
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Trần Thị B</td>
-                                <td>tranthib@example.com</td>
-                                <td>tranthib</td>
-                                <td>********</td>
-                                <td>
-                                    <div class="user-actions">
-                                        <button class="User-btn-delete"><i class="bi bi-trash"></i> Xóa</button>
-                                        <div class="toggle-switch">
-                                            <input type="checkbox" id="userToggle2" class="toggle-input" checked>
-                                            <label for="userToggle2" class="toggle-label"></label> 
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                        <tbody id="tbodyUser">
                         </tbody>
                     </table>
                 </div>
@@ -559,10 +443,7 @@
                                 <label>Email</label>
                                 <input type="email" name="email" required placeholder="Nhập email">
                             </div>
-                            <div>
-                                <label>Tài khoản</label>
-                                <input type="text" name="taiKhoan" required placeholder="Nhập tài khoản">
-                            </div>
+
                             <div>
                                 <label>Mật khẩu</label>
                                 <input type="password" name="matKhau" required placeholder="Nhập mật khẩu">
@@ -585,7 +466,7 @@
                 </div>
             </div>
         </div>
-        
+
 
         <div id="commentManagement" class="comment_management" style="display: none;">
             <div class="section-card">
@@ -594,22 +475,28 @@
                     <table class="dashboard-table">
                         <thead>
                             <tr>
-                                <th>STT</th>
-                                <th>Người bình luận</th>
-                                <th>Bài viết</th>
-                                <th>Nội dung bình luận</th>
+                                <th>ID Bình luận </th>
+                                <th>ID Người dùng </th>
+                                <th>ID Bài viết</th>
+                                <th>ID_parent</th>
                                 <th>Ngày bình luận</th>
-                                <!-- <th>Trạng thái</th> -->
+                                <th>Nội dung bình luận </th>
+                                <th>Trạng thái</th>
+                                <th>Số lượt thích</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td>Nguyễn Văn A</td>
-                                <td>Ngủ đủ giấc</td>
-                                <td>Bài viết rất hữu ích. Cảm ơn!</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>4</td>
                                 <td>12/03/2025</td>
+                                <td>ảo ma canada</td>
+                                <td>Đã duyệt</td>
+                                <td>12</td>
+
                                 <!-- <td>
                                     <span class="comment-status pending">Chưa duyệt</span>
                                 </td> -->
@@ -624,23 +511,26 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>1</td>
                                 <td>2</td>
-                                <td>Trần Thị B</td>
-                                <td>Dinh dưỡng hàng ngày</td>
-                                <td>Tôi đã áp dụng và thấy hiệu quả.</td>
-                                <td>14/03/2025</td>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>12/03/2025</td>
+                                <td>ảo ma canada</td>
+                                <td>Đã duyệt</td>
+                                <td>12</td>
                                 <!-- <td>
                                     <span class="comment-status pending">Chưa duyệt</span>
                                 </td> -->
                                 <td>
                                     <div class="action-group">
                                         <button class="Comment-btn-delete"><i class="bi bi-trash"></i> Xóa</button>
-                                        
+
                                         <!-- <button class="btn-action btn-approve">
                                             <i class="bi bi-check-circle"></i> Duyệt
                                         </button> -->
 
-                                        
+
                                     </div>
                                 </td>
                             </tr>
@@ -659,56 +549,97 @@
                 </div>
             </div>
         </div>
-       
+
 
 
 
 
     </div>
 
+    <script>
+        async function fetchArticles() {
+            const response = await fetch("http://localhost:3000/api/articles");
+            const articles = await response.json();
 
+            const tableBody = document.getElementById("tbodyArticle");
+            tableBody.innerHTML = ""; // Xóa dữ liệu cũ
 
+            articles.forEach(article => {
+                const row = `<tr>
+              <td>${article.id_article}</td>
+              <td>${article.username}</td>
+              <td>${article.heading}</td>
+              <td>${article.parent_category_name || "None"},${article.category_name}</td>
+              <td>${article.views}</td>
+              <td>${article.like_count}</td>
+              <td>${article.hero_image}</td>
+              <td>${article.content}</td>
+              <td>${article.is_featured ? "Yes" : "No"}</td>
+              <td>${new Date(article.day_created).toLocaleDateString()}</td>
+              <td class-="actions-button">
+                <button class="Post-btn-edit"><i class="bi bi-pencil-square"></i> Chỉnh sửa</button>
+                <button class="Post-btn-delete"><i class="bi bi-trash"></i> Xóa</button>
+              </td>
+              <td class-="actions-button">
+                <button class="Post-btn-approve"><i class="bi bi-check-circle" style="padding-top: 10px;"> </i>Duyệt
+                    bài</button> <!-- Chỉ hiển thị nếu bài đang chờ duyệt -->
+              </td>
+            </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+        async function fetchCategories() {
+            const response = await fetch("http://localhost:3000/api/categories");
+            const categories = await response.json();
 
+            const tableBody = document.getElementById("tbodyCategories");
+            tableBody.innerHTML = ""; // Xóa dữ liệu cũ
+
+            categories.forEach(category => {
+                const row = `<tr>
+              <td>${category.id_category}</td>
+              <td>${category.category_name}</td>
+              <td>${category.parent_category_name || ""}</td>
+              <td class-="actions-button">
+                <button class="Post-btn-edit"><i class="bi bi-pencil-square"></i> Chỉnh sửa</button>
+                <button class="Post-btn-delete"><i class="bi bi-trash"></i> Xóa</button>
+              </td>
+            </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+        async function fetchUser() {
+            const response = await fetch("http://localhost:3000/api/users");
+            const users = await response.json();
+
+            const tableBody = document.getElementById("tbodyUser");
+            tableBody.innerHTML = ""; // Xóa dữ liệu cũ
+
+            users.forEach(user => {
+                const row = `<tr>
+              <td>${user.id_user}</td>
+              <td>${user.username}</td>
+              <td>${user.email}</td>
+              <td>${user.password}</td>
+              <td>
+                <div class="user-actions">
+                    <button class="User-btn-delete"><i class="bi bi-trash"></i> Xóa</button>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="userToggle1" class="toggle-input" checked>
+                        <label for="userToggle1" class="toggle-label"></label>
+                    </div>
+                </div>
+             </td>
+            </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+        fetchUser();
+        fetchCategories();
+        fetchArticles();
+
+    </script>
     <script src="../js/admin.js"></script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

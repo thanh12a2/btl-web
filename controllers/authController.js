@@ -4,7 +4,23 @@ import WeatherService from '../controllers/weatherDayController.js';
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import axios from "axios";
+import nodemailer from "nodemailer";
+import otpGenerator from "otp-generator";
+import e from "express";
+
 dotenv.config();
+
+// Tạo transporter để gửi mail
+const transporter = nodemailer.createTransport({
+  service: "gmail", // hoặc mail server của bạn
+  auth: {
+    user: process.env.EMAIL_SENDER,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+});
+
+// Lưu OTP tạm thời vào biến (nên dùng Redis hoặc DB thực tế)
+const otpStore = new Map();
 
 function generateAccessToken(user) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '8h' });
@@ -186,6 +202,7 @@ export const authController = {
             res.locals.email = decoded.email;
             res.locals.role = decoded.role;
 
+            // console.log(res.locals.email)
             
             next();
 
@@ -204,5 +221,89 @@ export const authController = {
         res.locals.categoryTree = []; // Set mảng rỗng nếu có lỗi
         next();
     }
-},
-};
+  },
+
+  sendOTP: async (req, res) => {
+    const emailUser = res.locals.email;
+    const query = `SELECT * FROM [dbo].[User] WHERE email = @email`;
+    const values = [emailUser];
+    const paramNames = ["email"];
+    const isStoredProcedure = false;
+  
+    try {
+      const result = await executeQuery(query, values, paramNames, isStoredProcedure);
+  
+      if (!result.recordset || result.recordset.length === 0) {
+        return res.status(404).json({ success: false, message: "Email không tồn tại!" });
+      }
+  
+      const otp = otpGenerator.generate(6, { digits: true, upperCase: false, specialChars: false });
+      otpStore.set(emailUser, otp);
+  
+      await transporter.sendMail({
+        from: process.env.EMAIL_SENDER,
+        to: emailUser,
+        subject: "Mã OTP đặt lại mật khẩu",
+        text: `Mã OTP của bạn là: ${otp}. Có hiệu lực trong 5 phút.`,
+      });
+  
+      res.status(200).json({ success: true, message: "OTP đã được gửi về email!" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, message: "Lỗi gửi OTP!" });
+    }
+  },
+
+  resetPassword: async (req, res) => {
+    const emailUser = res.locals.email;
+    const { otp, newPassword } = req.body;
+  
+    const storedOtp = otpStore.get(emailUser);
+    if (!storedOtp || storedOtp !== otp) {
+      return res.status(400).json({ success: false, message: "OTP không hợp lệ hoặc đã hết hạn!" });
+    }
+  
+    const query = `UPDATE [dbo].[User] SET password = @password WHERE email = @email`;
+    const values = [newPassword, emailUser];
+    const paramNames = ["password", "email"];
+    const isStoredProcedure = false;
+  
+    try {
+      await executeQuery(query, values, paramNames, isStoredProcedure);
+      otpStore.delete(emailUser); // Xoá OTP sau khi sử dụng
+      res.status(200).json({ success: true, message: "Đặt lại mật khẩu thành công!" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, message: "Không thể đặt lại mật khẩu!" });
+    }
+  },
+
+  changeUsername: async (req, res) => {
+    const emailUser = res.locals.email;
+    const username = req.body.newUsername;
+    const query = `UPDATE [dbo].[User] SET username = @username WHERE email = @email`;
+    const values = [username, emailUser]
+    const paramNames = ['username', 'email']
+
+    try {
+      await executeQuery(query, values, paramNames, false)
+      res.json({ success: "Thay doi ten nguoi dung thanh cong !"})
+    } catch (error) {
+      res.json({ failed: "Thay doi ten nguoi dung khong thanh cong"})
+    }
+  },
+
+  changePwdQuanTri: async (req, res) => {
+    const emailUser = res.locals.email;
+    const newPwd = req.body.pwdInp;
+    const query = `UPDATE [dbo].[User] SET password = @password WHERE email = @email`
+    const values = [newPwd, emailUser]
+    const paramNames = ['password', 'email']
+    try {
+      await executeQuery(query, values, paramNames, false);
+      res.json({ success: "Thanh cong"})
+    } catch (error) {
+      res.json({ failed: "Thay doi mat khau ko thanh cong !"})
+    }
+  }
+}; 
