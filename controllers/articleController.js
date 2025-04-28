@@ -112,10 +112,10 @@ export const articleController = {
 
     try {
       const result = await executeQuery(query, values, paramNames, false);
-      // res.json({ success: true, data: result.recordset }); 
+      // res.json({ success: true, data: result.recordset });
       res.render("trangTimKiemBaiViet.ejs", {
-        data: result.recordset
-      })
+        data: result.recordset,
+      });
     } catch (error) {
       console.error(error);
       res.render("notFound404.ejs");
@@ -145,20 +145,29 @@ export const articleController = {
   },
 
   getArticlesOldest: async (req, res) => {
-    const subQuery = `SELECT Category.id_category FROM Category WHERE Category.alias_name = @id`
+    const subQuery = `SELECT Category.id_category FROM Category WHERE Category.alias_name = @id`;
     const subValues = [req.params.id];
-    const subParamName = ['id'];
+    const subParamName = ["id"];
 
     try {
-      const subResult = await executeQuery(subQuery, subValues, subParamName, false);
-      console.log(subResult.recordset)
+      const subResult = await executeQuery(
+        subQuery,
+        subValues,
+        subParamName,
+        false
+      );
+      console.log(subResult.recordset);
       const query = `SELECT *
                 FROM Article WHERE id_category = @id
-                ORDER BY day_created ASC;`
+                ORDER BY day_created ASC;`;
       const values = [subResult.recordset[0].id_category];
-      const paramNames = ['id'];
+      const paramNames = ["id"];
       const result = await executeQuery(query, values, paramNames, false);
-      res.json({ success: 'Thanh cong !', name: subResult.recordset, data: result.recordset })
+      res.json({
+        success: "Thanh cong !",
+        name: subResult.recordset,
+        data: result.recordset,
+      });
     } catch (error) {
       console.error(error);
       res
@@ -168,7 +177,6 @@ export const articleController = {
   },
 
   likeArticle: async (req, res) => {
-
     try {
       const query = `WITH UserCTE AS (
                         SELECT id_user
@@ -182,27 +190,27 @@ export const articleController = {
                     )
                     INSERT INTO [dbo].[LikeArticle]
                     SELECT u.id_user, a.id_article
-                    FROM UserCTE u, ArticleCTE a;`
+                    FROM UserCTE u, ArticleCTE a;`;
       const values = [res.locals.email, req.params.id];
-      const paramName = ['email', 'name_alias'];
+      const paramName = ["email", "name_alias"];
       const result = await executeQuery(query, values, paramName, false);
 
       try {
         const query = `UPDATE [dbo].[Article]
         SET like_count = like_count + 1
-        WHERE name_alias = @name_alias;`
-        const values = [req.params.id]
-        const paramName = ['name_alias']
+        WHERE name_alias = @name_alias;`;
+        const values = [req.params.id];
+        const paramName = ["name_alias"];
         try {
           const result = await executeQuery(query, values, paramName, false);
           // res.json({ success: "Thanh cong !"})
         } catch (error) {
-          res.json({ success: error })
+          res.json({ success: error });
         }
       } catch (error) {
-        res.json({ success: error })
+        res.json({ success: error });
       }
-      console.log(res.locals.email)
+      console.log(res.locals.email);
       // Gửi email trong phản hồi
       res.json({ success: "thanh cong", email: res.locals.email });
     } catch (error) {
@@ -219,15 +227,15 @@ export const articleController = {
                         FROM Category
                         WHERE alias_name = @id
                     )
-                    ORDER BY like_count DESC;`
-    const values = [req.params.id]
-    const paramName = ['id']
+                    ORDER BY like_count DESC;`;
+    const values = [req.params.id];
+    const paramName = ["id"];
 
     try {
-      const result = await executeQuery(query, values, paramName, false)
-      res.json({ success: "Thanh cong !", data: result.recordset })
+      const result = await executeQuery(query, values, paramName, false);
+      res.json({ success: "Thanh cong !", data: result.recordset });
     } catch (error) {
-      res.json({ success: error })
+      res.json({ success: error });
     }
   },
 
@@ -239,15 +247,15 @@ export const articleController = {
             FROM Category
             WHERE alias_name = @id
         )
-        ORDER BY views DESC;`
-    const values = [req.params.id]
-    const paramName = ['id']
+        ORDER BY views DESC;`;
+    const values = [req.params.id];
+    const paramName = ["id"];
 
     try {
-      const result = await executeQuery(query, values, paramName, false)
-      res.json({ success: "Thanh cong !", data: result.recordset })
+      const result = await executeQuery(query, values, paramName, false);
+      res.json({ success: "Thanh cong !", data: result.recordset });
     } catch (error) {
-      res.json({ success: error })
+      res.json({ success: error });
     }
   },
 
@@ -265,31 +273,29 @@ export const articleController = {
                     )
                     DELETE FROM [dbo].[LikeArticle]
                     WHERE id_user IN (SELECT id_user FROM UserCTE)
-                      AND id_article IN (SELECT id_article FROM ArticleCTE);`
+                      AND id_article IN (SELECT id_article FROM ArticleCTE);`;
       const values = [res.locals.email, req.params.id];
-      const paramName = ['email', 'name_alias'];
+      const paramName = ["email", "name_alias"];
       const result = await executeQuery(query, values, paramName, false);
 
       try {
         const query = `UPDATE [dbo].[Article]
         SET like_count = like_count - 1
-        WHERE name_alias = @name_alias;`
-        const values = [req.params.id]
-        const paramName = ['name_alias']
+        WHERE name_alias = @name_alias;`;
+        const values = [req.params.id];
+        const paramName = ["name_alias"];
         try {
           const result = await executeQuery(query, values, paramName, false);
-
         } catch (error) {
-          res.json({ success: error })
+          res.json({ success: error });
         }
       } catch (error) {
-        res.json({ success: error })
+        res.json({ success: error });
       }
-      console.log(res.locals.email)
+      console.log(res.locals.email);
 
       res.json({ success: "thanh cong", email: res.locals.email });
     } catch (error) {
-
       res.json({ success: false, message: "Có lỗi xảy ra!" });
     }
   },
@@ -304,9 +310,14 @@ export const articleController = {
     const values = [];
     const paramNames = [];
     const isStoredProcedure = false;
-  
+
     try {
-      const result = await executeQuery(query, values, paramNames, isStoredProcedure);
+      const result = await executeQuery(
+        query,
+        values,
+        paramNames,
+        isStoredProcedure
+      );
       res.json({ success: true, data: result.recordset });
     } catch (error) {
       console.error(error);
@@ -317,8 +328,65 @@ export const articleController = {
     }
   },
 
+  getTopArticles: async () => {
+    const query = `
+            WITH ArticleInteractions AS (
+          SELECT 
+              A.id_article,
+              A.heading,
+              A.hero_image,
+              A.content,
+              A.name_alias,
+              A.views,
+              A.like_count,
+              ISNULL(CChild.id_parent, CChild.id_category) AS parent_category_id, -- Sửa chỗ này
+              COUNT(C.id_comment) AS comment_count,
+              (A.views * 1 + COUNT(C.id_comment) * 2 + A.like_count * 2) AS interaction_score
+          FROM 
+              [dbo].[Article] A
+          LEFT JOIN 
+              [dbo].[Comment] C ON A.id_article = C.id_article
+          INNER JOIN 
+              [dbo].[Category] CChild ON A.id_category = CChild.id_category
+          WHERE 
+              A.day_created >= DATEADD(YEAR, -2, GETDATE())
+          GROUP BY 
+              A.id_article, A.heading, A.hero_image, A.content, A.name_alias, 
+              A.views, A.like_count, 
+              CChild.id_category, CChild.id_parent
+      ),
+      RankedArticles AS (
+          SELECT 
+              *,
+              ROW_NUMBER() OVER (PARTITION BY parent_category_id ORDER BY interaction_score DESC) AS rn
+          FROM 
+              ArticleInteractions
+      )
+      SELECT 
+          id_article,
+          heading,
+          hero_image,
+          content,
+          name_alias,
+          views,
+          like_count,
+          comment_count,
+          interaction_score,
+          parent_category_id
+      FROM 
+          RankedArticles
+      WHERE 
+          rn <= 9
+      ORDER BY 
+          parent_category_id, interaction_score DESC;
 
-  
+          `;
 
-
+    try {
+      const topArticles = await executeQuery(query, [], [], false);
+      return topArticles;
+    } catch (error) {
+      return res.json({failed: "Co loi"});
+    }
+  },
 };
