@@ -199,4 +199,38 @@ export const commentController = {
       res.status(500).json({ failed: "Lấy danh sách bình luận không thành công", error: error.message });
     }
   },
+
+  commentChild: async (req, res) => {
+    const query = ` WITH UserCTE AS (
+                        SELECT id_user
+                        FROM [dbo].[User]
+                        WHERE email = @email
+                    ),
+                    ArticleCTE AS (
+                        SELECT id_article
+                        FROM [dbo].[Article]
+                        WHERE name_alias = @name_alias
+                    )
+                    INSERT INTO [dbo].[Comment]
+                    SELECT
+                        @id_comment,
+                        u.id_user,
+                        a.id_article,
+                        @id_parent,
+                        SYSDATETIMEOFFSET(),
+                        @comment_content,
+                        0
+                    FROM UserCTE u
+                    CROSS JOIN ArticleCTE a; `;
+    console.log(req.body);
+    const newId = await getLastRecordId();
+    const values = [res.locals.email, req.params.id, newId, req.body.commentInp, req.body.parentCommentId];
+    const paramNames = ["email", "name_alias", "id_comment", "comment_content", "id_parent"];
+    try {
+      await executeQuery(query, values, paramNames, false);
+      res.redirect("back");
+    } catch (error) {
+      res.json({ status: "false" });
+    }
+  },
 };

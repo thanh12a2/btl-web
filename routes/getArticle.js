@@ -33,5 +33,7 @@ router.get("/getCommentByArticle/:id", authController.authenticateToken, comment
 
 router.get("/sortCommentLatest/:id", authController.authenticateToken, commentController.sortCommentLatest);
 
+router.post("/commentChild/:id", authController.authenticateToken, commentController.commentChild);
+
 
 export { router }

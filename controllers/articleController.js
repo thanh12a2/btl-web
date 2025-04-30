@@ -94,7 +94,7 @@ export const articleController = {
         // Định dạng ngày
         const formattedDate = dayjs(article.day_created).format("dddd, D/M/YYYY, HH:mm");
 
-        // console.log(res.locals.username);
+        console.log(commentsResult.recordset);
         // Render trang chi tiết bài viết
         res.render("chiTietBaiViet.ejs", {
             articleDetals: article,

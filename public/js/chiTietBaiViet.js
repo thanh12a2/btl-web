@@ -2,15 +2,6 @@
 
 // const bigCate = document.querySelectorAll(".sub-menu-big a li")
 
-// // Đối tượng lưu thông tin người dùng
-// const userId = {
-//     name: null,
-//     identity: null,
-//     image: null,
-//     message: null,
-//     date: null
-// };
-
 // Truy xuất các phần tử DOM
 const userComment = document.querySelector(".user-comment")
 const publishBtn = document.querySelector("#publish-button")
@@ -148,26 +139,26 @@ userComment.addEventListener("input", e => {
 //     });
 //     console.log("Tổng chiều cao:", totalHeight);
 
-//     // Gán sự kiện cho tất cả các nút "Trả lời" sau khi thêm comment
-//     document.querySelectorAll(".engagement-replies button").forEach(button => {
-//         button.addEventListener("click", (e) => {
-//             let replyBox = e.target.closest(".parents").querySelector(".reply-box");
-//             replyBox.classList.toggle("hidden");
-//          });
-//     });
+    // Gán sự kiện cho tất cả các nút "Trả lời" sau khi thêm comment
+    document.querySelectorAll(".engagement-replies button").forEach(button => {
+        button.addEventListener("click", (e) => {
+            let replyBox = e.target.closest(".parents").querySelector(".reply-box");
+            replyBox.classList.toggle("hidden");
+         });
+    });
 
-//     document.querySelectorAll(".reply-box .user-comment").forEach(input => {
-//         input.addEventListener("input", (e) => {
-//             let replyBtn = e.target.closest(".reply-box").querySelector(".publish-reply");
-//             if (e.target.value.trim()) {
-//                 replyBtn.removeAttribute("disabled");
-//                 replyBtn.classList.add("abled");
-//             } else {
-//                 replyBtn.setAttribute("disabled", "disabled");
-//                 replyBtn.classList.remove("abled");
-//             }
-//         });
-//     });
+    document.querySelectorAll(".reply-box .user-comment").forEach(input => {
+        input.addEventListener("input", (e) => {
+            let replyBtn = e.target.closest(".reply-box").querySelector(".publish-reply");
+            if (e.target.value.trim()) {
+                replyBtn.removeAttribute("disabled");
+                replyBtn.classList.add("abled");
+            } else {
+                replyBtn.setAttribute("disabled", "disabled");
+                replyBtn.classList.remove("abled");
+            }
+        });
+    });
 
 //     document.querySelectorAll(".publish-reply").forEach(button => {
 //         button.addEventListener("click", (e) => {
@@ -179,18 +170,18 @@ userComment.addEventListener("input", e => {
     
 //             let parentComment = e.target.closest(".parents");
 //             let replyHTML = `
-//                 <div class="reply">
-//                     <div class="info-commented-container">
-//                         <img src="../assets/vectors/avatarComment.png">
-//                         <div class="user-commented">
-//                             <div class="user-commented-info">
-//                                 <h3>Nguyễn Quang Trung</h3>
-//                                 <span class="date">${new Date().toLocaleString()}</span>
-//                             </div>
-//                             <p>${replyMessage}</p>
-//                         </div>
-//                     </div>
-//                 </div>
+                // <div class="reply">
+                //     <div class="info-commented-container">
+                //         <img src="../assets/vectors/avatarComment.png">
+                //         <div class="user-commented">
+                //             <div class="user-commented-info">
+                //                 <h3>Nguyễn Quang Trung</h3>
+                //                 <span class="date">${new Date().toLocaleString()}</span>
+                //             </div>
+                //             <p>${replyMessage}</p>
+                //         </div>
+                //     </div>
+                // </div>
 //             `;
     
 //             // Thêm reply vào dưới comment cha

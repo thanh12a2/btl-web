@@ -201,10 +201,10 @@ span {
 }
 
 .comment-section {
-    height: auto;
+    height: fit-content;
     position: relative;
     background-color: #F1F1F1;
-    min-height: 1000px;
+    min-height: 2000px;
     margin-top: 200px;
 }
 
@@ -318,6 +318,7 @@ span {
     border-left: 2px solid lightblue;
     height: auto;
     margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .parents:last-of-type {

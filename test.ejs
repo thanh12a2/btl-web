@@ -1,0 +1,66 @@
+<div class="comments con1140">
+    <% for (let i = 0; i < comments.length; i++ ) { %>
+       <% if (comments[i].id_parent == null) { %> 
+            <div class="parents">
+                <div class="info-commented-container">
+                    <img src="">
+                    <div class="user-commented">
+                        <div class="user-commented-info">
+                            <h3><%= comments[i].username %><h3>
+                            <span class="date"><%= comments[i].day_created %></span>
+                        </div>
+                        <p> <%= comments[i].comment_content %> </p>
+                    </div>
+                </div> 
+    
+                <div class="engagements">
+                    <div class="engagement-likes">
+                        <span class="likes-numbers">0</span>
+                        <i class="bi bi-hand-thumbs-up"></i>
+                    </div>
+                    <div class="engagement-replies">
+                        <button id="btnReply" type="button" class="btn btn-link">Trả lời</button>
+                    </div>
+                </div>
+    
+                <div class="reply-box hidden">
+                    <div class="comment-section-user comment-reply">
+                        <div class="user-info">
+                            <img src="../assets/vectors/avatarComment.png" alt="" class="user-avatar">
+                            <h3 class="user-name"><%= user %></h3>
+                        </div>
+    
+                        <div class="comment-input">
+                            <form id="comment-form" action="/article/commentChild/<%= articleDetals.name_alias %>" method="POST">
+                                <input type="text" placeholder="Hãy để lại bình luận của bạn." class="user-comment" name="commentInp" data-id="<%= comments[i].id_comment %>">
+                                <!-- Input ẩn để gửi data-id -->
+                                <input type="hidden" name="parentCommentId" value="<%= comments[i].id_comment %>">
+                                <div class="comment-input-button">
+                                    <button type="submit" disabled id="publish-button" class="btn btn-outline-primary publish-reply">Đăng tải</button>
+                                </div>
+                            </form>
+                        </div>  
+                    </div>
+                </div>
+            <% } %>
+
+            <% for (let j = 0; j < comments.length; j++ ) { %>
+                <% if (comments[j].id_parent == comments[i].id_comment) {%>
+                    <div class="reply">
+                        <div class="info-commented-container">
+                            <img src="../assets/vectors/avatarComment.png">
+                            <div class="user-commented">
+                                <div class="user-commented-info">
+                                    <h3><%= comments[j].username %></h3>
+                                    <span class="date"><%= comments[j].day_created %></span>
+                                </div>
+                                <p><%= comments[j].comment_content %></p>
+                            </div>
+                        </div>
+                    </div>
+                <% } %> 
+            <% } %>
+
+        </div>
+    <% } %>
+</div>
