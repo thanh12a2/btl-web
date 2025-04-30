@@ -61,6 +61,7 @@ export const commentController = {
   },
 
   likeComment: async (req, res) => {
+    
     const query = `WITH UserCTE AS (
                         SELECT id_user
                         FROM [dbo].[User]
@@ -80,10 +81,11 @@ export const commentController = {
     try {
       await executeQuery(query, values, paramNames, false);
       await executeQuery(query1, values1, paramNames1, false);
-      res.json({
-        success: "Like comment Thanh cong !",
-        email: res.locals.email,
-      });
+      // res.json({
+      //   success: "Like comment Thanh cong !",
+      //   email: res.locals.email,
+      // });
+      res.redirect("back");
     } catch (error) {
       res.json({ false: "Khong thanh cong" });
     }

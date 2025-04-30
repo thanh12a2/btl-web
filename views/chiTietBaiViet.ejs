@@ -90,8 +90,14 @@
                         
                                     <div class="engagements">
                                         <div class="engagement-likes">
-                                            <span class="likes-numbers">0</span>
-                                            <i class="bi bi-hand-thumbs-up"></i>
+                                            <span class="likes-numbers"><%= comments[i].like_count %></span>
+                                            <form action="/article/likeComment" method="POST" style="display: inline;">
+                                                <!-- Input ẩn để gửi data-id -->
+                                                <input type="hidden" name="data-id" value="<%= comments[i].id_comment %>">
+                                                <button type="submit" class="btn btn-link p-0">
+                                                    <i class="bi bi-hand-thumbs-up"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                         <div class="engagement-replies">
                                             <button id="btnReply" type="button" class="btn btn-link">Trả lời</button>
