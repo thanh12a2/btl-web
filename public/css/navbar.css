@@ -551,7 +551,7 @@ a {
 }
 
 .weather-stats p:not(:first-of-type) {
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
 .weather-stats-temp,
