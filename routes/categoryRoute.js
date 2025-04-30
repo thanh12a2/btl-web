@@ -29,7 +29,7 @@ router.get('/firstcategory/:id', async (req, res) => {
         const query2 = `SELECT a.*, c.alias_name, c.category_name, c.id_parent
                         FROM Article a
                         JOIN Category c ON a.id_category = c.id_category
-                        WHERE c.id_parent = @id;`;
+                        WHERE c.id_parent = @id AND a.status = N'Đã duyệt';`;
         const values2 = [result.recordset[0].id_category];    
         const paramNames2 = ["id"];
 
@@ -106,7 +106,7 @@ router.get('/secondcategory/:id', async (req, res) => {
     const isStoredProcedure = false;
     try {
         const result = await executeQuery(query, values, paramNames, isStoredProcedure);
-        const query1 = `SELECT * FROM [dbo].[Article] WHERE id_category = @id`;
+        const query1 = `SELECT * FROM [dbo].[Article] WHERE id_category = @id AND status = N'Đã duyệt'`;
         const values1 = [result.recordset[0].id_category];    
         const paramNames1 = ["id"];
 

@@ -36,77 +36,83 @@ export const articleController = {
 
   transportArticle: async (req, res) => {
     const articleId = req.params.id;
-    const query = `SELECT * FROM [dbo].[Article] WHERE name_alias = @id`;
-    const values = [articleId];
-    const paramNames = ["id"];
-    const isStoredProcedure = false;
-    let result;
-    try {
-      result = await executeQuery(query, values, paramNames, isStoredProcedure);
-    } catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .json({ success: false, message: "Có lỗi xảy ra, vui lòng thử lại!" });
-    }
 
-    const query2 = `SELECT 
-                            pr.category_name AS parent_category, 
-                            ch.category_name AS child_category
-                        FROM 
-                            [dbo].[Category] ch
-                        LEFT JOIN 
-                            [dbo].[Category] pr ON ch.id_parent = pr.id_category
-                        WHERE 
-                            ch.id_category = @id_category;`;
-    const values2 = [result.recordset[0].id_category];
-    const paramNames2 = ["id_category"];
-    const isStoredProcedure2 = false;
-    let result2;
-    try {
-      result2 = await executeQuery(
-        query2,
-        values2,
-        paramNames2,
-        isStoredProcedure2
-      );
-    } catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .json({ success: false, message: "Có lỗi xảy ra, vui lòng thử lại!" });
-    }
+    // Truy vấn bài viết
+    const articleQuery = `SELECT * FROM [dbo].[Article] WHERE name_alias = @id AND status = N'Đã duyệt'`;
+    const articleValues = [articleId];
+    const articleParams = ["id"];
 
-    const query1 = `SELECT username FROM [dbo].[User] WHERE id_user = @id_user`;
-    const values1 = [result.recordset[0].id_user];
-    const paramNames1 = ["id_user"];
-    const isStoredProcedure1 = false;
+    // Truy vấn bình luận
+    const commentQuery = `
+        SELECT C.*, U.username
+        FROM [dbo].[Comment] C
+        JOIN [dbo].[User] U ON C.id_user = U.id_user
+        WHERE C.id_article = (
+            SELECT id_article 
+            FROM [dbo].[Article] 
+            WHERE name_alias = @name_alias
+        )
+        ORDER BY C.day_created ASC;
+    `;
+    const commentValues = [articleId];
+    const commentParams = ["name_alias"];
+
+    // Truy vấn danh mục
+    const categoryQuery = `
+        SELECT 
+            pr.category_name AS parent_category, 
+            ch.category_name AS child_category
+        FROM 
+            [dbo].[Category] ch
+        LEFT JOIN 
+            [dbo].[Category] pr ON ch.id_parent = pr.id_category
+        WHERE 
+            ch.id_category = @id_category;
+    `;
+
+    // Truy vấn người dùng
+    const userQuery = `SELECT username FROM [dbo].[User] WHERE id_user = @id_user`;
+
     try {
-      const result1 = await executeQuery(
-        query1,
-        values1,
-        paramNames1,
-        isStoredProcedure1
-      );
-      const rawDate = result.recordset[0].day_created;
-      const formatted = dayjs(rawDate).format("dddd, D/M/YYYY, HH:mm");
-      res.render("chiTietBaiViet.ejs", {
-        articleDetals: result.recordset[0],
-        userDetals: result1.recordset[0],
-        categoryDetals: result2.recordset[0],
-        formattedDate: formatted,
-      });
+        // Lấy danh sách bình luận
+        const commentsResult = await executeQuery(commentQuery, commentValues, commentParams, false);
+
+        // Lấy thông tin bài viết
+        const articleResult = await executeQuery(articleQuery, articleValues, articleParams, false);
+        const article = articleResult.recordset[0];
+
+        // Lấy thông tin danh mục
+        const categoryValues = [article.id_category];
+        const categoryParams = ["id_category"];
+        const categoryResult = await executeQuery(categoryQuery, categoryValues, categoryParams, false);
+
+        // Lấy thông tin người dùng
+        const userValues = [article.id_user];
+        const userParams = ["id_user"];
+        const userResult = await executeQuery(userQuery, userValues, userParams, false);
+
+        // Định dạng ngày
+        const formattedDate = dayjs(article.day_created).format("dddd, D/M/YYYY, HH:mm");
+
+        // console.log(res.locals.username);
+        // Render trang chi tiết bài viết
+        res.render("chiTietBaiViet.ejs", {
+            articleDetals: article,
+            userDetals: userResult.recordset[0],
+            categoryDetals: categoryResult.recordset[0],
+            formattedDate,
+            comments: commentsResult.recordset,
+            user: res.locals.username
+        });
     } catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .json({ success: false, message: "Có lỗi xảy ra, vui lòng thử lại!" });
+        console.error(error);
+        res.status(500).json({ success: false, message: "Có lỗi xảy ra, vui lòng thử lại!" });
     }
-  },
+},
 
   searchArticles: async (req, res) => {
     const query = `SELECT * FROM [dbo].[Article]
-                    WHERE heading COLLATE Latin1_General_CI_AI LIKE '%' + @id + '%';`;
+                    WHERE heading COLLATE Latin1_General_CI_AI LIKE '%' + @id + '%' AND status = N'Đã duyệt';`;
     const values = [`%${req.body.navbarTrenSb}%`]; // Đưa dấu % vào giá trị
     const paramNames = ["id"];
 
@@ -158,7 +164,7 @@ export const articleController = {
       );
       console.log(subResult.recordset);
       const query = `SELECT *
-                FROM Article WHERE id_category = @id
+                FROM Article WHERE id_category = @id AND status = N'Đã duyệt'
                 ORDER BY day_created ASC;`;
       const values = [subResult.recordset[0].id_category];
       const paramNames = ["id"];
@@ -226,7 +232,7 @@ export const articleController = {
                         SELECT id_category
                         FROM Category
                         WHERE alias_name = @id
-                    )
+                    ) AND status = N'Đã duyệt'
                     ORDER BY like_count DESC;`;
     const values = [req.params.id];
     const paramName = ["id"];
@@ -246,7 +252,7 @@ export const articleController = {
             SELECT id_category
             FROM Category
             WHERE alias_name = @id
-        )
+        ) AND status = N'Đã duyệt'
         ORDER BY views DESC;`;
     const values = [req.params.id];
     const paramName = ["id"];
@@ -304,7 +310,7 @@ export const articleController = {
     const query = `
       SELECT TOP 9 * 
       FROM [dbo].[Article]
-      WHERE is_featured = 1
+      WHERE is_featured = 1 AND status = N'Đã duyệt'
       ORDER BY day_created DESC
     `;
     const values = [];

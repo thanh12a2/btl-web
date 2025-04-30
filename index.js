@@ -26,6 +26,7 @@ import { router as userRoutes } from "./routes/userRoute.js"; // Route cho user
 const app = express();
 const port = 3000;
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(authController.authenticateToken);
@@ -33,6 +34,8 @@ app.use(cors());
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(express.static('public')); 
+
+
 
 app.use("", mainRoutes); 
 app.use("/auth", authRoutes);

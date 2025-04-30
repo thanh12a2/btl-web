@@ -2,6 +2,7 @@ import { v2 as cloudinary } from "cloudinary";
 import { executeQuery } from "../config/db.js";
 import bodyParser from "body-parser";
 
+
 async function getLastRecordId() {
   const query = `SELECT TOP 1 id_comment
                    FROM [dbo].[Comment] 
@@ -46,13 +47,14 @@ export const commentController = {
                         0
                     FROM UserCTE u
                     CROSS JOIN ArticleCTE a; `;
+    console.log(req.body);
     const newId = await getLastRecordId();
-    const values = [res.locals.email, req.params.id, newId, req.body.comment];
+    const values = [res.locals.email, req.params.id, newId, req.body.commentInp];
     const paramNames = ["email", "name_alias", "id_comment", "comment_content"];
     // console.log(res.locals.email)
     try {
       await executeQuery(query, values, paramNames, false);
-      res.json({ status: "success" });
+      res.redirect("back");
     } catch (error) {
       res.json({ status: "false" });
     }

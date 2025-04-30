@@ -61,21 +61,63 @@
 
                         <div class="user-info">
                             <img src="../assets/vectors/avatarComment.png" alt="" class="user-avatar">
-                            <h3 class="user-name">Nguyễn Quang Trung</h3>
+                            <h3 class="user-name"><%= user %></h3>
                         </div>
 
                         <div class="comment-input">
-                            <form action="/article/comment/<%= articleDetals.name_alias%>" method="POST">
-                                <input type="text" placeholder="Hãy để lại bình luận của bạn." class="user-comment" name="comment">
+                            <form id="comment-form" action="/article/comment/<%= articleDetals.name_alias%>" method="POST">
+                                <input type="text" placeholder="Hãy để lại bình luận của bạn." class="user-comment" name="commentInp">
                                 <div class="comment-input-button">
                                     <button type="submit" disabled id="publish-button" class="btn btn-outline-primary">Đăng tải</button>
                                 </div>
-                        </form>
+                            </form>
                         </div>
                         
                     </div>
 
-                    <div class="comments con1140"></div>
+                    <div class="comments con1140">
+                        <% for (let i = 0; i < comments.length; i++ ) { %>
+                            <div class="parents">
+                                <div class="info-commented-container">
+                                    <img src="">
+                                    <div class="user-commented">
+                                        <div class="user-commented-info">
+                                            <h3><%= comments[i].username %><h3>
+                                            <span class="date"><%= comments[i].day_created %></span>
+                                        </div>
+                                        <p> <%= comments[i].comment_content %> </p>
+                                    </div>
+                                </div> 
+                    
+                                <div class="engagements">
+                                    <div class="engagement-likes">
+                                        <span class="likes-numbers">0</span>
+                                        <i class="bi bi-hand-thumbs-up"></i>
+                                    </div>
+                                    <div class="engagement-replies">
+                                        <button id="btnReply" type="button" class="btn btn-link">Trả lời</button>
+                                    </div>
+                                </div>
+                    
+                                <div class="reply-box hidden">
+                                    <div class="comment-section-user comment-reply">
+                                        <div class="user-info">
+                                            <img src="../assets/vectors/avatarComment.png" alt="" class="user-avatar">
+                                            <h3 class="user-name">Nguyễn Quang Trung</h3>
+                                        </div>
+                    
+                                        <div class="comment-input">
+                                            <input type="text" placeholder="Hãy để lại bình luận của bạn." class="user-comment">
+                                            <div class="comment-input-button">
+                                                <button type="submit" disabled class="btn btn-outline-primary publish-reply">Đăng tải</button>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                </div>
+                    
+                            </div>
+                        <% } %>
+                    </div>
 
                 </div>
 
