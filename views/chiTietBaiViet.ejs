@@ -49,9 +49,15 @@
 
                 <img src="/../assets/vectors/goBackBtn.png" alt="" class="go-back-button">
 
-                <form action="/article/likeArticle/<%= articleDetals.name_alias%>">
-                    <button id="like-btn"><i class="bi bi-heart like-article fs-1"></i></button>
-                </form>
+                <% if (isLoggedIn) { %>
+                    <form action="/article/likeArticle/<%= articleDetals.name_alias%>">
+                        <button id="like-btn"><i class="bi bi-heart like-article fs-1"></i></button>
+                    </form>
+                <% } else { %>  
+                    <div>
+                        <button onClick="CongDangnhap()" id=""><i class="bi bi-heart like-article fs-1"></i></button>
+                    </div>
+                <% } %>
 
                 <div class="comment-section-container container">
 
@@ -67,12 +73,22 @@
                         </div>
 
                         <div class="comment-input">
-                            <form id="comment-form" action="/article/comment/<%= articleDetals.name_alias%>" method="POST">
-                                <input type="text" placeholder="Hãy để lại bình luận của bạn." class="user-comment" name="commentInp">
-                                <div class="comment-input-button">
-                                    <button type="submit" disabled id="publish-button" class="btn btn-outline-primary">Đăng tải</button>
-                                </div>
-                            </form>
+                            <% if (isLoggedIn) { %>
+                                <form id="comment-form" action="/article/comment/<%= articleDetals.name_alias%>" method="POST">
+                                    <input type="text" placeholder="Hãy để lại bình luận của bạn." class="user-comment" name="commentInp">
+                                    <div class="comment-input-button">
+                                        <button type="submit" disabled id="publish-button" class="btn btn-outline-primary">Đăng tải</button>
+                                    </div>
+                                </form>
+                            <% } else { %>  
+                                <div id="comment-form">
+                                    <input type="text" placeholder="Hãy để lại bình luận của bạn." class="user-comment" name="commentInp">
+                                    <div class="comment-input-button">
+                                        <button onClick="CongDangnhap()" disabled id="publish-button" class="btn btn-outline-primary">Đăng tải</button>
+                                    </div>
+                                </div>  
+                            <% } %>
+                            
                         </div>
                         
                     </div>
@@ -95,16 +111,29 @@
                                     <div class="engagements">
                                         <div class="engagement-likes">
                                             <span class="likes-numbers"><%= comments[i].like_count %></span>
-                                            <form action="/article/likeComment" method="POST" style="display: inline;">
-                                                <!-- Input ẩn để gửi data-id -->
-                                                <input type="hidden" name="data-id" value="<%= comments[i].id_comment %>">
-                                                <button type="submit" class="btn btn-link p-0">
-                                                    <i class="bi bi-hand-thumbs-up"></i>
-                                                </button>
-                                            </form>
+                                            <% if (isLoggedIn) { %>
+                                                <form action="/article/likeComment" method="POST" style="display: inline;">
+                                                    <!-- Input ẩn để gửi data-id -->
+                                                    <input type="hidden" name="data-id" value="<%= comments[i].id_comment %>">
+                                                    <button type="submit" class="btn btn-link p-0">
+                                                        <i class="bi bi-hand-thumbs-up"></i>
+                                                    </button>
+                                                </form>
+                                            <% } else { %>
+                                                <div style="display: inline;">
+                                                    <button onClick="CongDangnhap()" class="btn btn-link p-0">
+                                                        <i class="bi bi-hand-thumbs-up"></i>
+                                                    </button>
+                                                </div>
+                                            <% } %>
+                                            
                                         </div>
                                         <div class="engagement-replies">
-                                            <button id="btnReply" type="button" class="btn btn-link">Trả lời</button>
+                                            <% if (isLoggedIn) { %>
+                                                <button id="btnReply" type="button" class="btn btn-link">Trả lời</button>
+                                            <% } else { %>
+                                                <button onClick="CongDangnhap()" class="btn btn-link">Trả lời</button>
+                                            <% } %>
                                         </div>
                                     </div>
                         
@@ -145,13 +174,21 @@
                                                 <div class="engagements">
                                                     <div class="engagement-likes">
                                                         <span class="likes-numbers"><%= comments[j].like_count %></span>
-                                                        <form action="/article/likeComment" method="POST" style="display: inline;">
-                                                            <!-- Input ẩn để gửi data-id -->
-                                                            <input type="hidden" name="data-id" value="<%= comments[j].id_comment %>">
-                                                            <button type="submit" class="btn btn-link p-0">
-                                                                <i class="bi bi-hand-thumbs-up"></i>
-                                                            </button>
-                                                        </form>
+                                                        <% if (isLoggedIn) { %>
+                                                            <form action="/article/likeComment" method="POST" style="display: inline;">
+                                                                <!-- Input ẩn để gửi data-id -->
+                                                                <input type="hidden" name="data-id" value="<%= comments[j].id_comment %>">
+                                                                <button type="submit" class="btn btn-link p-0">
+                                                                    <i class="bi bi-hand-thumbs-up"></i>
+                                                                </button>
+                                                            </form>
+                                                        <% } else { %>
+                                                            <div style="display: inline;">
+                                                                <button onClick="CongDangnhap()" class="btn btn-link p-0">
+                                                                    <i class="bi bi-hand-thumbs-up"></i>
+                                                                </button>
+                                                            </div>
+                                                        <% } %>
                                                     </div>
                                                     <!-- <div class="engagement-replies">
                                                         <button id="btnReply" type="button" class="btn btn-link">Trả lời</button>

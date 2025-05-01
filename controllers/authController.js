@@ -144,30 +144,32 @@ export const authController = {
     res.status(200).json({ success: true, message: "Đăng xuất thành công!" });
   },
 
-  authenticateToken: async (req, res, next) => {  
+  authenticateToken: async (req, res, next) => {
     try {
+        // Lấy danh mục và dữ liệu thời tiết
         const categories = await categoryController.getCategoriesTitle();
         const weatherData = await WeatherService.getWeatherData();
-        
-        // Tạo đối tượng Date và format theo tiếng Việt
+
+        // Format ngày tháng theo tiếng Việt
         const currentDate = new Date();
         const days = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
         const formattedDate = `${days[currentDate.getDay()]} - ${currentDate.getDate()}/${currentDate.getMonth() + 1}`;
-        
-        // Set tất cả vào res.locals
+
+        // Gán dữ liệu vào `res.locals` để sử dụng trong EJS
         res.locals = {
             ...res.locals,
             categoryTree: categories,
             weather: weatherData.temp,
             iconUrl: weatherData.iconUrl,
             cityName: weatherData.cityName,
-            currentDate: formattedDate  // Thêm ngày tháng đã format
+            currentDate: formattedDate,
         };
 
+        // Lấy token từ cookie
         const token = req.cookies.user;
 
         if (!token) {
-            // Set giá trị mặc định vào cả req và res.locals
+            // Nếu không có token, gán giá trị mặc định
             req.isLoggedIn = false;
             req.user = null;
             res.locals.isLoggedIn = false;
@@ -176,49 +178,47 @@ export const authController = {
             return next();
         }
 
-        try {
-            if (!process.env.ACCESS_TOKEN_SECRET) {
-                console.error("ACCESS_TOKEN_SECRET is not defined");
-                throw new Error("ACCESS_TOKEN_SECRET is missing");
-            }
+        // Kiểm tra token
+        if (!process.env.ACCESS_TOKEN_SECRET) {
+            console.error("ACCESS_TOKEN_SECRET is not defined");
+            throw new Error("ACCESS_TOKEN_SECRET is missing");
+        }
 
+        try {
             const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
+            // Kiểm tra payload của token
             if (!decoded.username || !decoded.email || !decoded.role) {
                 console.error("Missing required fields in token payload");
                 throw new Error("Invalid token payload");
             }
 
-            // Set vào cả req và res.locals
+            // Gán thông tin người dùng vào `req` và `res.locals`
             req.user = decoded;
-            req.username = decoded.username;
-            req.email = decoded.email;
-            req.role = decoded.role;
             req.isLoggedIn = true;
-
-            // Thêm vào res.locals để EJS có thể truy cập
             res.locals.isLoggedIn = true;
             res.locals.username = decoded.username;
             res.locals.email = decoded.email;
             res.locals.role = decoded.role;
 
-            // console.log(res.locals.email)
-            
             next();
-
         } catch (error) {
-            // Set giá trị mặc định khi có lỗi
+            console.error("Token verification failed:", error.message);
+
+            // Xử lý khi token không hợp lệ
             req.isLoggedIn = false;
             req.user = null;
             res.locals.isLoggedIn = false;
             res.locals.username = '';
             res.locals.role = '';
-            res.clearCookie("userToken");
+            res.clearCookie("user"); // Xóa cookie nếu token không hợp lệ
             next();
         }
     } catch (error) {
-        console.error("Error loading categories:", error);
-        res.locals.categoryTree = []; // Set mảng rỗng nếu có lỗi
+        console.error("Error in authenticateToken:", error.message);
+
+        // Xử lý lỗi khi lấy danh mục hoặc thời tiết
+        res.locals.categoryTree = [];
         next();
     }
   },
@@ -306,4 +306,4 @@ export const authController = {
       res.json({ failed: "Thay doi mat khau ko thanh cong !"})
     }
   }
-}; 
+};

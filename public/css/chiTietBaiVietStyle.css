@@ -207,6 +207,7 @@ span {
     min-height: 500px;
     margin-top: 200px;
     border-top: 10px solid black;
+    padding-bottom: 50px;
 }
 
 .comment-section-container > h3 {
@@ -579,7 +580,7 @@ span {
     box-shadow: black;
     box-shadow: gray;
     box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.041);
-    width: 80%;
+    width: 90% !important;
 }
 
 .like-article {

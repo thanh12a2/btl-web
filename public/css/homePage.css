@@ -1037,6 +1037,7 @@ a {
 
 .carousel-item-2 {
     display: flex !important;
+    height: 100% !important;
 }
 
 .carousel-control-next-icon,
@@ -1073,7 +1074,11 @@ a {
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease-out, visibility 0s ease-out;
+    max-height: 100% !important;
+    overflow: hidden;
 }
 
-
+.carousel-inner {
+    height: 100%;
+}
 

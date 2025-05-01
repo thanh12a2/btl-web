@@ -140,7 +140,7 @@ userComment.addEventListener("input", e => {
 //     console.log("Tổng chiều cao:", totalHeight);
 
     // Gán sự kiện cho tất cả các nút "Trả lời" sau khi thêm comment
-    document.querySelectorAll(".engagement-replies button").forEach(button => {
+    document.querySelectorAll(".engagement-replies #btnReply").forEach(button => {
         button.addEventListener("click", (e) => {
             let replyBox = e.target.closest(".parents").querySelector(".reply-box");
             replyBox.classList.toggle("hidden");

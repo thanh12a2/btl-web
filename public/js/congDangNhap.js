@@ -222,7 +222,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         console.log('Response:', data); // Log để debug
 
         if (data.success) {
-            window.location.href = '/';
+            window.location.href = window.location.href;
         } else {
             Swal.fire({
                 title: 'Có lỗi xảy ra!',
@@ -283,7 +283,7 @@ document.getElementById('logoutBtn').addEventListener('click', async function(e)
                 }
             });
             setTimeout(() => {
-                window.location.href = '/';
+                window.location.href = window.location.href;
             }, 500); // 500 milliseconds = 0.5 seconds
         } else {
             Swal.fire({

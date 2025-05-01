@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get("/getarticle", articleController.getArticles);
 
-router.get("/transportArticle/:id", articleController.transportArticle);
+router.get("/transportArticle/:id", authController.authenticateToken, articleController.transportArticle);
 
 router.post("/searchArticle", articleController.searchArticles);
 

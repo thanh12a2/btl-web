@@ -42,6 +42,11 @@ export const articleController = {
     const articleValues = [articleId];
     const articleParams = ["id"];
 
+    // Truy vấn tăng lượt xem bài viết
+    const updateViewsQuery = `UPDATE [dbo].[Article] SET views = views + 1 WHERE name_alias = @name_alias AND status = N'Đã duyệt'`;
+    const updateViewsValues = [articleId];
+    const updateViewsParams = ["name_alias"];
+
     // Truy vấn bình luận
     const commentQuery = `
         SELECT C.*, U.username
@@ -93,6 +98,9 @@ export const articleController = {
 
         // Định dạng ngày
         const formattedDate = dayjs(article.day_created).format("dddd, D/M/YYYY, HH:mm");
+
+        // Tăng lượt xem bài viết
+        await executeQuery(updateViewsQuery, updateViewsValues, updateViewsParams, false);
 
         console.log(commentsResult.recordset);
         // Render trang chi tiết bài viết
