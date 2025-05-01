@@ -82,6 +82,11 @@ export const articleController = {
         // Lấy danh sách bình luận
         const commentsResult = await executeQuery(commentQuery, commentValues, commentParams, false);
 
+        // Format `day_created` trong kết quả
+        commentsResult.recordset.forEach(comment => {
+          comment.day_created = dayjs(comment.day_created).format("dddd, D/M/YYYY, HH:mm");
+        });
+
         // Lấy thông tin bài viết
         const articleResult = await executeQuery(articleQuery, articleValues, articleParams, false);
         const article = articleResult.recordset[0];

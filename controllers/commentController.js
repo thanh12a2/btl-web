@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
 import { executeQuery } from "../config/db.js";
 import bodyParser from "body-parser";
+import dayjs from "dayjs";
 
 async function getLastRecordId() {
   const query = `SELECT TOP 1 id_comment
@@ -181,6 +182,8 @@ export const commentController = {
     const paramNames = ["name_alias"];
     try {
       const result = await executeQuery(query, values, paramNames, false);
+
+      
       res.json({ success: "Thanh cong", data: result.recordset });
     } catch (error) {
       res.json({ failed: "Khong thanh cong !" });

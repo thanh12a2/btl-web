@@ -50,7 +50,7 @@
                                             <div class="news-content">
                                                 <a href="/article/transportArticle/<%= paginatedGroupedByCategory[k].articles[g].name_alias %>">
                                                     <h3 class="news-title"><%=  paginatedGroupedByCategory[k].articles[g].heading %></h3>
-                                                    <p class="date"><%=  paginatedGroupedByCategory[k].articles[g].day_created %></p>
+                                                    <p class="date"><%=paginatedGroupedByCategory[k].articles[g].day_created.charAt(0).toUpperCase() + paginatedGroupedByCategory[k].articles[g].day_created.slice(1) %></p>
                                                 </a>
                                                 
                                                 <p class="content-danh-muc">

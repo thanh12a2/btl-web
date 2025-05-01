@@ -16,7 +16,6 @@ router.get('/firstcategory/:id', async (req, res) => {
     const paramNames = ["id"];
     const isStoredProcedure = false;
 
-
     try {
         const result = await executeQuery(query, values, paramNames, isStoredProcedure);
 
@@ -35,10 +34,15 @@ router.get('/firstcategory/:id', async (req, res) => {
 
         const result3 = await executeQuery(query2, values2, paramNames2, false);
 
+        // Format `day_created` trong kết quả của query2
+        result3.recordset.forEach(article => {
+            article.day_created = dayjs(article.day_created).format("dddd, D/M/YYYY, HH:mm");
+        });
+
         const page = parseInt(req.query.page);
         const limit = parseInt(req.query.limit);
  
-        const startIndex = (page - 1)*limit;
+        const startIndex = (page - 1) * limit;
         const endIndex = page * limit;
 
         // Gom nhóm theo id_category
