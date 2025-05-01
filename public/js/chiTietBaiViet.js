@@ -203,11 +203,11 @@ userComment.addEventListener("input", e => {
 // publishBtn.addEventListener("click", addPost)
 
 
-// // Lắng nghe sự kiện click để cuộn lên đầu trang
-// scrollBtn.addEventListener("click", () => {
-//     document.body.scrollTop = 0;
-//     document.documentElement.scrollTop = 0;
-// });
+// Lắng nghe sự kiện click để cuộn lên đầu trang
+scrollBtn.addEventListener("click", () => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+});
 
 // // Xử lý sự kiện khi nhấn nút "Xem thêm"
 // xemThemButton.addEventListener("click", () => {

@@ -47,7 +47,11 @@
 
             <div class="comment-section container">
 
-                <img src="../assets/vectors/goBackBtn.png" alt="" class="go-back-button">
+                <img src="/../assets/vectors/goBackBtn.png" alt="" class="go-back-button">
+
+                <form action="/article/likeArticle/<%= articleDetals.name_alias%>">
+                    <button id="like-btn"><i class="bi bi-heart like-article fs-1"></i></button>
+                </form>
 
                 <div class="comment-section-container container">
 
@@ -129,7 +133,7 @@
                                 <% for (let j = 0; j < comments.length; j++ ) { %>
                                     <% if (comments[j].id_parent == comments[i].id_comment) {%>
                                         <div class="reply">
-                                            <div class="info-commented-container">
+                                            <div class="info-commented-container  comment-ctn-sm">
                                                 <img src="../assets/vectors/avatarComment.png">
                                                 <div class="user-commented">
                                                     <div class="user-commented-info">

@@ -206,12 +206,13 @@ span {
     background-color: #F1F1F1;
     min-height: 500px;
     margin-top: 200px;
+    border-top: 10px solid black;
 }
 
 .comment-section-container > h3 {
     margin: 0px;
     padding-left: 50px;
-    padding-top: 50px;
+    padding-top: 10px;
     font-family: Open Sans;
     font-weight: 700;
     font-size: 32px;
@@ -344,7 +345,7 @@ span {
 
 .info-commented-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: flex-start;
     gap: 5px;
 }
@@ -571,7 +572,7 @@ span {
 }
 
 .reply {
-    border: 2px solid lightblue;
+    border: 1px solid lightblue;
     border-radius: 30px;
     background-color: aliceblue;
     padding: 20px;
@@ -581,3 +582,37 @@ span {
     width: 80%;
 }
 
+.like-article {
+    position: absolute;
+    top: -150px;
+    right: 120px;
+    cursor: pointer;
+
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 9px;
+    width: 80px !important;
+    height: 80px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out !important;
+    transition: border 0.3s ease-in-out;
+}
+
+.like-article:hover {
+    background-color: #B32A45;
+    color: white;
+    border: 1px solid #000000;
+}
+
+#like-btn {
+    border: none; /* Loại bỏ viền */
+    background: none; /* Loại bỏ màu nền */
+    outline: none; /* Loại bỏ viền khi nhấn */
+    cursor: pointer; /* Thay đổi con trỏ thành dạng pointer */
+}
+
+.comment-ctn-sm {
+    flex-direction: column !important;
+}

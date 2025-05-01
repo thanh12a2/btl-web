@@ -209,7 +209,6 @@ export const articleController = {
         const paramName = ["name_alias"];
         try {
           const result = await executeQuery(query, values, paramName, false);
-          // res.json({ success: "Thanh cong !"})
         } catch (error) {
           res.json({ success: error });
         }
@@ -217,11 +216,9 @@ export const articleController = {
         res.json({ success: error });
       }
       console.log(res.locals.email);
-      // Gửi email trong phản hồi
-      res.json({ success: "thanh cong", email: res.locals.email });
+      res.redirect("/article/transportArticle/" + req.params.id); 
     } catch (error) {
-      // console.log(res.locals.email)
-      res.json({ success: false, message: "Có lỗi xảy ra!" });
+      res.redirect("/article/transportArticle/" + req.params.id); 
     }
   },
 
