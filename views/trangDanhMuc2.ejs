@@ -9,22 +9,22 @@
                 <h1><%= categoryData[0].category_name %></h1>
             </div>
         </div>
-
-        <div class="option-panel">
-            <div class="dropdown dropdown option-panel-order">
-                <a class="btn btn-secondary dropdown-toggle  btn-lg" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Tùy chọn
-                </a>
-              
-                <ul class="dropdown-menu dropdown-menu-dark">
-                  <li><a class="dropdown-item" href="/category/secondcategory/<%= categoryData[0].alias_name %>?page=1&limit=10&option=oldest">Cũ nhất</a></li>
-                  <li><a class="dropdown-item" href="/category/secondcategory/<%= categoryData[0].alias_name %>?page=1&limit=10&option=latest">Mới nhất</a></li>
-                  <li><a class="dropdown-item" href="/category/secondcategory/<%= categoryData[0].alias_name %>?page=1&limit=10&option=view">Nhiều lượt xem</a></li>
-                  <li><a class="dropdown-item" href="/category/secondcategory/<%= categoryData[0].alias_name %>?page=1&limit=10&option=like">Nhiều lượt thích</a></li>
-                </ul>
+        <% if ( articles.length ) { %>
+            <div class="option-panel">
+                <div class="dropdown dropdown option-panel-order">
+                    <a class="btn btn-secondary dropdown-toggle  btn-lg" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Tùy chọn
+                    </a>
+                
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="/category/secondcategory/<%= categoryData[0].alias_name %>?page=1&limit=10&option=oldest">Cũ nhất</a></li>
+                    <li><a class="dropdown-item" href="/category/secondcategory/<%= categoryData[0].alias_name %>?page=1&limit=10&option=latest">Mới nhất</a></li>
+                    <li><a class="dropdown-item" href="/category/secondcategory/<%= categoryData[0].alias_name %>?page=1&limit=10&option=view">Nhiều lượt xem</a></li>
+                    <li><a class="dropdown-item" href="/category/secondcategory/<%= categoryData[0].alias_name %>?page=1&limit=10&option=like">Nhiều lượt thích</a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        
+        <% } %>
     
         <div class="section-1020">
 
