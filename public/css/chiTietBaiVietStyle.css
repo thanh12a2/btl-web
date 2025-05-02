@@ -214,7 +214,7 @@ span {
     margin: 0px;
     padding-left: 50px;
     padding-top: 10px;
-    font-family: Open Sans;
+    font-family: "Lexend Deca", sans-serif;
     font-weight: 700;
     font-size: 32px;
     letter-spacing: 0%;
@@ -226,7 +226,7 @@ span {
 }
 
 .comment-numbers .comment-num {
-    font-family: Open Sans;
+    font-family: "Lexend Deca", sans-serif;
     margin-right: 5px;
     color:#B32A45;
     font-weight: 600;
@@ -235,7 +235,7 @@ span {
 }
 
 .comment-numbers p {
-    font-family: Open Sans;
+    font-family: "Lexend Deca", sans-serif;
     font-weight: 600;
     font-size: 20px;
     letter-spacing: 0%;
@@ -363,13 +363,12 @@ span {
 
 .user-commented h3 {
     display: inline-block;
-    margin-left: 15px;
     font-family: Open Sans;
     font-weight: 700;
     font-size: 20px;
     letter-spacing: 0%;
     margin: 0;
-    margin-left: 5px;
+    margin-left: 10px;
 }
 
 .user-commented p {
@@ -399,11 +398,11 @@ span {
 
 .user-commented-info {
     display: flex;
-
+    align-items: center;
 }
 
 .user-commented-info span {
-    margin-left: 5px;
+    margin-left: 10px;
     font-family: Open Sans;
     font-weight: 400;
     font-size: 16px;
@@ -616,4 +615,9 @@ span {
 
 .comment-ctn-sm {
     flex-direction: column !important;
+}
+
+.comment-child-1 {
+    width: 90%;
+    margin-left: 100px;
 }
