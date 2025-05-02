@@ -1,82 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+
+
+</head>
+
+<body>
     <div class="sidebar">
         <div class="logo_content">
             <div class="logo-container">
                 <img src="../assets/logoWhite.png" />
             </div>
+
             <i class="bi bi-list fs-3" id="btn"></i>
         </div>
         <ul class="nav_list">
             <li>
-                <a href="#"><i class="bi bi-person-circle"></i><span class="links_name">Thông tin cá nhân</span></a>
+                <a href="#">
+                    <i class="bi bi-person-circle"></i>
+                    <span class="links_name">Thông tin cá nhân</span>
+                </a>
                 <span class="tooltip">Thông tin cá nhân</span>
             </li>
             <li>
-                <a href="#"><i class="bi bi-person-badge"></i><span class="links_name">Thông tin nhà báo</span></a>
+                <a href="#">
+                    <i class="bi bi-person-badge"></i>
+                    <span class="links_name">Thông tin nhà báo</span>
+                </a>
                 <span class="tooltip">Thông tin nhà báo</span>
             </li>
             <li>
-                <a href="#"><i class="bi bi-bar-chart"></i><span class="links_name">Danh sách bài viết</span></a>
+                <a href="#">
+                    <i class="bi bi-bar-chart"></i>
+                    <span class="links_name">Danh sách bài viết</span>
+                </a>
                 <span class="tooltip">Danh sách bài viết</span>
             </li>
             <li>
-                <a href="#"><i class='bx bxs-plus-circle'></i><span class="links_name">Thêm bài báo</span></a>
+                <a href="#">
+                    <i class='bx bxs-plus-circle'></i>
+                    <span class="links_name">Thêm bài báo</span>
+                </a>
                 <span class="tooltip">Thêm bài báo</span>
             </li>
             <li>
-                <a href="#"><i class='bx bxs-bar-chart-square'></i><span class="links_name">Thống kê dữ liệu</span></a>
+                <a href="#">
+                    <i class='bx bxs-bar-chart-square'></i>
+                    <span class="links_name">Thống kê dữ liệu</span>
+                </a>
                 <span class="tooltip">Thống kê dữ liệu</span>
             </li>
             <li>
-                <a href="#"><i class='bx bxs-folder-open'></i><span class="links_name">Quản lý bài viết</span></a>
+                <a href="#">
+                    <i class='bx bxs-folder-open'></i>
+                    <span class="links_name">Quản lý bài viết</span>
+                </a>
                 <span class="tooltip">Quản lý bài viết</span>
             </li>
             <li>
-                <a href="#"><i class='bx bxs-category-alt'></i><span class="links_name">Quản lý danh mục</span></a>
+                <a href="#">
+                    <i class='bx bxs-category-alt'></i>
+                    <span class="links_name">Quản lý danh mục</span>
+                </a>
                 <span class="tooltip">Quản lý danh mục</span>
             </li>
             <li>
-                <a href="#"><i class='bx bxs-user'></i><span class="links_name">Quản lý người dùng</span></a>
+                <a href="#">
+                    <i class='bx bxs-user'></i>
+                    <span class="links_name">Quản lý người dùng</span>
+                </a>
                 <span class="tooltip">Quản lý người dùng</span>
             </li>
             <li>
-                <a href="#"><i class='bx bxs-comment-detail'></i><span class="links_name">Quản lý bình luận</span></a>
+                <a href="#">
+                    <i class='bx bxs-comment-detail'></i>
+                    <span class="links_name">Quản lý bình luận</span>
+                </a>
                 <span class="tooltip">Quản lý bình luận</span>
             </li>
             <li>
-                <a href="#"><i class='bx bx-log-out'></i><span class="links_name">Quay lại</span></a>
+                <a href="#">
+                    <i class='bx bx-log-out'></i>
+                    <span class="links_name">Quay lại</span>
+                </a>
                 <span class="tooltip">Quay lại</span>
             </li>
         </ul>
     </div>
+
+
     <div class="home_content">
-        <!-- Thông tin cá nhân -->
         <div id="infoManagement" class="info_management" style="display: none;">
             <h2 class="info_management-title">Thông tin cá nhân</h2>
             <div class="info_management-flex">
                 <div class="info_management-content">
+                    <!-- Họ và Tên -->
                     <div class="info_management-row">
                         <label class="info_management-label">Họ và Tên:</label>
                         <div class="info_management-input-group">
-                            <input type="text" class="info_management-input" value="<%= user?.username || '' %>" disabled>
+                            <input type="text" id="info_management-name" class="info_management-input" value="Nguyễn Văn A" disabled>
                             <div class="info_management-button-group">
-                                <button class="info_management-button">✏️</button>
+                                <button id="info_management-edit-name" class="info_management-button">✏️</button>
                             </div>
                         </div>
                     </div>
+                    <!-- Email (không chỉnh sửa, thêm placeholder) -->
                     <div class="info_management-row">
                         <label class="info_management-label">Email:</label>
                         <div class="info_management-input-group">
-                            <input type="email" class="info_management-input" value="<%= user?.email || '' %>" disabled>
+                            <input type="email" id="info_management-email" class="info_management-input" value="nguyenvana@gmail.com" disabled>
                             <div class="info_management-email-placeholder"></div>
                         </div>
                     </div>
+                    <!-- Mật khẩu -->
                     <div class="info_management-row">
                         <label class="info_management-label">Mật khẩu:</label>
                         <div class="info_management-input-group">
-                            <input type="password" class="info_management-input" value="<%= user?.password || '' %>" disabled>
+                            <input type="password" id="info_management-password" class="info_management-input" value="passwordcc" disabled>
                             <div class="info_management-button-group">
-                                <button class="info_management-button">🔑</button>
+                                <button id="info_management-change-password" class="info_management-button">🔑</button>
                             </div>
                         </div>
                     </div>
@@ -88,6 +144,9 @@
                         <button class="info_management-tab" data-tab="favorite-comments">Bình luận yêu thích</button>
                     </div>
                     <div class="info_management-tab-content" id="favorite-articles" style="display:block;">
+                        <div class="info_management-table-actions">
+                            <!-- Đã xóa nút Thêm -->
+                        </div>
                         <table class="info_management-table">
                             <thead>
                                 <tr>
@@ -98,20 +157,13 @@
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <% (favoriteArticles || []).forEach(function(article) { %>
-                                    <tr>
-                                        <td><%= article.id_article %></td>
-                                        <td><%= article.heading %></td>
-                                        <td><%= article.username %></td>
-                                        <td><%= article.day_created %></td>
-                                        <td><button class="info_management-action-btn">Xóa</button></td>
-                                    </tr>
-                                <% }) %>
-                            </tbody>
+                            <tbody id="favoriteArticlesBody"></tbody>
                         </table>
                     </div>
                     <div class="info_management-tab-content" id="my-comments" style="display:none;">
+                        <div class="info_management-table-actions">
+                            <!-- Đã xóa nút Thêm -->
+                        </div>
                         <table class="info_management-table">
                             <thead>
                                 <tr>
@@ -122,20 +174,13 @@
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <% (myComments || []).forEach(function(comment) { %>
-                                    <tr>
-                                        <td><%= comment.id_comment %></td>
-                                        <td><%= comment.heading %></td>
-                                        <td><%= comment.comment_content %></td>
-                                        <td><%= comment.day_created %></td>
-                                        <td><button class="info_management-action-btn">Xóa</button></td>
-                                    </tr>
-                                <% }) %>
-                            </tbody>
+                            <tbody id="myCommentsBody"></tbody>
                         </table>
                     </div>
                     <div class="info_management-tab-content" id="favorite-comments" style="display:none;">
+                        <div class="info_management-table-actions">
+                            <!-- Đã xóa nút Thêm -->
+                        </div>
                         <table class="info_management-table">
                             <thead>
                                 <tr>
@@ -146,23 +191,13 @@
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <% (favoriteComments || []).forEach(function(comment) { %>
-                                    <tr>
-                                        <td><%= comment.id_comment %></td>
-                                        <td><%= comment.heading %></td>
-                                        <td><%= comment.comment_content %></td>
-                                        <td><%= comment.day_created %></td>
-                                        <td><button class="info_management-action-btn">Xóa</button></td>
-                                    </tr>
-                                <% }) %>
-                            </tbody>
+                            <tbody id="favoriteCommentsBody"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Thông tin nhà báo -->
+
         <div id="info-nhabao-Management" class="info_management" style="display: none;">
             <h2 class="info_management-title">Thông tin nhà báo</h2>
             <div class="info_management-flex">
@@ -170,25 +205,25 @@
                     <div class="info_management-row">
                         <label class="info_management-label">Họ và Tên:</label>
                         <div class="info_management-input-group">
-                            <input type="text" class="info_management-input" value="<%= user?.username || '' %>" disabled>
+                            <input type="text" id="info_management-name" class="info_management-input" value="Nguyễn Văn A" disabled>
                             <div class="info_management-button-group">
-                                <button class="info_management-button">✏️</button>
+                                <button id="info_management-edit-name" class="info_management-button">✏️</button>
                             </div>
                         </div>
                     </div>
                     <div class="info_management-row">
                         <label class="info_management-label">Email:</label>
                         <div class="info_management-input-group">
-                            <input type="email" class="info_management-input" value="<%= user?.email || '' %>" disabled>
+                            <input type="email" id="info_management-email" class="info_management-input" value="nguyenvana@gmail.com" disabled>
                             <div class="info_management-email-placeholder"></div>
                         </div>
                     </div>
                     <div class="info_management-row">
                         <label class="info_management-label">Mật khẩu:</label>
                         <div class="info_management-input-group">
-                            <input type="password" class="info_management-input" value="<%= user?.password || '' %>" disabled>
+                            <input type="password" id="info_management-password" class="info_management-input" value="passwordcc" disabled>
                             <div class="info_management-button-group">
-                                <button class="info_management-button">🔑</button>
+                                <button id="info_management-change-password" class="info_management-button">🔑</button>
                             </div>
                         </div>
                     </div>
@@ -196,26 +231,26 @@
                 <div class="info_management-side">
                     <div class="statistic-overview">
                         <div class="statistic-box">
-                            <div class="statistic-number" id="statisticTotalArticles"><%= stats?.totalArticles || 0 %></div>
+                            <div class="statistic-number" id="statisticTotalArticles">0</div>
                             <div class="statistic-label">Tổng số bài viết</div>
                         </div>
                         <div class="statistic-box">
-                            <div class="statistic-number" id="statisticTotalViews"><%= stats?.totalViews || 0 %></div>
+                            <div class="statistic-number" id="statisticTotalViews">0</div>
                             <div class="statistic-label">Tổng lượt xem</div>
                         </div>
                         <div class="statistic-box">
-                            <div class="statistic-number" id="statisticTotalLikes"><%= stats?.totalLikes || 0 %></div>
+                            <div class="statistic-number" id="statisticTotalLikes">0</div>
                             <div class="statistic-label">Tổng lượt thích</div>
                         </div>
                         <div class="statistic-box">
-                            <div class="statistic-number" id="statisticTotalComments"><%= stats?.totalComments || 0 %></div>
+                            <div class="statistic-number" id="statisticTotalComments">0</div>
                             <div class="statistic-label">Tổng bình luận</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Danh sách bài viết & Thông báo -->
+
         <div id="statistic-nhabao-Management" class="info_management" style="display: none;">
             <h2 class="info_management-title">Thống kê của nhà báo</h2>
             <div class="info_management-flex">
@@ -236,42 +271,33 @@
                                     <th>Trạng thái</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <% (myArticles || []).forEach(function(article) { %>
-                                    <tr>
-                                        <td><%= article.id_article %></td>
-                                        <td><%= article.heading %></td>
-                                        <td><%= article.views %></td>
-                                        <td><%= article.like_count %></td>
-                                        <td><%= article.day_created %></td>
-                                        <td><%= article.status %></td>
-                                    </tr>
-                                <% }) %>
-                            </tbody>
+                            <tbody id="statisticMyArticlesBody"></tbody>
                         </table>
                     </div>
                     <div class="info_management-tab-content" id="statistic-approve-notify" style="display:none;">
                         <ul id="statisticApproveNotifyList" style="padding-left: 18px;">
-                            <% (notifications || []).forEach(function(n) { %>
-                                <li><%= n %></li>
-                            <% }) %>
+                            <!-- Thông báo sẽ được render ở đây -->
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Thống kê dữ liệu (admin) -->
+
         <div id="staticManagement" class="static_management" style="display: none;">
             <h2>Thống kê dữ liệu</h2>
         </div>
-        <!-- Quản lý bài viết (admin) -->
+
+
+
         <div id="postManagement" class="post_management" style="display: none;">
             <h2>Quản lý bài viết</h2>
             <div class="search-container">
                 <div class="search-container-box">
-                    <div class="search-box">
+                    <div class="search-box" id="search-box1">
                         <input type="text" placeholder="Tìm kiếm...">
-                        <label class="search-icon"><i class="bi bi-search"></i></label>
+                        <label class="search-icon" id="search-icon1">
+                            <i class="bi bi-search"></i>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -293,30 +319,103 @@
                         <th>Trạng thái</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <% (allArticles || []).forEach(function(article) { %>
-                        <tr>
-                            <td><%= article.id_article %></td>
-                            <td><%= article.username %></td>
-                            <td><%= article.heading %></td>
-                            <td><%= article.category_name %></td>
-                            <td><%= article.hero_image %></td>
-                            <td><%= article.content %></td>
-                            <td><%= article.name_alias %></td>
-                            <td><%= article.views %></td>
-                            <td><%= article.like_count %></td>
-                            <td><%= article.is_featured ? 'Có' : 'Không' %></td>
-                            <td><%= article.day_created %></td>
-                            <td><!-- Nút sửa/xóa --></td>
-                            <td><%= article.status %></td>
-                        </tr>
-                    <% }) %>
-                </tbody>
+                <tbody id="tbodyArticle"></tbody>
             </table>
+
+
+            <div id="editPostModal" class="action-modal-overlay">
+                <div class="action-modal-content" style="gap: 20px!important;">
+                    <button class="action-modal-close">&times;</button>
+                    <div class="action-modal-header">
+                        <h2>Chỉnh sửa bài báo</h2>
+                    </div>
+
+                    <div class="action-form-group">
+                        <label>Tên Bài báo</label>
+                        <input type="text" id="editPostTitle" placeholder="Nhập tên bài báo">
+                    </div>
+
+                    <div class="action-form-group">
+                        <label>Tên nhà báo</label>
+                        <input type="text" id="editPostAuthorId" placeholder="Nhập tên nhà báo">
+                    </div>
+
+                    <div class="action-form-group">
+                        <label>Danh mục chính</label>
+                        <select id="editMainCategory">
+                            <option value="" disabled selected>Chọn danh mục chính</option>
+                            <option value="society">Xã hội</option>
+                            <option value="science">Khoa học & Công nghệ</option>
+                            <option value="health">Sức khỏe</option>
+                            <option value="sports">Thể Thao</option>
+                            <option value="entertainment">Giải trí</option>
+                            <option value="education">Giáo dục</option>
+                        </select>
+                    </div>
+
+                    <div class="action-form-group">
+                        <label>Danh mục phụ</label>
+                        <select id="editSubCategory">
+                            <option value="" disabled selected>Chọn danh mục phụ</option>
+                        </select>
+                    </div>
+
+                    <div class="action-form-group">
+                        <label>Ảnh</label>
+                        <input type="text" id="editPostHeroImage" placeholder="Image">
+                    </div>
+
+                    <div class="action-form-group">
+                        <label>Link bài báo</label>
+                        <input type="text" id="editPostNameAlias" placeholder="Link bài báo">
+                    </div>
+
+                    <div class="action-form-group">
+                        <label>Nổi bật</label>
+                        <select id="editIsFeatured">
+                            <option value="false">Không</option>
+                            <option value="true">Có</option>
+                        </select>
+                    </div>
+
+                    <div class="action-form-group" style="grid-column: 1 / -1;">
+                        <label>Nội dung bài báo</label>
+                        <textarea id="editPostContent" placeholder="Nhập nội dung bài báo"></textarea>
+                    </div>
+
+                    <div class="action-modal-footer">
+                        <button id="btnUpdatePost" class="btn-edit">Cập nhật bài báo</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="deletePostModal" class="delete-modal">
+                <div class="modal-content-deleteModal">
+                    <p>Bạn có chắc chắn muốn xóa bài báo này không?</p>
+                    <div class="modal-buttons">
+                        <button id="confirmDeleteArticle" class="btn-confirm">Có</button>
+                        <button id="cancelDeleteArticle" class="btn-cancel">Không</button>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
-        <!-- Quản lý danh mục -->
-        <div id="categoryManagement" class="category_management" style="display: none;">
+
+
+        <div id="categoryManagement" class="category_management">
             <h2>Quản lý danh mục</h2>
+            <div class="search-container">
+                <div class="search-container-box">
+                    <div class="search-box">
+                        <input type="text" id="categorySearchInput" placeholder="Tìm kiếm...">
+                        <label class="search-icon">
+                            <i class="bi bi-search"></i>
+                        </label>
+                    </div>
+                </div>
+                <button class="add-category-btn">Thêm danh mục</button>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -327,79 +426,255 @@
                         <th>Hành động</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <% (categories || []).forEach(function(cate) { %>
-                        <tr>
-                            <td><%= cate.id_category %></td>
-                            <td><%= cate.category_name %></td>
-                            <td><%= cate.alias_name %></td>
-                            <td><%= cate.id_parent %></td>
-                            <td><!-- Nút sửa/xóa --></td>
-                        </tr>
-                    <% }) %>
+                <tbody id="tbodyCategories">
+                    <!-- Dữ liệu danh mục sẽ được hiển thị ở đây -->
                 </tbody>
             </table>
+
+            <!-- Modal thêm danh mục -->
+            <div id="addCategoryModal" class="action-modal-overlay">
+                <div class="action-modal-content">
+                    <button class="action-modal-close">&times;</button>
+                    <div class="action-modal-header">
+                        <h2>Thêm danh mục</h2>
+                    </div>
+
+                    <div class="action-form-group">
+                        <label>Tên danh mục</label>
+                        <input type="text" placeholder="Nhập tên danh mục">
+                    </div>
+
+                    <div class="action-form-group">
+                        <label>Tên link</label>
+                        <input type="text" placeholder="Nhập link">
+                    </div>
+
+                    <div class="action-form-group">
+                        <label>Danh mục cha</label>
+                        <select id="mainCategory2">
+                            <option>Xã hội</option>
+                            <option>Khoa học & Công nghệ</option>
+                            <option>Sức khỏe</option>
+                            <option>Thể Thao</option>
+                            <option>Giải trí</option>
+                            <option>Giáo dục</option>
+                        </select>
+                    </div>
+
+                    <div class="action-modal-footer">
+                        <button class="btn-add">Thêm danh mục</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal chỉnh sửa danh mục -->
+            <div id="editCategoryModal" class="action-modal-overlay">
+                <div class="action-modal-content" style="margin-left: 22%;margin-top: 10%;">
+                    <button class="action-modal-close">&times;</button>
+                    <div class="action-modal-header">
+                        <h2>Chỉnh sửa danh mục</h2>
+                    </div>
+
+                    <div class="action-form-group">
+                        <label>Tên danh mục</label>
+                        <input type="text" id="editCategoryName" placeholder="Nhập tên danh mục">
+                    </div>
+
+                    <div class="action-form-group">
+                        <label>Link</label>
+                        <input type="text" id="editCategoryLink" placeholder="Nhập link">
+                    </div>
+
+                    <div class="action-form-group">
+                        <label>Danh mục cha</label>
+                        <select id="editParentCategory">
+                            <!-- Các lựa chọn khác sẽ được cập nhật động từ API -->
+                            <option>Xã hội</option>
+                            <option>Khoa học & Công nghệ</option>
+                            <option>Sức khỏe</option>
+                            <option>Thể Thao</option>
+                            <option>Giải trí</option>
+                            <option>Giáo dục</option>
+                        </select>
+                    </div>
+
+                    <div class="action-modal-footer">
+                        <button id="btnUpdateCategory" class="btn-edit">Cập nhật danh mục</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal xác nhận xóa -->
+            <div id="deleteCategoryModal" class="delete-modal">
+                <div class="modal-content-deleteModal">
+                    <p>Bạn có chắc chắn muốn xóa danh mục này không?</p>
+                    <div class="modal-buttons">
+                        <button id="confirmDeleteCate" class="btn-confirm">Có</button>
+                        <button id="cancelDeleteCate" class="btn-cancel">Không</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- Quản lý người dùng -->
+
+
         <div id="userManagement" class="user_management" style="display: none;">
-            <h2>Quản lý người dùng</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID người dùng</th>
-                        <th>Họ và tên</th>
-                        <th>Email</th>
-                        <th>Mật khẩu</th>
-                        <th>Role</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% (users || []).forEach(function(u) { %>
-                        <tr>
-                            <td><%= u.id_user %></td>
-                            <td><%= u.username %></td>
-                            <td><%= u.email %></td>
-                            <td><%= u.password %></td>
-                            <td><%= u.role %></td>
-                            <td><!-- Nút sửa/xóa --></td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
+            <div class="section-card">
+                <h2 class="section-title">Quản lý người dùng</h2>
+                <div class="search-container">
+                    <div class="search-container-box">
+                        <div class="search-box">
+                            <input type="text" placeholder="Tìm kiếm...">
+                            <label class="search-icon1">
+                                <i class="bi bi-search"></i>
+                            </label>
+                        </div>
+                    </div>
+                    <button class="btn-primary btn-add-user">
+                        Thêm người dùng
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>ID người dùng</th>
+                                <th>Họ và tên</th>
+                                <th>Email</th>
+                                <th>Mật khẩu</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyUser">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="modal-container" style="display: none;">
+                <div class="modal-overlay">
+                    <div class="modal-content">
+                        <button class="modal-close-btn">&times;</button>
+                        <h2 class="modal-title">Thêm người dùng</h2>
+                        <form id="addUserForm" class="modal-form">
+                            <div>
+                                <label>Tên người dùng</label>
+                                <input type="text" name="tenNguoiDung" required placeholder="Nhập tên người dùng">
+                            </div>
+                            <div>
+                                <label>Email</label>
+                                <input type="email" name="email" required placeholder="Nhập email">
+                            </div>
+
+                            <div>
+                                <label>Mật khẩu</label>
+                                <input type="password" name="matKhau" required placeholder="Nhập mật khẩu">
+                            </div>
+                            <div class="form-submit-wrapper">
+                                <button type="submit" class="modal-submit-btn">Thêm người dùng</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="deleteUserModal" class="delete-modal">
+                <div class="modal-content-deleteModal">
+                    <p>Bạn có chắc chắn muốn xóa người dùng này không?</p>
+                    <div class="modal-buttons">
+                        <button id="confirmDelete" class="btn-confirm">Có</button>
+                        <button id="cancelDelete" class="btn-cancel">Không</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- Quản lý bình luận -->
+
+
         <div id="commentManagement" class="comment_management" style="display: none;">
-            <h2>Quản lý bình luận</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID Bình luận</th>
-                        <th>ID Người dùng</th>
-                        <th>ID Bài viết</th>
-                        <th>ID_parent</th>
-                        <th>Ngày bình luận</th>
-                        <th>Nội dung bình luận</th>
-                        <th>Trạng thái</th>
-                        <th>Số lượt thích</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% (comments || []).forEach(function(cmt) { %>
-                        <tr>
-                            <td><%= cmt.id_comment %></td>
-                            <td><%= cmt.id_user %></td>
-                            <td><%= cmt.id_article %></td>
-                            <td><%= cmt.id_parent %></td>
-                            <td><%= cmt.day_created %></td>
-                            <td><%= cmt.comment_content %></td>
-                            <td><!-- Trạng thái --></td>
-                            <td><%= cmt.like_count %></td>
-                            <td><!-- Nút sửa/xóa --></td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
+            <div class="section-card">
+                <h2 class="section-title" style="margin-bottom: 70px;">Quản lý bình luận</h2>
+                <div class="table-responsive">
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>ID Bình luận </th>
+                                <th>ID Người dùng </th>
+                                <th>ID Bài viết</th>
+                                <th>ID_parent</th>
+                                <th>Ngày bình luận</th>
+                                <th>Nội dung bình luận </th>
+                                <th>Trạng thái</th>
+                                <th>Số lượt thích</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="deleteCommentModal" class="delete-modal">
+                <div class="modal-content-deleteModal">
+                    <p>Bạn có chắc chắn muốn xóa bình luận này không?</p>
+                    <div class="modal-buttons">
+                        <button id="confirmDelete" class="btn-confirm">Có</button>
+                        <button id="cancelDelete" class="btn-cancel">Không</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="addPostManagement" class="add_post_management" style="display: none;">
+            <h2>Thêm bài báo</h2>
+            <div class="action-modal-content">
+                <div class="action-form-group">
+                    <label>Tên Bài báo</label>
+                    <input type="text" id="addPostTitle" placeholder="Nhập tên bài báo">
+                </div>
+
+                <div class="action-form-group">
+                    <label>Tác giả</label>
+                    <input type="text" id="addPostAuthor" placeholder="Nhập tên tác giả">
+                </div>
+
+                <div class="action-form-group">
+                    <label>Danh mục chính</label>
+                    <select id="mainCategory">
+                        <option value="" disabled selected>Chọn danh mục chính</option>
+                        <option value="society">Xã hội</option>
+                        <option value="science">Khoa học & Công nghệ</option>
+                        <option value="health">Sức khỏe</option>
+                        <option value="sports">Thể Thao</option>
+                        <option value="entertainment">Giải trí</option>
+                        <option value="education">Giáo dục</option>
+                    </select>
+                </div>
+                <div class="action-form-group">
+                    <label>Danh mục phụ</label>
+                    <select id="subCategory">
+                        <option value="" disabled selected>Chọn danh mục phụ</option>
+                    </select>
+                </div>
+
+                <div class="action-form-group">
+                    <label>Ảnh bài báo</label>
+                    <input type="text" id="addPostHeroImage" placeholder="Image">
+                </div>
+
+                <div class="action-form-group" style="grid-column: 1 / -1; width: 100% !important;">
+                    <label>Nội dung bài báo</label>
+                    <textarea id="addPostContent" placeholder="Nhập nội dung bài báo"></textarea>
+                </div>
+
+                <div class="action-modal-footer">
+                    <button id="btnAddPost" class="btn-add">Thêm bài báo</button>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script src="../js/admin.js"></script>
+</body>
+
+</html>

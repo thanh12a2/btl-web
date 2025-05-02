@@ -59,14 +59,14 @@
                 <hr>
 
                 <div class="user-panel-page-btn">
-                    <% if ( role == "Admin" ) { %>
+                    <% if ( _locals.role == "Admin" ) { %>
                         <div class="user-panel-page-btn-container">
-                            <a href="#"> Trang quản trị </a>
+                            <a href="/backdetails"> Trang quản trị </a>
                             <i class="bi bi-arrow-right-circle"></i>
                         </div>
                     <% } else { %>
                         <div class="user-panel-page-btn-container">
-                            <a href="#"> Trang cá nhân </a>
+                            <a href="/backdetails"> Trang cá nhân </a>
                             <i class="bi bi-arrow-right-circle"></i>
                         </div>
                     <% } %>
