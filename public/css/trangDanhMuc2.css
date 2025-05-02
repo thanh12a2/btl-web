@@ -164,3 +164,31 @@ body {
     justify-content: center;
     margin-top: 50px;
 }
+
+.order-btn {
+    position: relative;
+    top: 500px;
+    left: 50px;
+}
+
+.option-panel {
+    height: 300px;
+    width: 300px;
+    /* border: 2px solid #B32A45; */
+    position: absolute;
+    top: 401px;
+    left: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.option-panel-order > a {
+    background-color: #B32A45 !important;
+    border: #B32A45 !important;
+}
+
+.option-panel-order {
+    font-family: "Lexend Deca", sans-serif;
+}

@@ -163,35 +163,37 @@ export const articleController = {
     }
   },
 
-  getArticlesOldest: async (req, res) => {
-    const subQuery = `SELECT Category.id_category FROM Category WHERE Category.alias_name = @id`;
-    const subValues = [req.params.id];
-    const subParamName = ["id"];
+  getArticlesOldest: async (req, res, next) => {
+    if ( req.query.option == "oldest" ) {
 
-    try {
-      const subResult = await executeQuery(
-        subQuery,
-        subValues,
-        subParamName,
-        false
-      );
-      console.log(subResult.recordset);
-      const query = `SELECT *
-                FROM Article WHERE id_category = @id AND status = N'Đã duyệt'
-                ORDER BY day_created ASC;`;
-      const values = [subResult.recordset[0].id_category];
-      const paramNames = ["id"];
-      const result = await executeQuery(query, values, paramNames, false);
-      res.json({
-        success: "Thanh cong !",
-        name: subResult.recordset,
-        data: result.recordset,
-      });
-    } catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .json({ success: false, message: "Có lỗi xảy ra, vui lòng thử lại!" });
+      console.log("co query option")
+      const subQuery = `SELECT Category.id_category FROM Category WHERE Category.alias_name = @id`;
+      const subValues = [req.params.id];
+      const subParamName = ["id"];
+  
+      try {
+        const subResult = await executeQuery(
+          subQuery,
+          subValues,
+          subParamName,
+          false
+        );
+        
+        const query = `SELECT *
+                  FROM Article WHERE id_category = @id AND status = N'Đã duyệt'
+                  ORDER BY day_created DESC;`;
+        const values = [subResult.recordset[0].id_category];
+        const paramNames = ["id"];
+        const result = await executeQuery(query, values, paramNames, false);
+        // Lưu kết quả vào res.locals
+        res.locals.oldestArticles = result.recordset;
+        next(); // Chuyển sang middleware tiếp theo
+        } catch (error) {
+            console.error(error);
+            next(error); // Chuyển lỗi sang middleware xử lý lỗi
+        }
+    } else {
+        next(); // Nếu không có query option, chuyển sang middleware tiếp theo
     }
   },
 

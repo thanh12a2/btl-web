@@ -1,5 +1,6 @@
 import express from 'express';
 import { categoryController } from '../controllers/categoryController.js';
+import { articleController } from '../controllers/articleController.js';
 import { executeQuery } from "../config/db.js";
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi.js'; // Import tiếng Việt
@@ -104,18 +105,40 @@ router.get('/firstcategory/:id', async (req, res) => {
 
 router.get('/secondcategory/:id', async (req, res) => {
     const categoryId = req.params.id;
+    console.log(req.query.option)
     const query = `SELECT * FROM [dbo].[Category] WHERE alias_name = @id`;
     const values = [categoryId];    
     const paramNames = ["id"];
     const isStoredProcedure = false;
     try {
         const result = await executeQuery(query, values, paramNames, isStoredProcedure);
-        const query1 = `SELECT * FROM [dbo].[Article] WHERE id_category = @id AND status = N'Đã duyệt'`;
+
+        let query1 
+
+        if ( req.query.option == "oldest" ) {
+            query1 = `SELECT *
+                        FROM Article WHERE id_category = @id AND status = N'Đã duyệt'
+                        ORDER BY day_created ASC;`;
+        } else if ( req.query.option == "view") {
+            query1 = `SELECT *
+                        FROM [dbo].[Article]
+                        WHERE id_category = @id AND status = N'Đã duyệt'
+                        ORDER BY views DESC;`;
+        } else if ( req.query.option == "like" ) {
+            query1 = `  SELECT *
+                        FROM [dbo].[Article]
+                        WHERE id_category = @id
+                        AND status = N'Đã duyệt'
+                        ORDER BY like_count DESC;`;
+        } else {
+            query1 = `SELECT * FROM [dbo].[Article] WHERE id_category = @id AND status = N'Đã duyệt' ORDER BY day_created DESC;`;
+        }
+
         const values1 = [result.recordset[0].id_category];    
         const paramNames1 = ["id"];
 
         const result1 = await executeQuery(query1, values1, paramNames1, false);
-        // console.log(result1.recordset);
+        
         const page = parseInt(req.query.page);
         const limit = parseInt(req.query.limit);
  
@@ -139,7 +162,7 @@ router.get('/secondcategory/:id', async (req, res) => {
         }
 
         pageStatus.total = Math.ceil(result1.recordset.length / limit);
-
+        // console.log(result.recordset)
         res.render('trangDanhMuc2.ejs', { pageStatus: pageStatus, articles: result1.recordset.slice(startIndex, endIndex), categoryData: result.recordset });
     } catch (error) {
         res.render('notFound404.ejs');
