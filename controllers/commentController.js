@@ -1,7 +1,5 @@
-import { v2 as cloudinary } from "cloudinary";
 import { executeQuery } from "../config/db.js";
-import bodyParser from "body-parser";
-import dayjs from "dayjs";
+
 
 async function getLastRecordId() {
   const query = `SELECT TOP 1 id_comment

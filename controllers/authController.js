@@ -24,7 +24,6 @@ const otpStore = new Map();
 
 function generateAccessToken(user) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '8h' });
-
 }
 
 async function getLastRecordId() {

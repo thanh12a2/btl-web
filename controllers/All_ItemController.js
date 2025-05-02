@@ -22,6 +22,7 @@ const getArticles = async (req, res) => {
         res.status(500).json({error: err.message});
     }
 };
+
 const getCategories = async (req, res) => {
     try {
         let pool = await sql.connect(config);
@@ -34,6 +35,7 @@ const getCategories = async (req, res) => {
         res.status(500).json({error: err.message});
     }
 };
+
 const getUsers= async (req, res) => {
     try {
         let pool = await sql.connect(config);
@@ -46,6 +48,7 @@ const getUsers= async (req, res) => {
         res.status(500).json({error: err.message});
     }
 };
+
 export { getArticles };
 export { getCategories };
 export { getUsers };

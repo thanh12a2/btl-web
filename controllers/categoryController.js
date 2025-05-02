@@ -55,5 +55,5 @@ export const categoryController = {
         console.error("Error in getCategoriesTitle:", error);
         return [];
       }
-    },
+  },
 };
