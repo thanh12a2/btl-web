@@ -1,13 +1,11 @@
 .con900 {
     width: 900px;
     margin: auto;
-    /* background-color: aliceblue; */
 }
 
-/* .con500 {
-    width: 500px;
-    margin: auto
-} */
+body {
+    overflow-x: hidden;
+}
 
 .con1140 {
     width: 1140px;
@@ -31,10 +29,7 @@
 
 html, body {
     scroll-behavior: smooth; 
-    /* overflow-y: auto;  */
 }
-
-
 
 /*  */
 
