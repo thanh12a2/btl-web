@@ -105,7 +105,7 @@ router.get('/firstcategory/:id', async (req, res) => {
 
 router.get('/secondcategory/:id', async (req, res) => {
     const categoryId = req.params.id;
-    console.log(req.query.option)
+
     const query = `SELECT * FROM [dbo].[Category] WHERE alias_name = @id`;
     const values = [categoryId];    
     const paramNames = ["id"];
@@ -162,7 +162,7 @@ router.get('/secondcategory/:id', async (req, res) => {
         }
 
         pageStatus.total = Math.ceil(result1.recordset.length / limit);
-        // console.log(result.recordset)
+
         res.render('trangDanhMuc2.ejs', { pageStatus: pageStatus, articles: result1.recordset.slice(startIndex, endIndex), categoryData: result.recordset });
     } catch (error) {
         res.render('notFound404.ejs');
