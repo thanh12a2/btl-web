@@ -162,7 +162,6 @@ router.get('/secondcategory/:id', async (req, res) => {
         }
 
         pageStatus.total = Math.ceil(result1.recordset.length / limit);
-
         res.render('trangDanhMuc2.ejs', { pageStatus: pageStatus, articles: result1.recordset.slice(startIndex, endIndex), categoryData: result.recordset });
     } catch (error) {
         res.render('notFound404.ejs');

@@ -36,62 +36,68 @@
                 </a>
                 <span class="tooltip">Thông tin cá nhân</span>
             </li>
-            <li>
-                <a href="#">
-                    <i class="bi bi-person-badge"></i>
-                    <span class="links_name">Thông tin nhà báo</span>
-                </a>
-                <span class="tooltip">Thông tin nhà báo</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bi bi-bar-chart"></i>
-                    <span class="links_name">Danh sách bài viết</span>
-                </a>
-                <span class="tooltip">Danh sách bài viết</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bxs-plus-circle'></i>
-                    <span class="links_name">Thêm bài báo</span>
-                </a>
-                <span class="tooltip">Thêm bài báo</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bxs-bar-chart-square'></i>
-                    <span class="links_name">Thống kê dữ liệu</span>
-                </a>
-                <span class="tooltip">Thống kê dữ liệu</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bxs-folder-open'></i>
-                    <span class="links_name">Quản lý bài viết</span>
-                </a>
-                <span class="tooltip">Quản lý bài viết</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bxs-category-alt'></i>
-                    <span class="links_name">Quản lý danh mục</span>
-                </a>
-                <span class="tooltip">Quản lý danh mục</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bxs-user'></i>
-                    <span class="links_name">Quản lý người dùng</span>
-                </a>
-                <span class="tooltip">Quản lý người dùng</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class='bx bxs-comment-detail'></i>
-                    <span class="links_name">Quản lý bình luận</span>
-                </a>
-                <span class="tooltip">Quản lý bình luận</span>
-            </li>
+            <% if (_locals.role == "NhaBao") { %>
+                <li>
+                    <a href="#">
+                        <i class="bi bi-person-badge"></i>
+                        <span class="links_name">Thông tin nhà báo</span>
+                    </a>
+                    <span class="tooltip">Thông tin nhà báo</span>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="bi bi-bar-chart"></i>
+                        <span class="links_name">Danh sách bài viết</span>
+                    </a>
+                    <span class="tooltip">Danh sách bài viết</span>
+                </li>
+            <% } %>
+            <% if (_locals.role == "NhaBao" || _locals.role == "Admin") { %>
+                <li>
+                    <a href="#">
+                        <i class='bx bxs-plus-circle'></i>
+                        <span class="links_name">Thêm bài báo</span>
+                    </a>
+                    <span class="tooltip">Thêm bài báo</span>
+                </li>
+            <% } %>
+            <% if (_locals.role == "Admin") { %>
+                <li>
+                    <a href="#">
+                        <i class='bx bxs-bar-chart-square'></i>
+                        <span class="links_name">Thống kê dữ liệu</span>
+                    </a>
+                    <span class="tooltip">Thống kê dữ liệu</span>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bxs-folder-open'></i>
+                        <span class="links_name">Quản lý bài viết</span>
+                    </a>
+                    <span class="tooltip">Quản lý bài viết</span>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bxs-category-alt'></i>
+                        <span class="links_name">Quản lý danh mục</span>
+                    </a>
+                    <span class="tooltip">Quản lý danh mục</span>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bxs-user'></i>
+                        <span class="links_name">Quản lý người dùng</span>
+                    </a>
+                    <span class="tooltip">Quản lý người dùng</span>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class='bx bxs-comment-detail'></i>
+                        <span class="links_name">Quản lý bình luận</span>
+                    </a>
+                    <span class="tooltip">Quản lý bình luận</span>
+                </li>
+            <% } %>
             <li>
                 <a href="#">
                     <i class='bx bx-log-out'></i>
