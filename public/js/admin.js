@@ -210,6 +210,54 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('statisticTotalComments').innerText = statisticOverview.totalComments;
     }
     renderStatisticOverview();
+
+
+
+    // Code chỉnh sửa thông tin cá nhân
+    const changePasswordButton = document.getElementById("info_management-change-password");
+    const passwordInput = document.getElementById("info_management-password");
+    const usernameInput = document.getElementById("info_management-name");
+    const saveBtn = document.getElementById("info_management-edit-name");
+
+    // Hàm kiểm tra giá trị của các input
+    function toggleSaveButton() {
+        if (passwordInput.value.trim() === "" || usernameInput.value.trim() === "") {
+            saveBtn.style.display = "none"; // Ẩn nút Save nếu cả hai input trống
+        } else {
+            saveBtn.style.display = "block"; // Hiển thị nút Save nếu có dữ liệu
+        }
+    }
+
+    if (changePasswordButton && passwordInput && usernameInput && saveBtn) {
+        // Sự kiện click để bật/tắt trạng thái disabled
+        changePasswordButton.addEventListener("click", function () {
+            const isDisabled = passwordInput.disabled && usernameInput.disabled;
+            passwordInput.disabled = !passwordInput.disabled;
+            usernameInput.disabled = !usernameInput.disabled;
+
+            // Thay đổi thuộc tính type của passwordInput
+            if (!passwordInput.disabled) {
+                passwordInput.type = "text"; // Hiển thị mật khẩu
+            } else {
+                passwordInput.type = "password"; // Ẩn mật khẩu
+            }
+
+            // Thay đổi giao diện nút
+            if (isDisabled) {
+                changePasswordButton.innerText = "🔓"; // Biểu tượng mở khóa
+            } else {
+                changePasswordButton.innerText = "🔑"; // Biểu tượng khóa
+            }
+
+            // Kiểm tra giá trị input khi bật/tắt
+            toggleSaveButton();
+        });
+
+        // Sự kiện input để kiểm tra giá trị khi người dùng nhập
+        passwordInput.addEventListener("input", toggleSaveButton);
+        usernameInput.addEventListener("input", toggleSaveButton);
+    }
+
 });
 
 

@@ -114,17 +114,14 @@
                     <div class="info_management-row">
                         <label class="info_management-label">Họ và Tên:</label>
                         <div class="info_management-input-group">
-                            <input type="text" id="info_management-name" class="info_management-input" value="Nguyễn Văn A" disabled>
-                            <div class="info_management-button-group">
-                                <button id="info_management-edit-name" class="info_management-button">✏️</button>
-                            </div>
+                            <input type="text" id="info_management-name" class="info_management-input" value="<%= _locals.username %>" disabled>
                         </div>
                     </div>
                     <!-- Email (không chỉnh sửa, thêm placeholder) -->
                     <div class="info_management-row">
                         <label class="info_management-label">Email:</label>
                         <div class="info_management-input-group">
-                            <input type="email" id="info_management-email" class="info_management-input" value="nguyenvana@gmail.com" disabled>
+                            <input type="email" id="info_management-email" class="info_management-input" value="<%= _locals.email %>" disabled>
                             <div class="info_management-email-placeholder"></div>
                         </div>
                     </div>
@@ -135,6 +132,9 @@
                             <input type="password" id="info_management-password" class="info_management-input" value="passwordcc" disabled>
                             <div class="info_management-button-group">
                                 <button id="info_management-change-password" class="info_management-button">🔑</button>
+                            </div>
+                            <div class="info_management-button-group">
+                                <button id="info_management-edit-name" class="info_management-button" style="display:none"><i class="bi bi-floppy-fill"></i></button>
                             </div>
                         </div>
                     </div>

@@ -1628,3 +1628,15 @@ table td {
         min-width: unset;
     }
 }
+
+.info_management-input {
+    box-sizing: border-box;
+    border: 2px solid transparent;
+}
+
+.info_management-input:not([disabled]) {
+    border: 2px solid #B32A45; /* Màu viền khi glow */
+    box-shadow: 0 0 8px #B32A45; /* Hiệu ứng glow */
+    outline: none; /* Xóa viền mặc định */
+    transition: 0.3s; /* Hiệu ứng mượt */
+}
