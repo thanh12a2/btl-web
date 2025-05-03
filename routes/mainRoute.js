@@ -102,7 +102,17 @@ router.get("/api/weather", async (req, res) => {
 router.get("/backdetails", authController.authenticateToken, async (req, res) => {
   const role = res.locals.role;
   if (role == "Admin") {
-    res.render("admin.ejs");
+    const query = `SELECT * FROM [dbo].[User] WHERE email = @email`
+    const values = [res.locals.email];
+    const paramNames = ["email"];
+    try {
+      const result = await executeQuery(query, values, paramNames, false);
+      console.log(result.recordset)
+      // res.json({ user: result.recordset})
+      res.render("admin.ejs", { user: result.recordset} );
+    } catch(error) {
+      res.render("404.ejs");
+    }
   } else if (role == "NhaBao") {
     res.render("nhaBao.ejs");
   } else if (role == "DocGia") {

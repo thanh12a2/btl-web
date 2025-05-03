@@ -106,38 +106,40 @@
     </div>
 
     <div class="home_content">
-        <div id="infoManagement" class="info_management" style="display: none;">
+        <div id="infoManagement" class="info_management" style="display: block;">
             <h2 class="info_management-title">Thông tin cá nhân</h2>
             <div class="info_management-flex">
                 <div class="info_management-content">
                     <!-- Họ và Tên -->
-                    <div class="info_management-row">
-                        <label class="info_management-label">Họ và Tên:</label>
-                        <div class="info_management-input-group">
-                            <input type="text" id="info_management-name" class="info_management-input" value="<%= _locals.username %>" disabled>
-                        </div>
-                    </div>
-                    <!-- Email (không chỉnh sửa, thêm placeholder) -->
-                    <div class="info_management-row">
-                        <label class="info_management-label">Email:</label>
-                        <div class="info_management-input-group">
-                            <input type="email" id="info_management-email" class="info_management-input" value="<%= _locals.email %>" disabled>
-                            <div class="info_management-email-placeholder"></div>
-                        </div>
-                    </div>
-                    <!-- Mật khẩu -->
-                    <div class="info_management-row">
-                        <label class="info_management-label">Mật khẩu:</label>
-                        <div class="info_management-input-group">
-                            <input type="password" id="info_management-password" class="info_management-input" value="passwordcc" disabled>
-                            <div class="info_management-button-group">
-                                <button id="info_management-change-password" class="info_management-button">🔑</button>
-                            </div>
-                            <div class="info_management-button-group">
-                                <button id="info_management-edit-name" class="info_management-button" style="display:none"><i class="bi bi-floppy-fill"></i></button>
+                    <form action="/auth/changePwdQuanTri" method="POST">
+                        <div class="info_management-row">
+                            <label class="info_management-label">Họ và Tên:</label>
+                            <div class="info_management-input-group">
+                                <input type="text" id="info_management-name" class="info_management-input" name="newUsername" value="<%= user[0].username %>" disabled>
                             </div>
                         </div>
-                    </div>
+                        <!-- Email (không chỉnh sửa, thêm placeholder) -->
+                        <div class="info_management-row">
+                            <label class="info_management-label">Email:</label>
+                            <div class="info_management-input-group">
+                                <input type="email" id="info_management-email" class="info_management-input" value="<%= user[0].email %>" disabled>
+                                <div class="info_management-email-placeholder"></div>
+                            </div>
+                        </div>
+                        <!-- Mật khẩu -->
+                        <div class="info_management-row">
+                            <label class="info_management-label">Mật khẩu:</label>
+                            <div class="info_management-input-group">
+                                <input type="password" id="info_management-password" class="info_management-input" name="pwdInp" value="<%= user[0].password %>" disabled>
+                                <div class="info_management-button-group">
+                                    <button type="button" id="info_management-change-password" class="info_management-button">🔑</button>
+                                </div>
+                                <div class="info_management-button-group">
+                                    <button type="submit" id="info_management-edit-name" class="info_management-button" style="display:none"><i class="bi bi-floppy-fill"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="info_management-side">
                     <div class="info_management-tabs">
@@ -200,8 +202,7 @@
             </div>
         </div>
         
-        
-            <div id="info-nhabao-Management" class="info_management" style="display: none;">
+        <div id="info-nhabao-Management" class="info_management" style="display: none;">
                 <h2 class="info_management-title">Thông tin nhà báo</h2>
                 <div class="info_management-flex">
                     <div class="info_management-content">
@@ -252,9 +253,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+        </div>
 
-            <div id="statistic-nhabao-Management" class="info_management" style="display: none;">
+        <div id="statistic-nhabao-Management" class="info_management" style="display: none;">
                 <h2 class="info_management-title">Thống kê của nhà báo</h2>
                 <div class="info_management-flex">
                     <div class="info_management-side" style="width:100%">
@@ -284,14 +285,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
+        </div>
         
-
         <div id="staticManagement" class="static_management" style="display: none;">
             <h2>Thống kê dữ liệu</h2>
         </div>
-
-
 
         <div id="postManagement" class="post_management" style="display: none;">
             <h2>Quản lý bài viết</h2>
@@ -406,8 +404,7 @@
 
         </div>
 
-
-        <div id="categoryManagement" class="category_management">
+        <div id="categoryManagement" class="category_management" style="display: none;">
             <h2>Quản lý danh mục</h2>
             <div class="search-container">
                 <div class="search-container-box">
@@ -520,7 +517,6 @@
             </div>
         </div>
 
-
         <div id="userManagement" class="user_management" style="display: none;">
             <div class="section-card">
                 <h2 class="section-title">Quản lý người dùng</h2>
@@ -591,7 +587,6 @@
                 </div>
             </div>
         </div>
-
 
         <div id="commentManagement" class="comment_management" style="display: none;">
             <div class="section-card">
