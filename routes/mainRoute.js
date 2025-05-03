@@ -112,9 +112,9 @@ router.get("/backdetails", authController.authenticateToken, async (req, res) =>
                               WHERE LA.id_user = @id;`
     try {
       const result = await executeQuery(query, values, paramNames, false);
-      console.log(result.recordset[0].id_user);
+      // console.log(result.recordset[0].id_user);
       const result1 = await executeQuery(likeArticleQuery, [result.recordset[0].id_user], ["id"], false);
-      console.log(result1.recordset)
+      // console.log(result1.recordset)
       res.render("admin.ejs", { user: result.recordset, likeArticles: result1.recordset } );
     } catch(error) {
       res.render("notFound404.ejs");

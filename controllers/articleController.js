@@ -107,7 +107,7 @@ export const articleController = {
         // Tăng lượt xem bài viết
         await executeQuery(updateViewsQuery, updateViewsValues, updateViewsParams, false);
 
-        console.log(commentsResult.recordset);
+        // console.log(commentsResult.recordset);
         // Render trang chi tiết bài viết
         res.render("chiTietBaiViet.ejs", {
             articleDetals: article,
@@ -166,7 +166,7 @@ export const articleController = {
   getArticlesOldest: async (req, res, next) => {
     if ( req.query.option == "oldest" ) {
 
-      console.log("co query option")
+      // console.log("co query option")
       const subQuery = `SELECT Category.id_category FROM Category WHERE Category.alias_name = @id`;
       const subValues = [req.params.id];
       const subParamName = ["id"];
@@ -230,7 +230,7 @@ export const articleController = {
       } catch (error) {
         res.json({ success: error });
       }
-      console.log(res.locals.email);
+      // console.log(res.locals.email);
       res.redirect("/article/transportArticle/" + req.params.id); 
     } catch (error) {
       res.redirect("/article/transportArticle/" + req.params.id); 

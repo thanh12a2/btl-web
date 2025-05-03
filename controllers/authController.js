@@ -321,8 +321,8 @@ export const authController = {
     const emailUser = res.locals.email;
     const newPwd = req.body.pwdInp;
     const username = req.body.newUsername;
-    console.log(req.body.pwdInp)
-    console.log(req.body.newUsername)
+    // console.log(req.body.pwdInp)
+    // console.log(req.body.newUsername)
     const query = `UPDATE [dbo].[User] SET password = @password, username = @username WHERE email = @email`;
     const values = [newPwd, username, emailUser];
     const paramNames = ["password", "username", "email"];
