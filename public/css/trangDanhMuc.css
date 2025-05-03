@@ -65,6 +65,12 @@ body {
     font-size: 40px;
     color: #B32A45;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    width: fit-content;
+}
+
+.section h2:hover {
+    color: #941b33;
 }
 
 .title-section img {

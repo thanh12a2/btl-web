@@ -4,6 +4,7 @@ import { articleController } from "../controllers/articleController.js";
 import { statsController } from "../controllers/statsController.js";
 import WeatherService from "../controllers/weatherDayController.js";
 import { executeQuery } from "../config/db.js";
+import { authController } from "../controllers/authController.js";
 
 const router = express.Router();
 
@@ -98,18 +99,14 @@ router.get("/api/weather", async (req, res) => {
   }
 });
 
-// router.get('/404', async (req, res) => {
-//     res.render('admin.ejs')
-// })
-
-router.get("/backdetails", async (req, res) => {
+router.get("/backdetails", authController.authenticateToken, async (req, res) => {
   const role = res.locals.role;
   if (role == "Admin") {
     res.render("admin.ejs");
   } else if (role == "NhaBao") {
-    res.render("admin.ejs");
+    res.render("nhaBao.ejs");
   } else if (role == "DocGia") {
-    res.render("admin.ejs");
+    res.render("docGia.ejs");
   }
 });
 
@@ -120,8 +117,6 @@ router.get("/home", async (req, res) => {
     const categories = await categoryController.getCategoriesTitle();
     const articles = await articleController.getArticles();
     const TopArticlesEachCate = await articleController.getTopArticles();
-
-    // console.log(grouped);
 
     const query = `
                 SELECT TOP 9
@@ -160,16 +155,6 @@ router.get("/home", async (req, res) => {
 
       groupMap[categoryId].push(article);
     });
-
-    // res.json({
-    //   isLoggedIn: req.isLoggedIn,
-    //   username: req.username,
-    //   role: req.role,
-    //   categoryTree: categories,
-    //   articles: articles,
-    //   topArticles: topArticles.recordset,
-    //   TopArticlesEachCate: grouped,
-    // });
 
     res.render('index.ejs', {
         isLoggedIn: req.isLoggedIn,

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>The PTIT News</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,10 +13,6 @@
         rel="stylesheet">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-
-
-
 </head>
 
 <body>
@@ -28,6 +24,7 @@
 
             <i class="bi bi-list fs-3" id="btn"></i>
         </div>
+
         <ul class="nav_list">
             <li>
                 <a href="#">
@@ -107,7 +104,6 @@
             </li>
         </ul>
     </div>
-
 
     <div class="home_content">
         <div id="infoManagement" class="info_management" style="display: none;">
@@ -203,91 +199,93 @@
                 </div>
             </div>
         </div>
-
-        <div id="info-nhabao-Management" class="info_management" style="display: none;">
-            <h2 class="info_management-title">Thông tin nhà báo</h2>
-            <div class="info_management-flex">
-                <div class="info_management-content">
-                    <div class="info_management-row">
-                        <label class="info_management-label">Họ và Tên:</label>
-                        <div class="info_management-input-group">
-                            <input type="text" id="info_management-name" class="info_management-input" value="Nguyễn Văn A" disabled>
-                            <div class="info_management-button-group">
-                                <button id="info_management-edit-name" class="info_management-button">✏️</button>
+        
+        
+            <div id="info-nhabao-Management" class="info_management" style="display: none;">
+                <h2 class="info_management-title">Thông tin nhà báo</h2>
+                <div class="info_management-flex">
+                    <div class="info_management-content">
+                        <div class="info_management-row">
+                            <label class="info_management-label">Họ và Tên:</label>
+                            <div class="info_management-input-group">
+                                <input type="text" id="info_management-name" class="info_management-input" value="Nguyễn Văn A" disabled>
+                                <div class="info_management-button-group">
+                                    <button id="info_management-edit-name" class="info_management-button">✏️</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info_management-row">
+                            <label class="info_management-label">Email:</label>
+                            <div class="info_management-input-group">
+                                <input type="email" id="info_management-email" class="info_management-input" value="nguyenvana@gmail.com" disabled>
+                                <div class="info_management-email-placeholder"></div>
+                            </div>
+                        </div>
+                        <div class="info_management-row">
+                            <label class="info_management-label">Mật khẩu:</label>
+                            <div class="info_management-input-group">
+                                <input type="password" id="info_management-password" class="info_management-input" value="passwordcc" disabled>
+                                <div class="info_management-button-group">
+                                    <button id="info_management-change-password" class="info_management-button">🔑</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="info_management-row">
-                        <label class="info_management-label">Email:</label>
-                        <div class="info_management-input-group">
-                            <input type="email" id="info_management-email" class="info_management-input" value="nguyenvana@gmail.com" disabled>
-                            <div class="info_management-email-placeholder"></div>
-                        </div>
-                    </div>
-                    <div class="info_management-row">
-                        <label class="info_management-label">Mật khẩu:</label>
-                        <div class="info_management-input-group">
-                            <input type="password" id="info_management-password" class="info_management-input" value="passwordcc" disabled>
-                            <div class="info_management-button-group">
-                                <button id="info_management-change-password" class="info_management-button">🔑</button>
+                    <div class="info_management-side">
+                        <div class="statistic-overview">
+                            <div class="statistic-box">
+                                <div class="statistic-number" id="statisticTotalArticles">0</div>
+                                <div class="statistic-label">Tổng số bài viết</div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info_management-side">
-                    <div class="statistic-overview">
-                        <div class="statistic-box">
-                            <div class="statistic-number" id="statisticTotalArticles">0</div>
-                            <div class="statistic-label">Tổng số bài viết</div>
-                        </div>
-                        <div class="statistic-box">
-                            <div class="statistic-number" id="statisticTotalViews">0</div>
-                            <div class="statistic-label">Tổng lượt xem</div>
-                        </div>
-                        <div class="statistic-box">
-                            <div class="statistic-number" id="statisticTotalLikes">0</div>
-                            <div class="statistic-label">Tổng lượt thích</div>
-                        </div>
-                        <div class="statistic-box">
-                            <div class="statistic-number" id="statisticTotalComments">0</div>
-                            <div class="statistic-label">Tổng bình luận</div>
+                            <div class="statistic-box">
+                                <div class="statistic-number" id="statisticTotalViews">0</div>
+                                <div class="statistic-label">Tổng lượt xem</div>
+                            </div>
+                            <div class="statistic-box">
+                                <div class="statistic-number" id="statisticTotalLikes">0</div>
+                                <div class="statistic-label">Tổng lượt thích</div>
+                            </div>
+                            <div class="statistic-box">
+                                <div class="statistic-number" id="statisticTotalComments">0</div>
+                                <div class="statistic-label">Tổng bình luận</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div id="statistic-nhabao-Management" class="info_management" style="display: none;">
-            <h2 class="info_management-title">Thống kê của nhà báo</h2>
-            <div class="info_management-flex">
-                <div class="info_management-side" style="width:100%">
-                    <div class="info_management-tabs">
-                        <button class="info_management-tab active" data-tab="statistic-my-articles">Danh sách bài viết của tôi</button>
-                        <button class="info_management-tab" data-tab="statistic-approve-notify">Thông báo bài viết được duyệt</button>
-                    </div>
-                    <div class="info_management-tab-content" id="statistic-my-articles" style="display:block;">
-                        <table class="info_management-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tiêu đề</th>
-                                    <th>Lượt xem</th>
-                                    <th>Lượt thích</th>
-                                    <th>Ngày đăng</th>
-                                    <th>Trạng thái</th>
-                                </tr>
-                            </thead>
-                            <tbody id="statisticMyArticlesBody"></tbody>
-                        </table>
-                    </div>
-                    <div class="info_management-tab-content" id="statistic-approve-notify" style="display:none;">
-                        <ul id="statisticApproveNotifyList" style="padding-left: 18px;">
-                            <!-- Thông báo sẽ được render ở đây -->
-                        </ul>
+            <div id="statistic-nhabao-Management" class="info_management" style="display: none;">
+                <h2 class="info_management-title">Thống kê của nhà báo</h2>
+                <div class="info_management-flex">
+                    <div class="info_management-side" style="width:100%">
+                        <div class="info_management-tabs">
+                            <button class="info_management-tab active" data-tab="statistic-my-articles">Danh sách bài viết của tôi</button>
+                            <button class="info_management-tab" data-tab="statistic-approve-notify">Thông báo bài viết được duyệt</button>
+                        </div>
+                        <div class="info_management-tab-content" id="statistic-my-articles" style="display:block;">
+                            <table class="info_management-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tiêu đề</th>
+                                        <th>Lượt xem</th>
+                                        <th>Lượt thích</th>
+                                        <th>Ngày đăng</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="statisticMyArticlesBody"></tbody>
+                            </table>
+                        </div>
+                        <div class="info_management-tab-content" id="statistic-approve-notify" style="display:none;">
+                            <ul id="statisticApproveNotifyList" style="padding-left: 18px;">
+                                <!-- Thông báo sẽ được render ở đây -->
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        
 
         <div id="staticManagement" class="static_management" style="display: none;">
             <h2>Thống kê dữ liệu</h2>
@@ -680,7 +678,7 @@
         </div>
     </div>
 
-    <script src="../js/admin.js"></script>
+    <script src="/../js/admin.js"></script>
 </body>
 
 </html>

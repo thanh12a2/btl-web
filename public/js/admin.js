@@ -19,43 +19,51 @@ btn.onclick = function() {
 
 document.addEventListener("DOMContentLoaded", function () {
     let menuItems = document.querySelectorAll(".nav_list li a");
-    let sections = {
-        "Thông tin cá nhân": document.getElementById("infoManagement"),
-        "Thông tin nhà báo": document.getElementById("info-nhabao-Management"),
-        "Danh sách bài viết": document.getElementById("statistic-nhabao-Management"),
-        "Thêm bài báo" : document.getElementById("addPostManagement"),
-        "Thống kê dữ liệu": document.getElementById("staticManagement"),
-        "Quản lý bài viết": document.getElementById("postManagement"),
-        "Quản lý danh mục": document.getElementById("categoryManagement"),
-        "Quản lý người dùng": document.getElementById("userManagement"),
-        "Quản lý bình luận": document.getElementById("commentManagement"),
+    let sections = {};
+    const sectionIds = {
+        "Thông tin cá nhân": "infoManagement",
+        "Thông tin nhà báo": "info-nhabao-Management",
+        "Danh sách bài viết": "statistic-nhabao-Management",
+        "Thêm bài báo": "addPostManagement",
+        "Thống kê dữ liệu": "staticManagement",
+        "Quản lý bài viết": "postManagement",
+        "Quản lý danh mục": "categoryManagement",
+        "Quản lý người dùng": "userManagement",
+        "Quản lý bình luận": "commentManagement",
     };
 
+    for (const [key, id] of Object.entries(sectionIds)) {
+        const element = document.getElementById(id);
+        if (element) {
+            sections[key] = element;
+        }
+    }
 
     menuItems.forEach(item => {
         item.addEventListener("click", function (e) {
             e.preventDefault();
 
-
-            // Lấy tên menu vừa click
             let menuName = this.querySelector(".links_name").innerText;
 
+            // Kiểm tra nếu phần tử không tồn tại
+            if (!sections[menuName]) {
+                console.warn(`Section for menu "${menuName}" does not exist.`);
+                return;
+            }
 
             // Ẩn tất cả các phần nội dung
-            Object.values(sections).forEach(section => section.style.display = "none");
-
+            Object.values(sections).forEach(section => {
+                if (section) section.style.display = "none";
+            });
 
             // Hiển thị nội dung của menu vừa nhấn
             sections[menuName].style.display = "block";
 
-
             // Xóa 'active' khỏi tất cả menu
             menuItems.forEach(link => link.parentElement.classList.remove("active"));
 
-
             // Đánh dấu menu được chọn là 'active'
             this.parentElement.classList.add("active");
-
         });
     });
 

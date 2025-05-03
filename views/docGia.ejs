@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The PTIT News</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo_content">
+            <div class="logo-container">
+                <img src="../assets/logoWhite.png" />
+            </div>
+
+            <i class="bi bi-list fs-3" id="btn"></i>
+        </div>
+
+        <ul class="nav_list">
+            <li>
+                <a href="#">
+                    <i class="bi bi-person-circle"></i>
+                    <span class="links_name">Thông tin cá nhân</span>
+                </a>
+                <span class="tooltip">Thông tin cá nhân</span>
+            </li>
+            
+            <li>
+                <a href="#">
+                    <i class='bx bx-log-out'></i>
+                    <span class="links_name">Quay lại</span>
+                </a>
+                <span class="tooltip">Quay lại</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="home_content">
+        <div id="infoManagement" class="info_management" style="display: block;">
+            <h2 class="info_management-title">Thông tin cá nhân</h2>
+            <div class="info_management-flex">
+                <div class="info_management-content">
+                    <!-- Họ và Tên -->
+                    <div class="info_management-row">
+                        <label class="info_management-label">Họ và Tên:</label>
+                        <div class="info_management-input-group">
+                            <input type="text" id="info_management-name" class="info_management-input" value="Nguyễn Văn A" disabled>
+                            <div class="info_management-button-group">
+                                <button id="info_management-edit-name" class="info_management-button">✏️</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Email (không chỉnh sửa, thêm placeholder) -->
+                    <div class="info_management-row">
+                        <label class="info_management-label">Email:</label>
+                        <div class="info_management-input-group">
+                            <input type="email" id="info_management-email" class="info_management-input" value="nguyenvana@gmail.com" disabled>
+                            <div class="info_management-email-placeholder"></div>
+                        </div>
+                    </div>
+                    <!-- Mật khẩu -->
+                    <div class="info_management-row">
+                        <label class="info_management-label">Mật khẩu:</label>
+                        <div class="info_management-input-group">
+                            <input type="password" id="info_management-password" class="info_management-input" value="passwordcc" disabled>
+                            <div class="info_management-button-group">
+                                <button id="info_management-change-password" class="info_management-button">🔑</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info_management-side">
+                    <div class="info_management-tabs">
+                        <button class="info_management-tab active" data-tab="favorite-articles">Bài viết yêu thích</button>
+                        <button class="info_management-tab" data-tab="my-comments">Bình luận của tôi</button>
+                        <button class="info_management-tab" data-tab="favorite-comments">Bình luận yêu thích</button>
+                    </div>
+                    <div class="info_management-tab-content" id="favorite-articles" style="display:block;">
+                        <div class="info_management-table-actions">
+                            <!-- Đã xóa nút Thêm -->
+                        </div>
+                        <table class="info_management-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Tác giả</th>
+                                    <th>Ngày thêm</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="favoriteArticlesBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="info_management-tab-content" id="my-comments" style="display:none;">
+                        <div class="info_management-table-actions">
+                            <!-- Đã xóa nút Thêm -->
+                        </div>
+                        <table class="info_management-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Bài viết</th>
+                                    <th>Nội dung</th>
+                                    <th>Ngày bình luận</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="myCommentsBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="info_management-tab-content" id="favorite-comments" style="display:none;">
+                        <div class="info_management-table-actions">
+                            <!-- Đã xóa nút Thêm -->
+                        </div>
+                        <table class="info_management-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Bài viết</th>
+                                    <th>Nội dung</th>
+                                    <th>Ngày thêm</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="favoriteCommentsBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+    <script src="/../js/admin.js"></script>
+</body>
+
+</html>
