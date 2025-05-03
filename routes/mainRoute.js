@@ -105,13 +105,19 @@ router.get("/backdetails", authController.authenticateToken, async (req, res) =>
     const query = `SELECT * FROM [dbo].[User] WHERE email = @email`
     const values = [res.locals.email];
     const paramNames = ["email"];
+
+    const likeArticleQuery = `SELECT A.*
+                              FROM LikeArticle LA
+                              JOIN Article A ON LA.id_article = A.id_article
+                              WHERE LA.id_user = @id;`
     try {
       const result = await executeQuery(query, values, paramNames, false);
-      console.log(result.recordset)
-      // res.json({ user: result.recordset})
-      res.render("admin.ejs", { user: result.recordset} );
+      console.log(result.recordset[0].id_user);
+      const result1 = await executeQuery(likeArticleQuery, [result.recordset[0].id_user], ["id"], false);
+      console.log(result1.recordset)
+      res.render("admin.ejs", { user: result.recordset, likeArticles: result1.recordset } );
     } catch(error) {
-      res.render("404.ejs");
+      res.render("notFound404.ejs");
     }
   } else if (role == "NhaBao") {
     res.render("nhaBao.ejs");

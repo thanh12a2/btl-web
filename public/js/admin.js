@@ -85,29 +85,29 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // CRUD mẫu cho Bài viết yêu thích
-    let favoriteArticles = [
-        {id: 1, title: 'Bài viết A', author: 'Tác giả 1', date: '2024-06-01'},
-        {id: 2, title: 'Bài viết B', author: 'Tác giả 2', date: '2024-06-02'}
-    ];
-    function renderFavoriteArticles() {
-        const tbody = document.getElementById('favoriteArticlesBody');
-        tbody.innerHTML = favoriteArticles.map(a => `
-            <tr>
-                <td>${a.id}</td>
-                <td>${a.title}</td>
-                <td>${a.author}</td>
-                <td>${a.date}</td>
-                <td>
-                    <button class=\"info_management-action-btn\" onclick=\"deleteFavoriteArticle(${a.id})\">Xóa</button>
-                </td>
-            </tr>
-        `).join('');
-    }
-    window.deleteFavoriteArticle = function(id) {
-        favoriteArticles = favoriteArticles.filter(a => a.id !== id);
-        renderFavoriteArticles();
-    }
-    renderFavoriteArticles();
+    // let favoriteArticles = [
+    //     {id: 1, title: 'Bài viết A', author: 'Tác giả 1', date: '2024-06-01'},
+    //     {id: 2, title: 'Bài viết B', author: 'Tác giả 2', date: '2024-06-02'}
+    // ];
+    // function renderFavoriteArticles() {
+    //     const tbody = document.getElementById('favoriteArticlesBody');
+    //     tbody.innerHTML = favoriteArticles.map(a => `
+    //         <tr>
+    //             <td>${a.id}</td>
+    //             <td>${a.title}</td>
+    //             <td>${a.author}</td>
+    //             <td>${a.date}</td>
+    //             <td>
+    //                 <button class=\"info_management-action-btn\" onclick=\"deleteFavoriteArticle(${a.id})\">Xóa</button>
+    //             </td>
+    //         </tr>
+    //     `).join('');
+    // }
+    // window.deleteFavoriteArticle = function(id) {
+    //     favoriteArticles = favoriteArticles.filter(a => a.id !== id);
+    //     renderFavoriteArticles();
+    // }
+    // renderFavoriteArticles();
 
     // CRUD mẫu cho Bình luận của tôi
     let myComments = [
@@ -242,15 +242,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 passwordInput.type = "password"; // Ẩn mật khẩu
             }
 
+            // Kiểm tra giá trị input khi bật/tắt
+            toggleSaveButton();
+
             // Thay đổi giao diện nút
             if (isDisabled) {
                 changePasswordButton.innerText = "🔓"; // Biểu tượng mở khóa
             } else {
                 changePasswordButton.innerText = "🔑"; // Biểu tượng khóa
+                saveBtn.style.display = "none";
             }
-
-            // Kiểm tra giá trị input khi bật/tắt
-            toggleSaveButton();
         });
 
         // Sự kiện input để kiểm tra giá trị khi người dùng nhập

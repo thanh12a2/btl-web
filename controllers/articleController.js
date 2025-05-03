@@ -303,16 +303,14 @@ export const articleController = {
         const values = [req.params.id];
         const paramName = ["name_alias"];
         try {
-          const result = await executeQuery(query, values, paramName, false);
+          await executeQuery(query, values, paramName, false);
         } catch (error) {
           res.json({ success: error });
         }
       } catch (error) {
         res.json({ success: error });
       }
-      console.log(res.locals.email);
-
-      res.json({ success: "thanh cong", email: res.locals.email });
+      res.redirect('back');
     } catch (error) {
       res.json({ success: false, message: "Có lỗi xảy ra!" });
     }
@@ -407,4 +405,6 @@ export const articleController = {
       return res.json({failed: "Co loi"});
     }
   },
+
+  getLikedArticlesByUser: async () => {}
 };

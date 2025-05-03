@@ -15,7 +15,7 @@ router.get("/getArticlesOldest/:id", articleController.getArticlesOldest);
 
 router.get("/likeArticle/:id", authController.authenticateToken, articleController.likeArticle);
 
-router.delete("/removeArticle/:id", authController.authenticateToken, articleController.removeLikedArticle);
+router.post("/removeArticle/:id", authController.authenticateToken, articleController.removeLikedArticle);
 
 router.get("/sortArticlesByLikes/:id", articleController.sortArticlesByLikesCount);
 
