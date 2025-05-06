@@ -153,13 +153,10 @@ export const articleController = {
         paramNames,
         isStoredProcedure
       );
-      // return result.recordset;
-      res.json({ success: true, data: result.recordset });
+      return result.recordset;
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .json({ success: false, message: "Có lỗi xảy ra, vui lòng thử lại!" });
+      return { recordset: [] };
     }
   },
 
