@@ -103,6 +103,23 @@ router.get("/backdetails", authController.authenticateToken, async (req, res) =>
   
   const role = res.locals.role;
   if (role == "Admin") {
+
+    const query1 = `SELECT * FROM [dbo].[Article]`;
+    const isStoredProcedure = false;
+    let result2;
+
+    try {
+      result2 = await executeQuery(
+        query1,
+        [],
+        [],
+        isStoredProcedure
+      );
+    } catch (error) {
+      console.error(error);
+      // return { recordset: [] };
+    }
+
     const query = `SELECT * FROM [dbo].[User] WHERE email = @email`
     const values = [res.locals.email];
     const paramNames = ["email"];
@@ -116,7 +133,7 @@ router.get("/backdetails", authController.authenticateToken, async (req, res) =>
       // console.log(result.recordset[0].id_user);
       const result1 = await executeQuery(likeArticleQuery, [result.recordset[0].id_user], ["id"], false);
       // console.log(result1.recordset)
-      res.render("admin.ejs", { user: result.recordset, likeArticles: result1.recordset } );
+      res.render("admin.ejs", { user: result.recordset, likeArticles: result1.recordset, articles: result2.recordset } );
     } catch(error) {
       res.render("notFound404.ejs");
     }

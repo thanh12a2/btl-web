@@ -141,7 +141,7 @@ export const articleController = {
     }
   },
 
-  getArticles1: async (req, res) => {
+  getArticles1: async () => {
     const query = `SELECT * FROM [dbo].[Article]`;
     const values = [];
     const paramNames = [];
