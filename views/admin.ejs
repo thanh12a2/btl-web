@@ -341,8 +341,8 @@
                     <tr>
                         <th>ID bài báo</th>
                         <th>Tác giả</th>
-                        <th>ID danh mục</th>
                         <th>Tên tiêu đề</th>
+                        <th>Tên danh mục</th>
                         <th>Ảnh bìa</th>
                         <th>Nội dung bài báo</th>
                         <th>Địa chỉ alias</th>
@@ -354,35 +354,9 @@
                         <th>Trạng thái</th>
                     </tr>
                 </thead>
-                <tbody id="tbodyArticle">
-                    <% if (articles && articles.length) { %>
-                        <% for (let i = 0; i < articles.length; i++) { %>
-                            <tr>
-                                <td><%= articles[i].id_article %></td>
-                                <td><%= articles[i].id_user %></td>
-                                <td><%= articles[i].id_category %></td>
-                                <td><%= articles[i].heading %></td>
-                                <td><img src="<%= articles[i].hero_image %>" style="max-width: 100px;"></td>
-                                <td><%= articles[i].content ? articles[i].content.substring(0, 100) + '...' : '' %></td>
-                                <td><%= articles[i].name_alias %></td>
-                                <td><%= articles[i].views %></td>
-                                <td><%= articles[i].like_count %></td>
-                                <td><%= articles[i].is_featured ? 'Có' : 'Không' %></td>
-                                <td><%= articles[i].day_created %></td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm" onclick="editArticle('<%= articles[i].id_article %>')">Sửa</button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteArticle('<%= articles[i].id_article %>')">Xóa</button>
-                                </td>
-                                <td><%= articles[i].status %></td>
-                            </tr>
-                        <% } %>
-                    <% } else { %>
-                        <tr>
-                            <td colspan="13" class="text-center">Không có bài viết nào</td>
-                        </tr>
-                    <% } %>
-                </tbody>
+                <tbody id="tbodyArticle"></tbody>
             </table>
+
 
             <div id="editPostModal" class="action-modal-overlay">
                 <div class="action-modal-content" style="gap: 20px!important;">
