@@ -8,7 +8,11 @@ import { authController } from "../controllers/authController.js";
 import { getArticles } from "../controllers/All_ItemController.js";
 import { getCategories } from '../controllers/All_ItemController.js';
 import { getUsers } from '../controllers/All_ItemController.js';
-
+import { 
+  insertArticle, 
+  updateArticle, 
+  deleteArticle,
+} from '../controllers/CRUD_ArticleController.js';
 const router = express.Router();
 
 // Route lấy trang chủ
@@ -180,6 +184,13 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
     res.render("notFound404.ejs");
   }
 });
+
+// 1. Add this route to your routes file to connect to your existing controller
+router.post("/add-article", authController.authenticateToken, (req, res) => {
+  // Call your existing insertArticle controller
+  insertArticle(req, res);
+});
+
 
 router.get("/test12", articleController.searchArticles);
 
