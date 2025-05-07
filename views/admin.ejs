@@ -14,6 +14,33 @@
         rel="stylesheet">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            color: #007bff;
+            padding: 8px 12px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            margin: 0 4px;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        .pagination a:hover {
+            background-color: #e9ecef;
+        }
+
+        .pagination a.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+    </style>
 </head>
 
 <body>
@@ -34,7 +61,7 @@
                 </a>
                 <span class="tooltip">Thông tin cá nhân</span>
             </li>
-            <% if (_locals.role == "NhaBao") { %>
+            <% if (_locals.role=="NhaBao" ) { %>
                 <li>
                     <a href="#">
                         <i class="bi bi-person-badge"></i>
@@ -49,60 +76,60 @@
                     </a>
                     <span class="tooltip">Danh sách bài viết</span>
                 </li>
-            <% } %>
-            <% if (_locals.role == "NhaBao" || _locals.role == "Admin") { %>
-                <li>
-                    <a href="#">
-                        <i class='bx bxs-plus-circle'></i>
-                        <span class="links_name">Thêm bài báo</span>
-                    </a>
-                    <span class="tooltip">Thêm bài báo</span>
-                </li>
-            <% } %>
-            <% if (_locals.role == "Admin") { %>
-                <li>
-                    <a href="#">
-                        <i class='bx bxs-bar-chart-square'></i>
-                        <span class="links_name">Thống kê dữ liệu</span>
-                    </a>
-                    <span class="tooltip">Thống kê dữ liệu</span>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bxs-folder-open'></i>
-                        <span class="links_name">Quản lý bài viết</span>
-                    </a>
-                    <span class="tooltip">Quản lý bài viết</span>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bxs-category-alt'></i>
-                        <span class="links_name">Quản lý danh mục</span>
-                    </a>
-                    <span class="tooltip">Quản lý danh mục</span>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bxs-user'></i>
-                        <span class="links_name">Quản lý người dùng</span>
-                    </a>
-                    <span class="tooltip">Quản lý người dùng</span>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bxs-comment-detail'></i>
-                        <span class="links_name">Quản lý bình luận</span>
-                    </a>
-                    <span class="tooltip">Quản lý bình luận</span>
-                </li>
-            <% } %>
-            <li>
-                <a href="#">
-                    <i class='bx bx-log-out'></i>
-                    <span class="links_name">Quay lại</span>
-                </a>
-                <span class="tooltip">Quay lại</span>
-            </li>
+                <% } %>
+                    <% if (_locals.role=="NhaBao" || _locals.role=="Admin" ) { %>
+                        <li>
+                            <a href="#">
+                                <i class='bx bxs-plus-circle'></i>
+                                <span class="links_name">Thêm bài báo</span>
+                            </a>
+                            <span class="tooltip">Thêm bài báo</span>
+                        </li>
+                        <% } %>
+                            <% if (_locals.role=="Admin" ) { %>
+                                <li>
+                                    <a href="#">
+                                        <i class='bx bxs-bar-chart-square'></i>
+                                        <span class="links_name">Thống kê dữ liệu</span>
+                                    </a>
+                                    <span class="tooltip">Thống kê dữ liệu</span>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class='bx bxs-folder-open'></i>
+                                        <span class="links_name">Quản lý bài viết</span>
+                                    </a>
+                                    <span class="tooltip">Quản lý bài viết</span>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class='bx bxs-category-alt'></i>
+                                        <span class="links_name">Quản lý danh mục</span>
+                                    </a>
+                                    <span class="tooltip">Quản lý danh mục</span>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class='bx bxs-user'></i>
+                                        <span class="links_name">Quản lý người dùng</span>
+                                    </a>
+                                    <span class="tooltip">Quản lý người dùng</span>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class='bx bxs-comment-detail'></i>
+                                        <span class="links_name">Quản lý bình luận</span>
+                                    </a>
+                                    <span class="tooltip">Quản lý bình luận</span>
+                                </li>
+                                <% } %>
+                                    <li>
+                                        <a href="#">
+                                            <i class='bx bx-log-out'></i>
+                                            <span class="links_name">Quay lại</span>
+                                        </a>
+                                        <span class="tooltip">Quay lại</span>
+                                    </li>
         </ul>
     </div>
 
@@ -116,14 +143,16 @@
                         <div class="info_management-row">
                             <label class="info_management-label">Họ và Tên:</label>
                             <div class="info_management-input-group">
-                                <input type="text" id="info_management-name" class="info_management-input" name="newUsername" value="<%= user[0].username %>" disabled>
+                                <input type="text" id="info_management-name" class="info_management-input"
+                                    name="newUsername" value="<%= user[0].username %>" disabled>
                             </div>
                         </div>
                         <!-- Email (không chỉnh sửa, thêm placeholder) -->
                         <div class="info_management-row">
                             <label class="info_management-label">Email:</label>
                             <div class="info_management-input-group">
-                                <input type="email" id="info_management-email" class="info_management-input" value="<%= user[0].email %>" disabled>
+                                <input type="email" id="info_management-email" class="info_management-input"
+                                    value="<%= user[0].email %>" disabled>
                                 <div class="info_management-email-placeholder"></div>
                             </div>
                         </div>
@@ -131,12 +160,15 @@
                         <div class="info_management-row">
                             <label class="info_management-label">Mật khẩu:</label>
                             <div class="info_management-input-group">
-                                <input type="password" id="info_management-password" class="info_management-input" name="pwdInp" value="<%= user[0].password %>" disabled>
+                                <input type="password" id="info_management-password" class="info_management-input"
+                                    name="pwdInp" value="<%= user[0].password %>" disabled>
                                 <div class="info_management-button-group">
-                                    <button type="button" id="info_management-change-password" class="info_management-button">🔑</button>
+                                    <button type="button" id="info_management-change-password"
+                                        class="info_management-button">🔑</button>
                                 </div>
                                 <div class="info_management-button-group">
-                                    <button type="submit" id="info_management-edit-name" class="info_management-button" style="display:none"><i class="bi bi-floppy-fill"></i></button>
+                                    <button type="submit" id="info_management-edit-name" class="info_management-button"
+                                        style="display:none"><i class="bi bi-floppy-fill"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -144,7 +176,8 @@
                 </div>
                 <div class="info_management-side">
                     <div class="info_management-tabs">
-                        <button class="info_management-tab active" data-tab="favorite-articles">Bài viết yêu thích</button>
+                        <button class="info_management-tab active" data-tab="favorite-articles">Bài viết yêu
+                            thích</button>
                         <button class="info_management-tab" data-tab="my-comments">Bình luận của tôi</button>
                         <button class="info_management-tab" data-tab="favorite-comments">Bình luận yêu thích</button>
                     </div>
@@ -162,22 +195,34 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% for (let k = 0; k < likeArticles.length; k++) { %>
+                                <% for (let k=0; k < likeArticles.length; k++) { %>
                                     <tr>
-                                        <td><%= k + 1 %></td>
+                                        <td>
+                                            <%= k + 1 %>
+                                        </td>
                                         <td class="center-items-table">
-                                            <div class="search-items" style="background: transparent; margin-bottom: 0px">
+                                            <div class="search-items"
+                                                style="background: transparent; margin-bottom: 0px">
                                                 <div class="image">
-                                                    <a href="/article/transportArticle/<%= likeArticles[k].name_alias %>">
+                                                    <a
+                                                        href="/article/transportArticle/<%= likeArticles[k].name_alias %>">
                                                         <img src="<%= likeArticles[k].hero_image %>" alt="">
                                                     </a>
                                                 </div>
                                                 <div class="content">
-                                                    <a href="/article/transportArticle/<%=likeArticles[k].name_alias %>" style="text-decoration: none;"><div class="title-section"><%= likeArticles[k].heading %></div></a>
-                                                    <div class="date"><%= likeArticles[k].day_created %></div>
+                                                    <a href="/article/transportArticle/<%=likeArticles[k].name_alias %>"
+                                                        style="text-decoration: none;">
+                                                        <div class="title-section">
+                                                            <%= likeArticles[k].heading %>
+                                                        </div>
+                                                    </a>
+                                                    <div class="date">
+                                                        <%= likeArticles[k].day_created %>
+                                                    </div>
                                                     <div class="description">
                                                         <p>
-                                                            <a href="/article/transportArticle/<%= likeArticles[k].name_alias %>">
+                                                            <a
+                                                                href="/article/transportArticle/<%= likeArticles[k].name_alias %>">
                                                                 <%= likeArticles[k].content %>
                                                             </a>
                                                         </p>
@@ -186,12 +231,13 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <form action="/article/removeArticle/<%= likeArticles[k].name_alias %>" method="POST">
+                                            <form action="/article/removeArticle/<%= likeArticles[k].name_alias %>"
+                                                method="POST">
                                                 <button class="info_management-action-btn">Xóa</button>
                                             </form>
                                         </td>
                                     </tr>
-                                <% } %>
+                                    <% } %>
                             </tbody>
                         </table>
                     </div>
@@ -234,92 +280,97 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="info-nhabao-Management" class="info_management" style="display: none;">
-                <h2 class="info_management-title">Thông tin nhà báo</h2>
-                <div class="info_management-flex">
-                    <div class="info_management-content">
-                        <div class="info_management-row">
-                            <label class="info_management-label">Họ và Tên:</label>
-                            <div class="info_management-input-group">
-                                <input type="text" id="info_management-name" class="info_management-input" value="Nguyễn Văn A" disabled>
-                                <div class="info_management-button-group">
-                                    <button id="info_management-edit-name" class="info_management-button">✏️</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="info_management-row">
-                            <label class="info_management-label">Email:</label>
-                            <div class="info_management-input-group">
-                                <input type="email" id="info_management-email" class="info_management-input" value="nguyenvana@gmail.com" disabled>
-                                <div class="info_management-email-placeholder"></div>
-                            </div>
-                        </div>
-                        <div class="info_management-row">
-                            <label class="info_management-label">Mật khẩu:</label>
-                            <div class="info_management-input-group">
-                                <input type="password" id="info_management-password" class="info_management-input" value="passwordcc" disabled>
-                                <div class="info_management-button-group">
-                                    <button id="info_management-change-password" class="info_management-button">🔑</button>
-                                </div>
+            <h2 class="info_management-title">Thông tin nhà báo</h2>
+            <div class="info_management-flex">
+                <div class="info_management-content">
+                    <div class="info_management-row">
+                        <label class="info_management-label">Họ và Tên:</label>
+                        <div class="info_management-input-group">
+                            <input type="text" id="info_management-name" class="info_management-input"
+                                value="Nguyễn Văn A" disabled>
+                            <div class="info_management-button-group">
+                                <button id="info_management-edit-name" class="info_management-button">✏️</button>
                             </div>
                         </div>
                     </div>
-                    <div class="info_management-side">
-                        <div class="statistic-overview">
-                            <div class="statistic-box">
-                                <div class="statistic-number" id="statisticTotalArticles">0</div>
-                                <div class="statistic-label">Tổng số bài viết</div>
-                            </div>
-                            <div class="statistic-box">
-                                <div class="statistic-number" id="statisticTotalViews">0</div>
-                                <div class="statistic-label">Tổng lượt xem</div>
-                            </div>
-                            <div class="statistic-box">
-                                <div class="statistic-number" id="statisticTotalLikes">0</div>
-                                <div class="statistic-label">Tổng lượt thích</div>
-                            </div>
-                            <div class="statistic-box">
-                                <div class="statistic-number" id="statisticTotalComments">0</div>
-                                <div class="statistic-label">Tổng bình luận</div>
+                    <div class="info_management-row">
+                        <label class="info_management-label">Email:</label>
+                        <div class="info_management-input-group">
+                            <input type="email" id="info_management-email" class="info_management-input"
+                                value="nguyenvana@gmail.com" disabled>
+                            <div class="info_management-email-placeholder"></div>
+                        </div>
+                    </div>
+                    <div class="info_management-row">
+                        <label class="info_management-label">Mật khẩu:</label>
+                        <div class="info_management-input-group">
+                            <input type="password" id="info_management-password" class="info_management-input"
+                                value="passwordcc" disabled>
+                            <div class="info_management-button-group">
+                                <button id="info_management-change-password" class="info_management-button">🔑</button>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="info_management-side">
+                    <div class="statistic-overview">
+                        <div class="statistic-box">
+                            <div class="statistic-number" id="statisticTotalArticles">0</div>
+                            <div class="statistic-label">Tổng số bài viết</div>
+                        </div>
+                        <div class="statistic-box">
+                            <div class="statistic-number" id="statisticTotalViews">0</div>
+                            <div class="statistic-label">Tổng lượt xem</div>
+                        </div>
+                        <div class="statistic-box">
+                            <div class="statistic-number" id="statisticTotalLikes">0</div>
+                            <div class="statistic-label">Tổng lượt thích</div>
+                        </div>
+                        <div class="statistic-box">
+                            <div class="statistic-number" id="statisticTotalComments">0</div>
+                            <div class="statistic-label">Tổng bình luận</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="statistic-nhabao-Management" class="info_management" style="display: none;">
-                <h2 class="info_management-title">Thống kê của nhà báo</h2>
-                <div class="info_management-flex">
-                    <div class="info_management-side" style="width:100%">
-                        <div class="info_management-tabs">
-                            <button class="info_management-tab active" data-tab="statistic-my-articles">Danh sách bài viết của tôi</button>
-                            <button class="info_management-tab" data-tab="statistic-approve-notify">Thông báo bài viết được duyệt</button>
-                        </div>
-                        <div class="info_management-tab-content" id="statistic-my-articles" style="display:block;">
-                            <table class="info_management-table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Tiêu đề</th>
-                                        <th>Lượt xem</th>
-                                        <th>Lượt thích</th>
-                                        <th>Ngày đăng</th>
-                                        <th>Trạng thái</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="statisticMyArticlesBody"></tbody>
-                            </table>
-                        </div>
-                        <div class="info_management-tab-content" id="statistic-approve-notify" style="display:none;">
-                            <ul id="statisticApproveNotifyList" style="padding-left: 18px;">
-                                <!-- Thông báo sẽ được render ở đây -->
-                            </ul>
-                        </div>
+            <h2 class="info_management-title">Thống kê của nhà báo</h2>
+            <div class="info_management-flex">
+                <div class="info_management-side" style="width:100%">
+                    <div class="info_management-tabs">
+                        <button class="info_management-tab active" data-tab="statistic-my-articles">Danh sách bài viết
+                            của tôi</button>
+                        <button class="info_management-tab" data-tab="statistic-approve-notify">Thông báo bài viết được
+                            duyệt</button>
+                    </div>
+                    <div class="info_management-tab-content" id="statistic-my-articles" style="display:block;">
+                        <table class="info_management-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Lượt xem</th>
+                                    <th>Lượt thích</th>
+                                    <th>Ngày đăng</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody id="statisticMyArticlesBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="info_management-tab-content" id="statistic-approve-notify" style="display:none;">
+                        <ul id="statisticApproveNotifyList" style="padding-left: 18px;">
+                            <!-- Thông báo sẽ được render ở đây -->
+                        </ul>
                     </div>
                 </div>
+            </div>
         </div>
-        
+
         <div id="staticManagement" class="static_management" style="display: none;">
             <h2>Thống kê dữ liệu</h2>
         </div>
@@ -354,9 +405,83 @@
                         <th>Trạng thái</th>
                     </tr>
                 </thead>
-                <tbody id="tbodyArticle"></tbody>
+                <tbody id="tbodyArticle">
+                    <% if(articles && articles.length> 0) { %>
+                        <% articles.forEach(article=> { %>
+                            <tr>
+                                <td>
+                                    <%= article.id_article %>
+                                </td>
+                                <td>
+                                    <div class="ellipsis-text">
+                                        <%= article.username %>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ellipsis-text">
+                                        <%= article.heading %>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ellipsis-text">
+                                        <%= article.parent_category_name || "None" %>, <%= article.category_name %>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ellipsis-url">
+                                        <%= article.hero_image %>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ellipsis-text">
+                                        <%= article.content %>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ellipsis-text">
+                                        <%= article.name_alias || '' %>
+                                    </div>
+                                </td>
+                                <td>
+                                    <%= article.views || 0 %>
+                                </td>
+                                <td>
+                                    <%= article.like_count || 0 %>
+                                </td>
+                                <td>
+                                    <%= article.is_featured ? "Có" : "Không" %>
+                                </td>
+                                <td>
+                                    <%= new Date(article.day_created).toLocaleDateString() %>
+                                </td>
+                                <td class="actions-button">
+                                    <button class="Post-btn-edit"><i class="bi bi-pencil-square"></i> Chỉnh sửa</button>
+                                    <button class="Post-btn-delete" data-id="<%= article.id_article %>"><i
+                                            class="bi bi-trash"></i> Xóa</button>
+                                </td>
+                                <td class="actions-button">
+                                    <button class="Post-btn-approve" style='margin-left: 15%'
+                                        data-id="<%= article.id_article %>"><input type='checkbox'></button>
+                                </td>
+                            </tr>
+                            <% }) %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="13" class="text-center">Không có bài viết nào</td>
+                                    </tr>
+                                    <% } %>
+                </tbody>
             </table>
-
+            <div class="pagination">
+                <% if (pagination.articles.totalPages> 1) { %>
+                    <% for (let i=1; i <=pagination.articles.totalPages; i++) { %>
+                        <a href="?articlePage=<%= i %>&userPage=<%= pagination.users.currentPage %>&categoryPage=<%= pagination.categories.currentPage %>&section=articles#articles"
+                            class="<%= i === pagination.articles.currentPage ? 'active' : '' %>">
+                            <%= i %>
+                        </a>
+                        <% } %>
+                            <% } %>
+            </div>
 
             <div id="editPostModal" class="action-modal-overlay">
                 <div class="action-modal-content" style="gap: 20px!important;">
@@ -461,9 +586,54 @@
                     </tr>
                 </thead>
                 <tbody id="tbodyCategories">
-                    <!-- Dữ liệu danh mục sẽ được hiển thị ở đây -->
+                    <% if (categories && categories.length> 0) { %>
+                        <% categories.forEach(category=> {
+                            const isRootCategory = category.parent_category_name;
+                            %>
+                            <tr>
+                                <td>
+                                    <%= category.id_category %>
+                                </td>
+                                <td>
+                                    <%= category.category_name %>
+                                </td>
+                                <td>
+                                    <%= category.alias_name || "" %>
+                                </td>
+                                <td>
+                                    <%= category.parent_category_name || "" %>
+                                </td>
+                                <td class="actions-button">
+                                    <button class="Cate-btn-edit" data-id="<%= category.id_category %>"
+                                        <%=isRootCategory===null ? 'disabled' : '' %>>
+                                        <i class="bi bi-pencil-square"></i> Chỉnh sửa
+                                    </button>
+                                    <button class="Cate-btn-delete" data-id="<%= category.id_category %>"
+                                        <%=isRootCategory===null ? 'disabled' : '' %>>
+                                        <i class="bi bi-trash"></i> Xóa
+                                    </button>
+                                </td>
+                            </tr>
+                            <% }) %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="5" class="text-center">Không có danh mục nào</td>
+                                    </tr>
+                                    <% } %>
                 </tbody>
             </table>
+            <div class="pagination">
+                <% if (pagination.categories.totalPages> 1) { %>
+                    <% for (let i=1; i <=pagination.categories.totalPages; i++) { %>
+                        <a href="?categoryPage=<%= i %>&articlePage=<%= pagination.articles.currentPage %>&userPage=<%= pagination.users.currentPage %>&section=categories#categories"
+                            class="<%= i === pagination.categories.currentPage ? 'active' : '' %>">
+                            <%= i %>
+                        </a>
+                        <% } %>
+                            <% } %>
+            </div>
+
+
 
             <!-- Modal thêm danh mục -->
             <div id="addCategoryModal" class="action-modal-overlay">
@@ -578,9 +748,51 @@
                             </tr>
                         </thead>
                         <tbody id="tbodyUser">
+                            <% if (users && users.length> 0) { %>
+                                <% users.forEach((user, index)=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= user.id_user %>
+                                        </td>
+                                        <td>
+                                            <%= user.username %>
+                                        </td>
+                                        <td>
+                                            <%= user.email %>
+                                        </td>
+                                        <td>
+                                            <%= user.password %>
+                                        </td>
+                                        <td>
+                                            <div class="user-actions">
+                                                <button class="User-btn-delete"><i class="bi bi-trash"></i> Xóa</button>
+                                                <div class="toggle-switch">
+                                                    <input type="checkbox" id="userToggle<%= index %>"
+                                                        class="toggle-input" checked>
+                                                    <label for="userToggle<%= index %>" class="toggle-label"></label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="5" class="text-center">Không có người dùng nào</td>
+                                            </tr>
+                                            <% } %>
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div class="pagination">
+                <% if (pagination.users.totalPages> 1) { %>
+                    <% for (let i=1; i <=pagination.users.totalPages; i++) { %>
+                        <a href="?userPage=<%= i %>&articlePage=<%= pagination.articles.currentPage %>&categoryPage=<%= pagination.categories.currentPage %>&section=users#users"
+                            class="<%= i === pagination.users.currentPage ? 'active' : '' %>">
+                            <%= i %>
+                        </a>
+                        <% } %>
+                            <% } %>
             </div>
 
             <div id="modal-container" style="display: none;">
@@ -640,7 +852,7 @@
                             </tr>
                         </thead>
                         <tbody>
-            
+
                         </tbody>
                     </table>
                 </div>
@@ -705,7 +917,8 @@
             </div>
         </div>
     </div>
-
+    <script>
+    </script>
     <script src="/../js/admin.js"></script>
 </body>
 

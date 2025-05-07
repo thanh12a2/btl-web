@@ -1,10 +1,13 @@
-import express from "express";
+import express from 'express';
 import { categoryController } from "../controllers/categoryController.js";
 import { articleController } from "../controllers/articleController.js";
 import { statsController } from "../controllers/statsController.js";
 import WeatherService from "../controllers/weatherDayController.js";
 import { executeQuery } from "../config/db.js";
 import { authController } from "../controllers/authController.js";
+import { getArticles } from "../controllers/All_ItemController.js";
+import { getCategories } from '../controllers/All_ItemController.js';
+import { getUsers } from '../controllers/All_ItemController.js';
 
 const router = express.Router();
 
@@ -66,13 +69,13 @@ router.get("/", async (req, res) => {
     // });
 
     res.render('index.ejs', {
-        isLoggedIn: req.isLoggedIn,
-        username: req.username,
-        role: req.role,
-        categoryTree: categories,
-        articles: articles,
-        topArticles: topArticles.recordset,
-        TopArticlesEachCate: grouped,
+      isLoggedIn: req.isLoggedIn,
+      username: req.username,
+      role: req.role,
+      categoryTree: categories,
+      articles: articles,
+      topArticles: topArticles.recordset,
+      TopArticlesEachCate: grouped,
     });
   } catch (error) {
     console.error("Error loading categories:", error);
@@ -99,30 +102,82 @@ router.get("/api/weather", async (req, res) => {
   }
 });
 
-router.get("/backdetails", authController.authenticateToken, async (req, res) => {
+router.get("/backdetails", authController.authenticateToken, getArticles, getCategories, getUsers, async (req, res) => {
   const role = res.locals.role;
-  if (role == "Admin") {
-    const query = `SELECT * FROM [dbo].[User] WHERE email = @email`
-    const values = [res.locals.email];
-    const paramNames = ["email"];
 
-    const likeArticleQuery = `SELECT A.*
-                              FROM LikeArticle LA
-                              JOIN Article A ON LA.id_article = A.id_article
-                              WHERE LA.id_user = @id;`
-    try {
-      const result = await executeQuery(query, values, paramNames, false);
-      // console.log(result.recordset[0].id_user);
-      const result1 = await executeQuery(likeArticleQuery, [result.recordset[0].id_user], ["id"], false);
-      // console.log(result1.recordset)
-      res.render("admin.ejs", { user: result.recordset, likeArticles: result1.recordset } );
-    } catch(error) {
-      res.render("notFound404.ejs");
+  const query = `SELECT * FROM [dbo].[User] WHERE email = @email`
+  const values = [res.locals.email];
+  const paramNames = ["email"];
+
+  const likeArticleQuery = `SELECT A.*
+                            FROM LikeArticle LA
+                            JOIN Article A ON LA.id_article = A.id_article
+                            WHERE LA.id_user = @id;`
+  try {
+    const result = await executeQuery(query, values, paramNames, false);
+    // console.log(result.recordset[0].id_user);
+    const result1 = await executeQuery(likeArticleQuery, [result.recordset[0].id_user], ["id"], false);
+    // console.log(result1.recordset)
+
+
+    // Route handling code
+    const articlePage = parseInt(req.query.articlePage) || 1;
+    const categoryPage = parseInt(req.query.categoryPage) || 1;
+    const userPage = parseInt(req.query.userPage) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const table = req.query.table || "dashboard"; // Default to dashboard or whatever your first section is
+    const activeSection = req.query.section || "dashboard"; // Track which section is active
+    const currentPage = parseInt(req.query.page) || 1; // Current page for article management
+
+    function paginate(data, page, limit) {
+      const start = (page - 1) * limit;
+      const end = start + limit;
+      return {
+        data: data.slice(start, end),
+        totalPages: Math.ceil(data.length / limit),
+        totalItems: data.length,
+        currentPage: page // Add the current page to the pagination object
+      };
     }
-  } else if (role == "NhaBao") {
-    res.render("nhaBao.ejs");
-  } else if (role == "DocGia") {
-    res.render("docGia.ejs");
+
+    const articlesData = paginate(res.locals.articles || [], articlePage, limit);
+    const categoriesData = paginate(res.locals.categories || [], categoryPage, limit);
+    const usersData = paginate(res.locals.users || [], userPage, limit);
+
+    res.render("admin.ejs", {
+      user: result.recordset,
+      likeArticles: result1.recordset,
+      articles: articlesData.data,
+      categories: categoriesData.data,
+      users: usersData.data,
+      limit: limit,
+      activeSection: activeSection, // Pass the active section to the template
+      currentPage: currentPage, // Pass the current page for article management
+      pagination: {
+        articlePage,
+        categoryPage,
+        userPage,
+        articles: {
+          totalPages: articlesData.totalPages,
+          totalItems: articlesData.totalItems,
+          currentPage: articlePage
+        },
+        categories: {
+          totalPages: categoriesData.totalPages,
+          totalItems: categoriesData.totalItems,
+          currentPage: categoryPage
+        },
+        users: {
+          totalPages: usersData.totalPages,
+          totalItems: usersData.totalItems,
+          currentPage: userPage
+        },
+        currentPage: currentPage, // Add current page to pagination object
+        totalPages: articlesData.totalPages // Total pages for article management
+      }
+    });
+  } catch (error) {
+    res.render("notFound404.ejs");
   }
 });
 
@@ -173,13 +228,13 @@ router.get("/home", async (req, res) => {
     });
 
     res.render('index.ejs', {
-        isLoggedIn: req.isLoggedIn,
-        username: req.username,
-        role: req.role,
-        categoryTree: categories,
-        articles: articles,
-        topArticles: topArticles.recordset,
-        TopArticlesEachCate: grouped,
+      isLoggedIn: req.isLoggedIn,
+      username: req.username,
+      role: req.role,
+      categoryTree: categories,
+      articles: articles,
+      topArticles: topArticles.recordset,
+      TopArticlesEachCate: grouped,
     });
   } catch (error) {
     console.error("Error loading categories:", error);
