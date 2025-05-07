@@ -128,7 +128,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
     const articlePage = parseInt(req.query.articlePage) || 1;
     const categoryPage = parseInt(req.query.categoryPage) || 1;
     const userPage = parseInt(req.query.userPage) || 1;
-    const limit = parseInt(req.query.limit) || 5;
+    const limit = parseInt(req.query.limit) || 10;
     const table = req.query.table || "dashboard"; // Default to dashboard or whatever your first section is
     const activeSection = req.query.section || "dashboard"; // Track which section is active
     const currentPage = parseInt(req.query.page) || 1; // Current page for article management
