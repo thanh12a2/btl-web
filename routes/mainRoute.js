@@ -100,6 +100,7 @@ router.get("/api/weather", async (req, res) => {
 });
 
 router.get("/backdetails", authController.authenticateToken, async (req, res) => {
+  // console.log(res.locals);
   const role = res.locals.role;
   if (role == "Admin") {
     const query = `SELECT * FROM [dbo].[User] WHERE email = @email`
