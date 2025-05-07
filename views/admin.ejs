@@ -14,6 +14,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
     <style>
         .pagination {
             display: flex;
@@ -123,11 +124,20 @@
                                     <span class="tooltip">Quản lý bình luận</span>
                                 </li>
                                 <% } %>
-                                    <li>
-                                        <a href="#">
-                                            <i class='bx bx-log-out'></i>
-                                            <span class="links_name">Quay lại</span>
-                                        </a>
+                                    <li style="margin-top: 50px; margin-right: 10px; padding-right: 10px;">
+                                        <form action="/home" method="GET" style="height: 50px;">
+                                            <button style="    
+                                            background-color: transparent;
+                                            border: none;
+                                            color: white;
+                                            font-size: 20px;
+                                            height: 100%;
+                                            " 
+                                            type="submit">
+                                                <i class='bx bx-log-out' style="padding-right: 15px !important;"></i>
+                                                <span class="links_name" style="font-size: medium;">Quay lại</span>
+                                            </button>
+                                        </form>
                                         <span class="tooltip">Quay lại</span>
                                     </li>
         </ul>
