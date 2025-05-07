@@ -64,6 +64,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Đánh dấu menu được chọn là 'active'
             this.parentElement.classList.add("active");
+
+            // Lưu panel hiện tại khi người dùng click menu
+            localStorage.setItem("activePanel", menuName);
         });
     });
 
@@ -259,6 +262,25 @@ document.addEventListener("DOMContentLoaded", function () {
         usernameInput.addEventListener("input", toggleSaveButton);
     }
 
+    let savedPanel = localStorage.getItem("activePanel");
+    if (savedPanel && sections[savedPanel]) {
+        // Ẩn tất cả các phần
+        Object.values(sections).forEach(section => {
+            if (section) section.style.display = "none";
+        });
+        // Hiện lại phần đã lưu
+        sections[savedPanel].style.display = "block";
+
+        // Đánh dấu menu tương ứng là active
+        menuItems.forEach(link => {
+            const linkName = link.querySelector(".links_name").innerText;
+            if (linkName === savedPanel) {
+                link.parentElement.classList.add("active");
+            } else {
+                link.parentElement.classList.remove("active");
+            }
+        });
+    }
 });
 
 
