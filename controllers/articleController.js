@@ -141,7 +141,7 @@ export const articleController = {
     }
   },
 
-  getArticles1: async (req, res) => {
+  getArticles1: async () => {
     const query = `SELECT * FROM [dbo].[Article]`;
     const values = [];
     const paramNames = [];
@@ -153,13 +153,10 @@ export const articleController = {
         paramNames,
         isStoredProcedure
       );
-      // return result.recordset;
-      res.json({ success: true, data: result.recordset });
+      return result.recordset;
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .json({ success: false, message: "Có lỗi xảy ra, vui lòng thử lại!" });
+      return { recordset: [] };
     }
   },
 

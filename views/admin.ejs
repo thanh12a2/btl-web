@@ -392,8 +392,8 @@
                     <tr>
                         <th>ID bài báo</th>
                         <th>Tác giả</th>
+                        <th>ID danh mục</th>
                         <th>Tên tiêu đề</th>
-                        <th>Tên danh mục</th>
                         <th>Ảnh bìa</th>
                         <th>Nội dung bài báo</th>
                         <th>Địa chỉ alias</th>
@@ -406,6 +406,7 @@
                     </tr>
                 </thead>
                 <tbody id="tbodyArticle">
+
                     <% if(articles && articles.length> 0) { %>
                         <% articles.forEach(article=> { %>
                             <tr>
