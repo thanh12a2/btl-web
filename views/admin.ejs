@@ -14,6 +14,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
         .pagination {
@@ -705,7 +706,7 @@
                             </label>
                         </div>
                     </div>
-                    <button class="btn-primary btn-add-user">
+                    <button id="btnAddUser" class="btn-primary btn-add-user">
                         Thêm người dùng
                     </button>
                 </div>
@@ -732,14 +733,25 @@
                                         <td><%= users[i].password %></td>
                                         <td><%= users[i].role %></td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm" onclick="editArticle('<%= articles[i].id_article %>')">Sửa</button>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteArticle('<%= articles[i].id_article %>')">Xóa</button>
+                                            <button 
+                                                class="btn btn-primary btn-sm btn-sua" 
+                                                data-id="<%= users[i].id_user %>" 
+                                                data-username="<%= users[i].username %>" 
+                                                data-email="<%= users[i].email %>" 
+                                                data-password="<%= users[i].password %>" 
+                                                data-role="<%= users[i].role %>">
+                                                Sửa
+                                            </button>
+                                            <form action="/user/deleteUser" method="POST">
+                                                <input type="hidden" name="data-id" value="<%= users[i].id_user %>">
+                                                <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 <% } %>
                             <% } else { %>
                                 <tr>
-                                    <td colspan="13" class="text-center">Không có danh mục nào</td>
+                                    <td colspan="13" class="text-center">Không có người dùng nào</td>
                                 </tr>
                             <% } %>
                         </tbody>
@@ -760,12 +772,12 @@
             <div id="modal-container" style="display: none;">
                 <div class="modal-overlay">
                     <div class="modal-content">
-                        <button class="modal-close-btn">&times;</button>
+                        <button id="closeBtnAddUser" class="modal-close-btn">&times;</button>
                         <h2 class="modal-title">Thêm người dùng</h2>
-                        <form id="addUserForm" class="modal-form">
+                        <form id="addUserForm" class="modal-form" action="/user/addUser" method="POST">
                             <div>
                                 <label>Tên người dùng</label>
-                                <input type="text" name="tenNguoiDung" required placeholder="Nhập tên người dùng">
+                                <input type="text" name="username" required placeholder="Nhập tên người dùng">
                             </div>
                             <div>
                                 <label>Email</label>
@@ -774,10 +786,69 @@
 
                             <div>
                                 <label>Mật khẩu</label>
-                                <input type="password" name="matKhau" required placeholder="Nhập mật khẩu">
+                                <input type="password" name="password" required placeholder="Nhập mật khẩu">
                             </div>
+
+                            <div>
+                                <label>Vai trò</label>
+                                <select id="role" name="role" class="form-control" style="
+                                                                                width: 100%;
+                                                                                width: 100%;
+                                                                                padding: 10px;
+                                                                                border: 1px solid #ced4da;
+                                                                                border-radius: 5px;
+                                                                                font-size: 14px;
+                                                                                margin-top: 10px; ">
+                                    <option value="Admin">Admin</option>
+                                    <option value="NhaBao">NhaBao</option>
+                                    <option value="DocGia">DocGia</option>
+                                </select>
+                            </div>
+
                             <div class="form-submit-wrapper">
                                 <button type="submit" class="modal-submit-btn">Thêm người dùng</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="modal-container-update" style="display: none;">
+                <div class="modal-overlay">
+                    <div class="modal-content">
+                        <button id="closeBtnFixUser" class="modal-close-btn">&times;</button>
+                        <h2 class="modal-title">Chỉnh sửa người dùng</h2>
+                        <form id="updateUserForm" class="modal-form" action="/user/updateUser" method="POST">
+                            <input type="hidden" name="userId" id="editUserId"> <!-- Input ẩn để lưu ID người dùng -->
+                            <div>
+                                <label>Tên người dùng</label>
+                                <input type="text" name="username" id="editUsername" required placeholder="Nhập tên người dùng">
+                            </div>
+                            <div>
+                                <label>Email</label>
+                                <input type="email" name="email" id="editEmail" required placeholder="Nhập email">
+                            </div>
+                            <div>
+                                <label>Mật khẩu</label>
+                                <input type="text" name="password" id="editPassword" required placeholder="Nhập mật khẩu">
+                            </div>
+                            <div>
+                                <label>Vai trò</label>
+                                <select name="role" id="editRole" class="form-control" style="
+                                                                                    width: 100%;
+                                                                                    width: 100%;
+                                                                                    padding: 10px;
+                                                                                    border: 1px solid #ced4da;
+                                                                                    border-radius: 5px;
+                                                                                    font-size: 14px;
+                                                                                    margin-top: 10px;">
+                                    <option value="Admin">Admin</option>
+                                    <option value="NhaBao">NhaBao</option>
+                                    <option value="DocGia">DocGia</option>
+                                </select>
+                            </div>
+                            <div class="form-submit-wrapper">
+                                <button type="submit" class="modal-submit-btn">Cập nhật người dùng</button>
                             </div>
                         </form>
                     </div>

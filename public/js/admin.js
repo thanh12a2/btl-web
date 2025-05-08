@@ -2,20 +2,11 @@ let btn = document.querySelector("#btn");
 
 let sidebar = document.querySelector(".sidebar");
 
-
-
 btn.onclick = function() {
-
     console.time("Toggle Sidebar");
-
     sidebar.classList.toggle("active");
-
-
-
-        console.timeEnd("Toggle Sidebar");
-
+    console.timeEnd("Toggle Sidebar");
 }
-
 
 document.addEventListener("DOMContentLoaded", function () {
     let menuItems = document.querySelectorAll(".nav_list li a");
@@ -281,8 +272,62 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
-});
 
+    const themNguoiDungBtn = document.getElementById("btnAddUser")
+    const modalThemNguoiDung = document.getElementById("modal-container")
+    const closeBtnAddUser = document.getElementById("closeBtnAddUser")
+
+    const updateUserBtns = document.querySelectorAll(".btn-sua"); // Lấy tất cả các nút "Sửa"
+    const modalUpdateUser = document.getElementById("modal-container-update");
+    const closeBtnFixUser = document.getElementById("closeBtnFixUser");
+
+    // Các input trong modal
+    const editUserId = document.getElementById("editUserId");
+    const editUsername = document.getElementById("editUsername");
+    const editEmail = document.getElementById("editEmail");
+    const editPassword = document.getElementById("editPassword");
+    const editRole = document.getElementById("editRole");
+
+    // Gắn sự kiện click cho từng nút "Sửa"
+    updateUserBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            // Lấy thông tin từ data-* của nút
+            const userId = btn.getAttribute("data-id");
+            const username = btn.getAttribute("data-username");
+            const email = btn.getAttribute("data-email");
+            const password = btn.getAttribute("data-password");
+            const role = btn.getAttribute("data-role");
+
+            // Gán thông tin vào các input trong modal
+            editUserId.value = userId;
+            editUsername.value = username;
+            editEmail.value = email;
+            editPassword.value = password;
+            editRole.value = role;
+
+            // Hiển thị modal
+            modalUpdateUser.style.display = "block";
+        });
+    });
+
+    // Gắn sự kiện đóng modal
+    closeBtnFixUser.addEventListener("click", () => {
+        modalUpdateUser.style.display = "none"; // Ẩn modal
+    });
+
+    themNguoiDungBtn.addEventListener("click", () => {
+        if (modalThemNguoiDung.style.display == "none") {
+            modalThemNguoiDung.style.display = "block";
+        } else modalThemNguoiDung.style.display = "none"
+    })
+
+    closeBtnAddUser.addEventListener("click", () => {
+        modalThemNguoiDung.style.display = "none";
+    })
+
+    
+
+});
 
 let currentArticleId = null;
     

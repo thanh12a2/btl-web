@@ -112,7 +112,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
   if (role == "Admin") {
     const query3 = `SELECT * FROM [dbo].[Category]`;
     const query4 = `SELECT * FROM [dbo].[Comment]`;
-    const query5 = `SELECT * FROM [dbo].[User]`;
+    const query5 = `SELECT * FROM [dbo].[User] WHERE is_deleted = 0`;
     const query1 = `SELECT * FROM [dbo].[Article]`;
     const isStoredProcedure = false;
     let result2;

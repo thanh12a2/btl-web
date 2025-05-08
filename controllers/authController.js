@@ -333,4 +333,5 @@ export const authController = {
       res.json({ failed: "Thay doi mat khau ko thanh cong !" });
     }
   },
+  
 };

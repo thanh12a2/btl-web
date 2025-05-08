@@ -46,7 +46,7 @@ const getUsers = async (req, res, next) => {
     try {
         let pool = await sql.connect(config);
         let result = await pool.request().query(`
-            Select * from [dbo].[User]
+            Select * from [dbo].[User] where is_deleted = 0;
         `);
         res.locals.users = result.recordset;
         next();
