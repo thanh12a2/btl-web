@@ -65,6 +65,9 @@ const userEmailInp1 = document.getElementById("email5");
 const userPwdInp1 = document.getElementById("password5");
 const registerBtn = document.getElementById("registerBtn");
 
+const emailForgotInp = document.getElementById("emailForgot");
+const emailForgotBtn = document.getElementById("sendOtpBtn")
+
 function checkInputs() {
     if (userEmailInp.value.trim() !== "" && userPwdInp.value.trim() !== "") {
         submitBtn.removeAttribute("disabled");
@@ -78,9 +81,16 @@ function checkInputs() {
     else {
         registerBtn.setAttribute("disabled", "true");
     }
+
+    if (emailForgotInp.value.trim() !== "") {
+        emailForgotBtn.removeAttribute("disabled");
+    }
+    else {
+        emailForgotBtn.setAttribute("disabled", "true");
+    }
 }
 
-[userEmailInp, userPwdInp, userNameInp1, userEmailInp1, userPwdInp1].forEach(input => {
+[userEmailInp, userPwdInp, userNameInp1, userEmailInp1, userPwdInp1, emailForgotInp].forEach(input => {
     input.addEventListener("input", checkInputs);
 });
 

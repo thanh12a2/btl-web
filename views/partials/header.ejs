@@ -238,8 +238,57 @@
                                     Đăng nhập
                                 </button>
                             </span>
+                            <p id="forgetPwdBtn" style="margin-left: 100px; cursor: pointer;" onclick="toggleForgotPwd()">Quên mật khẩu</p>
                         </form>
-                        
+
+                        <form id="forgotPwd" style="display: none;">
+                            <div class="login-form-input-outside-container">
+                                <div class="row">
+                                    <label for="emailForgot" class="User col-sm-2 col-form-label">Email</label>
+                                </div>
+                                <div class="row mb-3 input-container">
+                                    <div class="col-sm-10 input-inside-container">
+                                        <input type="email" class="form-control" id="emailForgot" name="email" placeholder="Nhập email để nhận OTP">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="login-form-input-outside-container">
+                                <div class="row">
+                                    <label for="emailForgot" class="User col-sm-2 col-form-label" style="width: 100%;">Mã xác nhận</label>
+                                </div>
+                                <div class="row mb-3 input-container">
+                                    <div class="col-sm-10 input-inside-container">
+                                        <input type="text" class="form-control" id="" name="" placeholder="Nhập mã xác nhận">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="login-form-input-outside-container">
+                                <div class="row">
+                                    <label for="emailForgot" class="User col-sm-2 col-form-label" style="width: 100%;">Mật khẩu mới</label>
+                                </div>
+                                <div class="row mb-3 input-container">
+                                    <div class="col-sm-10 input-inside-container">
+                                        <input type="password" class="form-control" id="" name="" placeholder="Nhập mật khẩu mới">
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="d-inline-block mt-3" 
+                                  tabindex="0" 
+                                  data-bs-toggle="popover" 
+                                  data-bs-placement="right"
+                                  data-bs-trigger="hover focus" 
+                                  data-bs-content="Vui lòng điền đầy đủ thông tin!">
+                                <button type="submit" 
+                                        class="btn btn-primary btn-login-style" 
+                                        id="sendOtpBtn" 
+                                        style="font-family: 'Lexend Deca', sans-serif;"
+                                        disabled>
+                                    Gửi OTP
+                                </button>
+                            </span>
+                            <p id="backToLoginBtn" style="margin-left: 100px; cursor: pointer;" onclick="toggleForgotPwd()">Quay lại đăng nhập</p>
+                        </form>
+  
                     </div>
 
                     <div id="Dangky" class="form-input">
