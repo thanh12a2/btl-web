@@ -284,6 +284,34 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+let currentArticleId = null;
+    
+    // Hiển thị modal xóa
+    function showDeleteModal(articleId) {
+        currentArticleId = articleId;
+        document.getElementById('formDeleteArticle').action = '/article/deleteArticle/' + articleId;
+        document.getElementById('deletePostModal').style.display = 'block';
+    }
+    
+    // Ẩn modal xóa
+    function hideDeleteModal() {
+        document.getElementById('deletePostModal').style.display = 'none';
+    }
+    
+    // Khi user nhấn vào bất kỳ đâu ngoài modal, đóng modal
+    window.onclick = function(event) {
+        const modal = document.getElementById('deletePostModal');
+        if (event.target == modal) {
+            hideDeleteModal();
+        }
+    }
+    
+    // Thêm vào window object để TypeScript biết các hàm này được sử dụng
+    window.showDeleteModal = showDeleteModal;
+    window.hideDeleteModal = hideDeleteModal;
+
+
+
 
 
 
