@@ -35,5 +35,7 @@ router.get("/sortCommentLatest/:id", authController.authenticateToken, commentCo
 
 router.post("/commentChild/:id", authController.authenticateToken, commentController.commentChild);
 
+router.post("/deleteArticle/:id", articleController.deleteArticle);
+
 
 export { router }

@@ -402,85 +402,59 @@
                     <tr>
                         <th>ID bài báo</th>
                         <th>Tác giả</th>
-                        <th>Tên tiêu đề</th>
-                        <th>Tên danh mục</th>
-                        <th>Ảnh bìa</th>
-                        <th>Nội dung bài báo</th>
-                        <th>Địa chỉ alias</th>
+                        <th>ID danh mục</th>
+                        <th>Bài viết</th>
                         <th>Số lượt xem</th>
                         <th>Số lượt thích</th>
                         <th>Nổi bật</th>
-                        <th>Ngày đăng bài</th>
-                        <th>Hành động</th>
                         <th>Trạng thái</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody id="tbodyArticle">
-
-                    <% if(articles && articles.length> 0) { %>
-                        <% articles.forEach(article=> { %>
-                            <tr>
+                    <% if (articles && articles.length) { %>
+                        <% for (let i = 0; i < articles.length; i++) { %>
+                            <tr data-article-id="<%= articles[i].id_article %>">
+                                <td><%= articles[i].id_article %></td>
+                                <td><%= articles[i].id_user %></td>
+                                <td><%= articles[i].id_category %></td>
                                 <td>
-                                    <%= article.id_article %>
-                                </td>
-                                <td>
-                                    <div class="ellipsis-text">
-                                        <%= article.username %>
+                                    <div class="search-items" style="background: transparent; margin-bottom: 0px; width: 700px; height: auto; text-align: left !important;">
+                                        <div class="image" style="width: 150px; height: 100px;">
+                                            <a href="/article/transportArticle/<%= articles[i].name_alias %>">
+                                                <img src="<%= articles[i].hero_image %>" alt="" style="width: 150px; height: 100px;">
+                                            </a>
+                                        </div>
+                                        <div class="content">
+                                            <a href="/article/transportArticle/<%=articles[i].name_alias %>" style="text-decoration: none;  "><div class="title-section" style="font-size: 18px;"><%= articles[i].heading %></div></a>
+                                            <div class="date" style="font-size: 16px;"><%= articles[i].day_created %></div>
+                                            <div class="description">
+                                                <p>
+                                                    <a href="/article/transportArticle/<%= articles[i].name_alias %> ">
+                                                        <div style="font-size: 16px;">
+                                                            <%= articles[i].content %>
+                                                        </div>
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
+                                <td><%= articles[i].views %></td>
+                                <td><%= articles[i].like_count %></td>
+                                <td><%= articles[i].is_featured ? 'Có' : 'Không' %></td>
+                                <td><%= articles[i].status %></td>
                                 <td>
-                                    <div class="ellipsis-text">
-                                        <%= article.heading %>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="ellipsis-text">
-                                        <%= article.parent_category_name || "None" %>, <%= article.category_name %>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="ellipsis-url">
-                                        <%= article.hero_image %>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="ellipsis-text">
-                                        <%= article.content %>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="ellipsis-text">
-                                        <%= article.name_alias || '' %>
-                                    </div>
-                                </td>
-                                <td>
-                                    <%= article.views || 0 %>
-                                </td>
-                                <td>
-                                    <%= article.like_count || 0 %>
-                                </td>
-                                <td>
-                                    <%= article.is_featured ? "Có" : "Không" %>
-                                </td>
-                                <td>
-                                    <%= new Date(article.day_created).toLocaleDateString() %>
-                                </td>
-                                <td class="actions-button">
-                                    <button class="Post-btn-edit"><i class="bi bi-pencil-square"></i> Chỉnh sửa</button>
-                                    <button class="Post-btn-delete" data-id="<%= article.id_article %>"><i
-                                            class="bi bi-trash"></i> Xóa</button>
-                                </td>
-                                <td class="actions-button">
-                                    <button class="Post-btn-approve" style='margin-left: 15%'
-                                        data-id="<%= article.id_article %>"><input type='checkbox'></button>
+                                    <button class="btn btn-primary btn-sm" style="margin-bottom: 5px;" onclick="editArticle('<%= articles[i].id_article %>')">Sửa</button>
+                                    <button class="btn btn-danger btn-sm" onclick="showDeleteModal('<%= articles[i].id_article %>')">Xóa</button>
                                 </td>
                             </tr>
-                            <% }) %>
-                                <% } else { %>
-                                    <tr>
-                                        <td colspan="13" class="text-center">Không có bài viết nào</td>
-                                    </tr>
-                                    <% } %>
+                        <% } %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="13" class="text-center">Không có bài viết nào</td>
+                        </tr>
+                    <% } %>
                 </tbody>
             </table>
             <div class="pagination">
@@ -562,11 +536,13 @@
             </div>
 
             <div id="deletePostModal" class="delete-modal">
-                <div class="modal-content-deleteModal">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 5px; text-align: center; min-width: 300px;">
                     <p>Bạn có chắc chắn muốn xóa bài báo này không?</p>
-                    <div class="modal-buttons">
-                        <button id="confirmDeleteArticle" class="btn-confirm">Có</button>
-                        <button id="cancelDeleteArticle" class="btn-cancel">Không</button>
+                    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
+                        <form id="formDeleteArticle" action="" method="POST">
+                            <button type="submit" class="btn-confirm">Có</button>
+                        </form>
+                        <button onclick="hideDeleteModal()" class="btn-cancel">Không</button>
                     </div>
                 </div>
             </div>
@@ -598,40 +574,25 @@
                     </tr>
                 </thead>
                 <tbody id="tbodyCategories">
-                    <% if (categories && categories.length> 0) { %>
-                        <% categories.forEach(category=> {
-                            const isRootCategory = category.parent_category_name;
-                            %>
+                    <% if (categories && categories.length) { %>
+                        
+                        <% for (let i = 0; i < categories.length; i++) { %>
                             <tr>
+                                <td><%= categories[i].id_category %></td>
+                                <td><%= categories[i].category_name %></td>
+                                <td><%= categories[i].alias_name %></td>
+                                <td><%= categories[i].id_parent %></td>
                                 <td>
-                                    <%= category.id_category %>
-                                </td>
-                                <td>
-                                    <%= category.category_name %>
-                                </td>
-                                <td>
-                                    <%= category.alias_name || "" %>
-                                </td>
-                                <td>
-                                    <%= category.parent_category_name || "" %>
-                                </td>
-                                <td class="actions-button">
-                                    <button class="Cate-btn-edit" data-id="<%= category.id_category %>"
-                                        <%=isRootCategory===null ? 'disabled' : '' %>>
-                                        <i class="bi bi-pencil-square"></i> Chỉnh sửa
-                                    </button>
-                                    <button class="Cate-btn-delete" data-id="<%= category.id_category %>"
-                                        <%=isRootCategory===null ? 'disabled' : '' %>>
-                                        <i class="bi bi-trash"></i> Xóa
-                                    </button>
+                                    <button class="btn btn-primary btn-sm" onclick="editArticle('<%= articles[i].id_article %>')">Sửa</button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteArticle('<%= articles[i].id_article %>')">Xóa</button>
                                 </td>
                             </tr>
-                            <% }) %>
-                                <% } else { %>
-                                    <tr>
-                                        <td colspan="5" class="text-center">Không có danh mục nào</td>
-                                    </tr>
-                                    <% } %>
+                        <% } %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="13" class="text-center">Không có danh mục nào</td>
+                        </tr>
+                    <% } %>
                 </tbody>
             </table>
             <div class="pagination">
@@ -756,42 +717,31 @@
                                 <th>Họ và tên</th>
                                 <th>Email</th>
                                 <th>Mật khẩu</th>
+                                <th>Vai trò</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody id="tbodyUser">
-                            <% if (users && users.length> 0) { %>
-                                <% users.forEach((user, index)=> { %>
+                            <% if (users && users.length) { %>
+                        
+                                <% for (let i = 0; i < users.length; i++) { %>
                                     <tr>
+                                        <td><%= users[i].id_user %></td>
+                                        <td><%= users[i].username %></td>
+                                        <td><%= users[i].email %></td>
+                                        <td><%= users[i].password %></td>
+                                        <td><%= users[i].role %></td>
                                         <td>
-                                            <%= user.id_user %>
-                                        </td>
-                                        <td>
-                                            <%= user.username %>
-                                        </td>
-                                        <td>
-                                            <%= user.email %>
-                                        </td>
-                                        <td>
-                                            <%= user.password %>
-                                        </td>
-                                        <td>
-                                            <div class="user-actions">
-                                                <button class="User-btn-delete"><i class="bi bi-trash"></i> Xóa</button>
-                                                <div class="toggle-switch">
-                                                    <input type="checkbox" id="userToggle<%= index %>"
-                                                        class="toggle-input" checked>
-                                                    <label for="userToggle<%= index %>" class="toggle-label"></label>
-                                                </div>
-                                            </div>
+                                            <button class="btn btn-primary btn-sm" onclick="editArticle('<%= articles[i].id_article %>')">Sửa</button>
+                                            <button class="btn btn-danger btn-sm" onclick="deleteArticle('<%= articles[i].id_article %>')">Xóa</button>
                                         </td>
                                     </tr>
-                                    <% }) %>
-                                        <% } else { %>
-                                            <tr>
-                                                <td colspan="5" class="text-center">Không có người dùng nào</td>
-                                            </tr>
-                                            <% } %>
+                                <% } %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="13" class="text-center">Không có danh mục nào</td>
+                                </tr>
+                            <% } %>
                         </tbody>
                     </table>
                 </div>
@@ -858,15 +808,45 @@
                                 <th>ID_parent</th>
                                 <th>Ngày bình luận</th>
                                 <th>Nội dung bình luận </th>
-                                <th>Trạng thái</th>
                                 <th>Số lượt thích</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
-
+                            <% if (comments && comments.length) { %>
+                        
+                                <% for (let i = 0; i < comments.length; i++) { %>
+                                    <tr>
+                                        <td><%= comments[i].id_comment %></td>
+                                        <td><%= comments[i].id_user %></td>
+                                        <td><%= comments[i].id_article %></td>
+                                        <td><%= comments[i].id_parent %></td>
+                                        <td><%= comments[i].day_created %></td>
+                                        <td><%= comments[i].comment_content %></td>
+                                        <td><%= comments[i].like_count %></td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm" onclick="deleteComment('<%= articles[i].id_article %>')">Xóa</button>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="13" class="text-center">Không có danh mục nào</td>
+                                </tr>
+                            <% } %>
+            
                         </tbody>
                     </table>
+                </div>
+                <div class="pagination">
+                    <% if (pagination.comments.totalPages > 1) { %>
+                        <% for (let i=1; i <= pagination.comments.totalPages; i++) { %>
+                            <a href="?commentPage=<%= i %>&articlePage=<%= pagination.articles.currentPage %>&userPage=<%= pagination.users.currentPage %>&categoryPage=<%= pagination.categories.currentPage %>&section=comments#comments"
+                                class="<%= i === pagination.comments.currentPage ? 'active' : '' %>">
+                                <%= i %>
+                            </a>
+                        <% } %>
+                    <% } %>
                 </div>
             </div>
 
