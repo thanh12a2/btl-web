@@ -144,7 +144,7 @@ export const articleController = {
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, message: "Có lỗi xảy ra, vui lòng thử lại!" });
+        res.render("notFound404.ejs");
     }
 },
 
