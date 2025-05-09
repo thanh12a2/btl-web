@@ -68,73 +68,75 @@ document.addEventListener('DOMContentLoaded', function() {
             const mainImageTs = document.querySelector('.mainImageThoisu');
             const articleTitleTs = document.querySelector('.articleTitleThoisu');
             const articleParagraphTs = document.querySelector('.articleParagraphThoisu');
-            const newsImageTs = item.querySelector('.newsImageThoisu'); // newsImageTs
+            // const newsImageTs = item.querySelector('.newsImageThoisu'); // newsImageTs
             const newsTitleTs = item.querySelector('.newsTitleThoisu'); // newsTitleTs
             const newsParagraphTs = item.querySelector('.newsParagraphThoisu'); // newsParagraphTs
-
+             const mainUrls = document.querySelectorAll('.mainUrl');
             // (existing code to update main image and article)
             mainImageTs.src = item.dataset.img;
             articleTitleTs.textContent = item.dataset.title;
             articleParagraphTs.textContent = item.dataset.paragraph;
-
+            mainUrls.forEach(mainUrl => {
+                mainUrl.href = "/article/transportArticle/" + (item.dataset.name || "#");
+            });
 
             // dynamic text color based on canvas (cho newsTitleTs)
-            const imgForTitleTs = new Image(); // Separate Image object for title color analysis
-            imgForTitleTs.src = newsImageTs.src; // newsImageTs
+            // const imgForTitleTs = new Image(); // Separate Image object for title color analysis
+            // imgForTitleTs.src = newsImageTs.src; // newsImageTs
 
-            imgForTitleTs.onload = function() {
-                const canvasTs = document.createElement('canvas');
-                canvasTs.width = imgForTitleTs.width;
-                canvasTs.height = imgForTitleTs.height;
-                const ctxTs = canvasTs.getContext('2d');
-                ctxTs.drawImage(imgForTitleTs, 0, 0);
+            // imgForTitleTs.onload = function() {
+            //     const canvasTs = document.createElement('canvas');
+            //     canvasTs.width = imgForTitleTs.width;
+            //     canvasTs.height = imgForTitleTs.height;
+            //     const ctxTs = canvasTs.getContext('2d');
+            //     ctxTs.drawImage(imgForTitleTs, 0, 0);
 
-                const imageDataTs = ctxTs.getImageData(0, 0, imgForTitleTs.width, imgForTitleTs.height).data;
-                let totalLuminanceTs = 0;
-                for (let i = 0; i < imageDataTs.length; i += 4) {
-                    const r = imageDataTs[i];
-                    const g = imageDataTs[i + 1];
-                    const b = imageDataTs[i + 2];
-                    const luminanceTs = (0.299 * r + 0.587 * g + 0.114 * b);
-                    totalLuminanceTs += luminanceTs;
-                }
-                const averageLuminanceTs = totalLuminanceTs / (imgForTitleTs.width * imgForTitleTs.height);
+            //     const imageDataTs = ctxTs.getImageData(0, 0, imgForTitleTs.width, imgForTitleTs.height).data;
+            //     let totalLuminanceTs = 0;
+            //     for (let i = 0; i < imageDataTs.length; i += 4) {
+            //         const r = imageDataTs[i];
+            //         const g = imageDataTs[i + 1];
+            //         const b = imageDataTs[i + 2];
+            //         const luminanceTs = (0.299 * r + 0.587 * g + 0.114 * b);
+            //         totalLuminanceTs += luminanceTs;
+            //     }
+            //     const averageLuminanceTs = totalLuminanceTs / (imgForTitleTs.width * imgForTitleTs.height);
 
-                if (averageLuminanceTs < 128) {
-                    newsTitleTs.style.color = 'white'; // newsTitleTs
-                } else {
-                    newsTitleTs.style.color = 'black'; // newsTitleTs
-                }
-            };
+            //     if (averageLuminanceTs < 128) {
+            //         newsTitleTs.style.color = 'white'; // newsTitleTs
+            //     } else {
+            //         newsTitleTs.style.color = 'black'; // newsTitleTs
+            //     }
+            // };
 
             // --- dynamic text color based on canvas (cho newsImageTs)
-            const imgForParagraphTs = new Image(); // Separate Image object for paragraph color analysis
-            imgForParagraphTs.src = newsImageTs.src; // newsImageTs
+            // const imgForParagraphTs = new Image(); // Separate Image object for paragraph color analysis
+            // imgForParagraphTs.src = newsImageTs.src; // newsImageTs
 
-            imgForParagraphTs.onload = function() {
-                const canvasParaTs = document.createElement('canvas'); // Separate canvas for paragraph
-                canvasParaTs.width = imgForParagraphTs.width;
-                canvasParaTs.height = imgForParagraphTs.height;
-                const ctxParaTs = canvasParaTs.getContext('2d'); // Separate context for paragraph canvas
-                ctxParaTs.drawImage(imgForParagraphTs, 0, 0);
+            // imgForParagraphTs.onload = function() {
+            //     const canvasParaTs = document.createElement('canvas'); // Separate canvas for paragraph
+            //     canvasParaTs.width = imgForParagraphTs.width;
+            //     canvasParaTs.height = imgForParagraphTs.height;
+            //     const ctxParaTs = canvasParaTs.getContext('2d'); // Separate context for paragraph canvas
+            //     ctxParaTs.drawImage(imgForParagraphTs, 0, 0);
 
-                const imageDataParaTs = ctxParaTs.getImageData(0, 0, imgForParagraphTs.width, imgForParagraphTs.height).data;
-                let totalLuminanceParaTs = 0;
-                for (let i = 0; i < imageDataParaTs.length; i += 4) {
-                    const r = imageDataParaTs[i];
-                    const g = imageDataParaTs[i + 1];
-                    const b = imageDataParaTs[i + 2];
-                    const luminanceParaTs = (0.299 * r + 0.587 * g + 0.114 * b);
-                    totalLuminanceParaTs += luminanceParaTs;
-                }
-                const averageLuminanceParaTs = totalLuminanceParaTs / (imgForParagraphTs.width * imgForParagraphTs.height);
+            //     const imageDataParaTs = ctxParaTs.getImageData(0, 0, imgForParagraphTs.width, imgForParagraphTs.height).data;
+            //     let totalLuminanceParaTs = 0;
+            //     for (let i = 0; i < imageDataParaTs.length; i += 4) {
+            //         const r = imageDataParaTs[i];
+            //         const g = imageDataParaTs[i + 1];
+            //         const b = imageDataParaTs[i + 2];
+            //         const luminanceParaTs = (0.299 * r + 0.587 * g + 0.114 * b);
+            //         totalLuminanceParaTs += luminanceParaTs;
+            //     }
+            //     const averageLuminanceParaTs = totalLuminanceParaTs / (imgForParagraphTs.width * imgForParagraphTs.height);
 
-                if (averageLuminanceParaTs < 128) {
-                    newsParagraphTs.style.color = 'white'; // newsParagraphTs
-                } else {
-                    newsParagraphTs.style.color = 'black'; // Original paragraph color
-                }
-            };
+            //     if (averageLuminanceParaTs < 128) {
+            //         newsParagraphTs.style.color = 'white'; // newsParagraphTs
+            //     } else {
+            //         newsParagraphTs.style.color = 'black'; // Original paragraph color
+            //     }
+            // };
 
 
         });

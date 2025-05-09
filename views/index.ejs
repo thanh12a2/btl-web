@@ -200,72 +200,35 @@
                     </div>
                     <div class="containerThoisu">
                         <div class="leftColumnThoisu">
-                            <img class="mainImageThoisu" src="../assets/thutuongDenys.png" alt="Thu tuong Denys">
-                            <h2 class="articleTitleThoisu">Ukraine - Mỹ chốt thỏa thuận khoáng sản</h2>
-                            <p class="articleParagraphThoisu">Thu tuong Denys Shmyhal cho biet Ukraine va My da hoan tat ban cuoi du thao thoa thuan khoang san va du kien duoc chinh phu phe duyet hom nay. <br> <br> "Chúng tôi đã hoàn thiện bản cuối, hiện được gọi là Thỏa thuận Thiết lập quy tắc và điều kiện của Quỹ Đầu tư Tái thiết Ukraine."</p>
+                            <a class="mainUrl" href="/article/transportArticle/<%= TopArticlesEachCate[0][0].name_alias %>">
+                                <img class="mainImageThoisu" src="<%= TopArticlesEachCate[0][0].hero_image%>" alt="Thu tuong Denys">
+                            </a>
+                            <a  class="mainUrl" href="/article/transportArticle/<%= TopArticlesEachCate[0][0].name_alias %>">
+                                <h2 class="articleTitleThoisu"><%= TopArticlesEachCate[0][0].heading%></h2>
+                            </a>
+                            <div style="width: 100%; height: 120px; overflow: hidden;">
+                                <a class="mainUrl" href="/article/transportArticle/<%= TopArticlesEachCate[0][0].name_alias %>">
+                                    <p class="articleParagraphThoisu"><%= TopArticlesEachCate[0][0].content%></p>
+                                </a>
+                            </div>
                         </div>
                         <div class="middleLineThoisu"></div>
                         <div class="rightColumnThoisu">
+        
                             <div class="scrollableContentThoisu">
-                                <div class="newsItemThoisu" data-img="../assets/newsItemThoisuImg1.jpeg" data-title="Việt Nam tăng cường hợp tác kinh tế với Nhật Bản" data-paragraph="Trong bối cảnh kinh tế toàn cầu đầy thách thức, Việt Nam và Nhật Bản tiếp tục khẳng định mối quan hệ đối tác chiến lược sâu rộng thông qua việc tăng cường hợp tác kinh tế trên nhiều lĩnh vực. Các nhà lãnh đạo của cả hai quốc gia đã nhấn mạnh tầm quan trọng của việc duy trì chuỗi cung ứng ổn định và đa dạng hóa thị trường, đồng thời thúc đẩy các dự án đầu tư chung trong các ngành công nghiệp mũi nhọn.">
-                                    <h4 class="newsTitleThoisu">Việt Nam tăng cường hợp tác kinh tế với Nhật Bản</h4>
-                                    <p class="newsParagraphThoisu">Trong bối cảnh kinh tế toàn cầu đầy thách thức, Việt Nam và Nhật Bản tiếp tục khẳng định...</p>
-                                    <img class="newsImageThoisu" src="../assets/newsItemThoisuImg1.jpeg" alt="News 1"> </div>
-                                <div class="separatorLineThoisu"></div>
-                                <div class="newsItemThoisu" data-img="../assets/newsItemThoisuImg2.jpg" data-title="Giá xăng dầu trong nước tiếp tục điều chỉnh tăng" data-paragraph="Theo thông báo mới nhất từ liên bộ Công Thương - Tài chính, giá xăng dầu trong nước sẽ có đợt điều chỉnh tăng từ ngày mai. Nguyên nhân chính được cho là do ảnh hưởng từ việc giá dầu thô thế giới liên tục tăng cao trong những phiên giao dịch gần đây. Người tiêu dùng được khuyến cáo nên có kế hoạch sử dụng nhiên liệu một cách hợp lý để giảm thiểu tác động từ việc tăng giá này.">
-                                    <h4 class="newsTitleThoisu">Giá xăng dầu trong nước tiếp tục điều chỉnh tăng</h4>
-                                    <p class="newsParagraphThoisu">Theo thông báo mới nhất từ liên bộ Công Thương - Tài chính, giá xăng dầu trong nước sẽ có đợt điều chỉnh...</p>
-                                    <img class="newsImageThoisu" src="../assets/newsItemThoisuImg2-hover.png" alt="News 2"> </div>
-                                <div class="separatorLineThoisu"></div>
-                                <div class="newsItemThoisu" data-img="../assets/newsItemThoisuImg3.jpg" data-title="Hà Nội mở rộng không gian đi bộ quanh Hồ Gươm" data-paragraph="UBND thành phố Hà Nội vừa thông qua quyết định mở rộng không gian đi bộ quanh khu vực Hồ Gươm và phụ cận vào tất cả các ngày cuối tuần. Điều này nhằm tạo thêm không gian vui chơi, giải trí cho người dân và du khách, đồng thời thúc đẩy phát triển kinh tế đêm của Thủ đô. Dự kiến, không gian đi bộ mở rộng sẽ chính thức đi vào hoạt động từ tháng tới.">
-                                    <h4 class="newsTitleThoisu">Hà Nội mở rộng không gian đi bộ quanh Hồ Gươm</h4>
-                                    <p class="newsParagraphThoisu">UBND thành phố Hà Nội vừa thông qua quyết định mở rộng không gian đi bộ quanh khu vực Hồ Gươm...</p>
-                                    <img class="newsImageThoisu" src="../assets/newsItemThoisuImg3-hover.jpg" alt="News 3"> </div>
-                                <div class="separatorLineThoisu"></div>
-                                <div class="newsItemThoisu" data-img="../assets/newsItemThoisuImg4.jpg" data-title="Đà Nẵng thu hút đầu tư công nghệ cao" data-paragraph="Với nhiều chính sách ưu đãi và cơ sở hạ tầng hiện đại, Đà Nẵng đang trở thành điểm đến hấp dẫn cho các nhà đầu tư trong lĩnh vực công nghệ cao. Nhiều tập đoàn lớn trên thế giới đã bày tỏ sự quan tâm và có kế hoạch đầu tư vào các khu công nghệ thông tin tập trung tại Đà Nẵng. Chính quyền thành phố cam kết sẽ tạo mọi điều kiện thuận lợi nhất để các dự án đầu tư được triển khai nhanh chóng và hiệu quả.">
-                                    <h4 class="newsTitleThoisu">Đà Nẵng thu hút đầu tư công nghệ cao</h4>
-                                    <p class="newsParagraphThoisu">Với nhiều chính sách ưu đãi và cơ sở hạ tầng hiện đại, Đà Nẵng đang trở thành điểm đến hấp dẫn...</p>
-                                    <img class="newsImageThoisu" src="../assets/newsItemThoisuImg4-hover.jpg" alt="News 4"> </div>
-                                <div class="separatorLineThoisu"></div>
-                                <div class="newsItemThoisu" data-img="../assets/newsItemThoisuImg5.jpg" data-title="TP.HCM đẩy mạnh chuyển đổi số trong giáo dục" data-paragraph="Sở Giáo dục và Đào tạo TP.HCM công bố kế hoạch đẩy mạnh chuyển đổi số trong ngành giáo dục, nhằm nâng cao chất lượng dạy và học. Kế hoạch bao gồm việc trang bị hạ tầng công nghệ thông tin, phát triển phần mềm quản lý giáo dục, và đào tạo nâng cao năng lực ứng dụng công nghệ cho giáo viên. Mục tiêu là xây dựng một hệ thống giáo dục thông minh, hiện đại, đáp ứng yêu cầu của cuộc cách mạng công nghiệp 4.0.">
-                                    <h4 class="newsTitleThoisu">TP.HCM đẩy mạnh chuyển đổi số trong giáo dục</h4>
-                                    <p class="newsParagraphThoisu">Sở Giáo dục và Đào tạo TP.HCM công bố kế hoạch đẩy mạnh chuyển đổi số trong giáo dục...</p>
-                                    <img class="newsImageThoisu" src="../assets/newsItemThoisuImg5-hover.webp" alt="News 5"> </div>
-                                <div class="separatorLineThoisu"></div>
-                                <div class="newsItemThoisu" data-img="../assets/newsItemThoisuImg6.png" data-title="Ngân hàng Nhà nước điều chỉnh lãi suất cơ bản" data-paragraph="Ngân hàng Nhà nước Việt Nam vừa có thông báo về việc điều chỉnh lãi suất cơ bản, có hiệu lực từ tuần tới. Quyết định này được đưa ra nhằm kiểm soát lạm phát và ổn định kinh tế vĩ mô trong bối cảnh thị trường tài chính có nhiều biến động. Các chuyên gia kinh tế nhận định, việc điều chỉnh lãi suất sẽ có tác động nhất định đến hoạt động sản xuất kinh doanh của doanh nghiệp và chi tiêu của người dân.">
-                                    <h4 class="newsTitleThoisu">Ngân hàng Nhà nước điều chỉnh lãi suất cơ bản</h4>
-                                    <p class="newsParagraphThoisu">Ngân hàng Nhà nước Việt Nam vừa có thông báo về việc điều chỉnh lãi suất cơ bản...</p>
-                                    <img class="newsImageThoisu" src="../assets/newsItemThoisuImg6.png" alt="News 6"> </div>
-                                <div class="separatorLineThoisu"></div>
-                                <div class="newsItemThoisu" data-img="../assets/newsItemThoisuImg7.png" data-title="Xuất khẩu nông sản Việt Nam tăng trưởng mạnh" data-paragraph="Theo số liệu thống kê mới nhất, xuất khẩu nông sản của Việt Nam trong quý vừa qua đã ghi nhận mức tăng trưởng ấn tượng, với tổng giá trị đạt hàng tỷ đô la Mỹ. Các mặt hàng nông sản chủ lực như gạo, cà phê, thủy sản, và rau quả đều có mức tăng trưởng xuất khẩu đáng kể. Điều này cho thấy ngành nông nghiệp Việt Nam đang ngày càng khẳng định được vị thế trên thị trường quốc tế.">
-                                    <h4 class="newsTitleThoisu">Xuất khẩu nông sản Việt Nam tăng trưởng mạnh</h4>
-                                    <p class="newsParagraphThoisu">Theo số liệu thống kê mới nhất, xuất khẩu nông sản của Việt Nam trong quý vừa qua đã ghi nhận mức tăng trưởng...</p>
-                                    <img class="newsImageThoisu" src="../assets/newsItemThoisuImg7.png" alt="News 7"> </div>
-                                <div class="separatorLineThoisu"></div>
-                                <div class="newsItemThoisu" data-img="../assets/newsItemThoisuImg8.png" data-title="Du lịch Việt Nam phục hồi ấn tượng sau đại dịch" data-paragraph="Ngành du lịch Việt Nam đang chứng kiến sự phục hồi mạnh mẽ sau thời gian dài bị ảnh hưởng bởi đại dịch, với số lượng khách du lịch quốc tế và nội địa tăng đột biến trong những tháng gần đây. Nhiều địa phương đã triển khai các chương trình kích cầu du lịch hấp dẫn, thu hút đông đảo du khách đến tham quan và nghỉ dưỡng.">
-                                    <h4 class="newsTitleThoisu">Du lịch Việt Nam phục hồi ấn tượng sau đại dịch</h4>
-                                    <p class="newsParagraphThoisu">Ngành du lịch Việt Nam đang chứng kiến sự phục hồi mạnh mẽ sau thời gian dài bị ảnh hưởng bởi đại dịch...</p>
-                                    <img class="newsImageThoisu" src="../assets/newsItemThoisuImg8.png" alt="News 8"> </div>
-                                <div class="separatorLineThoisu"></div>
-                                <div class="newsItemThoisu" data-img="../assets/newsItemThoisuImg9.png" data-title="Chính phủ tiếp tục ưu tiên phát triển năng lượng tái tạo" data-paragraph="Trong phiên họp chính phủ thường kỳ, Thủ tướng nhấn mạnh sự ưu tiên phát triển năng lượng tái tạo, hướng tới mục tiêu giảm phát thải khí nhà kính và bảo vệ môi trường. Chính phủ sẽ tiếp tục ban hành các chính sách ưu đãi và hỗ trợ doanh nghiệp đầu tư vào lĩnh vực năng lượng tái tạo, đồng thời đẩy mạnh hợp tác quốc tế để tiếp cận công nghệ và nguồn vốn.">
-                                    <h4 class="newsTitleThoisu">Chính phủ tiếp tục ưu tiên phát triển năng lượng tái tạo</h4>
-                                    <p class="newsParagraphThoisu">Trong phiên họp chính phủ thường kỳ, Thủ tướng nhấn mạnh sự ưu tiên phát triển năng lượng tái tạo...</p>
-                                    <img class="newsImageThoisu" src="../assets/newsItemThoisuImg9.png" alt="News 9"> </div>
-                                <div class="separatorLineThoisu"></div>
-                                <div class="newsItemThoisu" data-img="../assets/newsItemThoisuImg10.png" data-title="Doanh nghiệp nhỏ và vừa được hỗ trợ về vốn" data-paragraph="Chính phủ vừa ban hành nghị quyết mới về việc hỗ trợ doanh nghiệp nhỏ và vừa tiếp cận nguồn vốn ưu đãi, nhằm tháo gỡ khó khăn về tài chính và thúc đẩy phát triển sản xuất kinh doanh. Các gói hỗ trợ tín dụng với lãi suất ưu đãi sẽ được triển khai thông qua các ngân hàng thương mại, giúp doanh nghiệp có thêm nguồn lực để đầu tư và mở rộng hoạt động.">
-                                    <h4 class="newsTitleThoisu">Doanh nghiệp nhỏ và vừa được hỗ trợ về vốn</h4>
-                                    <p class="newsParagraphThoisu">Chính phủ vừa ban hành nghị quyết mới về việc hỗ trợ doanh nghiệp nhỏ và vừa tiếp cận nguồn vốn...</p>
-                                    <img class="newsImageThoisu" src="../assets/newsItemThoisuImg10.png" alt="News 10"> </div>
-                                <div class="separatorLineThoisu"></div>
-                                <div class="newsItemThoisu" data-img="../assets/newsItemThoisuImg11.png" data-title="Giao thông thông minh được triển khai tại các đô thị lớn" data-paragraph="Bộ Giao thông Vận tải cho biết, dự án giao thông thông minh sẽ được triển khai đồng loạt tại các đô thị lớn như Hà Nội và TP.HCM. Dự án bao gồm việc lắp đặt hệ thống camera giám sát, cảm biến giao thông, và trung tâm điều hành thông minh, nhằm cải thiện năng lực quản lý giao thông, giảm ùn tắc, và nâng cao an toàn giao thông.">
-                                    <h4 class="newsTitleThoisu">Giao thông thông minh được triển khai tại các đô thị lớn</h4>
-                                    <p class="newsParagraphThoisu">Bộ Giao thông Vận tải cho biết, dự án giao thông thông minh sẽ được triển khai đồng loạt tại các đô thị lớn...</p>
-                                    <img class="newsImageThoisu" src="../assets/newsItemThoisuImg11.png" alt="News 11"> </div>
-                                <div class="separatorLineThoisu"></div>
-                                <div class="newsItemThoisu" data-img="../assets/newsItemThoisuImg12.png" data-title="Thị trường bất động sản có dấu hiệu hạ nhiệt" data-paragraph="Sau một thời gian tăng trưởng nóng, thị trường bất động sản bắt đầu có dấu hiệu hạ nhiệt, với số lượng giao dịch giảm và giá cả có xu hướng ổn định hơn. Các chuyên gia dự báo, thị trường sẽ tiếp tục điều chỉnh trong thời gian tới, và nhà đầu tư nên thận trọng khi đưa ra quyết định đầu tư vào bất động sản ở giai đoạn này.">
-                                    <h4 class="newsTitleThoisu">Thị trường bất động sản có dấu hiệu hạ nhiệt</h4>
-                                    <p class="newsParagraphThoisu">Sau một thời gian tăng trưởng nóng, thị trường bất động sản bắt đầu có dấu hiệu hạ nhiệt...</p>
-                                    <img class="newsImageThoisu" src="../assets/newsItemThoisuImg12.png" alt="News 12"> </div>
+                                <% for (let b = 0; b < TopArticlesEachCate[0].length; b++ ) { %>
+                                    <a href="/article/transportArticle/<%= TopArticlesEachCate[0][b].name_alias %>">
+                                        <div class="newsItemThoisu" data-img="<%= TopArticlesEachCate[0][b].hero_image%>" data-title="<%= TopArticlesEachCate[0][b].heading%>" data-paragraph="<%= TopArticlesEachCate[0][b].content%>" data-name="<%= TopArticlesEachCate[0][b].name_alias %>">
+                                            <h4 class="newsTitleThoisu"><%= TopArticlesEachCate[0][b].heading%></h4>
+                                            <p class="newsParagraphThoisu"><%= TopArticlesEachCate[0][b].content%> %></p>
+                                            <!-- <img class="newsImageThoisu" alt="News 1">  -->
+                                        </div>
+                                    </a>
+                                    <% if ( b != TopArticlesEachCate[0].length - 1) { %>
+                                        <div class="separatorLineThoisu"></div>
+                                    <% }%>
+                                <% } %>
+
                             </div>
                         </div>
                          <div class="customScrollbarThoisu">
@@ -436,28 +399,32 @@
                     <!-- Hai bài viết đầu -->
                     <div class="articles">
                       <div class="article1">
-                        <a href="../html/chiTietBaiViet.html">
-                            <img src="../assets/img/bacsiphauthuat.png" alt="Bài 1">
-                        </a>
+                        <div class="article-suckhoe-container">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[2][0].name_alias %>">
+                                <img src="<%= TopArticlesEachCate[2][0].hero_image %>" alt="Bài 1">
+                            </a>
+                        </div>
                         <div class="article-text">
-                          <a href="../html/chiTietBaiViet.html">
-                            <h3>Nguy kịch sau phá thai tại phòng khám tư</h3>
+                          <a href="/article/transportArticle/<%= TopArticlesEachCate[2][0].name_alias %>">
+                            <h3><%= TopArticlesEachCate[2][0].heading %></h3>
                           </a>
-                          <a href="../html/chiTietBaiViet.html">
-                            <p>Người phụ nữ 35 tuổi chảy máu âm đạo ồ ạt, nguy kịch, sau phá thai 16 tuần tại phòng khám tư ở Hậu Giang, được bác sĩ kích hoạt báo động đỏ cứu sống.</p>
+                          <a href="/article/transportArticle/<%= TopArticlesEachCate[2][0].name_alias %>">
+                            <p><%= TopArticlesEachCate[2][0].content %></p>
                           </a>
                         </div>
                       </div>
                       <div class="article1">
-                        <a href="../html/chiTietBaiViet.html">
-                            <img src="../assets/img/bacsiphauthuat.png" alt="Bài 2">
-                        </a>
+                        <div class="article-suckhoe-container">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[2][1].name_alias %>">
+                                <img src="<%= TopArticlesEachCate[2][1].hero_image %>" alt="Bài 2">
+                            </a>
+                        </div>
                         <div class="article-text">
-                          <a href="../html/chiTietBaiViet.html">
-                            <h3>Nguy kịch sau phá thai tại phòng khám tư</h3>
+                          <a href="/article/transportArticle/<%= TopArticlesEachCate[2][0].name_alias %>">
+                            <h3><%= TopArticlesEachCate[2][1].heading %></h3>
                           </a>
-                          <a href="../html/chiTietBaiViet.html">
-                            <p>Người phụ nữ 35 tuổi chảy máu âm đạo ồ ạt, nguy kịch, sau phá thai 16 tuần tại phòng khám tư ở Hậu Giang, được bác sĩ kích hoạt báo động đỏ cứu sống.</p>
+                          <a href="/article/transportArticle/<%= TopArticlesEachCate[2][0].name_alias %>">
+                            <p><%= TopArticlesEachCate[2][1].content %></p>
                           </a>
                         </div>
                       </div>
@@ -466,90 +433,23 @@
                     <div class="divider"></div>
                   
                     <div class="container1">
-                      <!-- Card 1 -->
-                      <a href="../html/chiTietBaiViet.html">
-                        <div class="card1">
-                            <div class="card1-image"></div>
-                            <div class="card1-header">Nên giữ bao nhiêu vàng trong danh mục đầu tư?</div>
-                            <div class="card1-content">
-                              <h3 class="card1-title">Nên giữ bao nhiêu vàng trong danh mục đầu tư?</h3>
-                              <p class="card1-description">
-                                Lạm phát càng cao, chứng khoán càng giảm thì vàng càng tăng giá.
-                                Nên tăng tỷ lệ vàng trong danh mục khi đã nắm nhiều tài sản rủi ro.
-                              </p>
+                        <% let lenCate = TopArticlesEachCate[2].length;  
+                            if ( TopArticlesEachCate[2].length >= 10 ) lenCate = 8; %>
+                      <% for ( let l = 2; l < lenCate; l++ ) { %>
+                        <a href="/article/transportArticle/<%= TopArticlesEachCate[2][l].name_alias %>">
+                            <div class="card1">
+                                <div class="card1-image"><img src="<%= TopArticlesEachCate[2][l].hero_image %>" alt=""></div>
+                                <div class="card1-header"><%= TopArticlesEachCate[2][l].heading %></div>
+                                <div class="card1-content">
+                                <h3 class="card1-title"><%= TopArticlesEachCate[2][l].heading %></h3>
+                                <p class="card1-description">
+                                    <%= TopArticlesEachCate[2][l].content %>
+                                </p>
+                                </div>
                             </div>
-                          </div>
-                      </a>
-                  
-                      <a href="../html/chiTietBaiViet.html">
-                        <div class="card1">
-                            <div class="card1-image"></div>
-                            <div class="card1-header">Nên giữ bao nhiêu vàng trong danh mục đầu tư?</div>
-                            <div class="card1-content">
-                              <h3 class="card1-title">Nên giữ bao nhiêu vàng trong danh mục đầu tư?</h3>
-                              <p class="card1-description">
-                                Lạm phát càng cao, chứng khoán càng giảm thì vàng càng tăng giá.
-                                Nên tăng tỷ lệ vàng trong danh mục khi đã nắm nhiều tài sản rủi ro.
-                              </p>
-                            </div>
-                          </div>
-                      </a>
-                  
-                      <a href="../html/chiTietBaiViet.html">
-                        <div class="card1">
-                            <div class="card1-image"></div>
-                            <div class="card1-header">Nên giữ bao nhiêu vàng trong danh mục đầu tư?</div>
-                            <div class="card1-content">
-                              <h3 class="card1-title">Nên giữ bao nhiêu vàng trong danh mục đầu tư?</h3>
-                              <p class="card1-description">
-                                Lạm phát càng cao, chứng khoán càng giảm thì vàng càng tăng giá.
-                                Nên tăng tỷ lệ vàng trong danh mục khi đã nắm nhiều tài sản rủi ro.
-                              </p>
-                            </div>
-                          </div>
-                      </a>
-                  
-                      <a href="../html/chiTietBaiViet.html">
-                        <div class="card1">
-                            <div class="card1-image"></div>
-                            <div class="card1-header">Nên giữ bao nhiêu vàng trong danh mục đầu tư?</div>
-                            <div class="card1-content">
-                              <h3 class="card1-title">Nên giữ bao nhiêu vàng trong danh mục đầu tư?</h3>
-                              <p class="card1-description">
-                                Lạm phát càng cao, chứng khoán càng giảm thì vàng càng tăng giá.
-                                Nên tăng tỷ lệ vàng trong danh mục khi đã nắm nhiều tài sản rủi ro.
-                              </p>
-                            </div>
-                          </div>
-                      </a>
-                  
-                      <a href="../html/chiTietBaiViet.html">
-                        <div class="card1">
-                            <div class="card1-image"></div>
-                            <div class="card1-header">Nên giữ bao nhiêu vàng trong danh mục đầu tư?</div>
-                            <div class="card1-content">
-                              <h3 class="card1-title">Nên giữ bao nhiêu vàng trong danh mục đầu tư?</h3>
-                              <p class="card1-description">
-                                Lạm phát càng cao, chứng khoán càng giảm thì vàng càng tăng giá.
-                                Nên tăng tỷ lệ vàng trong danh mục khi đã nắm nhiều tài sản rủi ro.
-                              </p>
-                            </div>
-                          </div>
-                      </a>
-                  
-                      <a href="../html/chiTietBaiViet.html">
-                        <div class="card1">
-                            <div class="card1-image"></div>
-                            <div class="card1-header">Nên giữ bao nhiêu vàng trong danh mục đầu tư?</div>
-                            <div class="card1-content">
-                              <h3 class="card1-title">Nên giữ bao nhiêu vàng trong danh mục đầu tư?</h3>
-                              <p class="card1-description">
-                                Lạm phát càng cao, chứng khoán càng giảm thì vàng càng tăng giá.
-                                Nên tăng tỷ lệ vàng trong danh mục khi đã nắm nhiều tài sản rủi ro.
-                              </p>
-                            </div>
-                          </div>
-                      </a>
+                        </a>
+                      <% } %>
+                
                     </div>
                   </div>
                 </div>
@@ -891,7 +791,7 @@
             <% } %>
 
             <% if (TopArticlesEachCate.length >= 5) { %>
-                <div class="giao-duc-section container" style="margin-top: 70px">
+                <div class="giao-duc-section container" style="margin-top: 70px; margin-bottom: 120px;">
                 <div class="edu-section">
                     <div class="edu-section-heading">
                         <div class="edu-section-title">
@@ -912,8 +812,12 @@
                                 <img src="<%= TopArticlesEachCate[5][0].hero_image %>" alt="Hình ảnh bài viết chính">
                             </a>
                             <div class="edu-item-1-article">
-                                <h3><%= TopArticlesEachCate[5][0].heading %></h3>
-                                <p><%= TopArticlesEachCate[5][0].content %></p>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[5][0].name_alias %>">
+                                    <h3><%= TopArticlesEachCate[5][0].heading %></h3>
+                                </a>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[5][0].name_alias %>">
+                                    <p><%= TopArticlesEachCate[5][0].content %></p>
+                                </a>
                             </div>
                         </div>
             

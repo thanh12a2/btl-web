@@ -471,6 +471,10 @@ span {
     
 }
 
+.tlq-title {
+    width: 418px !important;
+}
+
 .tlq-title .tlq-heading {
     font-family: Roboto;
     font-weight: 700;

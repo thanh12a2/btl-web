@@ -37,7 +37,7 @@ router.get("/", async (req, res) => {
                     [dbo].[Article] A
                 LEFT JOIN [dbo].[Comment] C ON A.id_article = C.id_article
                 WHERE
-                    A.day_created >= DATEADD(YEAR, -2, GETDATE())
+                    A.day_created >= DATEADD(YEAR, -2, GETDATE()) AND A.status = N'Đã duyệt'
                 GROUP BY
                     A.id_article, A.heading, A.views, A.like_count, A.hero_image, A.content, A.name_alias
                 ORDER BY

@@ -51,6 +51,16 @@
     margin-bottom: 20px;
 }
 
+.articleTitleThoisu,
+.articleParagraphThoisu {
+    transition: all 0.2s ease;
+}
+
+.articleTitleThoisu:hover,
+.articleParagraphThoisu:hover {
+    color: #B32A45;
+}
+
 .articleParagraphThoisu {
     font-family: 'Open Sans', sans-serif;
     font-size: 20px;
@@ -89,7 +99,7 @@
 
 .newsItemThoisu {
     width: 100%;
-    height: 130px;
+    height: 170px;
     padding: 10px 0;
     box-sizing: border-box;
     transition: transform 0.3s ease;

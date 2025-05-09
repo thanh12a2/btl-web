@@ -263,11 +263,11 @@ a {
     padding-top: 10px;
     padding-left: 25px;
     padding-right: 25px;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .big-news-img {
@@ -1179,4 +1179,13 @@ h3 a {
     width: 100% !important;
     object-fit: cover;
     position: absolute;
+}
+
+.article-suckhoe-container {
+    height: 200px;
+    width: 245px;
+}
+
+.article-text {
+    overflow: hidden;
 }

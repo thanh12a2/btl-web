@@ -79,8 +79,28 @@ export const articleController = {
     const userQuery = `SELECT username FROM [dbo].[User] WHERE id_user = @id_user`;
 
     // Truy vấn các bài viết liên quan
-    const relatedQuery = `SELECT TOP 6 * FROM [dbo].[Article] WHERE id_category = @id_category AND status=N'Đã duyệt' ORDER BY day_created ASC`
-
+    const relatedQuery = `
+                    SELECT TOP 6
+                    A.id_article,
+                    A.heading,
+                    A.hero_image,
+                    A.content,
+                    A.name_alias,
+                    A.views,
+                    A.like_count,
+                    COUNT(C.id_comment) AS comment_count,
+                    (A.views * 1 + COUNT(C.id_comment) * 2 + A.like_count * 2) AS interaction_score
+                FROM
+                    [dbo].[Article] A
+                LEFT JOIN 
+                    [dbo].[Comment] C ON A.id_article = C.id_article
+                WHERE
+                    A.id_category = @id_category AND A.status = N'Đã duyệt'
+                GROUP BY
+                    A.id_article, A.heading, A.views, A.like_count, A.hero_image, A.content, A.name_alias
+                ORDER BY
+                    interaction_score DESC;  
+    `
     try {
         // Lấy danh sách bình luận
         const commentsResult = await executeQuery(commentQuery, commentValues, commentParams, false);
