@@ -111,7 +111,7 @@ export const articleController = {
         await executeQuery(updateViewsQuery, updateViewsValues, updateViewsParams, false);
 
         const relatedArticles = await executeQuery(relatedQuery, [article.id_category], ["id_category"], false);
-        
+
         // Render trang chi tiết bài viết
         res.render("chiTietBaiViet.ejs", {
             articleDetals: article,
@@ -120,7 +120,7 @@ export const articleController = {
             formattedDate,
             comments: commentsResult.recordset,
             user: res.locals.username,
-            relatedArticles: relatedArticles.recordset
+            relatedArticles1: relatedArticles.recordset
         });
     } catch (error) {
         console.error(error);
