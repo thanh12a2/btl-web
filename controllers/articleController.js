@@ -78,6 +78,9 @@ export const articleController = {
     // Truy vấn người dùng
     const userQuery = `SELECT username FROM [dbo].[User] WHERE id_user = @id_user`;
 
+    // Truy vấn các bài viết liên quan
+    const relatedQuery = `SELECT TOP 6 * FROM [dbo].[Article] WHERE id_category = @id_category AND status=N'Đã duyệt' ORDER BY day_created ASC`
+
     try {
         // Lấy danh sách bình luận
         const commentsResult = await executeQuery(commentQuery, commentValues, commentParams, false);
@@ -107,7 +110,8 @@ export const articleController = {
         // Tăng lượt xem bài viết
         await executeQuery(updateViewsQuery, updateViewsValues, updateViewsParams, false);
 
-        // console.log(commentsResult.recordset);
+        const relatedArticles = await executeQuery(relatedQuery, [article.id_category], ["id_category"], false);
+        
         // Render trang chi tiết bài viết
         res.render("chiTietBaiViet.ejs", {
             articleDetals: article,
@@ -115,7 +119,8 @@ export const articleController = {
             categoryDetals: categoryResult.recordset[0],
             formattedDate,
             comments: commentsResult.recordset,
-            user: res.locals.username
+            user: res.locals.username,
+            relatedArticles: relatedArticles.recordset
         });
     } catch (error) {
         console.error(error);

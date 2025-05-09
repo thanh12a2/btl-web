@@ -44,7 +44,6 @@ export const commentController = {
                         0
                     FROM UserCTE u
                     CROSS JOIN ArticleCTE a; `;
-    console.log(req.body);
     const newId = await getLastRecordId();
     const values = [
       res.locals.email,
@@ -53,7 +52,6 @@ export const commentController = {
       req.body.commentInp,
     ];
     const paramNames = ["email", "name_alias", "id_comment", "comment_content"];
-    // console.log(res.locals.email)
     try {
       await executeQuery(query, values, paramNames, false);
       res.redirect("back");

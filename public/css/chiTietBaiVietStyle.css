@@ -439,9 +439,9 @@ span {
     align-items: center;
 }
 
-.tin-lien-quan-section img {
+/* .tin-lien-quan-section img {
     margin: auto;
-}
+} */
 
 .tin-lien-quan-section .tin-lien-quan-container h3 {
     font-family: Open Sans;
@@ -462,7 +462,7 @@ span {
 
 .tin-lien-quan-item-container {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     gap: 15px;
 }
 

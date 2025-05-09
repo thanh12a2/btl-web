@@ -22,8 +22,6 @@ router.get("/", async (req, res) => {
     const articles = await articleController.getArticles();
     const TopArticlesEachCate = await articleController.getTopArticles();
 
-    // console.log(grouped);
-
     const query = `
                 SELECT TOP 9
                     A.id_article,
@@ -62,16 +60,6 @@ router.get("/", async (req, res) => {
       groupMap[categoryId].push(article);
     });
 
-    // res.json({
-    //   isLoggedIn: req.isLoggedIn,
-    //   username: req.username,
-    //   role: req.role,
-    //   categoryTree: categories,
-    //   articles: articles,
-    //   topArticles: topArticles.recordset,
-    //   TopArticlesEachCate: grouped,
-    // });
-
     res.render('index.ejs', {
       isLoggedIn: req.isLoggedIn,
       username: req.username,
@@ -96,7 +84,6 @@ router.get("/api/weather", async (req, res) => {
   try {
     const weatherData = await WeatherService.getWeatherData();
     if (weatherData) {
-      // res.render('admin.ejs')
       res.json(weatherData);
     } else {
       res.status(404).json({ error: "Weather data not available" });
@@ -132,10 +119,6 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       // return { recordset: [] };
     }
 
-
-  
-
-
     const query = `SELECT * FROM [dbo].[User] WHERE email = @email`
     const values = [res.locals.email];
     const paramNames = ["email"];
@@ -168,10 +151,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
         isStoredProcedure
       );
 
-
-      // console.log(result.recordset[0].id_user);
       const result1 = await executeQuery(likeArticleQuery, [result.recordset[0].id_user], ["id"], false);
-      // console.log(result1.recordset)
 
       // Route handling code
       const articlePage = parseInt(req.query.articlePage) || 1;
