@@ -53,6 +53,10 @@
     margin-right: 15px;
 }
 
+.edu-item-1 {
+    height: 700px;
+}
+
 .edu-item-1 img {
     width: 100%;
     height: auto;
@@ -104,7 +108,7 @@
 .right-container .edu-item-2 {
     display: flex;
     width: 100%;
-    height: auto;
+    height: 300px;
     align-items: flex-start;
     flex-direction: column;
     text-align: left;
@@ -123,6 +127,10 @@
     height: auto;
     margin-bottom: 20px;
     margin-left: 0;
+}
+
+.edu-item-3 {
+    cursor: pointer;    
 }
 
 .extra-container img {

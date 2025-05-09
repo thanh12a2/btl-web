@@ -397,7 +397,7 @@ export const articleController = {
       FROM 
           RankedArticles
       WHERE 
-          rn <= 9
+          rn <= 12
       ORDER BY 
           parent_category_id, interaction_score DESC;
 

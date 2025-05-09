@@ -4,7 +4,8 @@
 
         <div class="page-body">
 
-            <div class="tin-tuc-noi-bat container">
+            <% if (TopArticlesEachCate.length >= 1) { %>
+                <div class="tin-tuc-noi-bat container">
                 
                     <div class="heading">
                         <h2>Tin tức nổi bật</h2>
@@ -188,9 +189,11 @@
                         
                     </div>
                     
-            </div>
+                </div>
+            <% } %>
 
-            <div class="thoi-su-section container">
+            <% if (TopArticlesEachCate.length >= 2) { %>
+                <div class="thoi-su-section container">
                 <div class="page-containerThoisu">
                     <div class="headerThoisu">
                         THỜI SỰ - <%= categoryTree[0].name %>
@@ -270,79 +273,80 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                </div>
+            <% } %>
 
-            <div class="khoa-hoc-cong-nghe container">
+            <% if (TopArticlesEachCate.length >= 3) { %>
+                <div class="khoa-hoc-cong-nghe container">
                 <div class="container-1320">
                     <div class="container-left">
-                        <% if (articles) { %>
-                        <% } %>
+
                         <div class="content-left">
                             <div class="left-title">
-                                <a href="../html/chiTietBaiViet.html"><p>Ông Trương Huy San bị phạt 30 tháng tù</p></a>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[1][4].name_alias %>"><p><%= TopArticlesEachCate[1][4].heading %></p></a>
                             </div>
                             <div class="img-description">
                                 <div class="left-img">
-                                    <a href="../html/chiTietBaiViet.html"><img src="../assets/section3KhoaHocCongNgheImages/Ông Trương Huy San bị phạt 30 tháng tù.png"/></a>
+                                    <a href="/article/transportArticle/<%= TopArticlesEachCate[1][4].name_alias %>"><img src="<%= TopArticlesEachCate[1][4].hero_image %>"/></a>
                                 </div>
                                 <div class="left-description">
-                                    <a href="../html/chiTietBaiViet.html"><p>Ông Trương Huy San bị phạt 30 tháng tù về hành vi đăng 13 bài viết có "nội dung xâm phạm đến lợi ích của Nhà nước" trên Facebook Truong Huy San (Osin Huy Duc).</p></a>
+                                    <a href="/article/transportArticle/<%= TopArticlesEachCate[1][4].name_alias %>"><p><%= TopArticlesEachCate[1][4].content %></p></a>
                                 </div>
                             </div>
                         </div>
 
                         <div class="content-left">
                             <div class="left-title">
-                                <a href="../html/chiTietBaiViet.html"><p>Ông Trương Huy San bị phạt 30 tháng tù</p></a>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[1][5].name_alias %>"><p><%= TopArticlesEachCate[1][5].heading %></p></a>
                             </div>
                             <div class="img-description">
                                 <div class="left-img">
-                                    <a href="../html/chiTietBaiViet.html"><img src="../assets/section3KhoaHocCongNgheImages/Ông Trương Huy San bị phạt 30 tháng tù.png"/></a>
+                                   <a href="/article/transportArticle/<%= TopArticlesEachCate[1][5].name_alias %>"><img src="<%= TopArticlesEachCate[1][5].hero_image %>"/></a>
                                 </div>
                                 <div class="left-description">
-                                    <a href="../html/chiTietBaiViet.html"><p>Ông Trương Huy San bị phạt 30 tháng tù về hành vi đăng 13 bài viết có "nội dung xâm phạm đến lợi ích của Nhà nước" trên Facebook Truong Huy San (Osin Huy Duc).</p></a>
+                                    <a href="../html/chiTietBaiViet.html"><p><%= TopArticlesEachCate[1][5].content %></p></a>
                                 </div>
                             </div>
                         </div>
 
                         <div class="content-left">
                             <div class="left-title">
-                                <a href="../html/chiTietBaiViet.html"><p>Ông Trương Huy San bị phạt 30 tháng tù</p></a>
+                               <a href="/article/transportArticle/<%= TopArticlesEachCate[1][6].name_alias %>"><p><%= TopArticlesEachCate[1][6].heading %></p></a>
                             </div>
                             <div class="img-description">
                                 <div class="left-img">
-                                    <a href="../html/chiTietBaiViet.html"><img src="../assets/section3KhoaHocCongNgheImages/Ông Trương Huy San bị phạt 30 tháng tù.png"/></a>
+                                    <a href="/article/transportArticle/<%= TopArticlesEachCate[1][6].name_alias %>"><img src="<%= TopArticlesEachCate[1][6].hero_image %>"/></a>
                                 </div>
                                 <div class="left-description">
-                                    <a href="../html/chiTietBaiViet.html"><p>Ông Trương Huy San bị phạt 30 tháng tù về hành vi đăng 13 bài viết có "nội dung xâm phạm đến lợi ích của Nhà nước" trên Facebook Truong Huy San (Osin Huy Duc).</p></a>
+                                    <a href="/article/transportArticle/<%= TopArticlesEachCate[1][6].name_alias %>"><p><%= TopArticlesEachCate[1][6].content %></p></a>
                                 </div>
                             </div>
                         </div>
 
                         <div class="content-left">
                             <div class="left-title">
-                                <a href="../html/chiTietBaiViet.html"><p>Ông Trương Huy San bị phạt 30 tháng tù</p></a>
+                              <a href="/article/transportArticle/<%= TopArticlesEachCate[1][7].name_alias %>"><p><%= TopArticlesEachCate[1][7].heading %></p></a>
                             </div>
                             <div class="img-description">
                                 <div class="left-img">
-                                    <a href="../html/chiTietBaiViet.html"><img src="../assets/section3KhoaHocCongNgheImages/Ông Trương Huy San bị phạt 30 tháng tù.png"/></a>
+                                   <a href="/article/transportArticle/<%= TopArticlesEachCate[1][7].name_alias %>"><img src="<%= TopArticlesEachCate[1][7].hero_image %>"/></a>
                                 </div>
                                 <div class="left-description">
-                                    <a href="../html/chiTietBaiViet.html"><p>Ông Trương Huy San bị phạt 30 tháng tù về hành vi đăng 13 bài viết có "nội dung xâm phạm đến lợi ích của Nhà nước" trên Facebook Truong Huy San (Osin Huy Duc).</p></a>
+                                    <a href="/article/transportArticle/<%= TopArticlesEachCate[1][7].name_alias %>"><p><%= TopArticlesEachCate[1][7].content %></p></a>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="content-left">
                             <div class="left-title">
-                                <a href="../html/chiTietBaiViet.html"><p>Ông Trương Huy San bị phạt 30 tháng tù</p></a>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[1][8].name_alias %>"><p><%= TopArticlesEachCate[1][8].heading %></p></a>
                             </div>
                             <div class="img-description">
                                 <div class="left-img">
-                                    <a href="../html/chiTietBaiViet.html"><img src="../assets/section3KhoaHocCongNgheImages/Ông Trương Huy San bị phạt 30 tháng tù.png"/></a>
+                                    <a href="/article/transportArticle/<%= TopArticlesEachCate[1][8].name_alias %>"><img src="<%= TopArticlesEachCate[1][8].hero_image %>"/></a>
                                 </div>
                                 <div class="left-description">
-                                    <a href="../html/chiTietBaiViet.html"><p>Ông Trương Huy San bị phạt 30 tháng tù về hành vi đăng 13 bài viết có "nội dung xâm phạm đến lợi ích của Nhà nước" trên Facebook Truong Huy San (Osin Huy Duc).</p></a>
+                                    <a href="/article/transportArticle/<%= TopArticlesEachCate[1][8].name_alias %>"><p><%= TopArticlesEachCate[1][8].content %></p></a>
                                 </div>
                             </div>
                         </div>
@@ -367,50 +371,52 @@
                         </div>
             
                         <div class="container-right-image">
-                            <a href="../html/chiTietBaiViet.html">
-                                <img src="../assets/section3KhoaHocCongNgheImages/anhTrungQuocXayDung.png" />
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[1][0].name_alias %>">
+                                <img src="<%= TopArticlesEachCate[1][0].hero_image %>" />
                                 <img src="../assets/transparentPanel.png" alt="">
                             </a>
                             <div class="container-right-image-description">
-                                <a href="../html/chiTietBaiViet.html">
-                                    <p>Trung Quốc xây 'siêu phòng thí nghiệm' nghiên cứu vật chất"</p>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[1][0].name_alias %>">
+                                    <p><%= TopArticlesEachCate[1][0].heading %></p>
                                 </a>
                             </div>
                         </div>
             
                         <div class="container-right-card">
                             <div class="container-right-card-content">
-                                <a href="../html/chiTietBaiViet.html">
-                                    <h3>Hầm chống tận thế nhận thêm 14.000 mẫu hạt giống mới</h3>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[1][1].name_alias %>">
+                                    <h3><%= TopArticlesEachCate[1][1].heading %></h3>
                                 </a>
-                                <a href="../html/chiTietBaiViet.html">
-                                    <p>Dự án thủy lợi Polavaram gồm hệ thống đập, kênh và nhà máy thủy điện đang được xây dựng...</p> 
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[1][1].name_alias %>">
+                                    <p><%= TopArticlesEachCate[1][1].heading %></p> 
                                 </a>
                             </div>
             
                             <div class="container-right-card-content">
-                                <a href="../html/chiTietBaiViet.html">
-                                    <h3>Việt Nam khẩn trương hoàn thiện hạ tầng phục vụ dự án điện hạt nhân Ninh Thuận</h3>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[1][2].name_alias %>">
+                                    <h3><%= TopArticlesEachCate[1][2].heading %></h3>
                                 </a>
-                                <a href="../html/chiTietBaiViet.html">
-                                    <p>Theo Quy hoạch phát triển năng lượng nguyên tử đến năm 2030 Việt Nam đặt ...</p>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[1][2].name_alias %>">
+                                    <p><%= TopArticlesEachCate[1][2].heading %></p> 
                                 </a>
                             </div>
             
                             <div class="container-right-card-content right-card-last">
-                                <a href="../html/chiTietBaiViet.html">
-                                    <h3>Siêu dự án 3,5 tỷ USD giải quyết cả lũ lụt và hạn hán</h3>
+                               <a href="/article/transportArticle/<%= TopArticlesEachCate[1][3].name_alias %>">
+                                    <h3><%= TopArticlesEachCate[1][3].heading %></h3>
                                 </a>
-                                <a href="../html/chiTietBaiViet.html">
-                                    <p>Dự án thủy lợi Polavaram gồm hệ thống đập, kênh và nhà máy thủy điện đang được xây dựng...</p>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[1][3].name_alias %>">
+                                    <p><%= TopArticlesEachCate[1][3].heading %></p> 
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                </div>
+            <% } %>
 
-            <div class="suc-khoe-section container">
+            <% if (TopArticlesEachCate.length >= 4) { %>
+                <div class="suc-khoe-section container">
                 
                 <div class="giai-tri-1-section-heading">
                     <div class="giai-tri-1-section-title">
@@ -546,9 +552,11 @@
                       </a>
                     </div>
                   </div>
-            </div>
+                </div>
+            <% } %>
 
-            <div class="the-thao-section">
+            <% if (TopArticlesEachCate.length >= 5) { %>
+                <div class="the-thao-section">
 
                 <img src="../assets/trangChuImages/theThaoSectionBackground.png" alt="" class="the-thao-red-background">
 
@@ -566,42 +574,70 @@
                             <div class="the-thao-section-body-container">
                                 <div class="the-thao-side-articles">
                                     <div class="the-thao-side-articles-heading">
-                                        <h3>Trận đấu mới nhất</h3>
+                                        <h3>Tin tức mới nhất</h3>
                                     </div>
 
                                     <div class="the-thao-side-article-1 the-thao-side-article">
-                                        <img src="../assets/trangChuImages/theThaoSideArticleImage1.png" alt="">
-                                        <h3>Alonso muốn tái hiện 'phép màu Istanbul' của Liverpool</h3>
+                                        <div class="the-thao-img-container">
+                                            <a href="/article/transportArticle/<%= TopArticlesEachCate[3][5].name_alias %>">
+                                                <img src="<%= TopArticlesEachCate[3][5].hero_image %>" alt="">
+                                            </a>
+                                        </div>
+                                        <h3><a href="/article/transportArticle/<%= TopArticlesEachCate[3][5].name_alias %>"><%= TopArticlesEachCate[3][5].heading %></a></h3>
                                     </div>
 
                                     <div class="the-thao-side-article-2 the-thao-side-article">
-                                        <img src="../assets/trangChuImages/theThaoSideArticleImage2.png" alt="">
-                                        <h3>Alisson: 'Thắng PSG là trận hay nhất sự nghiệp'</h3>
+                                        <div class="the-thao-img-container">
+                                            <a href="/article/transportArticle/<%= TopArticlesEachCate[3][6].name_alias %>">
+                                                <img src="<%= TopArticlesEachCate[3][6].hero_image %>" alt="">
+                                            </a>
+                                        </div>
+                                       <h3><a href="/article/transportArticle/<%= TopArticlesEachCate[3][6].name_alias %>"><%= TopArticlesEachCate[3][6].heading %></a></h3>
                                     </div>
 
                                     <div class="the-thao-side-article-3 the-thao-side-article">
-                                        <img src="../assets/trangChuImages/theThaoSideArticleImage3.png" alt="">
-                                        <h3>Người hùng Real châm chọc Simeone</h3>
+                                         <div class="the-thao-img-container">
+                                            <a href="/article/transportArticle/<%= TopArticlesEachCate[3][7].name_alias %>">
+                                                <img src="<%= TopArticlesEachCate[3][7].hero_image %>" alt="">
+                                            </a>
+                                        </div>
+                                        <h3><a href="/article/transportArticle/<%= TopArticlesEachCate[3][7].name_alias %>"><%= TopArticlesEachCate[3][7].heading %></a></h3>
                                     </div>
 
                                     <div class="the-thao-side-article-4 the-thao-side-article">
-                                        <img src="../assets/trangChuImages/theThaoSideArticleImage4.png" alt="">
-                                        <h3>Arsenal thắng 7-1 ở Champions League</h3>
+                                          <div class="the-thao-img-container">
+                                            <a href="/article/transportArticle/<%= TopArticlesEachCate[3][8].name_alias %>">
+                                                <img src="<%= TopArticlesEachCate[3][8].hero_image %>" alt="">
+                                            </a>
+                                        </div>
+                                       <h3><a href="/article/transportArticle/<%= TopArticlesEachCate[3][8].name_alias %>"><%= TopArticlesEachCate[3][8].heading %></a></h3>
                                     </div>
 
                                     <div class="the-thao-side-article-5 the-thao-side-article">
-                                        <img src="../assets/trangChuImages/theThaoSideArticleImage5.png" alt="">
-                                        <h3>'99% khán giả thích thể thức mới Champions League'</h3>
+                                        <div class="the-thao-img-container">
+                                            <a href="/article/transportArticle/<%= TopArticlesEachCate[3][9].name_alias %>">
+                                                <img src="<%= TopArticlesEachCate[3][9].hero_image %>" alt="">
+                                            </a>
+                                        </div>
+                                        <h3><a href="/article/transportArticle/<%= TopArticlesEachCate[3][9].name_alias %>"><%= TopArticlesEachCate[3][9].heading %></a></h3>
                                     </div>
 
                                     <div class="the-thao-side-article-6 the-thao-side-article">
-                                        <img src="../assets/trangChuImages/theThaoSideArticleImage6.png" alt="">
-                                        <h3>Kane giúp Bayern rộng cửa vào tứ kết Champions League</h3>
+                                       <div class="the-thao-img-container">
+                                            <a href="/article/transportArticle/<%= TopArticlesEachCate[3][10].name_alias %>">
+                                                <img src="<%= TopArticlesEachCate[3][10].hero_image %>" alt="">
+                                            </a>
+                                        </div>
+                                        <h3><a href="/article/transportArticle/<%= TopArticlesEachCate[3][10].name_alias %>"><%= TopArticlesEachCate[3][10].heading %></a></h3>
                                     </div>
 
                                     <div class="the-thao-side-article-7 the-thao-side-article">
-                                        <img src="../assets/trangChuImages/theThaoSideArticleImage7.png" alt="">
-                                        <h3>Van Persie dẫn dắt CLB dự Champions League</h3>
+                                         <div class="the-thao-img-container">
+                                            <a href="/article/transportArticle/<%= TopArticlesEachCate[3][11].name_alias %>">
+                                                <img src="<%= TopArticlesEachCate[3][11].hero_image %>" alt="">
+                                            </a>
+                                        </div>
+                                        <h3><a href="<%= TopArticlesEachCate[3][11].hero_image %>"><%= TopArticlesEachCate[3][11].heading %></a></h3>
                                     </div>
 
                                     <div class="the-thao-side-article-xem-them">
@@ -611,41 +647,44 @@
                                 </div>
 
                                 <div class="the-thao-big-article">
-                                    <a href="../html/chiTietBaiViet.html">
-                                        <img src="../assets/trangChuImages/theThaoBigNews.png" alt="" class="the-thao-big-news">
+                                    <a href="/article/transportArticle/<%= TopArticlesEachCate[3][0].name_alias %>">
+                                        <img src="<%= TopArticlesEachCate[3][0].hero_image %>" alt="" class="the-thao-big-news">
                                         <img src="../assets/transparentPanel.png" alt="" class="transparent-panel">
                                     </a>
-                                    <a href="../html/chiTietBaiViet.html">
-                                        <h2 class="the-thao-big-news-title">Fernandes nghi ngờ chiến thuật của Amorim</h2>
+                                    <a href="/article/transportArticle/<%= TopArticlesEachCate[3][0].name_alias %>">
+                                        <h2 class="the-thao-big-news-title"><%= TopArticlesEachCate[3][0].heading %></h2>
                                     </a>
                                 </div>
 
                                 <div class="the-thao-second-article-1 the-thao-section-article">
-                                    <img src="../assets/trangChuImages/theThaoSecondImage.png" alt="">
-                                    <img src="../assets/transparentPanel.png" alt="">
-                                    <h2 class="the-thao-section-article-2-heading the-thao-section-article-heading">
-                                        Sinner thuộc số 67 VĐV đạt thỏa thuận treo giò với WADA
+                                    <div class="the-thao-img-container">
+                                        <a href="/article/transportArticle/<%= TopArticlesEachCate[3][1].name_alias %>">
+                                            <img src="<%= TopArticlesEachCate[3][1].hero_image %>" alt="">
+                                            <img src="../assets/transparentPanel.png" alt="">
+                                        </a>
+                                        <h2 class="the-thao-section-article-2-heading the-thao-section-article-heading">
+                                        <a href="/article/transportArticle/<%= TopArticlesEachCate[3][1].name_alias %>"><%= TopArticlesEachCate[3][1].heading %></a>
                                     </h2>
+                                    </div>
+                                    
                                     <div class="the-thao-section-article-1-sub the-thao-section-sub">
-                                        <p>
-                                            Cơ quan Chống doping Thế giới (WADA) cho biết họ không chỉ đạt thỏa thuận 
-                                            cấm thi đấu với tay vợt Jannik Sinner, mà đã làm điều đó với 66 VĐV khác.
-                                        </p>
+                                        <a href="/article/transportArticle/<%= TopArticlesEachCate[3][1].name_alias %>"><p><%= TopArticlesEachCate[3][1].content %></p></a>
                                     </div>
                                 </div>
 
                                 <div class="the-thao-second-article-2 the-thao-section-article">
-                                    <img src="../assets/trangChuImages/theThaoSecondImage2.png" alt="">
-                                    <img src="../assets/transparentPanel.png" alt="">
-                                    <h2 class="the-thao-section-article-2-heading the-thao-section-article-heading">
-                                        Lý Hoàng Nam thắng kịch tính, vô địch giải pickleball ở Bà Rịa-Vũng Tàu
+                                    <div class="the-thao-img-container">
+                                        <a href="/article/transportArticle/<%= TopArticlesEachCate[3][2].name_alias %>">
+                                            <img src="<%= TopArticlesEachCate[3][2].hero_image %>" alt="">
+                                            <img src="../assets/transparentPanel.png" alt="">
+                                        </a>
+                                        <h2 class="the-thao-section-article-2-heading the-thao-section-article-heading">
+                                        <a href="/article/transportArticle/<%= TopArticlesEachCate[3][2].name_alias %>"><%= TopArticlesEachCate[3][2].heading %></a>
                                     </h2>
-                                    <div class="the-thao-section-article-2-sub the-thao-section-sub">
-                                        <p>
-                                            Lý Hoàng Nam cùng đồng đội Trịnh Linh Giang đã xuất sắc giành chức vô địch ở nội dung hấp dẫn nhất giải pickleball 
-                                            SS Arena diễn ra tại Bà Rịa-Vũng Tàu.
-                                            
-                                        </p>
+                                    </div>
+                                    
+                                    <div class="the-thao-section-article-1-sub the-thao-section-sub">
+                                        <a href="/article/transportArticle/<%= TopArticlesEachCate[3][2].name_alias %>"><p><%= TopArticlesEachCate[3][2].content %></p></a>
                                     </div>
                                 </div>
                             </div>
@@ -653,170 +692,206 @@
                     </div>
                 </div>
 
-            </div>
-
-            <div class="giai-tri-section container">
-
-                <div class="giai-tri-section-heading">
-                    <div class="giai-tri-section-title">
-                        <a href="/category/firstcategory/<%= categoryTree[4].name_alias%>"><h3 class="body-title-category"><%= categoryTree[4].name %></h3></a>
-                    </div>
-                    <% if (categoryTree[4].children.length) { %>
-                        <div class="giai-tri-section-sub-title">
-                            <% for ( var j = 0; j < categoryTree[4].children.length; j++ ) { %>
-                                <a href="/category/secondcategory/<%= categoryTree[4].children[j].name_alias%>"><p class="sub-menu-button"><%= categoryTree[4].children[j].name %></p></a>
-                            <% } %>
-                        </div>
-                    <% } %>
-                    
                 </div>
+            <% } %>
 
-                <div class="giai-tri-item-1 shadow-hover scale-hover cursor-pointer">
-                    <div class="giai-tri-item-1-container-img">
-                        <a href="../html/chiTietBaiViet.html">
-                            <img src="../assets/trangChuImages/giaiTriImage1.png" alt="">
-                        </a>
-                    </div>
-                    <div class="giai-tri-item-1-article">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3>Hai cháu gái Công nương Diana thu hút nhờ mặc đẹp</h3>
-                        </a>
-                        <a href="../html/chiTietBaiViet.html">
-                            <p>
-                                Chị em song sinh Amelia và Eliza Spencer - 
-                                cháu gái của Công nương Diana - 
-                                ghi điểm bằng gu mặc sang trọng.
-                            </p>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="giai-tri-item-2 shadow-hover scale-hover cursor-pointer">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="../assets/trangChuImages/giaiTriImage2.png" alt="">
-                        <img src="../assets/transparentPanel.png" alt="" class="">
-                    </a>
-                    <a href="../html/chiTietBaiViet.html">
-                        <h2 class="transparent-text">Captain America 4 - kịch bản 'đầu voi, đuôi chuột'</h2>
-                    </a>
-                </div>
-
-                <div class="giai-tri-item-3 shadow-hover cursor-pointer">
-                    <div class="giai-tri-item-3-container">
-                        <a href="../html/chiTietBaiViet.html">
-                            <img src="../assets/trangChuImages/giaiTriImage3.png" alt="">
-                        </a>
-                    </div>
-                    <div class="giai-tri-item-3-article">
-                        <a href="../html/chiTietBaiViet.html">
-                            <h3>Vương Tổ Hiền gây chú ý sau 20 năm sống ẩn dật</h3>
-                        </a>
-                        <a href="../html/chiTietBaiViet.html">
-                            <p>
-                                Vương Tổ Hiền - minh tinh hàng đầu Hong Kong thập niên 1990 - 
-                                đăng video cuộc sống sau hơn 20 năm vắng bóng.
-                            </p>
-                        </a>
-                    </div>
-                </div>
+            <% if (TopArticlesEachCate.length >= 5) { %>
+                <div class="giai-tri-section container">
                 
-                <div class="giai-tri-item-4 shadow-hover scale-hover cursor-pointer">
-                    <a href="/article/transportArticle/<%= articles[0].name_alias %>">
-                        <div class="giai-tri-item-4-container">
-                            <img src="<%= articles[0].hero_image %>" alt="">
+                    <div class="giai-tri-section-heading">
+                        <div class="giai-tri-section-title">
+                            <a href="/category/firstcategory/<%= categoryTree[4].name_alias%>">
+                                <h3 class="body-title-category">
+                                    <%= categoryTree[4].name %>
+                                </h3>
+                            </a>
                         </div>
-                        <div class="giai-tri-item-4-article">
-                            <h3><%= articles[0].heading %></h3>
-                            <p>
-                                <%= articles[0].content %>
-                            </p>
+                        <% if (categoryTree[4].children.length) { %>
+                            <div class="giai-tri-section-sub-title">
+                                <% for ( var j=0; j < categoryTree[4].children.length; j++ ) { %>
+                                    <a href="/category/secondcategory/<%= categoryTree[4].children[j].name_alias%>">
+                                        <p class="sub-menu-button">
+                                            <%= categoryTree[4].children[j].name %>
+                                        </p>
+                                    </a>
+                                    <% } %>
+                            </div>
+                            <% } %>
+                
+                    </div>
+                
+                    <div class="giai-tri-item-1 shadow-hover scale-hover cursor-pointer">
+                        <div class="giai-tri-item-1-container-img">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][0].name_alias %>">
+                                <img src="<%= TopArticlesEachCate[4][0].hero_image %>" alt="">
+                            </a>
                         </div>
-                    </a>
-                </div>
-
-                <div class="giai-tri-item-5 shadow-hover scale-hover cursor-pointer">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="../assets/trangChuImages/giaiTriImage5.png" alt="">
-                        <img src="../assets/transparentPanel.png" alt="" class="">
-                    </a>
-                    <a href="../html/chiTietBaiViet.html">
-                        <h2 class="transparent-text-1">Lisa ám ảnh vì người lạ đeo bám</h2>
-                    </a>
-                </div>
-
-                <div class="giai-tri-item-6 shadow-hover scale-hover cursor-pointer">
-                    <a href="../html/chiTietBaiViet.html">
-                        <img src="../assets/trangChuImages/giaiTriImage5.png" alt="">
-                        <img src="../assets/transparentPanel.png" alt="" class="">
-                    </a>
-                    <a href="../html/chiTietBaiViet.html">
-                        <h2 class="transparent-text-1">Lisa ám ảnh vì người lạ đeo bám</h2>
-                    </a>
-                </div>
-
-                <div class="giai-tri-the-be-1 giai-tri-the-be shadow-hover cursor-pointer">
-                    <div class="giai-tri-item-small-container-img">
-                        <a href="../html/chiTietBaiViet.html">
-                            <img src="../assets/trangChuImages/giaiTriImage1.png" alt="">
+                        <div class="giai-tri-item-1-article">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][0].name_alias %>">
+                                <h3>
+                                    <%= TopArticlesEachCate[4][0].heading %>
+                                </h3>
+                            </a>
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][0].name_alias %>">
+                                <p>
+                                    <%= TopArticlesEachCate[4][0].content %>
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                
+                    <div class="giai-tri-item-2 shadow-hover scale-hover cursor-pointer">
+                        <a href="/article/transportArticle/<%= TopArticlesEachCate[4][1].name_alias %>">
+                            <img src="<%= TopArticlesEachCate[4][1].hero_image %>" alt="">
+                            <img src="../assets/transparentPanel.png" alt="" class="">
+                        </a>
+                        <a href="/article/transportArticle/<%= TopArticlesEachCate[4][1].name_alias %>">
+                            <h2 class="transparent-text">
+                                <%= TopArticlesEachCate[4][1].heading %>
+                            </h2>
                         </a>
                     </div>
-                    <div class="giai-tri-the-be-1-article giai-tri-the-be-article">
-                        <h3>Hai cháu gái Công nương Diana thu hút nhờ mặc đẹp</h3>
-
+                
+                    <div class="giai-tri-item-3 shadow-hover cursor-pointer">
+                        <div class="giai-tri-item-3-container">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][2].name_alias %>">
+                                <img src="<%= TopArticlesEachCate[4][2].hero_image %>" alt="">
+                            </a>
+                        </div>
+                        <div class="giai-tri-item-3-article">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][2].name_alias %>">
+                                <h3>
+                                    <%= TopArticlesEachCate[4][2].heading %>
+                                </h3>
+                            </a>
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][2].name_alias %>">
+                                <p>
+                                    <%= TopArticlesEachCate[4][2].content %>
+                                </p>
+                            </a>
+                        </div>
                     </div>
-                </div>
-
-                <div class="giai-tri-the-be-2 giai-tri-the-be shadow-hover scale-hover cursor-pointer">
-                    <div class="giai-tri-item-small-container-img">
-                        <a href="../html/chiTietBaiViet.html">
-                            <img src="../assets/trangChuImages/giaiTriImage1.png" alt="">
+                
+                    <div class="giai-tri-item-4 shadow-hover scale-hover cursor-pointer">
+                        <a href="/article/transportArticle/<%= TopArticlesEachCate[4][3].name_alias %>">
+                            <div class="giai-tri-item-4-container">
+                                <img src="<%= TopArticlesEachCate[4][3].hero_image %>" alt="">
+                            </div>
+                            <div class="giai-tri-item-4-article">
+                                <h3>
+                                    <%= TopArticlesEachCate[4][3].heading %>
+                                </h3>
+                                <p>
+                                    <%= TopArticlesEachCate[4][3].content %>
+                                </p>
+                            </div>
                         </a>
                     </div>
-                    <div class="giai-tri-the-be-1-article giai-tri-the-be-article">
-                        <h3>Hai cháu gái Công nương Diana thu hút nhờ mặc đẹp</h3>
-
-                    </div>
-                </div>
-
-                <div class="giai-tri-the-be-3 giai-tri-the-be shadow-hover scale-hover cursor-pointer">
-                    <div class="giai-tri-item-small-container-img">
-                        <a href="../html/chiTietBaiViet.html">
-                            <img src="../assets/trangChuImages/giaiTriImage1.png" alt="">
+                
+                    <div class="giai-tri-item-5 shadow-hover scale-hover cursor-pointer">
+                        <a href="/article/transportArticle/<%= TopArticlesEachCate[4][4].name_alias %>">
+                            <img src="<%= TopArticlesEachCate[4][4].hero_image %>" alt="">
+                            <img src="../assets/transparentPanel.png" alt="" class="">
+                        </a>
+                        <a href="/article/transportArticle/<%= TopArticlesEachCate[4][4].name_alias %>">
+                            <h2 class="transparent-text-1">
+                                <%= TopArticlesEachCate[4][4].heading %>
+                            </h2>
                         </a>
                     </div>
-                    <div class="giai-tri-the-be-1-article giai-tri-the-be-article">
-                        <h3>Hai cháu gái Công nương Diana thu hút nhờ mặc đẹp</h3>
-   
-                    </div>
-                </div>
-
-                <div class="giai-tri-the-be-4 giai-tri-the-be shadow-hover scale-hover cursor-pointer">
-                    <div class="giai-tri-item-small-container-img">
-                        <a href="../html/chiTietBaiViet.html">
-                            <img src="../assets/trangChuImages/giaiTriImage1.png" alt="">
+                
+                    <div class="giai-tri-item-6 shadow-hover scale-hover cursor-pointer">
+                        <a href="/article/transportArticle/<%= TopArticlesEachCate[4][5].name_alias %>">
+                            <img src="<%= TopArticlesEachCate[4][5].hero_image %>" alt="">
+                            <img src="../assets/transparentPanel.png" alt="" class="">
+                        </a>
+                        <a href="/article/transportArticle/<%= TopArticlesEachCate[4][5].name_alias %>">
+                            <h2 class="transparent-text-1">
+                                <%= TopArticlesEachCate[4][5].heading %>
+                            </h2>
                         </a>
                     </div>
-                    <div class="giai-tri-the-be-1-article giai-tri-the-be-article">
-                        <h3>Hai cháu gái Công nương Diana thu hút nhờ mặc đẹp</h3>
-
+                
+                    <div class="giai-tri-the-be-1 giai-tri-the-be shadow-hover cursor-pointer">
+                        <div class="giai-tri-item-small-container-img">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][6].name_alias %>">
+                                <img src="<%= TopArticlesEachCate[4][6].hero_image %>" alt="">
+                            </a>
+                        </div>
+                        <div class="giai-tri-the-be-1-article giai-tri-the-be-article">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][6].name_alias %>">
+                                <h3>
+                                    <%= TopArticlesEachCate[4][6].heading %>
+                                </h3>
+                            </a>
+                        </div>
                     </div>
+                
+                    <div class="giai-tri-the-be-2 giai-tri-the-be shadow-hover scale-hover cursor-pointer">
+                        <div class="giai-tri-item-small-container-img">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][7].name_alias %>">
+                                <img src="<%= TopArticlesEachCate[4][7].hero_image %>" alt="">
+                            </a>
+                        </div>
+                        <div class="giai-tri-the-be-1-article giai-tri-the-be-article">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][7].name_alias %>">
+                                <h3>
+                                    <%= TopArticlesEachCate[4][7].heading %>
+                                </h3>
+                            </a>
+                        </div>
+                    </div>
+                
+                    <div class="giai-tri-the-be-3 giai-tri-the-be shadow-hover scale-hover cursor-pointer">
+                        <div class="giai-tri-item-small-container-img">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][8].name_alias %>">
+                                <img src="<%= TopArticlesEachCate[4][8].hero_image %>" alt="">
+                            </a>
+                        </div>
+                        <div class="giai-tri-the-be-1-article giai-tri-the-be-article">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][8].name_alias %>">
+                                <h3>
+                                    <%= TopArticlesEachCate[4][8].heading %>
+                                </h3>
+                            </a>
+                        </div>
+                    </div>
+                
+                    <div class="giai-tri-the-be-4 giai-tri-the-be shadow-hover scale-hover cursor-pointer">
+                        <div class="giai-tri-item-small-container-img">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][9].name_alias %>">
+                                <img src="<%= TopArticlesEachCate[4][9].hero_image %>" alt="">
+                            </a>
+                        </div>
+                        <div class="giai-tri-the-be-1-article giai-tri-the-be-article">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][9].name_alias %>">
+                                <h3>
+                                    <%= TopArticlesEachCate[4][9].heading %>
+                                </h3>
+                            </a>
+                        </div>
+                    </div>
+                
+                    <div class="giai-tri-the-be-5 giai-tri-the-be shadow-hover scale-hover cursor-pointer">
+                        <div class="giai-tri-item-small-container-img">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][10].name_alias %>">
+                                <img src="<%= TopArticlesEachCate[4][10].hero_image %>" alt="">
+                            </a>
+                        </div>
+                        <div class="giai-tri-the-be-1-article giai-tri-the-be-article">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[4][10].name_alias %>">
+                                <h3>
+                                    <%= TopArticlesEachCate[4][10].heading %>
+                                </h3>
+                            </a>
+                        </div>
+                    </div>
+                
                 </div>
+            <% } %>
 
-                <div class="giai-tri-the-be-5 giai-tri-the-be shadow-hover scale-hover cursor-pointer">
-                    <div class="giai-tri-item-small-container-img">
-                        <a href="../html/chiTietBaiViet.html">
-                            <img src="../assets/trangChuImages/giaiTriImage1.png" alt="">
-                        </a>
-                    </div>
-                    <div class="giai-tri-the-be-1-article giai-tri-the-be-article">
-                        <h3>Hai cháu gái Công nương Diana thu hút nhờ mặc đẹp</h3>
-   
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="giao-duc-section container" style="margin-top: 70px">
+            <% if (TopArticlesEachCate.length >= 5) { %>
+                <div class="giao-duc-section container" style="margin-top: 70px">
                 <div class="edu-section">
                     <div class="edu-section-heading">
                         <div class="edu-section-title">
@@ -833,45 +908,61 @@
             
                     <div class="edu-main-content">
                         <div class="edu-item-1">
-                            <img src="../assets/img/dulich.png" alt="Hình ảnh bài viết chính">
+                            <a href="/article/transportArticle/<%= TopArticlesEachCate[5][0].name_alias %>">
+                                <img src="<%= TopArticlesEachCate[5][0].hero_image %>" alt="Hình ảnh bài viết chính">
+                            </a>
                             <div class="edu-item-1-article">
-                                <h3>Khách Việt muốn du lịch Triều Tiên phải ghé Trung Quốc 5 ngày</h3>
-                                <p>Triều Tiên chưa mở cửa du lịch như trước dịch nên khách Việt muốn đi tour phải chấp nhận ở Trung Quốc 5 ngày, không được vào Bình Nhưỡng.</p>
+                                <h3><%= TopArticlesEachCate[5][0].heading %></h3>
+                                <p><%= TopArticlesEachCate[5][0].content %></p>
                             </div>
                         </div>
             
                         <div class="right-container">
                             <div class="edu-item-2">
-                                <img src="../assets/img/kichcau.png" alt="Hình ảnh bài viết">
-                                <h3>Giảm giá nhiều dịch vụ tới 50% để kích cầu du lịch 2025</h3>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[5][1].name_alias %>">
+                                    <img src="<%= TopArticlesEachCate[5][1].hero_image %>" alt="Hình ảnh bài viết chính">
+                                    <h3><%= TopArticlesEachCate[5][1].heading %></h3>
+                                </a>    
                             </div>
                             <div class="edu-item-2">
-                                <img src="../assets/img/cangio.png" alt="Hình ảnh bài viết">
-                                <h3>Định hướng Cần Giờ thành khu du lịch quốc gia</h3>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[5][2].name_alias %>">
+                                    <img src="<%= TopArticlesEachCate[5][2].hero_image %>" alt="Hình ảnh bài viết chính">
+                                    <h3><%= TopArticlesEachCate[5][2].heading %></h3>
+                                </a>  
                             </div>
                         </div>
             
                         <div class="extra-container">
                             <div class="edu-item-3">
-                                <img src="../assets/img/chua.png" alt="Hình ảnh bài viết">
-                                <h3>48 giờ vàng cảnh chùa ở Bắc Giang</h3>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[5][3].name_alias %>">
+                                    <img src="<%= TopArticlesEachCate[5][3].hero_image %>" alt="Hình ảnh bài viết">
+                                    <h3><%= TopArticlesEachCate[5][3].heading %></h3>
+                                </a>
                             </div>
                             <div class="edu-item-3">
-                                <img src="../assets/img/chua.png" alt="Hình ảnh bài viết">
-                                <h3>48 giờ vàng cảnh chùa ở Bắc Giang</h3>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[5][4].name_alias %>">
+                                    <img src="<%= TopArticlesEachCate[5][4].hero_image %>" alt="Hình ảnh bài viết">
+                                    <h3><%= TopArticlesEachCate[5][4].heading %></h3>
+                                </a>
                             </div>
                             <div class="edu-item-3">
-                                <img src="../assets/img/chua.png" alt="Hình ảnh bài viết">
-                                <h3>48 giờ vàng cảnh chùa ở Bắc Giang</h3>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[5][5].name_alias %>">
+                                    <img src="<%= TopArticlesEachCate[5][5].hero_image %>" alt="Hình ảnh bài viết">
+                                    <h3><%= TopArticlesEachCate[5][5].heading %></h3>
+                                </a>
                             </div>
                             <div class="edu-item-3">
-                                <img src="../assets/img/chua.png" alt="Hình ảnh bài viết">
-                                <h3>48 giờ vàng cảnh chùa ở Bắc Giang</h3>
+                                <a href="/article/transportArticle/<%= TopArticlesEachCate[5][5].name_alias %>">
+                                    <img src="<%= TopArticlesEachCate[5][6].hero_image %>" alt="Hình ảnh bài viết">
+                                    <h3><%= TopArticlesEachCate[5][6].heading %></h3>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                </div>
+            <% } %>
+
             
 <%- include("partials/footer.ejs") %>
 
