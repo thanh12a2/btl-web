@@ -35,8 +35,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(express.static('public')); 
 
-
-
 app.use("", mainRoutes); 
 app.use("/auth", authRoutes);
 app.use("/api", itemRoutes);

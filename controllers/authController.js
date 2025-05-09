@@ -60,8 +60,8 @@ export const authController = {
     const id_User = await getLastRecordId(); // Hàm logic để sinh id tự động
     const role = "DocGia";
 
-    const query = `INSERT INTO [dbo].[User] (id_User, username, password, email, role) 
-                        VALUES (@id_User, @username, @password, @email, @role)`;
+    const query = `INSERT INTO [dbo].[User] (id_User, username, password, email, role, is_deleted) 
+                        VALUES (@id_User, @username, @password, @email, @role, 0)`;
     const values = [id_User, username, password, email, role];
     const paramNames = ["id_User", "username", "password", "email", "role"]; // Sửa thành tên các tham số
     const isStoredProcedure = false;
