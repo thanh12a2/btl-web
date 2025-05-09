@@ -6,6 +6,7 @@ import {
     insertArticle, 
     updateArticle, 
     deleteArticle,
+    updateArticleStatus
   } from '../controllers/CRUD_ArticleController.js';
 
 import { insertCate, updateCate, deleteCate } from '../controllers/CRUD_CategoryController.js'
@@ -26,6 +27,9 @@ router.delete('/articles/:id', deleteArticle);
 router.post('/categories', insertCate);
 router.put('/categories/:id', updateCate);
 router.delete('/categories/:id', deleteCate);
+
+router.post('/article/updateStatus/:id', updateArticleStatus);
+
 
 
 export { router }

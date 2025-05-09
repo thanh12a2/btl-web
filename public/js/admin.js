@@ -369,9 +369,398 @@ function confirmDelete(userId) {
     });
 }
 
+let currentCommentId = null;
+
+// Hiển thị modal xóa comment
+function showDeleteCommentModal(commentId) {
+    currentCommentId = commentId;
+    const modal = document.getElementById('deleteCommentModal');
+    const form = document.getElementById('formDeleteComment');
+    
+    // Cập nhật action của form
+    form.action = `/comment/deleteComment/${commentId}`;
+    
+    // Hiển thị modal
+    modal.style.display = 'block';
+}
+
+// Ẩn modal xóa comment
+function hideCommentDeleteModal() {
+    const modal = document.getElementById('deleteCommentModal');
+    modal.style.display = 'none';
+}
+
+// Xử lý sự kiện click bên ngoài modal
+window.onclick = function(event) {
+    const articleModal = document.getElementById('deletePostModal');
+    const categoryModal = document.getElementById('deleteCategoryModal');
+    const commentModal = document.getElementById('deleteCommentModal');
+    
+    if (event.target == articleModal) {
+        hideDeleteModal();
+    }
+    
+    if (event.target == categoryModal) {
+        hideCategoryDeleteModal();
+    }
+
+    if (event.target == commentModal) {
+        hideCommentDeleteModal();
+    }
+}
+
+// Đăng ký các hàm cho window object
+window.showDeleteModal = showDeleteModal;
+window.hideDeleteModal = hideDeleteModal;
+window.showDeleteCategoryModal = showDeleteCategoryModal;
+window.hideCategoryDeleteModal = hideCategoryDeleteModal;
+window.showDeleteCommentModal = showDeleteCommentModal;
+window.hideCommentDeleteModal = hideCommentDeleteModal;
+
+// Xử lý modal thêm danh mục
+document.addEventListener('DOMContentLoaded', function() {
+    const addCategoryBtn = document.querySelector('.add-category-btn');
+    const addCategoryModal = document.getElementById('addCategoryModal');
+    const closeBtn = addCategoryModal.querySelector('.action-modal-close');
+    const parentCategorySelect = document.getElementById('parentCategory');
+    const addCategoryForm = document.getElementById('addCategoryForm');
+    const categoryNameInput = document.querySelector('input[name="category_name"]');
+    const aliasNameInput = document.querySelector('input[name="alias_name"]');
+
+    // Hiển thị modal thêm danh mục
+    if(addCategoryBtn) {
+        addCategoryBtn.onclick = function() {
+            // Lấy danh sách danh mục cha
+            fetch('/category/getAllCategories')
+                .then(response => response.json())
+                .then(categories => {
+                    // Xóa các option cũ
+                    parentCategorySelect.innerHTML = '<option value="">Không có danh mục cha</option>';
+                    
+                    // Chỉ hiển thị danh mục cha (không có id_parent)
+                    categories.forEach(category => {
+                        if (!category.id_parent) {
+                            const option = document.createElement('option');
+                            option.value = category.id_category;
+                            option.textContent = category.category_name;
+                            parentCategorySelect.appendChild(option);
+                        }
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+
+            // Reset form
+            if(addCategoryForm) {
+                addCategoryForm.reset();
+            }
+
+            addCategoryModal.style.display = 'block';
+        };
+    }
+
+    // Đóng modal
+    if(closeBtn) {
+        closeBtn.onclick = function() {
+            addCategoryModal.style.display = 'none';
+        };
+    }
+
+    // Đóng modal khi click ra ngoài
+    window.onclick = function(event) {
+        if (event.target === addCategoryModal) {
+            addCategoryModal.style.display = 'none';
+        }
+    }
+
+    // Tự động tạo alias từ tên danh mục
+    if(categoryNameInput) {
+        categoryNameInput.addEventListener('blur', function() {
+            if(aliasNameInput && !aliasNameInput.value.trim()) {
+                // Tạo alias từ tên danh mục: chuyển thành chữ thường, thay khoảng trắng bằng dấu gạch ngang, loại bỏ dấu tiếng Việt
+                let alias = categoryNameInput.value.trim()
+                    .toLowerCase()
+                    .normalize('NFD') // Tách dấu thành ký tự riêng
+                    .replace(/[\u0300-\u036f]/g, '') // Loại bỏ dấu
+                    .replace(/[đĐ]/g, 'd') // Chuyển đ/Đ thành d
+                    .replace(/\s+/g, '-') // Thay khoảng trắng bằng dấu gạch ngang
+                    .replace(/[^\w\-]/g, ''); // Loại bỏ ký tự đặc biệt
+                
+                aliasNameInput.value = alias;
+            }
+        });
+    }
+
+});
+
+// Thêm code mới cho việc xóa danh mục
+let currentCategoryId = null;
+
+// Hiển thị modal xóa danh mục
+function showDeleteCategoryModal(categoryId) {
+    currentCategoryId = categoryId;
+    const modal = document.getElementById('deleteCategoryModal');
+    const form = document.getElementById('formDeleteCategory');
+    
+    // Cập nhật action của form
+    form.action = `/category/deleteCategory/${categoryId}`;
+    
+    // Hiển thị modal
+    modal.style.display = 'block';
+    
+    // Thêm xử lý sự kiện cho nút xác nhận
+    const confirmBtn = document.getElementById('confirmDeleteCate');
+    if (confirmBtn) {
+        confirmBtn.onclick = function() {
+            form.submit();
+        };
+    }
+}
+
+// Ẩn modal xóa danh mục
+function hideCategoryDeleteModal() {
+    const modal = document.getElementById('deleteCategoryModal');
+    modal.style.display = 'none';
+}
+
+// Xử lý sự kiện click bên ngoài modal
+window.onclick = function(event) {
+    const articleModal = document.getElementById('deletePostModal');
+    const categoryModal = document.getElementById('deleteCategoryModal');
+    
+    if (event.target == articleModal) {
+        hideDeleteModal();
+    }
+    
+    if (event.target == categoryModal) {
+        hideCategoryDeleteModal();
+    }
+}
+
+// Đăng ký các hàm cho window object
+window.showDeleteModal = showDeleteModal;
+window.hideDeleteModal = hideDeleteModal;
+window.showDeleteCategoryModal = showDeleteCategoryModal;
+window.hideCategoryDeleteModal = hideCategoryDeleteModal;
 
 
 
+function getAllChildCategoryIds(categories, currentId) {
+    // Lấy tất cả id của các danh mục con (đệ quy)
+    let result = [];
+    function findChildren(id) {
+        categories.forEach(cat => {
+            if (cat.id_parent === id) {
+                result.push(cat.id_category);
+                findChildren(cat.id_category);
+            }
+        });
+    }
+    findChildren(currentId);
+    return result;
+}
+
+function showEditCategoryModal(categoryId, categoryName, aliasName, parentId) {
+    const modal = document.getElementById('editCategoryModal');
+    document.getElementById('editCategoryId').value = categoryId;
+    document.getElementById('editCategoryName').value = categoryName;
+    document.getElementById('editCategoryAlias').value = aliasName;
+
+    fetch('/category/getAllCategories')
+        .then(response => response.json())
+        .then(categories => {
+            const parentSelect = document.getElementById('editParentCategory');
+            parentSelect.innerHTML = '<option value="">Không có danh mục cha</option>';
+            categories.forEach(category => {
+                // Chỉ hiển thị danh mục gốc, không hiển thị chính nó
+                if ((category.id_parent === null || category.id_parent === '' || category.id_parent === undefined) && category.id_category !== categoryId) {
+                    const option = document.createElement('option');
+                    option.value = category.id_category;
+                    option.textContent = category.category_name;
+                    if (category.id_category == parentId) {
+                        option.selected = true;
+                    }
+                    parentSelect.appendChild(option);
+                }
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    modal.style.display = 'block';
+}
+
+function hideEditCategoryModal() {
+    const modal = document.getElementById('editCategoryModal');
+    modal.style.display = 'none';
+}
+
+// Đóng modal khi click nút đóng
+document.addEventListener('DOMContentLoaded', function() {
+    const closeBtn = document.getElementById('closeBtnFixCategory');
+    if(closeBtn) {
+        closeBtn.onclick = hideEditCategoryModal;
+    }
+
+    // Xử lý submit form cập nhật danh mục
+    const updateForm = document.getElementById('updateCategoryForm');
+    if(updateForm) {
+        updateForm.onsubmit = function(e) {
+            e.preventDefault();
+            
+            // Lấy dữ liệu từ form theo cách thủ công để đảm bảo không bị undefined
+            const formData = {
+                id_category: document.getElementById('editCategoryId').value,
+                category_name: document.getElementById('editCategoryName').value,
+                alias_name: document.getElementById('editCategoryAlias').value,
+                id_parent: document.getElementById('editParentCategory').value
+            };
+            
+            // Nếu không chọn danh mục cha, gửi null hoặc chuỗi rỗng
+            if (!formData.id_parent) {
+                formData.id_parent = null;
+            }
+            
+            fetch('/category/updateCategory', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData),
+                redirect: 'follow' // Cho phép theo dõi chuyển hướng
+            })
+            .then(response => {
+                if (response.redirected) {
+                    // Nếu server chuyển hướng, theo URL chuyển hướng
+                    window.location.href = response.url;
+                    return;
+                }
+                
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.error || 'Lỗi không xác định');
+                    });
+                }
+                
+                // Nếu không có chuyển hướng nhưng thành công
+                hideEditCategoryModal();
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Lỗi: ' + error.message);
+            });
+        };
+    }
+
+    // Đóng modal khi click bên ngoài
+    window.onclick = function(event) {
+        const editCategoryModal = document.getElementById('editCategoryModal');
+        if (event.target == editCategoryModal) {
+            hideEditCategoryModal();
+        }
+    }
+});
+
+// Thêm hàm vào window để có thể gọi từ HTML
+window.showEditCategoryModal = showEditCategoryModal;
+window.hideEditCategoryModal = hideEditCategoryModal;
 
 
+// CSS cho checkbox trạng thái
+const style = document.createElement('style');
+style.textContent = `
+    .status-checkbox {
+        position: relative;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+    }
 
+    .status-checkbox input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        position: absolute;
+    }
+
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #fff;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .status-checkbox input:checked ~ .checkmark {
+        background-color: #4CAF50;
+        border-color: #4CAF50;
+    }
+
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    .status-checkbox input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    .status-checkbox .checkmark:after {
+        left: 6px;
+        top: 2px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+`;
+document.head.appendChild(style);
+
+// Xử lý sự kiện khi checkbox trạng thái được click
+function initStatusToggles() {
+    const statusToggles = document.querySelectorAll('.status-toggle');
+    
+    statusToggles.forEach(toggle => {
+        // Xóa tất cả event listener trước đó để tránh trùng lặp
+        const newToggle = toggle.cloneNode(true);
+        toggle.parentNode.replaceChild(newToggle, toggle);
+        
+        newToggle.addEventListener('change', function() {
+            const articleId = this.dataset.articleId;
+            const newStatus = this.checked ? 'Đã duyệt' : 'Chưa duyệt';
+            
+            // Gửi request cập nhật trạng thái mà không chờ đợi
+            fetch(`/api/article/updateStatus/${articleId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: newStatus })
+            })
+            .catch(error => {
+                console.error('Error updating status:', error);
+                // Không đảo ngược trạng thái checkbox, không hiển thị thông báo
+            });
+        });
+    });
+}
+
+// Chạy khi trang đã tải xong
+document.addEventListener('DOMContentLoaded', function() {
+    initStatusToggles();
+    
+    // Thêm xử lý cho trường hợp nội dung được tải động (AJAX)
+    const tbodyArticle = document.getElementById('tbodyArticle');
+    if (tbodyArticle) {
+        // Theo dõi thay đổi trong bảng bài viết
+        const observer = new MutationObserver(function(mutations) {
+            initStatusToggles();
+        });
+        
+        observer.observe(tbodyArticle, { childList: true, subtree: true });
+    }
+});

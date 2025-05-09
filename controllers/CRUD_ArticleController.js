@@ -187,9 +187,56 @@ const deleteArticle = async (req, res) => {
   }
 };
 
+const updateArticleStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    
+    console.log(`Updating article ${id} status to: ${status}`);
+
+    let pool = await sql.connect(config);
+
+    // Kiểm tra tồn tại bài viết
+    const checkResult = await pool.request()
+      .input('id_article', sql.VarChar, id)
+      .query('SELECT id_article FROM [dbo].[Article] WHERE id_article = @id_article');
+
+    if (checkResult.recordset.length === 0) {
+      console.log(`Article ${id} not found`);
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Không tìm thấy bài viết' 
+      });
+    }
+
+    // Cập nhật trạng thái
+    const updateResult = await pool.request()
+      .input('id_article', sql.VarChar, id)
+      .input('status', sql.NVarChar, status)
+      .query('UPDATE [dbo].[Article] SET status = @status WHERE id_article = @id_article');
+    
+    console.log('Update completed:', updateResult);
+
+    // Trả về kết quả ngay lập tức
+    res.json({
+      success: true,
+      message: 'Cập nhật trạng thái thành công'
+    });
+  } catch (err) {
+    console.error('Error updating article status:', err);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Có lỗi xảy ra khi cập nhật trạng thái',
+      error: err.message 
+    });
+  }
+};
+
 
 export {
   insertArticle,
   updateArticle,
-  deleteArticle
+  deleteArticle,
+  updateArticleStatus
 };
+
