@@ -28,7 +28,7 @@ export const userController = {
     try {
       // Lấy id người dùng cần xóa từ request
       const userId = req.body["data-id"];
-      
+
       //  Xóa tất cả comment của người dùng
       //  xóa tất cả comment con của các comment của người dùng
       const deleteChildCommentsQuery = `
@@ -39,51 +39,94 @@ export const userController = {
           WHERE id_user = @id_user
         )
       `;
-      await executeQuery(deleteChildCommentsQuery, [userId], ["id_user"], false);
-      
+      await executeQuery(
+        deleteChildCommentsQuery,
+        [userId],
+        ["id_user"],
+        false
+      );
+
       // Xóa tất cả comment của người dùng
       const deleteCommentsQuery = `
         DELETE FROM [dbo].[Comment]
         WHERE id_user = @id_user
       `;
       await executeQuery(deleteCommentsQuery, [userId], ["id_user"], false);
-      
+
       // Xóa tất cả LikeArticle của người dùng
       const deleteLikeArticlesQuery = `
         DELETE FROM [dbo].[LikeArticle]
         WHERE id_user = @id_user
       `;
       await executeQuery(deleteLikeArticlesQuery, [userId], ["id_user"], false);
-      
+
       // Xóa tất cả ManageUser liên quan đến người dùng này
       const deleteManageUserQuery = `
         DELETE FROM [dbo].[ManageUser]
         WHERE id_user = @id_user OR id_admin = @id_user
       `;
       await executeQuery(deleteManageUserQuery, [userId], ["id_user"], false);
-      
+
       // Xóa tất cả ManageComment liên quan đến người dùng (nếu là admin)
       const deleteManageCommentQuery = `
         DELETE FROM [dbo].[ManageComment]
         WHERE id_admin = @id_user
       `;
-      await executeQuery(deleteManageCommentQuery, [userId], ["id_user"], false);
-      
+      await executeQuery(
+        deleteManageCommentQuery,
+        [userId],
+        ["id_user"],
+        false
+      );
+
       //  Xóa tất cả ManageArticle liên quan đến người dùng (nếu là admin)
       const deleteManageArticleQuery = `
         DELETE FROM [dbo].[ManageArticle]
         WHERE id_admin = @id_user
       `;
-      await executeQuery(deleteManageArticleQuery, [userId], ["id_user"], false);
-      
-      // xóa người dùng
-      const deleteUserQuery = `
-        DELETE FROM [dbo].[User]
-        WHERE id_user = @id_user
+      await executeQuery(
+        deleteManageArticleQuery,
+        [userId],
+        ["id_user"],
+        false
+      );
+
+      // Lấy role của người dùng
+      const getRoleQuery = `
+          SELECT role
+          FROM [dbo].[User]
+          WHERE id_user = @id_user
       `;
-      await executeQuery(deleteUserQuery, [userId], ["id_user"], false);
+      const roleResult = await executeQuery(
+        getRoleQuery,
+        [userId],
+        ["id_user"],
+        false
+      );
+
+      const userRole = roleResult.recordset[0].role;
+
+      if (userRole === "Admin" || userRole === "NhaBao") {
+        // Nếu role là Admin hoặc NhaBao, cập nhật is_deleted thành 1
+        const updateIsDeletedQuery = `
+                UPDATE [dbo].[User]
+                SET is_deleted = 1,
+                    email = NULL
+                WHERE id_user = @id_user
+            `;
+        await executeQuery(updateIsDeletedQuery, [userId], ["id_user"], false);
+      } else if (userRole === "DocGia") {
+        // Nếu role là DocGia, xóa người dùng
+        const deleteUserQuery = `
+                DELETE FROM [dbo].[User]
+                WHERE id_user = @id_user
+            `;
+        await executeQuery(deleteUserQuery, [userId], ["id_user"], false);
+      } else {
+        res.status(400).json({ failed: "Role không hợp lệ" });
+      }
+      res.redirect("back");
       
-      res.json({ success: "Xóa người dùng thành công" });
     } catch (error) {
       console.error("Lỗi khi xóa người dùng:", error);
       res.status(500).json({ failed: "Xóa người dùng không thành công", error: error.message });
@@ -94,6 +137,8 @@ export const userController = {
     try {
       // Lấy thông tin người dùng từ request body
       const { username, password, email, role } = req.body;
+
+      console.log(req.body.username)
       
       // Kiểm tra xem email đã tồn tại chưa
       const checkEmailQuery = `
@@ -114,23 +159,15 @@ export const userController = {
       
       // Thêm người dùng mới vào database
       const insertUserQuery = `
-        INSERT INTO [dbo].[User] (id_user, username, password, email, role)
-        VALUES (@id_user, @username, @password, @email, @role)
+        INSERT INTO [dbo].[User] (id_user, username, password, email, role, is_deleted)
+        VALUES (@id_user, @username, @password, @email, @role, 0)
       `;
       const insertUserValues = [id_user, username, password, email, role || 'DocGia'];
       const insertUserParamNames = ["id_user", "username", "password", "email", "role"];
       
       await executeQuery(insertUserQuery, insertUserValues, insertUserParamNames, false);
       
-      res.status(201).json({ 
-        success: "Thêm người dùng thành công", 
-        user: {
-          id_user,
-          username,
-          email,
-          role: role || 'DocGia'
-        }
-      });
+      res.redirect("back")
     } catch (error) {
       console.error("Lỗi khi thêm người dùng:", error);
       res.status(500).json({ failed: "Thêm người dùng không thành công", error: error.message });
@@ -142,7 +179,8 @@ export const userController = {
       const query = `
         SELECT id_user, username, email, role
         FROM [dbo].[User]
-        ORDER BY id_user
+        WHERE is_deleted = 'False'
+        ORDER BY id_user 
       `;
       const result = await executeQuery(query, [], [], false);
       res.json({ success: "Lấy danh sách người dùng thành công", data: result.recordset });
@@ -188,70 +226,64 @@ export const userController = {
   
   updateUser: async (req, res) => {
     try {
-      // Lấy thông tin từ request body
-      const userId = req.body["data-id"];
-      
-      // Kiểm tra xem người dùng có tồn tại không và lấy thông tin hiện tại
-      const getUserQuery = `
-        SELECT id_user, username, email, role, password
-        FROM [dbo].[User]
-        WHERE id_user = @id_user
-      `;
-      const getUserValues = [userId];
-      const getUserParamNames = ["id_user"];
-      
-      const userResult = await executeQuery(getUserQuery, getUserValues, getUserParamNames, false);
-      
-      if (userResult.recordset.length === 0) {
-        return res.status(404).json({ failed: "Không tìm thấy người dùng cần cập nhật" });
-      }
-      
-      // Lấy thông tin hiện tại của người dùng
-      const currentUser = userResult.recordset[0];
-      
-      // Sử dụng thông tin mới từ request body hoặc giữ lại thông tin cũ nếu không được cung cấp
-      const username = req.body.username || currentUser.username;
-      const password = req.body.password || currentUser.password;
-      const role = req.body.role || currentUser.role;
-      
-      // Luôn sử dụng email hiện tại, không cho phép thay đổi
-      const email = currentUser.email;
-      
-      // Thông báo nếu người dùng cố gắng thay đổi email
-      if (req.body.email && req.body.email !== currentUser.email) {
-        console.warn(`Người dùng ${userId} đã cố gắng thay đổi email từ ${currentUser.email} sang ${req.body.email}`);
-      }
-      
-      // Cập nhật thông tin người dùng
-      const updateQuery = `
-        UPDATE [dbo].[User]
-        SET username = @username,
-            password = @password,
-            role = @role
-        WHERE id_user = @id_user
-      `;
-      const updateValues = [username, password, role, userId];
-      const updateParamNames = ["username", "password", "role", "id_user"];
-      
-      // Thực hiện cập nhật
-      await executeQuery(updateQuery, updateValues, updateParamNames, false);
-      
-      // Lấy thông tin người dùng sau khi cập nhật
-      const updatedUserQuery = `
-        SELECT id_user, username, email, role
-        FROM [dbo].[User]
-        WHERE id_user = @id_user
-      `;
-      
-      const updatedUserResult = await executeQuery(updatedUserQuery, getUserValues, getUserParamNames, false);
-      
-      res.json({
-        success: "Cập nhật thông tin người dùng thành công",
-        user: updatedUserResult.recordset[0]
-      });
+        // Lấy thông tin từ request body
+        const userId = req.body.userId; // Lấy ID người dùng từ input ẩn trong form
+        const username = req.body.username; // Lấy tên người dùng từ form
+        const password = req.body.password; // Lấy mật khẩu từ form
+        const role = req.body.role; // Lấy vai trò từ form
+
+        // Kiểm tra xem người dùng có tồn tại không
+        const getUserQuery = `
+            SELECT id_user, username, email, role, password
+            FROM [dbo].[User]
+            WHERE id_user = @id_user
+        `;
+        const getUserValues = [userId];
+        const getUserParamNames = ["id_user"];
+
+        const userResult = await executeQuery(getUserQuery, getUserValues, getUserParamNames, false);
+
+        if (userResult.recordset.length === 0) {
+            return res.status(404).json({ failed: "Không tìm thấy người dùng cần cập nhật" });
+        }
+
+        // Lấy thông tin hiện tại của người dùng
+        const currentUser = userResult.recordset[0];
+
+        // Nếu không có giá trị mới, giữ lại giá trị cũ
+        const updatedUsername = username || currentUser.username;
+        const updatedPassword = password || currentUser.password;
+        const updatedRole = role || currentUser.role;
+
+        // Luôn giữ email hiện tại, không cho phép thay đổi
+        const email = currentUser.email;
+
+        // Cập nhật thông tin người dùng
+        const updateQuery = `
+            UPDATE [dbo].[User]
+            SET username = @username,
+                password = @password,
+                role = @role
+            WHERE id_user = @id_user
+        `;
+        const updateValues = [updatedUsername, updatedPassword, updatedRole, userId];
+        const updateParamNames = ["username", "password", "role", "id_user"];
+
+        // Thực hiện cập nhật
+        await executeQuery(updateQuery, updateValues, updateParamNames, false);
+
+        // Lấy thông tin người dùng sau khi cập nhật
+        const updatedUserQuery = `
+            SELECT id_user, username, email, role
+            FROM [dbo].[User]
+            WHERE id_user = @id_user
+        `;
+        const updatedUserResult = await executeQuery(updatedUserQuery, getUserValues, getUserParamNames, false);
+
+        res.redirect("back")
     } catch (error) {
-      console.error("Lỗi khi cập nhật thông tin người dùng:", error);
-      res.status(500).json({ failed: "Cập nhật thông tin người dùng không thành công", error: error.message });
+        console.error("Lỗi khi cập nhật thông tin người dùng:", error);
+        res.status(500).json({ failed: "Cập nhật thông tin người dùng không thành công", error: error.message });
     }
   }
 

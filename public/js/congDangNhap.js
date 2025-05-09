@@ -65,6 +65,9 @@ const userEmailInp1 = document.getElementById("email5");
 const userPwdInp1 = document.getElementById("password5");
 const registerBtn = document.getElementById("registerBtn");
 
+const emailForgotInp = document.getElementById("emailForgot");
+const emailForgotBtn = document.getElementById("sendOtpBtn")
+
 function checkInputs() {
     if (userEmailInp.value.trim() !== "" && userPwdInp.value.trim() !== "") {
         submitBtn.removeAttribute("disabled");
@@ -78,9 +81,16 @@ function checkInputs() {
     else {
         registerBtn.setAttribute("disabled", "true");
     }
+
+    if (emailForgotInp.value.trim() !== "") {
+        emailForgotBtn.removeAttribute("disabled");
+    }
+    else {
+        emailForgotBtn.setAttribute("disabled", "true");
+    }
 }
 
-[userEmailInp, userPwdInp, userNameInp1, userEmailInp1, userPwdInp1].forEach(input => {
+[userEmailInp, userPwdInp, userNameInp1, userEmailInp1, userPwdInp1, emailForgotInp].forEach(input => {
     input.addEventListener("input", checkInputs);
 });
 
@@ -328,3 +338,154 @@ function hideLoginForm() {
     document.body.classList.remove('no-scroll');
 }
 
+function showLoginForm() {
+    // Hiển thị form đăng nhập
+    document.getElementById('loginForm').style.display = 'block'; // Hoặc cách khác để hiển thị form
+    document.getElementById('typeCodeFrm').style.display = 'none';
+    document.getElementById('forgotPwd').style.display = 'none';
+    // Ngăn chặn cuộn trang
+    document.body.classList.add('no-scroll');
+}
+
+function hideLoginForm() {
+    // Ẩn form đăng nhập
+    document.getElementById('loginForm').style.display = 'none'; // Hoặc cách khác để ẩn form
+    document.getElementById('typeCodeFrm').style.display = 'none';
+    // Cho phép cuộn trang
+    document.body.classList.remove('no-scroll');
+}
+
+function toggleForgotPwd() {
+    // Hiển thị form đăng nhập
+    document.getElementById('loginForm').style.display = 'none'; // Hoặc cách khác để hiển thị form
+
+    // Đặt typeCodeFrm về display: none
+    document.getElementById('typeCodeFrm').style.display = 'block';
+
+    // Ngăn chặn cuộn trang
+    document.body.classList.add('no-scroll');
+}
+
+function toggleForgotPwd1() {
+    // Hiển thị form đăng nhập
+    document.getElementById('loginForm').style.display = 'block'; // Hoặc cách khác để hiển thị form
+
+    // Đặt typeCodeFrm về display: none
+    document.getElementById('typeCodeFrm').style.display = 'none';
+
+    // Ngăn chặn cuộn trang
+    document.body.classList.add('no-scroll');
+}
+
+function handleSendOtp() {
+    const email = document.getElementById("emailForgot").value.trim();
+    const sendOtpBtn = document.getElementById("sendOtpBtn");
+    const sendOtpSpinner = document.getElementById("sendOtpSpinner");
+
+    if (!email) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: 'Vui lòng nhập email để nhận OTP!',
+        });
+        return;
+    }
+
+    // Hiển thị spinner và vô hiệu hóa nút
+    sendOtpSpinner.style.display = "inline-block";
+    sendOtpBtn.disabled = true;
+
+    // Gửi yêu cầu đến controller
+    fetch('/auth/sendotp', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: email }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công',
+                text: data.message,
+            }).then(() => {
+                document.getElementById("forgotPwd").style.display = "none";
+                document.getElementById("typeCodeFrm").style.display = "block";
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: data.message || "Không thể gửi OTP. Vui lòng thử lại!",
+            });
+        }
+    })
+    .catch(error => {
+        console.error("Lỗi khi gửi OTP:", error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: 'Đã xảy ra lỗi. Vui lòng thử lại!',
+        });
+    })
+    .finally(() => {
+        // Ẩn spinner và kích hoạt lại nút
+        sendOtpSpinner.style.display = "none";
+        sendOtpBtn.disabled = false;
+    });
+}
+
+function handleResetPassword(event) {
+    event.preventDefault(); // Ngăn chặn reload trang
+
+    const otp = document.getElementById("otpCode").value.trim();
+    const newPassword = document.getElementById("newPassword").value.trim();
+
+    if (!otp || !newPassword) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: 'Vui lòng điền đầy đủ thông tin!',
+        });
+        return;
+    }
+
+    // Gửi yêu cầu đến controller
+    fetch('/auth/updatePwd', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ otp, newPassword }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công',
+                text: data.message,
+            }).then(() => {
+                // Quay lại loginForm
+                document.getElementById("typeCodeFrm").style.display = "none";
+                document.getElementById("loginForm").style.display = "block";
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: data.message || "Không thể đặt lại mật khẩu. Vui lòng thử lại!",
+            });
+        }
+    })
+    .catch(error => {
+        console.error("Lỗi khi đặt lại mật khẩu:", error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: 'Đã xảy ra lỗi. Vui lòng thử lại!',
+        });
+    });
+}

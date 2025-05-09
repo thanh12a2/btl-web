@@ -9,9 +9,9 @@ router.post('/register', authController.register); // Đăng ký tài khoản
 
 router.get('/logout', authController.logout); // Đăng xuất tài khoản   
 
-router.get('/sendotp', authController.authenticateToken, authController.sendOTP);
+router.post('/sendotp', authController.authenticateToken, authController.sendOTP);
 
-router.put("/updatePwd", authController.authenticateToken, authController.resetPassword);
+router.post("/updatePwd", authController.authenticateToken, authController.resetPassword);
 
 router.put("/changeUsername", authController.authenticateToken, authController.changeUsername);
 

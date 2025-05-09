@@ -229,7 +229,7 @@ export const authController = {
   },
 
   sendOTP: async (req, res) => {
-    const emailUser = res.locals.email;
+    const emailUser = req.body.name;
     const query = `SELECT * FROM [dbo].[User] WHERE email = @email`;
     const values = [emailUser];
     const paramNames = ["email"];
@@ -254,7 +254,8 @@ export const authController = {
         upperCase: false,
         specialChars: false,
       });
-      otpStore.set(emailUser, otp);
+
+      otpStore.set(emailUser, { otp, email: emailUser });
 
       await transporter.sendMail({
         from: process.env.EMAIL_SENDER,
@@ -273,15 +274,20 @@ export const authController = {
   },
 
   resetPassword: async (req, res) => {
-    const emailUser = res.locals.email;
     const { otp, newPassword } = req.body;
 
-    const storedOtp = otpStore.get(emailUser);
-    if (!storedOtp || storedOtp !== otp) {
+    // Tìm email và OTP trong otpStore
+    const emailEntry = Array.from(otpStore.entries()).find(
+      ([, value]) => value.otp === otp
+    );
+
+    if (!emailEntry) {
       return res
         .status(400)
         .json({ success: false, message: "OTP không hợp lệ hoặc đã hết hạn!" });
     }
+
+    const emailUser = emailEntry[0]; // Lấy email từ otpStore
 
     const query = `UPDATE [dbo].[User] SET password = @password WHERE email = @email`;
     const values = [newPassword, emailUser];
@@ -328,7 +334,7 @@ export const authController = {
     const paramNames = ["password", "username", "email"];
     try {
       await executeQuery(query, values, paramNames, false);
-      res.redirect('back');
+      res.redirect("back");
     } catch (error) {
       res.json({ failed: "Thay doi mat khau ko thanh cong !" });
     }
