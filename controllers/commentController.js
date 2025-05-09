@@ -204,43 +204,50 @@ export const commentController = {
       res.json({ failed: "Khong thanh cong !" });
     }
   },
+  
 
   deleteComment: async (req, res) => {
     try {
-      // Bước 1: Xóa tất cả comment con (nếu có)
+      const commentId = req.params.id || req.body["data-id"];
+      
+      // Kiểm tra xem comment có tồn tại không
+      const checkCommentQuery = `
+        SELECT * FROM [dbo].[Comment]
+        WHERE id_comment = @id_comment
+      `;
+      const commentResult = await executeQuery(checkCommentQuery, [commentId], ["id_comment"], false);
+      
+      if (!commentResult || !commentResult.recordset || commentResult.recordset.length === 0) {
+        return res.status(404).json({ error: "Không tìm thấy bình luận" });
+      }
+
+      // Xóa tất cả comment con (nếu có)
       const deleteChildrenQuery = `
         DELETE FROM [dbo].[Comment]
         WHERE id_parent = @id_comment
       `;
-      const childrenValues = [req.body["data-id"]];
-      const childrenParamNames = ["id_comment"];
-      await executeQuery(
-        deleteChildrenQuery,
-        childrenValues,
-        childrenParamNames,
-        false
-      );
+      await executeQuery(deleteChildrenQuery, [commentId], ["id_comment"], false);
 
-      // Bước 2: Xóa comment chính
+      // Xóa tất cả like của comment
+      const deleteLikesQuery = `
+        DELETE FROM [dbo].[LikeComment]
+        WHERE id_comment = @id_comment
+      `;
+      await executeQuery(deleteLikesQuery, [commentId], ["id_comment"], false);
+
+      // Xóa comment chính
       const deleteCommentQuery = `
         DELETE FROM [dbo].[Comment]
         WHERE id_comment = @id_comment
       `;
-      const commentValues = [req.body["data-id"]];
-      const commentParamNames = ["id_comment"];
-      await executeQuery(
-        deleteCommentQuery,
-        commentValues,
-        commentParamNames,
-        false
-      );
+      await executeQuery(deleteCommentQuery, [commentId], ["id_comment"], false);
 
-      res.json({ success: "Xóa bình luận thành công" });
+      res.redirect('back');
     } catch (error) {
       console.error("Lỗi khi xóa bình luận:", error);
       res.status(500).json({
-        failed: "Xóa bình luận không thành công",
-        error: error.message,
+        error: "Xóa bình luận không thành công",
+        details: error.message
       });
     }
   },

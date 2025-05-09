@@ -1,6 +1,7 @@
 import express from 'express';
 import { categoryController } from '../controllers/categoryController.js';
 import { articleController } from '../controllers/articleController.js';
+import { authController } from '../controllers/authController.js';
 import { executeQuery } from "../config/db.js";
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi.js'; // Import tiếng Việt
@@ -166,6 +167,39 @@ router.get('/secondcategory/:id', async (req, res) => {
         res.render('trangDanhMuc2.ejs', { pageStatus: pageStatus, articles: result1.recordset.slice(startIndex, endIndex), categoryData: result.recordset });
     } catch (error) {
         res.render('notFound404.ejs');
+    }
+});
+
+router.post("/deleteCategory/:id", categoryController.deleteCategory);
+
+router.post("/updateCategory", authController.authenticateToken, express.urlencoded({ extended: true }), express.json(), categoryController.updateCategory);
+
+router.get('/getAllCategories', authController.authenticateToken, async (req, res) => {
+    const query = `SELECT * FROM [dbo].[Category]`;
+    try {
+        const result = await executeQuery(query, [], [], false);
+        res.json(result.recordset);
+    } catch (error) {
+        res.status(500).json({ error: 'Không lấy được danh mục' });
+    }
+});
+
+router.post("/addCategory", authController.authenticateToken, express.urlencoded({ extended: true }), express.json(), categoryController.addCategory);
+
+router.get("/getAllCategories", authController.authenticateToken, async (req, res) => {
+    try {
+        const query = `
+            SELECT id_category, category_name, id_parent 
+            FROM [dbo].[Category]
+            ORDER BY 
+                CASE WHEN id_parent IS NULL THEN 0 ELSE 1 END, 
+                id_category ASC
+        `;
+        const result = await executeQuery(query, [], [], false);
+        res.json(result.recordset);
+    } catch (error) {
+        console.error("Lỗi khi lấy danh mục:", error);
+        res.status(500).json({ error: "Không thể lấy danh sách danh mục" });
     }
 });
 

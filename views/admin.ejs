@@ -444,7 +444,15 @@
                                 <td><%= articles[i].views %></td>
                                 <td><%= articles[i].like_count %></td>
                                 <td><%= articles[i].is_featured ? 'Có' : 'Không' %></td>
-                                <td><%= articles[i].status %></td>
+                                <td>
+                                    <label class="status-checkbox">
+                                        <input type="checkbox" 
+                                               class="status-toggle" 
+                                               data-article-id="<%= articles[i].id_article %>"
+                                               <%= articles[i].status === 'Đã duyệt' ? 'checked' : '' %>>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm" style="margin-bottom: 5px;" onclick="editArticle('<%= articles[i].id_article %>')">Sửa</button>
                                     <button class="btn btn-danger btn-sm" onclick="showDeleteModal('<%= articles[i].id_article %>')">Xóa</button>
@@ -584,8 +592,12 @@
                                 <td><%= categories[i].alias_name %></td>
                                 <td><%= categories[i].id_parent %></td>
                                 <td>
-                                    <button class="btn btn-primary btn-sm" onclick="editArticle('<%= articles[i].id_article %>')">Sửa</button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteArticle('<%= articles[i].id_article %>')">Xóa</button>
+                                    <button class="btn btn-primary btn-sm"
+                                        onclick="showEditCategoryModal('<%= categories[i].id_category %>', '<%= categories[i].category_name %>', '<%= categories[i].alias_name %>', '<%= categories[i].id_parent %>')"
+                                        class="btn-edit">Sửa</button>
+                                    <button class="btn btn-danger btn-sm"
+                                        onclick="showDeleteCategoryModal('<%= categories[i].id_category %>')"
+                                        class="btn-delete">Xóa</button>
                                 </td>
                             </tr>
                         <% } %>
@@ -611,84 +623,90 @@
 
             <!-- Modal thêm danh mục -->
             <div id="addCategoryModal" class="action-modal-overlay">
-                <div class="action-modal-content">
+                <div class="action-modal-content modal-content" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; min-width: 300px; margin: 0 auto;" >
                     <button class="action-modal-close">&times;</button>
                     <div class="action-modal-header">
                         <h2>Thêm danh mục</h2>
                     </div>
 
-                    <div class="action-form-group">
-                        <label>Tên danh mục</label>
-                        <input type="text" placeholder="Nhập tên danh mục">
-                    </div>
+                    <form id="addCategoryForm" class="modal-form" action="/category/addCategory" method="POST">
+                        <div class="action-form-group">
+                            <label>Tên danh mục</label>
+                            <input type="text" name="category_name" required placeholder="Nhập tên danh mục">
+                        </div>
 
-                    <div class="action-form-group">
-                        <label>Tên link</label>
-                        <input type="text" placeholder="Nhập link">
-                    </div>
+                        <div class="action-form-group">
+                            <label>Tên alias</label>
+                            <input type="text" name="alias_name" required placeholder="Nhập tên alias">
+                        </div>
 
-                    <div class="action-form-group">
-                        <label>Danh mục cha</label>
-                        <select id="mainCategory2">
-                            <option>Xã hội</option>
-                            <option>Khoa học & Công nghệ</option>
-                            <option>Sức khỏe</option>
-                            <option>Thể Thao</option>
-                            <option>Giải trí</option>
-                            <option>Giáo dục</option>
-                        </select>
-                    </div>
+                        <div class="action-form-group">
+                            <label>Danh mục cha</label>
+                            <select name="id_parent" id="parentCategory" class="form-control" style="
+                    width: 100%;
+                    padding: 10px;
+                    border: 1px solid #ced4da;
+                    border-radius: 5px;
+                    font-size: 14px;
+                    margin-top: 10px;">
+                                <option value="">Không có danh mục cha</option>
+                            </select>
+                        </div>
 
-                    <div class="action-modal-footer">
-                        <button class="btn-add">Thêm danh mục</button>
-                    </div>
+                        <div class="action-modal-footer">
+                            <button type="submit" class="btn-add">Thêm danh mục</button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
             <!-- Modal chỉnh sửa danh mục -->
-            <div id="editCategoryModal" class="action-modal-overlay">
-                <div class="action-modal-content" style="margin-left: 22%;margin-top: 10%;">
-                    <button class="action-modal-close">&times;</button>
-                    <div class="action-modal-header">
-                        <h2>Chỉnh sửa danh mục</h2>
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Tên danh mục</label>
-                        <input type="text" id="editCategoryName" placeholder="Nhập tên danh mục">
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Link</label>
-                        <input type="text" id="editCategoryLink" placeholder="Nhập link">
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Danh mục cha</label>
-                        <select id="editParentCategory">
-                            <!-- Các lựa chọn khác sẽ được cập nhật động từ API -->
-                            <option>Xã hội</option>
-                            <option>Khoa học & Công nghệ</option>
-                            <option>Sức khỏe</option>
-                            <option>Thể Thao</option>
-                            <option>Giải trí</option>
-                            <option>Giáo dục</option>
-                        </select>
-                    </div>
-
-                    <div class="action-modal-footer">
-                        <button id="btnUpdateCategory" class="btn-edit">Cập nhật danh mục</button>
-                    </div>
+            <div id="editCategoryModal" class="modal-overlay">
+                <div class="modal-content"
+                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; min-width: 300px; margin: 0 auto;">
+                    <button id="closeBtnFixCategory" class="modal-close-btn">&times;</button>
+                    <h2 class="modal-title" style="color: #B32A45;">Chỉnh sửa danh mục</h2>
+                    <form id="updateCategoryForm" class="modal-form">
+                        <input type="hidden" name="id_category" id="editCategoryId">
+                        <div>
+                            <label>Tên danh mục</label>
+                            <input type="text" name="category_name" id="editCategoryName" required
+                                placeholder="Nhập tên danh mục">
+                        </div>
+                        <div>
+                            <label>Tên alias</label>
+                            <input type="text" name="alias_name" id="editCategoryAlias" required
+                                placeholder="Nhập tên alias">
+                        </div>
+                        <div>
+                            <label>Danh mục cha</label>
+                            <select name="id_parent" id="editParentCategory" class="form-control" style="
+                    width: 100%;
+                    padding: 10px;
+                    border: 1px solid #ced4da;
+                    border-radius: 5px;
+                    font-size: 14px;
+                    margin-top: 10px;">
+                                <option value="">Không có danh mục cha</option>
+                            </select>
+                        </div>
+                        <div class="form-submit-wrapper">
+                            <button type="submit" class="modal-submit-btn">Cập nhật danh mục</button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
             <!-- Modal xác nhận xóa -->
-            <div id="deleteCategoryModal" class="delete-modal">
-                <div class="modal-content-deleteModal">
+            <div id="deleteCategoryModal" class="delete-modal" style="margin: 0 auto;">
+                <div
+                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 5px; text-align: center; min-width: 300px; margin: 0 auto;">
                     <p>Bạn có chắc chắn muốn xóa danh mục này không?</p>
-                    <div class="modal-buttons">
-                        <button id="confirmDeleteCate" class="btn-confirm">Có</button>
-                        <button id="cancelDeleteCate" class="btn-cancel">Không</button>
+                    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
+                        <form id="formDeleteCategory" action="" method="POST">
+                            <button type="button" id="confirmDeleteCate" class="btn-confirm">Có</button>
+                        </form>
+                        <button onclick="hideCategoryDeleteModal()" class="btn-cancel">Không</button>
                     </div>
                 </div>
             </div>
@@ -883,29 +901,42 @@
                                 <th>Hành động</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbodyComments">
                             <% if (comments && comments.length) { %>
-                        
-                                <% for (let i = 0; i < comments.length; i++) { %>
+                                <% for (let i=0; i < comments.length; i++) { %>
                                     <tr>
-                                        <td><%= comments[i].id_comment %></td>
-                                        <td><%= comments[i].id_user %></td>
-                                        <td><%= comments[i].id_article %></td>
-                                        <td><%= comments[i].id_parent %></td>
-                                        <td><%= comments[i].day_created %></td>
-                                        <td><%= comments[i].comment_content %></td>
-                                        <td><%= comments[i].like_count %></td>
                                         <td>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteComment('<%= articles[i].id_article %>')">Xóa</button>
+                                            <%= comments[i].id_comment %>
+                                        </td>
+                                        <td>
+                                            <%= comments[i].id_user %>
+                                        </td>
+                                        <td>
+                                            <%= comments[i].id_article %>
+                                        </td>
+                                        <td>
+                                            <%= comments[i].id_parent %>
+                                        </td>
+                                        <td>
+                                            <%= comments[i].day_created %>
+                                        </td>
+                                        <td>
+                                            <%= comments[i].comment_content %>
+                                        </td>
+                                        <td>
+                                            <%= comments[i].like_count %>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm"
+                                                onclick="showDeleteCommentModal('<%= comments[i].id_comment %>')">Xóa</button>
                                         </td>
                                     </tr>
-                                <% } %>
-                            <% } else { %>
-                                <tr>
-                                    <td colspan="13" class="text-center">Không có danh mục nào</td>
-                                </tr>
-                            <% } %>
-            
+                                    <% } %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="9" class="text-center">Không có bình luận nào</td>
+                                            </tr>
+                                            <% } %>
                         </tbody>
                     </table>
                 </div>
@@ -922,11 +953,14 @@
             </div>
 
             <div id="deleteCommentModal" class="delete-modal">
-                <div class="modal-content-deleteModal">
+                <div
+                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 5px; text-align: center; min-width: 300px;">
                     <p>Bạn có chắc chắn muốn xóa bình luận này không?</p>
-                    <div class="modal-buttons">
-                        <button id="confirmDelete" class="btn-confirm">Có</button>
-                        <button id="cancelDelete" class="btn-cancel">Không</button>
+                    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
+                        <form id="formDeleteComment" action="" method="POST">
+                            <button type="submit" class="btn-confirm">Có</button>
+                        </form>
+                        <button onclick="hideCommentDeleteModal()" class="btn-cancel">Không</button>
                     </div>
                 </div>
             </div>
