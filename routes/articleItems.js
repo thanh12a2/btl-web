@@ -9,7 +9,6 @@ import {
   } from '../controllers/CRUD_ArticleController.js';
 
 import { insertCate, updateCate, deleteCate } from '../controllers/CRUD_CategoryController.js'
-import { render } from 'ejs';
 
 
 const router = express.Router();

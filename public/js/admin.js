@@ -2,11 +2,20 @@ let btn = document.querySelector("#btn");
 
 let sidebar = document.querySelector(".sidebar");
 
+
+
 btn.onclick = function() {
+
     console.time("Toggle Sidebar");
+
     sidebar.classList.toggle("active");
-    console.timeEnd("Toggle Sidebar");
+
+
+
+        console.timeEnd("Toggle Sidebar");
+
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
     let menuItems = document.querySelectorAll(".nav_list li a");
@@ -55,9 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Đánh dấu menu được chọn là 'active'
             this.parentElement.classList.add("active");
-
-            // Lưu panel hiện tại khi người dùng click menu
-            localStorage.setItem("activePanel", menuName);
         });
     });
 
@@ -77,6 +83,31 @@ document.addEventListener("DOMContentLoaded", function () {
             if(tabId) parent.querySelector(`#${tabId}`).style.display = 'block';
         });
     });
+
+    // CRUD mẫu cho Bài viết yêu thích
+    // let favoriteArticles = [
+    //     {id: 1, title: 'Bài viết A', author: 'Tác giả 1', date: '2024-06-01'},
+    //     {id: 2, title: 'Bài viết B', author: 'Tác giả 2', date: '2024-06-02'}
+    // ];
+    // function renderFavoriteArticles() {
+    //     const tbody = document.getElementById('favoriteArticlesBody');
+    //     tbody.innerHTML = favoriteArticles.map(a => `
+    //         <tr>
+    //             <td>${a.id}</td>
+    //             <td>${a.title}</td>
+    //             <td>${a.author}</td>
+    //             <td>${a.date}</td>
+    //             <td>
+    //                 <button class=\"info_management-action-btn\" onclick=\"deleteFavoriteArticle(${a.id})\">Xóa</button>
+    //             </td>
+    //         </tr>
+    //     `).join('');
+    // }
+    // window.deleteFavoriteArticle = function(id) {
+    //     favoriteArticles = favoriteArticles.filter(a => a.id !== id);
+    //     renderFavoriteArticles();
+    // }
+    // renderFavoriteArticles();
 
     // CRUD mẫu cho Bình luận của tôi
     let myComments = [
@@ -228,146 +259,8 @@ document.addEventListener("DOMContentLoaded", function () {
         usernameInput.addEventListener("input", toggleSaveButton);
     }
 
-    let savedPanel = localStorage.getItem("activePanel");
-    if (savedPanel && sections[savedPanel]) {
-        // Ẩn tất cả các phần
-        Object.values(sections).forEach(section => {
-            if (section) section.style.display = "none";
-        });
-        // Hiện lại phần đã lưu
-        sections[savedPanel].style.display = "block";
-
-        // Đánh dấu menu tương ứng là active
-        menuItems.forEach(link => {
-            const linkName = link.querySelector(".links_name").innerText;
-            if (linkName === savedPanel) {
-                link.parentElement.classList.add("active");
-            } else {
-                link.parentElement.classList.remove("active");
-            }
-        });
-    }
-
-    const themNguoiDungBtn = document.getElementById("btnAddUser")
-    const modalThemNguoiDung = document.getElementById("modal-container")
-    const closeBtnAddUser = document.getElementById("closeBtnAddUser")
-
-    const updateUserBtns = document.querySelectorAll(".btn-sua"); // Lấy tất cả các nút "Sửa"
-    const modalUpdateUser = document.getElementById("modal-container-update");
-    const closeBtnFixUser = document.getElementById("closeBtnFixUser");
-
-    // console.log("Danh sách các nút btn-sua:", updateUserBtns);
-
-    // Các input trong modal
-    const editUserId = document.getElementById("editUserId");
-    const editUsername = document.getElementById("editUsername");
-    const editEmail = document.getElementById("editEmail");
-    const editPassword = document.getElementById("editPassword");
-    const editRole = document.getElementById("editRole");
-
-    // Gắn sự kiện click cho từng nút "Sửa"
-    updateUserBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-
-            // Lấy thông tin từ data-* của nút
-            const userId = btn.getAttribute("data-id");
-            const username = btn.getAttribute("data-username");
-            const email = btn.getAttribute("data-email");
-            const password = btn.getAttribute("data-password");
-            const role = btn.getAttribute("data-role");
-
-            // Gán thông tin vào các input trong modal
-            editUserId.value = userId;
-            editUsername.value = username;
-            editEmail.value = email;
-            editPassword.value = password;
-            editRole.value = role;
-
-            // Hiển thị modal
-            modalUpdateUser.style.display = "block";
-
-
-        });
-    });
-
-    // Gắn sự kiện đóng modal
-    closeBtnFixUser.addEventListener("click", () => {
-        modalUpdateUser.style.display = "none"; // Ẩn modal
-    });
-
-    themNguoiDungBtn.addEventListener("click", () => {
-        if (modalThemNguoiDung.style.display == "none") {
-            modalThemNguoiDung.style.display = "block";
-        } else modalThemNguoiDung.style.display = "none"
-    })
-
-    closeBtnAddUser.addEventListener("click", () => {
-        modalThemNguoiDung.style.display = "none";
-    })
-
-    const updateUserForm = document.getElementById("updateUserForm");
-
 });
 
-let currentArticleId = null;
-
-// Hiển thị modal xóa
-function showDeleteModal(articleId) {
-  currentArticleId = articleId;
-  document.getElementById("formDeleteArticle").action =
-    "/article/deleteArticle/" + articleId;
-  document.getElementById("deletePostModal").style.display = "block";
-}
-
-// Ẩn modal xóa
-function hideDeleteModal() {
-  document.getElementById("deletePostModal").style.display = "none";
-}
-
-// Khi user nhấn vào bất kỳ đâu ngoài modal, đóng modal
-window.onclick = function (event) {
-  const modal = document.getElementById("deletePostModal");
-  if (event.target == modal) {
-    hideDeleteModal();
-  }
-};
-
-// Thêm vào window object để TypeScript biết các hàm này được sử dụng
-window.showDeleteModal = showDeleteModal;
-window.hideDeleteModal = hideDeleteModal;
-
-
-function confirmDelete(userId) {
-    Swal.fire({
-        title: "Bạn có chắc chắn muốn xóa?",
-        text: "Hành động này không thể hoàn tác!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
-        confirmButtonText: "Xóa",
-        cancelButtonText: "Hủy",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Tạo một form ẩn để gửi yêu cầu xóa
-            const form = document.createElement("form");
-            form.method = "POST";
-            form.action = "/user/deleteUser";
-
-            // Thêm input ẩn chứa ID người dùng
-            const input = document.createElement("input");
-            input.type = "hidden";
-            input.name = "data-id"; // Phải khớp với key trong controller
-            input.value = userId;
-
-            form.appendChild(input);
-            document.body.appendChild(form);
-
-            // Gửi form
-            form.submit();
-        }
-    });
-}
 
 
 

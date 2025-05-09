@@ -1,7 +1,7 @@
 import sql from "mssql";
 import config from "../config/db.js";
 
-const getArticles = async (req, res, next) => {
+const getArticles = async (req, res) => {
     try {
         let pool = await sql.connect(config);
         let result = await pool.request().query(`
@@ -16,44 +16,36 @@ const getArticles = async (req, res, next) => {
             LEFT JOIN [dbo].[Category] AS pc ON c.id_parent = pc.id_category 
             INNER JOIN [dbo].[User] AS u ON a.id_user = u.id_user;
         `);
-
-        // Lưu dữ liệu vào res.locals để middleware tiếp theo sử dụng
-        res.locals.articles = result.recordset;
-        next();
+        res.json(result.recordset)
     }
-    catch (err) {
-        res.status(500).json({ error: err.message });
-        next();
+    catch(err){
+        res.status(500).json({error: err.message});
     }
 };
 
-const getCategories = async (req, res, next) => {
+const getCategories = async (req, res) => {
     try {
         let pool = await sql.connect(config);
         let result = await pool.request().query(`
             Select c.id_category, c.category_name, c.id_parent, c.alias_name, ca.category_name AS parent_category_name from [dbo].[Category] AS c left join [dbo].[Category] AS ca on c.id_parent = ca.id_category
         `);
-        res.locals.categories = result.recordset;
-        next();
+        res.json(result.recordset)
     }
-    catch (err) {
-        res.status(500).json({ error: err.message });
-        next();
+    catch(err){
+        res.status(500).json({error: err.message});
     }
 };
 
-const getUsers = async (req, res, next) => {
+const getUsers= async (req, res) => {
     try {
         let pool = await sql.connect(config);
         let result = await pool.request().query(`
-            Select * from [dbo].[User] where is_deleted = 0;
+            Select * from [dbo].[User]
         `);
-        res.locals.users = result.recordset;
-        next();
+        res.json(result.recordset)
     }
-    catch (err) {
-        res.status(500).json({ error: err.message });
-        next();
+    catch(err){
+        res.status(500).json({error: err.message});
     }
 };
 

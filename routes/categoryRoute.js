@@ -139,6 +139,11 @@ router.get('/secondcategory/:id', async (req, res) => {
         const paramNames1 = ["id"];
 
         const result1 = await executeQuery(query1, values1, paramNames1, false);
+
+        // Format `day_created` trong kết quả của query2
+        result1.recordset.forEach(article => {
+            article.day_created = dayjs(article.day_created).format("dddd, D/M/YYYY, HH:mm");
+        });
         
         const page = parseInt(req.query.page);
         const limit = parseInt(req.query.limit);

@@ -651,25 +651,5 @@ a {
     margin-left: 60px; /* Điều chỉnh khoảng cách này tùy theo kích thước logo */
 }
 
-#forgetPwdBtn, 
-#backToLoginBtn {
-    transition: all 0.2s ease-in-out;
-    font-family: "Lexend Deca", sans-serif;
-    font-size: medium;
-}
 
-#forgetPwdBtn:hover,
-#backToLoginBtn:hover {
-    background-color: #B32A45;
-    color: white;
-    font-style: italic;
-}
-
-#loginForm {
-    display: block;
-}
-
-#forgotPwd {
-    display: none;
-}
   

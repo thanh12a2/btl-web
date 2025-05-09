@@ -141,7 +141,7 @@ export const articleController = {
     }
   },
 
-  getArticles1: async (req, res) => {
+  getArticles1: async () => {
     const query = `SELECT * FROM [dbo].[Article]`;
     const values = [];
     const paramNames = [];
@@ -153,13 +153,10 @@ export const articleController = {
         paramNames,
         isStoredProcedure
       );
-      // return result.recordset;
-      res.json({ success: true, data: result.recordset });
+      return result.recordset;
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .json({ success: false, message: "Có lỗi xảy ra, vui lòng thử lại!" });
+      return { recordset: [] };
     }
   },
 
@@ -405,57 +402,6 @@ export const articleController = {
       return res.json({failed: "Co loi"});
     }
   },
-
-  deleteArticle: async (req, res) => {
-    try {
-        // Log để debug
-        console.log("Deleting article with ID:", req.params.id);
-        
-        // B1: Xóa các bản ghi trong LikeArticle liên quan đến bài viết
-        const deleteLikesQuery = `
-            DELETE FROM [dbo].[LikeArticle] 
-            WHERE id_article = @id_article
-        `;
-        await executeQuery(deleteLikesQuery, [req.params.id], ["id_article"], false);
-        
-        // B2: Xóa các bản ghi trong ManageArticle liên quan đến bài viết
-        const deleteManageQuery = `
-            DELETE FROM [dbo].[ManageArticle] 
-            WHERE id_article = @id_article
-        `;
-        await executeQuery(deleteManageQuery, [req.params.id], ["id_article"], false);
-        
-        // B3: Xóa các like của comment thuộc bài viết
-        const deleteCommentLikesQuery = `
-            DELETE FROM [dbo].[LikeComment]
-            WHERE id_comment IN (
-                SELECT id_comment FROM [dbo].[Comment] 
-                WHERE id_article = @id_article
-            )
-        `;
-        await executeQuery(deleteCommentLikesQuery, [req.params.id], ["id_article"], false);
-        
-        // B4: Xóa các comment liên quan đến bài viết
-        const deleteCommentsQuery = `
-            DELETE FROM [dbo].[Comment] 
-            WHERE id_article = @id_article
-        `;
-        await executeQuery(deleteCommentsQuery, [req.params.id], ["id_article"], false);
-        
-        // B5: Cuối cùng xóa bài viết
-        const deleteArticleQuery = `
-            DELETE FROM [dbo].[Article]
-            WHERE id_article = @id_article
-        `;
-        await executeQuery(deleteArticleQuery, [req.params.id], ["id_article"], false);
-        
-        console.log("Article deleted successfully");
-        res.redirect('back');
-    } catch (error) {
-        console.error("Error deleting article:", error);
-        res.status(500).json({ error: "Không thành công", details: error.message });
-    }
-},
 
   getLikedArticlesByUser: async () => {}
 };
