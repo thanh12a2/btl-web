@@ -1,0 +1,30 @@
+
+.content {
+    display: flex;
+    flex-direction: column;
+    padding-left: 25px;
+    gap: 5px;
+    width:400px;
+}
+.search-items {
+    width: fit-content!important;
+    height: 230px;
+    display: flex;
+    background-color: white;
+    margin-bottom: 30px;
+}
+.info_management {
+    width: max-content!important;
+}
+.title-section {
+    font-weight: 600;
+    color: black;
+    font-size: 25px;
+
+    font-family: "Roboto", sans-serif;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}

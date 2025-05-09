@@ -6,14 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The PTIT News</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="/../css/trangDanhMuc2.css">
+    <link rel="stylesheet" href="/../css/admin2.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="//cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>    
+
 </head>
 
 <body>
@@ -194,6 +198,21 @@
                                 <% } %>
                             </tbody>
                         </table>
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                              <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                              </li>
+                              <li class="page-item"><a class="page-link" href="#">1</a></li>
+                              <li class="page-item active">
+                                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                              </li>
+                              <li class="page-item"><a class="page-link" href="#">3</a></li>
+                              <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                              </li>
+                            </ul>
+                          </nav>
                     </div>
 
                     <div class="info_management-tab-content" id="my-comments" style="display:none;">
@@ -385,7 +404,7 @@
             </table>
 
             <div id="editPostModal" class="action-modal-overlay">
-                <div class="action-modal-content" style="gap: 20px!important;">
+                <div class="action-modal-content" id ="editPostModalContent" style="gap: 20px!important;">
                     <button class="action-modal-close">&times;</button>
                     <div class="action-modal-header">
                         <h2>Chỉnh sửa bài báo</h2>
@@ -443,10 +462,36 @@
                         <label>Nội dung bài báo</label>
                         <textarea id="editPostContent" placeholder="Nhập nội dung bài báo"></textarea>
                     </div>
+                    <script>
+                        // Khởi tạo CKEditor cho textarea vừa thêm
+                        CKEDITOR.replace('editPostContent', {
+                            height: 400,
+                            language: 'vi'
+                        });
+                    </script>
 
                     <div class="action-modal-footer">
                         <button id="btnUpdatePost" class="btn-edit">Cập nhật bài báo</button>
                     </div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            const editModalContent = document.getElementById('editPostModalContent');
+                            const scrollEditBtn = document.getElementById('scrollEditPostModalBtn');
+                            
+                            if (editModalContent && scrollEditBtn) {
+                                editModalContent.style.overflowY = 'auto';
+                                editModalContent.style.maxHeight = '80vh';
+                                
+                                editModalContent.addEventListener('scroll', function() {
+                                    if (editModalContent.scrollTop > 150) {
+                                        scrollEditBtn.style.display = 'block';
+                                    } else {
+                                        scrollEditBtn.style.display = 'none';
+                                    }
+                                });
+                            }
+                        });
+                    </script>
                 </div>
             </div>
 
@@ -724,6 +769,13 @@
                     <label>Nội dung bài báo</label>
                     <textarea id="addPostContent" placeholder="Nhập nội dung bài báo"></textarea>
                 </div>
+                <script>
+                    // Khởi tạo CKEditor cho textarea vừa thêm
+                    CKEDITOR.replace('addPostContent', {
+                        height: 400,
+                        language: 'vi'
+                    });
+                </script>
 
                 <div class="action-modal-footer">
                     <button id="btnAddPost" class="btn-add">Thêm bài báo</button>
