@@ -285,7 +285,7 @@ export const userController = {
         console.error("Lỗi khi cập nhật thông tin người dùng:", error);
         res.status(500).json({ failed: "Cập nhật thông tin người dùng không thành công", error: error.message });
     }
-}
+  }
 
 };
 
