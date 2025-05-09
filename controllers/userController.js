@@ -1,6 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
 import { executeQuery } from "../config/db.js";
 import bodyParser from "body-parser";
+import jwt from "jsonwebtoken";
 
 
 async function getLastUserId() {
@@ -225,66 +226,73 @@ export const userController = {
   },
   
   updateUser: async (req, res) => {
-    try {
-        // Lấy thông tin từ request body
-        const userId = req.body.userId; // Lấy ID người dùng từ input ẩn trong form
-        const username = req.body.username; // Lấy tên người dùng từ form
-        const password = req.body.password; // Lấy mật khẩu từ form
-        const role = req.body.role; // Lấy vai trò từ form
+      try {
+          // Lấy thông tin từ request body
+          const userId = req.body.userId;
+          const username = req.body.username;
+          const password = req.body.password;
+          const role = req.body.role;
 
-        // Kiểm tra xem người dùng có tồn tại không
-        const getUserQuery = `
-            SELECT id_user, username, email, role, password
-            FROM [dbo].[User]
-            WHERE id_user = @id_user
-        `;
-        const getUserValues = [userId];
-        const getUserParamNames = ["id_user"];
+          // Kiểm tra xem người dùng có tồn tại không
+          const getUserQuery = `
+              SELECT id_user, username, email, role, password
+              FROM [dbo].[User]
+              WHERE id_user = @id_user
+          `;
+          const getUserValues = [userId];
+          const getUserParamNames = ["id_user"];
 
-        const userResult = await executeQuery(getUserQuery, getUserValues, getUserParamNames, false);
+          const userResult = await executeQuery(getUserQuery, getUserValues, getUserParamNames, false);
 
-        if (userResult.recordset.length === 0) {
-            return res.status(404).json({ failed: "Không tìm thấy người dùng cần cập nhật" });
-        }
+          if (userResult.recordset.length === 0) {
+              return res.status(404).json({ failed: "Không tìm thấy người dùng cần cập nhật" });
+          }
 
-        // Lấy thông tin hiện tại của người dùng
-        const currentUser = userResult.recordset[0];
+          // Lấy thông tin hiện tại của người dùng
+          const currentUser = userResult.recordset[0];
 
-        // Nếu không có giá trị mới, giữ lại giá trị cũ
-        const updatedUsername = username || currentUser.username;
-        const updatedPassword = password || currentUser.password;
-        const updatedRole = role || currentUser.role;
+          // Nếu không có giá trị mới, giữ lại giá trị cũ
+          const updatedUsername = username || currentUser.username;
+          const updatedPassword = password || currentUser.password;
+          const updatedRole = role || currentUser.role;
 
-        // Luôn giữ email hiện tại, không cho phép thay đổi
-        const email = currentUser.email;
+          // Luôn giữ email hiện tại, không cho phép thay đổi
+          const email = currentUser.email;
 
-        // Cập nhật thông tin người dùng
-        const updateQuery = `
-            UPDATE [dbo].[User]
-            SET username = @username,
-                password = @password,
-                role = @role
-            WHERE id_user = @id_user
-        `;
-        const updateValues = [updatedUsername, updatedPassword, updatedRole, userId];
-        const updateParamNames = ["username", "password", "role", "id_user"];
+          // Cập nhật thông tin người dùng
+          const updateQuery = `
+              UPDATE [dbo].[User]
+              SET username = @username,
+                  password = @password,
+                  role = @role
+              WHERE id_user = @id_user
+          `;
+          const updateValues = [updatedUsername, updatedPassword, updatedRole, userId];
+          const updateParamNames = ["username", "password", "role", "id_user"];
 
-        // Thực hiện cập nhật
-        await executeQuery(updateQuery, updateValues, updateParamNames, false);
+          // Thực hiện cập nhật
+          await executeQuery(updateQuery, updateValues, updateParamNames, false);
 
-        // Lấy thông tin người dùng sau khi cập nhật
-        const updatedUserQuery = `
-            SELECT id_user, username, email, role
-            FROM [dbo].[User]
-            WHERE id_user = @id_user
-        `;
-        const updatedUserResult = await executeQuery(updatedUserQuery, getUserValues, getUserParamNames, false);
+          // Tạo JWT mới với thông tin đã cập nhật
+          const updatedUser = {
+              username: updatedUsername,
+              email: email,
+              role: updatedRole,
+          };
 
-        res.redirect("back")
-    } catch (error) {
-        console.error("Lỗi khi cập nhật thông tin người dùng:", error);
-        res.status(500).json({ failed: "Cập nhật thông tin người dùng không thành công", error: error.message });
-    }
+          const newToken = jwt.sign(updatedUser, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "8h" });
+
+          // Set lại cookie với JWT mới
+          res.cookie("user", newToken, {
+              httpOnly: true,
+              maxAge: 8 * 60 * 60 * 1000, // 8 giờ
+          });
+
+          res.redirect("back");
+      } catch (error) {
+          console.error("Lỗi khi cập nhật thông tin người dùng:", error);
+          res.status(500).json({ failed: "Cập nhật thông tin người dùng không thành công", error: error.message });
+      }
   }
 
 };

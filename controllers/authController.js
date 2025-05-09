@@ -324,19 +324,39 @@ export const authController = {
   },
 
   changePwdQuanTri: async (req, res) => {
-    const emailUser = res.locals.email;
-    const newPwd = req.body.pwdInp;
-    const username = req.body.newUsername;
-    // console.log(req.body.pwdInp)
-    // console.log(req.body.newUsername)
+    const emailUser = res.locals.email; // Lấy email từ res.locals
+    const newPwd = req.body.pwdInp; // Mật khẩu mới từ request body
+    const username = req.body.newUsername; // Tên người dùng mới từ request body
+
     const query = `UPDATE [dbo].[User] SET password = @password, username = @username WHERE email = @email`;
     const values = [newPwd, username, emailUser];
     const paramNames = ["password", "username", "email"];
+
     try {
-      await executeQuery(query, values, paramNames, false);
-      res.redirect("back");
+        // Thực hiện cập nhật thông tin người dùng
+        await executeQuery(query, values, paramNames, false);
+
+        // Tạo đối tượng người dùng đã cập nhật
+        const updatedUser = {
+            username: username,
+            email: emailUser,
+            role: res.locals.role, // Lấy role từ res.locals
+        };
+
+        // Tạo JWT mới
+        const newToken = jwt.sign(updatedUser, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "8h" });
+
+        // Set lại cookie với JWT mới
+        res.cookie("user", newToken, {
+            httpOnly: true,
+            maxAge: 8 * 60 * 60 * 1000, // 8 giờ
+        });
+
+        // Phản hồi thành công
+        res.redirect("back");
     } catch (error) {
-      res.json({ failed: "Thay doi mat khau ko thanh cong !" });
+        console.error("Lỗi khi thay đổi mật khẩu:", error);
+        res.json({ failed: "Thay đổi mật khẩu không thành công!" });
     }
-  },
+}
 };
