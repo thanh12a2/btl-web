@@ -28,3 +28,7 @@
     justify-content: center;
     margin-top: 50px;
 } */
+
+.image {
+    width: 150px !important;
+}

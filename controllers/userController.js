@@ -293,7 +293,39 @@ export const userController = {
           console.error("Lỗi khi cập nhật thông tin người dùng:", error);
           res.status(500).json({ failed: "Cập nhật thông tin người dùng không thành công", error: error.message });
       }
-  }
+  },
+
+ searchUsers: async (req, res) => {
+    try {
+        const searchQuery = req.body.searchInp || ""; // Lấy từ khóa tìm kiếm từ form
+        console.log("Từ khóa tìm kiếm:", searchQuery);
+
+        const query = `
+            SELECT id_user, username, email, password, role
+            FROM [dbo].[User]
+            WHERE 
+                (id_user LIKE @searchQuery OR
+                username LIKE @searchQuery OR
+                email LIKE @searchQuery OR
+                password LIKE @searchQuery OR
+                role LIKE @searchQuery)
+                AND is_deleted = 'False'
+        `;
+        const values = [`%${searchQuery}%`]; // Thêm ký tự `%` để tìm kiếm chuỗi con
+        const paramNames = ["searchQuery"];
+
+        const result = await executeQuery(query, values, paramNames, false);
+
+        // Render lại trang admin.ejs với kết quả tìm kiếm
+        res.render("admin.ejs", {
+            user: result.recordset, // Truyền danh sách người dùng tìm được
+            pagination: { users: { totalPages: 1, currentPage: 1 } }, // Cập nhật pagination nếu cần
+        });
+    } catch (error) {
+        console.error("Lỗi khi tìm kiếm người dùng:", error);
+        res.status(500).send("Đã xảy ra lỗi khi tìm kiếm người dùng.");
+    }
+}
 
 };
 

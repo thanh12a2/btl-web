@@ -764,3 +764,5 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(tbodyArticle, { childList: true, subtree: true });
     }
 });
+
+

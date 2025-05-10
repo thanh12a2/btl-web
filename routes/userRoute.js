@@ -19,4 +19,7 @@ router.post('/updateUser', authController.authenticateToken, userController.upda
 // API xóa người dùng - yêu cầu xác thực
 router.post('/deleteUser', authController.authenticateToken, userController.deleteUser);
 
+// router.post("/searchUsers", authController.authenticateToken, userController.searchUsers);
+
+
 export { router }; 

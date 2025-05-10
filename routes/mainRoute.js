@@ -108,50 +108,52 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
     let result5;
 
     try {
-      result2 = await executeQuery(
-        query1,
-        [],
-        [],
-        isStoredProcedure
-      );
+      result2 = await executeQuery(query1, [], [], isStoredProcedure);
     } catch (error) {
       console.error(error);
-      // return { recordset: [] };
     }
 
-    const query = `SELECT * FROM [dbo].[User] WHERE email = @email`
+    const query = `SELECT * FROM [dbo].[User] WHERE email = @email`;
     const values = [res.locals.email];
     const paramNames = ["email"];
 
     const likeArticleQuery = `SELECT A.*
                               FROM LikeArticle LA
                               JOIN Article A ON LA.id_article = A.id_article
-                              WHERE LA.id_user = @id;`
+                              WHERE LA.id_user = @id;`;
+
     try {
       const result = await executeQuery(query, values, paramNames, false);
 
-      result3 = await executeQuery(
-        query3,
-        [],
-        [],
-        isStoredProcedure
-      );
-
-      result4 = await executeQuery(
-        query4,
-        [],
-        [],
-        isStoredProcedure
-      );
-
-      result5 = await executeQuery(
-        query5,
-        [],
-        [],
-        isStoredProcedure
-      );
+      result3 = await executeQuery(query3, [], [], isStoredProcedure);
+      result4 = await executeQuery(query4, [], [], isStoredProcedure);
+      result5 = await executeQuery(query5, [], [], isStoredProcedure);
 
       const result1 = await executeQuery(likeArticleQuery, [result.recordset[0].id_user], ["id"], false);
+
+      // Lấy từ khóa tìm kiếm từ query string
+      const searchQuery = req.query.searchInp || "";
+
+      // Nếu có từ khóa tìm kiếm, thực hiện tìm kiếm
+      if (searchQuery) {
+        const searchQuerySQL = `
+          SELECT id_user, username, email, password, role
+          FROM [dbo].[User]
+          WHERE 
+              (id_user LIKE @searchQuery OR
+              username LIKE @searchQuery OR
+              email LIKE @searchQuery OR
+              password LIKE @searchQuery OR
+              role LIKE @searchQuery)
+              AND is_deleted = 'False'
+        `;
+        const searchValues = [`%${searchQuery}%`];
+        const searchParamNames = ["searchQuery"];
+        const searchResult = await executeQuery(searchQuerySQL, searchValues, searchParamNames, false);
+
+        // Ghi đè kết quả tìm kiếm vào `result5`
+        result5 = { recordset: searchResult.recordset };
+      }
 
       // Route handling code
       const articlePage = parseInt(req.query.articlePage) || 1;
@@ -168,7 +170,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
             data: [],
             totalPages: 0,
             totalItems: 0,
-            currentPage: page
+            currentPage: page,
           };
         }
         const start = (page - 1) * limit;
@@ -177,7 +179,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
           data: data.slice(start, end),
           totalPages: Math.ceil(data.length / limit),
           totalItems: data.length,
-          currentPage: page
+          currentPage: page,
         };
       }
 
@@ -186,7 +188,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       const usersData = paginate(result5.recordset || [], userPage, limit);
       const commentsData = paginate(result4.recordset || [], commentPage, limit);
 
-      res.render("admin.ejs", { 
+      res.render("admin.ejs", {
         user: result.recordset, 
         likeArticles: result1.recordset, 
         articles: articlesData.data, 
@@ -219,7 +221,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
           }
         }
       });
-    } catch(error) {
+    } catch (error) {
       res.render("notFound404.ejs");
     }
   } else if (role == "NhaBao") {
