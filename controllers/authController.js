@@ -139,13 +139,11 @@ export const authController = {
   },
 
   authenticateToken: async (req, res, next) => {
-    // console.log("Đã qua middleware auth");
     try {
-      // Lấy danh mục và dữ liệu thời tiết
+      
       const categories = await categoryController.getCategoriesTitle();
       const weatherData = await WeatherService.getWeatherData();
 
-      // Format ngày tháng theo tiếng Việt
       const currentDate = new Date();
       const days = [
         "Chủ nhật",
@@ -160,7 +158,6 @@ export const authController = {
         days[currentDate.getDay()]
       } - ${currentDate.getDate()}/${currentDate.getMonth() + 1}`;
 
-      // Gán dữ liệu vào `res.locals` để sử dụng trong EJS
       res.locals = {
         ...res.locals,
         categoryTree: categories,
@@ -169,8 +166,7 @@ export const authController = {
         cityName: weatherData.cityName,
         currentDate: formattedDate,
       };
-
-      // Lấy token từ cookie
+      
       const token = req.cookies.user;
 
       if (!token) {

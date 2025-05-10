@@ -13,7 +13,12 @@ import {
   updateArticle, 
   deleteArticle,
 } from '../controllers/CRUD_ArticleController.js';
+import multer from 'multer';
+import { processFileContent } from '../controllers/fileController.js';
+
+
 const router = express.Router();
+const upload = multer({ dest: 'uploads/' }); // Lưu file tạm thời trong thư mục `uploads`
 
 // Route lấy trang chủ
 router.get("/", async (req, res) => {
@@ -101,6 +106,12 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
     const query4 = `SELECT * FROM [dbo].[Comment]`;
     const query5 = `SELECT * FROM [dbo].[User] WHERE is_deleted = 0`;
     const query1 = `SELECT * FROM [dbo].[Article]`;
+    const queryCate = `
+            SELECT id_category, category_name, id_parent 
+            FROM [dbo].[Category]
+            ORDER BY 
+                CASE WHEN id_parent IS NULL THEN 0 ELSE 1 END, 
+                id_category ASC`;
     const isStoredProcedure = false;
     let result2;
     let result3;
@@ -187,7 +198,30 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       const categoriesData = paginate(result3.recordset || [], categoryPage, limit);
       const usersData = paginate(result5.recordset || [], userPage, limit);
       const commentsData = paginate(result4.recordset || [], commentPage, limit);
+      const resultCate = await executeQuery(queryCate, [], [], false);
 
+      // Tạo cấu trúc category cha - con
+      const categories = resultCate.recordset;
+      const categoryMap = {};
+
+      // Tạo một map để lưu các category
+      categories.forEach((category) => {
+        category.children = []; // Thêm mảng `children` để chứa các category con
+        categoryMap[category.id_category] = category; // Lưu category vào map
+      });
+
+      // Gắn các category con vào category cha
+      const structuredCategories = [];
+      categories.forEach((category) => {
+        if (category.id_parent) {
+          // Nếu có `id_parent`, thêm vào mảng `children` của category cha
+          categoryMap[category.id_parent]?.children.push(category);
+        } else {
+          // Nếu không có `id_parent`, đây là category cha
+          structuredCategories.push(category);
+        }
+      });
+      
       res.render("admin.ejs", {
         user: result.recordset, 
         likeArticles: result1.recordset, 
@@ -198,6 +232,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
         limit: limit,
         activeSection: activeSection,
         currentPage: currentPage,
+        structuredCategories: structuredCategories,
         pagination: {
           articles: {
             totalPages: articlesData.totalPages,
@@ -236,7 +271,6 @@ router.post("/add-article", authController.authenticateToken, (req, res) => {
   // Call your existing insertArticle controller
   insertArticle(req, res);
 });
-
 
 router.get("/test12", articleController.searchArticles);
 
@@ -302,6 +336,27 @@ router.get("/home", async (req, res) => {
       categoryTree: [],
     });
   }
+});
+
+router.post('/processFile', upload.single('file'), async (req, res) => {
+    try {
+
+       console.log('Thông tin file:', req.file); // Kiểm tra thông tin file
+        console.log('Đường dẫn file:', req.file?.path); // Kiểm tra đường dẫn file
+        console.log('Loại file:', req.file?.mimetype); // Kiểm tra loại file
+
+
+        const filePath = req.file.path;
+        const fileType = req.file.mimetype;
+
+        // Xử lý file và chuyển đổi nội dung thành text
+        const text = await processFileContent(filePath, fileType);
+
+        res.json({ success: true, text });
+    } catch (error) {
+        console.error('Lỗi khi xử lý file:', error);
+        res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi xử lý file!' });
+    }
 });
 
 export { router };

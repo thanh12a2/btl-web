@@ -1,6 +1,6 @@
 // CrudController.js
 import sql from 'mssql';
-import config from '../config/db.js';
+import config, { executeQuery } from '../config/db.js';
 
 const generateNewArticleId = async () => {
   const pool = await sql.connect(config);
@@ -25,60 +25,64 @@ const generateNewArticleId = async () => {
 
 // CREATE operation
 const insertArticle = async (req, res) => {
+  const { nameArticle, dmChinh, dmPhu, hero_image, content } = req.body;
+  console.log('Request body:', req.body);
+  // Truy vấn kiểm tra người dùng
+  const queryCheckUser = `SELECT * FROM [dbo].[User] WHERE email = @email`;
+
+  // Tạo ID bài viết mới
+  const articleId = await generateNewArticleId();
+
+  // Truy vấn chèn bài viết
+  const queryInsertArticle = `
+    INSERT INTO [dbo].[Article] 
+    (id_article, id_user, id_category, heading, hero_image, content, name_alias, views, like_count, status, is_featured, day_created)
+    VALUES 
+    (@id_article, @id_user, @id_category, @heading, @hero_image, @content, @name_alias, 0, 0, N'Chưa duyệt', 0, GETDATE())
+  `;
+
   try {
-    const { user, category_name, heading, hero_image, content, name_alias, is_featured } = req.body;
+    // Lấy thông tin người dùng từ email
+    const resultUser = await executeQuery(queryCheckUser, [res.locals.email], ['email'], false);
 
-    let pool = await sql.connect(config);
-    const newId = await generateNewArticleId();
-    // Lookup userId
-    const userResult = await pool.request()
-      .input('username', sql.NVarChar, user)
-      .query('SELECT id_user FROM [dbo].[User] WHERE username = @username');
-
-    if (userResult.recordset.length === 0) {
-      return res.status(400).json({ error: 'User not found' });
+    if (resultUser.recordset.length === 0) {
+      return res.status(403).json({ success: false, message: 'Người dùng không hợp lệ' });
     }
-    const userId = userResult.recordset[0].id_user;
 
-    // Lookup categoryId
-    const categoryResult = await pool.request()
-      .input('categoryName', sql.NVarChar, category_name)
-      .query('SELECT id_category FROM [dbo].[Category] WHERE category_name = @categoryName');
+    const user = resultUser.recordset[0];
 
-    if (categoryResult.recordset.length === 0) {
-      return res.status(400).json({ error: 'Category not found' });
+    // Kiểm tra quyền của người dùng
+    if (user.role !== "Admin" && user.role !== "NhaBao") {
+      return res.status(403).json({ success: false, message: 'Bạn không có quyền thêm bài viết' });
     }
-    const categoryId = categoryResult.recordset[0].id_category;
-    const status = "Đã duyệt";
 
-    const isFeaturedValue = is_featured === 'Có' ? 1 : 0;
-    // Thực hiện cập nhật
-    await pool.request()
-      .input('id_article', sql.VarChar, newId)
-      .input('id_user', sql.VarChar, userId)
-      .input('id_category', sql.VarChar, categoryId)
-      .input('heading', sql.NVarChar, heading)
-      .input('hero_image', sql.NVarChar, hero_image)
-      .input('content', sql.NVarChar, content)
-      .input('name_alias', sql.NVarChar, name_alias)
-      .input('is_featured', sql.Bit, isFeaturedValue)
-      .input('status', sql.NVarChar, status)
-      .query(`
-        INSERT INTO [dbo].[Article] (
-          id_article, id_user, id_category, heading, hero_image, content, name_alias, status, is_featured, day_created
-        )
-        VALUES (
-          @id_article, @id_user, @id_category, @heading, @hero_image, @content, @name_alias, @status, @is_featured, GETDATE()
-        );
-        SELECT SCOPE_IDENTITY() AS id;
-      `);
+    // Xác định `id_category` dựa trên `dmPhu` hoặc `dmChinh`
+    const idCategory = dmPhu || dmChinh;
 
-    res.json({
-      success: true,
-      message: 'Item created successfully',
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    if (!idCategory) {
+      return res.status(400).json({ success: false, message: 'Danh mục không hợp lệ' });
+    }
+
+    // Tạo alias cho bài viết
+    const nameAlias = nameArticle
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_-]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+    // Chèn bài viết vào cơ sở dữ liệu
+    await executeQuery(
+      queryInsertArticle,
+      [articleId, user.id_user, idCategory, nameArticle, hero_image, content, nameAlias],
+      ['id_article', 'id_user', 'id_category', 'heading', 'hero_image', 'content', 'name_alias'],
+      false
+    );
+
+    res.status(201).json({ success: true, message: 'Thêm bài viết thành công' });
+  } catch (error) {
+    console.error('Lỗi khi thêm bài viết:', error);
+    res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi thêm bài viết', error: error.message });
   }
 };
 
