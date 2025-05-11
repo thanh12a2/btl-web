@@ -582,9 +582,9 @@
                 <thead>
                     <tr>
                         <th>ID danh mục</th>
+                        <th>Danh mục cha</th>
                         <th>Tên danh mục</th>
                         <th>Tên alias</th>
-                        <th>Danh mục cha</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -594,9 +594,9 @@
                         <% for (let i = 0; i < categories.length; i++) { %>
                             <tr>
                                 <td><%= categories[i].id_category %></td>
+                                <td><%= categories[i].id_parent %></td>
                                 <td><%= categories[i].category_name %></td>
                                 <td><%= categories[i].alias_name %></td>
-                                <td><%= categories[i].id_parent %></td>
                                 <td>
                                     <button class="btn btn-primary btn-sm"
                                         onclick="showEditCategoryModal('<%= categories[i].id_category %>', '<%= categories[i].category_name %>', '<%= categories[i].alias_name %>', '<%= categories[i].id_parent %>')"
@@ -1046,6 +1046,10 @@
 
     </div>
 
+    <div id="loader" style="display: none !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; display: flex; justify-content: center; align-items: center;">
+        <div style="width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    </div>
+
     <script>
         // 2. Now let's create a client-side JavaScript to handle the form submission
         // Add this to your admin.js or create a new file and include it in your admin page
@@ -1198,6 +1202,7 @@
         const uploadImageBtn = document.getElementById('uploadImageBtn');
         const addPostHeroImage = document.getElementById('addPostHeroImage');
         const uploadedImageUrl = document.getElementById('uploadedImageUrl');
+        const loader = document.getElementById('loader'); // Tham chiếu đến loader
 
         if (uploadImageBtn && addPostHeroImage) {
             uploadImageBtn.addEventListener('click', function (event) {
@@ -1212,6 +1217,9 @@
                 const formData = new FormData();
                 formData.append('image', file);
 
+                // Hiển thị loader
+                loader.style.display = 'flex';
+
                 // Gửi yêu cầu tải ảnh lên API `/uploadPics`
                 fetch('/upload', {
                     method: 'POST',
@@ -1219,6 +1227,9 @@
                 })
                     .then(response => response.json())
                     .then(data => {
+                        // Ẩn loader
+                        loader.style.display = 'none';
+
                         if (data.success) {
                             uploadedImageUrl.value = data.url; // Lưu URL ảnh vào input ẩn
                             alert('Tải ảnh lên thành công!');
@@ -1227,6 +1238,9 @@
                         }
                     })
                     .catch(error => {
+                        // Ẩn loader
+                        loader.style.display = 'none';
+
                         console.error('Lỗi khi tải ảnh lên:', error);
                         alert('Đã xảy ra lỗi khi tải ảnh lên!');
                     });
@@ -1250,6 +1264,9 @@
                 const formData = new FormData();
                 formData.append('file', file);
 
+                // Hiển thị loader
+                loader.style.display = 'flex';
+
                 // Gửi yêu cầu tải file lên API `/processFile`
                 fetch('/processFile', {
                     method: 'POST',
@@ -1257,6 +1274,9 @@
                 })
                     .then(response => response.json())
                     .then(data => {
+                        // Ẩn loader
+                        loader.style.display = 'none';
+
                         if (data.success) {
                             addPostContent.value = data.text; // Hiển thị nội dung file trong textarea
                             alert('Xử lý file thành công!');
@@ -1265,6 +1285,9 @@
                         }
                     })
                     .catch(error => {
+                        // Ẩn loader
+                        loader.style.display = 'none';
+
                         console.error('Lỗi khi xử lý file:', error);
                         alert('Đã xảy ra lỗi khi xử lý file!');
                     });
@@ -1301,6 +1324,17 @@
         }
 
     </script>
+
+    <style>
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 
     <script src="/../js/admin.js"></script>
 </body>
