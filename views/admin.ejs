@@ -16,6 +16,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
         .pagination {
@@ -194,7 +195,6 @@
                         <button class="info_management-tab active" data-tab="favorite-articles">Bài viết yêu
                             thích</button>
                         <button class="info_management-tab" data-tab="my-comments">Bình luận của tôi</button>
-                        <button class="info_management-tab" data-tab="favorite-comments">Bình luận yêu thích</button>
                     </div>
 
                     <div class="info_management-tab-content" id="favorite-articles" style="display:block;">
@@ -264,34 +264,39 @@
                         <table class="info_management-table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>STT</th>
                                     <th>Bài viết</th>
-                                    <th>Nội dung</th>
+                                    <th>Nội dung bình luận</th>
                                     <th>Ngày bình luận</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
-                            <tbody id="myCommentsBody"></tbody>
+                            <tbody>
+                                <% for (let k=0; k < userComments.length; k++) { %>
+                                    <tr>
+                                        <td>
+                                            <%= k + 1 %>
+                                        </td>
+                                        <td>
+                                            <%= userComments[k].ten_bai_viet %>
+                                        </td>
+                                        <td>
+                                            <%= userComments[k].noi_dung_binh_luan %>
+                                        </td>
+                                        <td>
+                                            <%= userComments[k].ngay_binh_luan %>
+                                        </td>
+                                        <td>
+                                            <form action="/comment/removeComment/<%= userComments[k].id_comment %>" method="POST">
+                                                <button class="info_management-action-btn">Xóa</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
                         </table>
                     </div>
 
-                    <div class="info_management-tab-content" id="favorite-comments" style="display:none;">
-                        <div class="info_management-table-actions">
-                            <!-- Đã xóa nút Thêm -->
-                        </div>
-                        <table class="info_management-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Bài viết</th>
-                                    <th>Nội dung</th>
-                                    <th>Ngày thêm</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody id="favoriteCommentsBody"></tbody>
-                        </table>
-                    </div>
                 </div>
             </div>
         </div>
@@ -447,7 +452,15 @@
                                 </td>
                                 <td><%= articles[i].views %></td>
                                 <td><%= articles[i].like_count %></td>
-                                <td><%= articles[i].is_featured ? 'Có' : 'Không' %></td>
+                                <td>
+                                    <label class="featured-checkbox">
+                                        <input type="checkbox" 
+                                               class="featured-toggle" 
+                                               data-article-id="<%= articles[i].id_article %>"
+                                               <%= articles[i].is_featured ? 'checked' : '' %>>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
                                 <td>
                                     <label class="status-checkbox">
                                         <input type="checkbox" 

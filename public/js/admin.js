@@ -78,89 +78,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // CRUD mẫu cho Bình luận của tôi
-    let myComments = [
-        {id: 1, post: 'Bài viết A', content: 'Bình luận 1', date: '2024-06-01'},
-        {id: 2, post: 'Bài viết B', content: 'Bình luận 2', date: '2024-06-02'}
-    ];
-    function renderMyComments() {
-        const tbody = document.getElementById('myCommentsBody');
-        tbody.innerHTML = myComments.map(c => `
-            <tr>
-                <td>${c.id}</td>
-                <td>${c.post}</td>
-                <td>${c.content}</td>
-                <td>${c.date}</td>
-                <td>
-                    <button class=\"info_management-action-btn\" onclick=\"deleteMyComment(${c.id})\">Xóa</button>
-                </td>
-            </tr>
-        `).join('');
-    }
-    window.deleteMyComment = function(id) {
-        myComments = myComments.filter(c => c.id !== id);
-        renderMyComments();
-    }
-    renderMyComments();
-
-    // CRUD mẫu cho Bình luận yêu thích
-    let favoriteComments = [
-        {id: 1, post: 'Bài viết A', content: 'Bình luận hay', date: '2024-06-01'},
-        {id: 2, post: 'Bài viết B', content: 'Bình luận xuất sắc', date: '2024-06-02'}
-    ];
-    function renderFavoriteComments() {
-        const tbody = document.getElementById('favoriteCommentsBody');
-        tbody.innerHTML = favoriteComments.map(c => `
-            <tr>
-                <td>${c.id}</td>
-                <td>${c.post}</td>
-                <td>${c.content}</td>
-                <td>${c.date}</td>
-                <td>
-                    <button class=\"info_management-action-btn\" onclick=\"deleteFavoriteComment(${c.id})\">Xóa</button>
-                </td>
-            </tr>
-        `).join('');
-    }
-    window.deleteFavoriteComment = function(id) {
-        favoriteComments = favoriteComments.filter(c => c.id !== id);
-        renderFavoriteComments();
-    }
-    renderFavoriteComments();
-
-    // Dữ liệu mẫu cho Thống kê bài viết của tôi
-    let statisticMyArticles = [
-        {id: 1, title: 'Bài viết A', views: 120, likes: 10, date: '2024-06-01', status: 'Đã duyệt'},
-        {id: 2, title: 'Bài viết B', views: 80, likes: 5, date: '2024-06-02', status: 'Chờ duyệt'}
-    ];
-    function renderStatisticMyArticles() {
-        const tbody = document.getElementById('statisticMyArticlesBody');
-        if (!tbody) return;
-        tbody.innerHTML = statisticMyArticles.map(a => `
-            <tr>
-                <td>${a.id}</td>
-                <td>${a.title}</td>
-                <td>${a.views}</td>
-                <td>${a.likes}</td>
-                <td>${a.date}</td>
-                <td>${a.status}</td>
-            </tr>
-        `).join('');
-    }
-    renderStatisticMyArticles();
-
-    // Dữ liệu mẫu cho Thông báo bài viết được duyệt
-    let statisticApproveNotify = [
-        'Bài viết "Bài viết A" đã được duyệt ngày 2024-06-01',
-        'Bài viết "Bài viết B" đã được duyệt ngày 2024-06-02'
-    ];
-    function renderStatisticApproveNotify() {
-        const ul = document.getElementById('statisticApproveNotifyList');
-        if (!ul) return;
-        ul.innerHTML = statisticApproveNotify.map(n => `<li>${n}</li>`).join('');
-    }
-    renderStatisticApproveNotify();
-
     // Dữ liệu mẫu cho Thống kê tổng quan của nhà báo
     let statisticOverview = {
         totalArticles: 12,
@@ -749,9 +666,90 @@ function initStatusToggles() {
     });
 }
 
+// CSS cho checkbox nổi bật
+const featuredStyle = document.createElement('style');
+featuredStyle.textContent = `
+    .featured-checkbox {
+        position: relative;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+    }
+    .featured-checkbox input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        position: absolute;
+    }
+    .featured-checkbox .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #fff;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .featured-checkbox input:checked ~ .checkmark {
+        background-color: #2196F3;
+        border-color: #2196F3;
+    }
+    .featured-checkbox .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+    .featured-checkbox input:checked ~ .checkmark:after {
+        display: block;
+    }
+    .featured-checkbox .checkmark:after {
+        left: 6px;
+        top: 2px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+`;
+document.head.appendChild(featuredStyle);
+
+// Xử lý sự kiện khi checkbox nổi bật được click
+function initFeaturedToggles() {
+    const featuredToggles = document.querySelectorAll('.featured-toggle');
+
+    featuredToggles.forEach(toggle => {
+        // Xóa tất cả event listener trước đó để tránh trùng lặp
+        const newToggle = toggle.cloneNode(true);
+        toggle.parentNode.replaceChild(newToggle, toggle);
+
+        newToggle.addEventListener('change', function() {
+            const articleId = this.dataset.articleId;
+            const isFeatured = this.checked ? 1 : 0;
+
+            // Gửi request cập nhật trạng thái nổi bật
+            fetch(`/api/article/updateFeatured/${articleId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ is_featured: isFeatured })
+            })
+            .catch(error => {
+                console.error('Error updating featured status:', error);
+            });
+        });
+    });
+}
+
+
+
 // Chạy khi trang đã tải xong
 document.addEventListener('DOMContentLoaded', function() {
     initStatusToggles();
+    initFeaturedToggles();
     
     // Thêm xử lý cho trường hợp nội dung được tải động (AJAX)
     const tbodyArticle = document.getElementById('tbodyArticle');
@@ -759,6 +757,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Theo dõi thay đổi trong bảng bài viết
         const observer = new MutationObserver(function(mutations) {
             initStatusToggles();
+            initFeaturedToggles();
         });
         
         observer.observe(tbodyArticle, { childList: true, subtree: true });
