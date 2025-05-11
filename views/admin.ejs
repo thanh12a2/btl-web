@@ -393,6 +393,29 @@
 
         <div id="staticManagement" class="static_management" style="display: none;">
             <h2>Thống kê dữ liệu</h2>
+            <div id="mostApprovedJournalistCont" style="width: 1000px; height: 500px;">
+                <div id="controls" style="margin-bottom: 20px; display: flex; flex-direction: row;">
+                    <label>Chọn khoảng thời gian:
+                        <select id="durationSelect">
+                            <option value="week">Tuần</option>
+                            <option value="month" selected>Tháng</option>
+                            <option value="year">Năm</option>
+                        </select>
+                    </label>
+
+                    <label style="margin-left: 10px;">Số đơn vị thời gian:
+                        <input type="number" id="numberTime" value="1" min="1" />
+                    </label>
+
+                    <label style="margin-left: 10px;">Số nhà báo muốn hiển thị:
+                        <input type="number" id="howMuch" value="5" min="1" />
+                    </label>
+
+                    <button id="fetchStatsBtn" style="margin-left: 10px;">Xem thống kê</button>
+                </div>
+                <canvas id="myChart"></canvas>
+            </div>
+
         </div>
 
         <div id="postManagement" class="post_management" style="display: none;">
@@ -1350,6 +1373,8 @@
     </style>
 
     <script src="/../js/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/../js/chartStats.js"></script>
 </body>
 
 </html>
