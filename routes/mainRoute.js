@@ -8,9 +8,9 @@ import { authController } from "../controllers/authController.js";
 import { getArticles } from "../controllers/All_ItemController.js";
 import { getCategories } from '../controllers/All_ItemController.js';
 import { getUsers } from '../controllers/All_ItemController.js';
-import { 
-  insertArticle, 
-  updateArticle, 
+import {
+  insertArticle,
+  updateArticle,
   deleteArticle,
 } from '../controllers/CRUD_ArticleController.js';
 import multer from 'multer';
@@ -142,6 +142,31 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
 
       const result1 = await executeQuery(likeArticleQuery, [result.recordset[0].id_user], ["id"], false);
 
+      const allArticles = result2.recordset || [];
+
+      // Tổng lượt xem
+      const totalViews = allArticles.reduce((sum, a) => sum + (a.views || 0), 0);
+
+      // Tổng lượt thích
+      const totalLikes = allArticles.reduce((sum, a) => sum + (a.like_count || 0), 0);
+
+      // Số bài viết nổi bật
+      const featuredArticles = allArticles.filter(a => a.is_featured).length;
+
+      // Tính số bài theo danh mục
+      const articleCountByCategory = {};
+      result2.recordset.forEach(a => {
+        const categoryId = a.id_category;
+        if (!articleCountByCategory[categoryId]) articleCountByCategory[categoryId] = 0;
+        articleCountByCategory[categoryId]++;
+      });
+
+      // Ghép tên danh mục
+      const categoryArticleStats = result3.recordset.map(c => ({
+        name: c.category_name,
+        count: articleCountByCategory[c.id_category] || 0
+      }));
+
       // Lấy từ khóa tìm kiếm từ query string
       const searchQuery = req.query.searchInp || "";
 
@@ -221,18 +246,22 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
           structuredCategories.push(category);
         }
       });
-      
+
       res.render("admin.ejs", {
-        user: result.recordset, 
-        likeArticles: result1.recordset, 
-        articles: articlesData.data, 
-        categories: categoriesData.data, 
-        comments: commentsData.data, 
+        user: result.recordset,
+        likeArticles: result1.recordset,
+        articles: articlesData.data,
+        categories: categoriesData.data,
+        comments: commentsData.data,
         users: usersData.data,
         limit: limit,
         activeSection: activeSection,
         currentPage: currentPage,
         structuredCategories: structuredCategories,
+        totalViews,
+        totalLikes,
+        featuredArticles,
+        categoryArticleStats,
         pagination: {
           articles: {
             totalPages: articlesData.totalPages,
@@ -339,24 +368,24 @@ router.get("/home", async (req, res) => {
 });
 
 router.post('/processFile', upload.single('file'), async (req, res) => {
-    try {
+  try {
 
-       console.log('Thông tin file:', req.file); // Kiểm tra thông tin file
-        console.log('Đường dẫn file:', req.file?.path); // Kiểm tra đường dẫn file
-        console.log('Loại file:', req.file?.mimetype); // Kiểm tra loại file
+    console.log('Thông tin file:', req.file); // Kiểm tra thông tin file
+    console.log('Đường dẫn file:', req.file?.path); // Kiểm tra đường dẫn file
+    console.log('Loại file:', req.file?.mimetype); // Kiểm tra loại file
 
 
-        const filePath = req.file.path;
-        const fileType = req.file.mimetype;
+    const filePath = req.file.path;
+    const fileType = req.file.mimetype;
 
-        // Xử lý file và chuyển đổi nội dung thành text
-        const text = await processFileContent(filePath, fileType);
+    // Xử lý file và chuyển đổi nội dung thành text
+    const text = await processFileContent(filePath, fileType);
 
-        res.json({ success: true, text });
-    } catch (error) {
-        console.error('Lỗi khi xử lý file:', error);
-        res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi xử lý file!' });
-    }
+    res.json({ success: true, text });
+  } catch (error) {
+    console.error('Lỗi khi xử lý file:', error);
+    res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi xử lý file!' });
+  }
 });
 
 export { router };
