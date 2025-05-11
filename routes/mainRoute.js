@@ -144,8 +144,8 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
 
       // Lấy từ khóa tìm kiếm từ query string
       const searchQuery = req.query.searchInp || "";
-
-      // Nếu có từ khóa tìm kiếm, thực hiện tìm kiếm
+      const searchQueryCategory = req.query.searchInpCate || "";
+      
       if (searchQuery) {
         const searchQuerySQL = `
           SELECT id_user, username, email, password, role
@@ -164,6 +164,23 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
 
         // Ghi đè kết quả tìm kiếm vào `result5`
         result5 = { recordset: searchResult.recordset };
+      }
+
+      if (searchQueryCategory) {
+        const searchQuery = `
+          SELECT *
+          FROM [dbo].[Category]
+          WHERE 
+            (id_category LIKE @searchQuery OR
+            category_name LIKE @searchQuery OR
+            alias_name LIKE @searchQuery OR
+            id_parent LIKE @searchQuery)
+          `;
+        const searchValues = [`%${searchQueryCategory}%`];
+        const searchParamNames = ["searchQuery"];
+        const searchResultCate = await executeQuery(searchQuery, searchValues, searchParamNames, false);
+
+        result3 = { recordset: searchResultCate.recordset };
       }
 
       // Route handling code

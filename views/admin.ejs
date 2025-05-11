@@ -569,13 +569,13 @@
             <h2>Quản lý danh mục</h2>
             <div class="search-container">
                 <div class="search-container-box">
-                    <div class="search-box">
-                        <input type="text" id="categorySearchInput" placeholder="Tìm kiếm...">
-                        <label class="search-icon">
-                            <i class="bi bi-search"></i>
-                        </label>
+                        <div class="search-box">
+                            <form id='userSearchBar' action="/backdetails" method="GET">
+                                <input type="text" name="searchInpCate" placeholder="Tìm kiếm...">
+                                <button type="submit"> <i class="bi bi-search"></i></button>
+                            </form>
+                        </div>
                     </div>
-                </div>
                 <button class="add-category-btn">Thêm danh mục</button>
             </div>
             <table>
@@ -1049,8 +1049,6 @@
     <script>
         // 2. Now let's create a client-side JavaScript to handle the form submission
         // Add this to your admin.js or create a new file and include it in your admin page
-        
-
             // Handle form submission
             const addPostBtn = document.getElementById('btnAddPost');
             if (addPostBtn) {
