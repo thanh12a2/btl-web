@@ -70,16 +70,7 @@ router.get("/home", async (req, res) => {
           topArticles: topArticles.recordset,
           TopArticlesEachCate: grouped
         });
-    
-        // res.render('index.ejs', {
-        //     isLoggedIn: req.isLoggedIn,
-        //     username: req.username,
-        //     role: req.role,
-        //     categoryTree: categories,
-        //     articles: articles,
-        //     topArticles: topArticles.recordset,
-        //     // TopArticlesEachCate: TopArticlesEachCate.recordset
-        // });
+
       } catch (error) {
         console.error("Error loading categories:", error);
         res.render("index.ejs", {
@@ -91,6 +82,9 @@ router.get("/home", async (req, res) => {
       }
 })
 
+router.post('/most-approved-journalist', async (req, res) => {
+  await statsController.mostApprovedJournalist(req, res);
+});
 
 
 export { router };

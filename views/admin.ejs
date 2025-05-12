@@ -195,7 +195,6 @@
                         <button class="info_management-tab active" data-tab="favorite-articles">Bài viết yêu
                             thích</button>
                         <button class="info_management-tab" data-tab="my-comments">Bình luận của tôi</button>
-                        <button class="info_management-tab" data-tab="favorite-comments">Bình luận yêu thích</button>
                     </div>
 
                     <div class="info_management-tab-content" id="favorite-articles" style="display:block;">
@@ -219,10 +218,10 @@
                                         <td class="center-items-table">
                                             <div class="search-items"
                                                 style="background: transparent; margin-bottom: 0px">
-                                                <div class="image" style="width: 150px !important;">
+                                                <div class="image-like" style="width: 300px !important;">
                                                     <a
                                                         href="/article/transportArticle/<%= likeArticles[k].name_alias %>">
-                                                        <img src="<%= likeArticles[k].hero_image %>" alt="" style="width: 150px !important; height: -webkit-fill-available !important;">
+                                                        <img src="<%= likeArticles[k].hero_image %>" alt="" style="width: 300px !important; height: 100% !important;">
                                                     </a>
                                                 </div>
                                                 <div class="content">
@@ -256,21 +255,6 @@
                                     <% } %>
                             </tbody>
                         </table>
-                        <nav aria-label="...">
-                            <ul class="pagination">
-                              <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">Previous</a>
-                              </li>
-                              <li class="page-item"><a class="page-link" href="#">1</a></li>
-                              <li class="page-item active">
-                                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                              </li>
-                              <li class="page-item"><a class="page-link" href="#">3</a></li>
-                              <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                              </li>
-                            </ul>
-                          </nav>
                     </div>
 
                     <div class="info_management-tab-content" id="my-comments" style="display:none;">
@@ -280,34 +264,39 @@
                         <table class="info_management-table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>STT</th>
                                     <th>Bài viết</th>
-                                    <th>Nội dung</th>
+                                    <th>Nội dung bình luận</th>
                                     <th>Ngày bình luận</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
-                            <tbody id="myCommentsBody"></tbody>
+                            <tbody>
+                                <% for (let k=0; k < userComments.length; k++) { %>
+                                    <tr>
+                                        <td>
+                                            <%= k + 1 %>
+                                        </td>
+                                        <td>
+                                            <%= userComments[k].ten_bai_viet %>
+                                        </td>
+                                        <td>
+                                            <%= userComments[k].noi_dung_binh_luan %>
+                                        </td>
+                                        <td>
+                                            <%= userComments[k].ngay_binh_luan %>
+                                        </td>
+                                        <td>
+                                            <form action="/comment/removeComment/<%= userComments[k].id_comment %>" method="POST">
+                                                <button class="info_management-action-btn">Xóa</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
                         </table>
                     </div>
 
-                    <div class="info_management-tab-content" id="favorite-comments" style="display:none;">
-                        <div class="info_management-table-actions">
-                            <!-- Đã xóa nút Thêm -->
-                        </div>
-                        <table class="info_management-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Bài viết</th>
-                                    <th>Nội dung</th>
-                                    <th>Ngày thêm</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody id="favoriteCommentsBody"></tbody>
-                        </table>
-                    </div>
                 </div>
             </div>
         </div>
@@ -404,6 +393,29 @@
 
         <div id="staticManagement" class="static_management" style="display: none;">
             <h2>Thống kê dữ liệu</h2>
+            <div id="mostApprovedJournalistCont" style="width: 1000px; height: 500px;">
+                <div id="controls" style="margin-bottom: 20px; display: flex; flex-direction: row;">
+                    <label>Chọn khoảng thời gian:
+                        <select id="durationSelect">
+                            <option value="week">Tuần</option>
+                            <option value="month" selected>Tháng</option>
+                            <option value="year">Năm</option>
+                        </select>
+                    </label>
+
+                    <label style="margin-left: 10px;">Số đơn vị thời gian:
+                        <input type="number" id="numberTime" value="1" min="1" />
+                    </label>
+
+                    <label style="margin-left: 10px;">Số nhà báo muốn hiển thị:
+                        <input type="number" id="howMuch" value="5" min="1" />
+                    </label>
+
+                    <button id="fetchStatsBtn" style="margin-left: 10px;">Xem thống kê</button>
+                </div>
+                <canvas id="myChart"></canvas>
+            </div>
+
         </div>
 
         <div id="postManagement" class="post_management" style="display: none;">
@@ -439,7 +451,7 @@
                                 <td><%= articles[i].id_article %></td>
                                 <td><%= articles[i].id_user %></td>
                                 <td><%= articles[i].id_category %></td>
-                                <td>
+                                <td style="width: 100px;">
                                     <div class="search-items" style="background: transparent; margin-bottom: 0px; width: 700px; height: auto; text-align: left !important;">
                                         <div class="image" style="width: 150px;">
                                             <a href="/article/checkArticle/<%= articles[i].name_alias %>">
@@ -463,7 +475,15 @@
                                 </td>
                                 <td><%= articles[i].views %></td>
                                 <td><%= articles[i].like_count %></td>
-                                <td><%= articles[i].is_featured ? 'Có' : 'Không' %></td>
+                                <td>
+                                    <label class="featured-checkbox">
+                                        <input type="checkbox" 
+                                               class="featured-toggle" 
+                                               data-article-id="<%= articles[i].id_article %>"
+                                               <%= articles[i].is_featured ? 'checked' : '' %>>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
                                 <td>
                                     <label class="status-checkbox">
                                         <input type="checkbox" 
@@ -498,95 +518,56 @@
             </div>
 
 
-            <div id="editPostModal" class="action-modal-overlay">
-                <div class="action-modal-content" id ="editPostModalContent" style="gap: 20px!important;">
-                    <button class="action-modal-close">&times;</button>
-                    <div class="action-modal-header">
-                        <h2>Chỉnh sửa bài báo</h2>
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Tên Bài báo</label>
-                        <input type="text" id="editPostTitle" placeholder="Nhập tên bài báo">
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Tên nhà báo</label>
-                        <input type="text" id="editPostAuthorId" placeholder="Nhập tên nhà báo">
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Danh mục chính</label>
-                        <select id="editMainCategory">
-                            <option value="" disabled selected>Chọn danh mục chính</option>
-                            <option value="society">Xã hội</option>
-                            <option value="science">Khoa học & Công nghệ</option>
-                            <option value="health">Sức khỏe</option>
-                            <option value="sports">Thể Thao</option>
-                            <option value="entertainment">Giải trí</option>
-                            <option value="education">Giáo dục</option>
-                        </select>
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Danh mục phụ</label>
-                        <select id="editSubCategory">
-                            <option value="" disabled selected>Chọn danh mục phụ</option>
-                        </select>
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Ảnh</label>
-                        <input type="text" id="editPostHeroImage" placeholder="Image">
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Link bài báo</label>
-                        <input type="text" id="editPostNameAlias" placeholder="Link bài báo">
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Nổi bật</label>
-                        <select id="editIsFeatured">
-                            <option value="false">Không</option>
-                            <option value="true">Có</option>
-                        </select>
-                    </div>
-
-                    <div class="action-form-group" style="grid-column: 1 / -1;">
-                        <label>Nội dung bài báo</label>
-                        <textarea id="editPostContent" placeholder="Nhập nội dung bài báo"></textarea>
-                    </div>
-                    <script>
-                        // Khởi tạo CKEditor cho textarea vừa thêm
-                        CKEDITOR.replace('editPostContent', {
-                            height: 400,
-                            language: 'vi'
-                        });
-                    </script>
-
-                    <div class="action-modal-footer">
-                        <button id="btnUpdatePost" class="btn-edit">Cập nhật bài báo</button>
-                    </div>
-                    <script>
-                        document.addEventListener("DOMContentLoaded", function() {
-                            const editModalContent = document.getElementById('editPostModalContent');
-                            const scrollEditBtn = document.getElementById('scrollEditPostModalBtn');
-                            
-                            if (editModalContent && scrollEditBtn) {
-                                editModalContent.style.overflowY = 'auto';
-                                editModalContent.style.maxHeight = '80vh';
-                                
-                                editModalContent.addEventListener('scroll', function() {
-                                    if (editModalContent.scrollTop > 150) {
-                                        scrollEditBtn.style.display = 'block';
-                                    } else {
-                                        scrollEditBtn.style.display = 'none';
-                                    }
-                                });
-                            }
-                        });
-                    </script>
+            <div id="editPostModal" class="modal-overlay">
+                <div class="modal-content" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; min-width: 400px; margin: 0 auto; border-radius: 8px; box-shadow: 0 2px 16px rgba(0,0,0,0.15);">
+                    <button class="modal-close-btn action-modal-close" style="position: absolute; top: 10px; right: 10px; font-size: 24px; background: none; border: none; cursor: pointer;">&times;</button>
+                    <h2 class="modal-title" style="color: #B32A45; margin-bottom: 20px; text-align: center;">Chỉnh sửa bài báo</h2>
+                    <form id="updateArticleForm" class="modal-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <input type="hidden" id="editArticleId" name="id_article" value="">
+                        <div>
+                            <label style="font-weight: 600;">Tên Bài báo</label>
+                            <input type="text" id="editPostTitle" name="heading" placeholder="Nhập tên bài báo" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                        </div>
+                        <div>
+                            <label style="font-weight: 600;">Tên alias</label>
+                            <input type="text" id="editPostNameAlias" name="name_alias" placeholder="Nhập tên alias" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                        </div>
+                        <div>
+                            <label style="font-weight: 600;">Danh mục chính</label>
+                            <select id="editMainCategory" name="id_category" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                                <option value="" disabled selected>Chọn danh mục chính</option>
+                                <% for (let b = 0; b < structuredCategories.length; b++) { %>
+                                    <option value="<%= structuredCategories[b].id_category %>">
+                                        <%= structuredCategories[b].category_name %>
+                                    </option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-weight: 600;">Danh mục phụ</label>
+                            <select id="editSubCategory" name="id_subcategory" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                                <option value="" disabled selected>Chọn danh mục phụ</option>
+                            </select>
+                        </div>
+                        <div style="grid-column: 1 / -1;">
+                            <label style="font-weight: 600;">Ảnh bài báo</label>
+                            <div style="display: flex; align-items: center; gap: 15px; margin-top: 5px;">
+                                <input type="file" id="editPostHeroImage" accept="image/*" style="flex: 1;">
+                                <button id="uploadEditImageBtn" class="btn-upload" style="background-color: #B32A45; color: white; border: none; padding: 8px 18px; border-radius: 5px; cursor: pointer; font-size: 15px;">Tải ảnh lên</button>
+                            </div>
+                            <input type="hidden" id="editUploadedImageUrl" name="hero_image">
+                            <div id="currentImagePreview" style="margin-top: 10px; text-align: center;">
+                                <img id="currentImage" src="" alt="Ảnh hiện tại" style="max-width: 180px; max-height: 120px; border-radius: 6px; display: none; border: 1px solid #eee; box-shadow: 0 1px 4px rgba(0,0,0,0.08);">
+                            </div>
+                        </div>
+                        <div style="grid-column: 1 / -1;">
+                            <label style="font-weight: 600;">Nội dung bài báo</label>
+                            <textarea id="editPostContent" name="content" placeholder="Nhập nội dung bài báo" style="width: 100%; min-height: 120px; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;"></textarea>
+                        </div>
+                        <div class="form-submit-wrapper" style="grid-column: 1 / -1; text-align: center; margin-top: 10px;">
+                            <button type="submit" id="btnUpdatePost" class="modal-submit-btn" style="background-color: #B32A45; color: white; border: none; padding: 10px 32px; border-radius: 5px; font-size: 16px; cursor: pointer;">Cập nhật bài báo</button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -609,22 +590,22 @@
             <h2>Quản lý danh mục</h2>
             <div class="search-container">
                 <div class="search-container-box">
-                    <div class="search-box">
-                        <input type="text" id="categorySearchInput" placeholder="Tìm kiếm...">
-                        <label class="search-icon">
-                            <i class="bi bi-search"></i>
-                        </label>
+                        <div class="search-box">
+                            <form id='userSearchBar' action="/backdetails" method="GET">
+                                <input type="text" name="searchInpCate" placeholder="Tìm kiếm...">
+                                <button type="submit"> <i class="bi bi-search"></i></button>
+                            </form>
+                        </div>
                     </div>
-                </div>
                 <button class="add-category-btn">Thêm danh mục</button>
             </div>
             <table>
                 <thead>
                     <tr>
                         <th>ID danh mục</th>
+                        <th>Danh mục cha</th>
                         <th>Tên danh mục</th>
                         <th>Tên alias</th>
-                        <th>Danh mục cha</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -634,9 +615,9 @@
                         <% for (let i = 0; i < categories.length; i++) { %>
                             <tr>
                                 <td><%= categories[i].id_category %></td>
+                                <td><%= categories[i].id_parent %></td>
                                 <td><%= categories[i].category_name %></td>
                                 <td><%= categories[i].alias_name %></td>
-                                <td><%= categories[i].id_parent %></td>
                                 <td>
                                     <button class="btn btn-primary btn-sm"
                                         onclick="showEditCategoryModal('<%= categories[i].id_category %>', '<%= categories[i].category_name %>', '<%= categories[i].alias_name %>', '<%= categories[i].id_parent %>')"
@@ -1014,93 +995,85 @@
         <div id="addPostManagement" class="add_post_management" style="display: none;">
             <h2>Thêm bài báo</h2>
             <div class="action-modal-content">
-                <div class="action-form-group">
-                    <label>Tên Bài báo</label>
-                    <input type="text" id="addPostTitle" placeholder="Nhập tên bài báo">
-                </div>
 
-                <div class="action-form-group">
-                    <label>Tác giả</label>
-                    <input type="text" id="addPostAuthor" placeholder="Nhập tên tác giả">
-                </div>
+                <form action="/api/insertArticles" method="POST">
 
-                <div class="action-form-group">
-                    <label>Danh mục chính</label>
-                    <select id="mainCategory">
-                        <option value="" disabled selected>Chọn danh mục chính</option>
-                        <option value="society">Xã hội</option>
-                        <option value="science">Khoa học & Công nghệ</option>
-                        <option value="health">Sức khỏe</option>
-                        <option value="sports">Thể Thao</option>
-                        <option value="entertainment">Giải trí</option>
-                        <option value="education">Giáo dục</option>
-                    </select>
-                </div>
-                <div class="action-form-group">
-                    <label>Danh mục phụ</label>
-                    <select id="subCategory">
-                        <option value="" disabled selected>Chọn danh mục phụ</option>
-                    </select>
-                </div>
+                    <div class="action-form-group">
+                        <label>Tên Bài báo</label>
+                        <input type="text" id="addPostTitle" placeholder="Nhập tên bài báo" name="nameArticle">
+                    </div>
 
-                <div class="action-form-group">
-                    <label>Ảnh bài báo</label>
-                    <input type="text" id="addPostHeroImage" placeholder="Image">
-                </div>
+                    <div class="action-form-group">
+                        <label>Danh mục chính</label>
+                        <select id="mainCategory" name="dmChinh">
+                            <option value="" disabled selected>Chọn danh mục chính</option>
+                            <% for ( let b = 0; b < structuredCategories.length; b++ ) {%>
+                                <option value="<%=structuredCategories[b].id_category%>">
+                                    <%=structuredCategories[b].category_name%>
+                                </option>
+                            <% } %>
+                        </select>
+                    </div>
 
-                <div class="action-form-group" style="grid-column: 1 / -1; width: 100% !important;">
-                    <label>Nội dung bài báo</label>
-                    <textarea id="addPostContent" placeholder="Nhập nội dung bài báo"></textarea>
-                </div>
-                <script>
-                    // Khởi tạo CKEditor cho textarea vừa thêm
-                    CKEDITOR.replace('addPostContent', {
-                        height: 400,
-                        language: 'vi'
-                    });
-                </script>
+                    <div class="action-form-group">
+                        <label>Danh mục phụ</label>
+                        <select id="subCategory" name="dmPhu">
+                            <option value="" disabled selected>Chọn danh mục phụ</option>
+                        </select>
+                    </div>
 
-                <div class="action-modal-footer">
-                    <button id="btnAddPost" class="btn-add">Thêm bài báo</button>
-                </div>
+                    <div class="action-form-group">
+                        <label>Ảnh bài báo</label>
+                        <input type="file" id="addPostHeroImage" accept="image/*">
+                        <button id="uploadImageBtn" class="btn-upload" style="background-color: #B32A45;
+                            color: white;
+                            border: none;
+                            padding: 12px 30px;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            transition: background-color 0.3s ease;
+                            font-size: 16px;
+                            width: 150px">Tải ảnh lên</button>
+                        <input type="hidden" id="uploadedImageUrl" name="hero_image">
+                    </div>
+
+                    <div class="action-form-group" style="grid-column: 1 / -1; width: 100% !important;">
+                        <label>Tải lên file bài báo (DOCX hoặc PDF)</label>
+                        <input type="file" id="uploadArticleFile" accept=".docx, .pdf">
+                        <button id="processFileBtn" class="btn-upload" style="background-color: #B32A45;
+                            color: white;
+                            border: none;
+                            padding: 12px 30px;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            transition: background-color 0.3s ease;
+                            font-size: 16px;
+                            width: 150px">Xử lý file</button>
+                    </div>
+
+                    <div class="action-form-group" style="grid-column: 1 / -1; width: 100% !important;">
+                        <label>Nội dung bài báo</label>
+                        <textarea id="addPostContent" placeholder="Nội dung bài báo sẽ hiển thị ở đây" name="content"></textarea>
+                    </div>
+
+                    <div class="action-modal-footer">
+                        <button type="submit" id="btnAddPost" class="btn-add">Thêm bài báo</button>
+                    </div>
+
+                </form>
+
             </div>
         </div>
 
     </div>
 
+    <div id="loader" style="display: none !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; display: flex; justify-content: center; align-items: center;">
+        <div style="width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    </div>
+
     <script>
-        
-        
-
         // 2. Now let's create a client-side JavaScript to handle the form submission
-
         // Add this to your admin.js or create a new file and include it in your admin page
-        document.addEventListener('DOMContentLoaded', function () {
-            // Setup main category change event to update subcategories
-            const mainCategorySelect = document.getElementById('mainCategory');
-            const subCategorySelect = document.getElementById('subCategory');
-
-            if (mainCategorySelect && subCategorySelect) {
-                mainCategorySelect.addEventListener('change', function () {
-                    const mainCategory = this.value;
-
-                    // Clear current options
-                    subCategorySelect.innerHTML = '<option value="" disabled selected>Chọn danh mục phụ</option>';
-
-                    // Add new options based on main category
-                    const subCategories = getSubCategories(mainCategory);
-                    subCategories.forEach(category => {
-                        const option = document.createElement('option');
-                        option.value = category.value;
-                        option.textContent = category.text;
-                        subCategorySelect.appendChild(option);
-                    });
-
-                    // Enable the sub-category select
-                    subCategorySelect.disabled = false;
-                });
-            }
-
             // Handle form submission
             const addPostBtn = document.getElementById('btnAddPost');
             if (addPostBtn) {
@@ -1217,7 +1190,7 @@
 
                 return categoriesMap[mainCategory] || [];
             }
-        });
+        
 
         // 3. Add the function to show/hide the add article form
         function setupPostManagementUI() {
@@ -1246,8 +1219,147 @@
                 });
             }
         }
+
+        const uploadImageBtn = document.getElementById('uploadImageBtn');
+        const addPostHeroImage = document.getElementById('addPostHeroImage');
+        const uploadedImageUrl = document.getElementById('uploadedImageUrl');
+        const loader = document.getElementById('loader'); // Tham chiếu đến loader
+
+        if (uploadImageBtn && addPostHeroImage) {
+            uploadImageBtn.addEventListener('click', function (event) {
+                event.preventDefault(); // Ngăn form submit mặc định
+
+                const file = addPostHeroImage.files[0];
+                if (!file) {
+                    alert('Vui lòng chọn một ảnh để tải lên!');
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('image', file);
+
+                // Hiển thị loader
+                loader.style.display = 'flex';
+
+                // Gửi yêu cầu tải ảnh lên API `/uploadPics`
+                fetch('/upload', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Ẩn loader
+                        loader.style.display = 'none';
+
+                        if (data.success) {
+                            uploadedImageUrl.value = data.url; // Lưu URL ảnh vào input ẩn
+                            alert('Tải ảnh lên thành công!');
+                        } else {
+                            alert('Đã xảy ra lỗi khi tải ảnh lên!');
+                        }
+                    })
+                    .catch(error => {
+                        // Ẩn loader
+                        loader.style.display = 'none';
+
+                        console.error('Lỗi khi tải ảnh lên:', error);
+                        alert('Đã xảy ra lỗi khi tải ảnh lên!');
+                    });
+            });
+        }
+
+        const processFileBtn = document.getElementById('processFileBtn');
+        const uploadArticleFile = document.getElementById('uploadArticleFile');
+        const addPostContent = document.getElementById('addPostContent');
+
+        if (processFileBtn && uploadArticleFile) {
+            processFileBtn.addEventListener('click', function (event) {
+                event.preventDefault(); // Ngăn form submit mặc định
+
+                const file = uploadArticleFile.files[0];
+                if (!file) {
+                    alert('Vui lòng chọn một file DOCX hoặc PDF!');
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('file', file);
+
+                // Hiển thị loader
+                loader.style.display = 'flex';
+
+                // Gửi yêu cầu tải file lên API `/processFile`
+                fetch('/processFile', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Ẩn loader
+                        loader.style.display = 'none';
+
+                        if (data.success) {
+                            addPostContent.value = data.text; // Hiển thị nội dung file trong textarea
+                            alert('Xử lý file thành công!');
+                        } else {
+                            alert('Đã xảy ra lỗi khi xử lý file!');
+                        }
+                    })
+                    .catch(error => {
+                        // Ẩn loader
+                        loader.style.display = 'none';
+
+                        console.error('Lỗi khi xử lý file:', error);
+                        alert('Đã xảy ra lỗi khi xử lý file!');
+                    });
+            });
+        }
+
+        // Nhúng structuredCategories từ backend vào frontend
+        // LỖI ĐỎ NÀY IGNORE ĐƯỢC KO CẦN SỬA !!!!!!!!!!!!!!!!!!!!!!!!
+        const structuredCategories = <%- JSON.stringify(structuredCategories) %>;
+
+        const mainCategorySelect = document.getElementById('mainCategory');
+        const subCategorySelect = document.getElementById('subCategory');
+
+        if (mainCategorySelect && subCategorySelect) {
+            mainCategorySelect.addEventListener('change', function () {
+                const selectedMainCategoryId = this.value;
+
+                // Tìm danh mục chính được chọn
+                const selectedMainCategory = structuredCategories.find(category => category.id_category == selectedMainCategoryId);
+
+                // Xóa các tùy chọn hiện tại trong danh mục phụ
+                subCategorySelect.innerHTML = '<option value="" disabled selected>Chọn danh mục phụ</option>';
+
+                // Nếu có danh mục phụ, thêm chúng vào danh mục phụ
+                if (selectedMainCategory && selectedMainCategory.children) {
+                    selectedMainCategory.children.forEach(subCategory => {
+                        const option = document.createElement('option');
+                        option.value = subCategory.id_category;
+                        option.textContent = subCategory.category_name;
+                        subCategorySelect.appendChild(option);
+                    });
+                }
+            });
+        }
+
     </script>
+
+    <style>
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
     <script src="/../js/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/../js/chartStats.js"></script>
 </body>
 
 </html>

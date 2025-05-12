@@ -13,7 +13,12 @@ import {
   updateArticle, 
   deleteArticle,
 } from '../controllers/CRUD_ArticleController.js';
+import multer from 'multer';
+import { processFileContent } from '../controllers/fileController.js';
+
+
 const router = express.Router();
+const upload = multer({ dest: 'uploads/' }); // Lưu file tạm thời trong thư mục `uploads`
 
 // Route lấy trang chủ
 router.get("/", async (req, res) => {
@@ -101,6 +106,12 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
     const query4 = `SELECT * FROM [dbo].[Comment]`;
     const query5 = `SELECT * FROM [dbo].[User] WHERE is_deleted = 0`;
     const query1 = `SELECT * FROM [dbo].[Article]`;
+    const queryCate = `
+            SELECT id_category, category_name, id_parent 
+            FROM [dbo].[Category]
+            ORDER BY 
+                CASE WHEN id_parent IS NULL THEN 0 ELSE 1 END, 
+                id_category ASC`;
     const isStoredProcedure = false;
     let result2;
     let result3;
@@ -122,6 +133,18 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
                               JOIN Article A ON LA.id_article = A.id_article
                               WHERE LA.id_user = @id;`;
 
+    const UserCommentQuery = `
+            SELECT 
+                id_comment,
+                a.heading as ten_bai_viet,
+                c.comment_content as noi_dung_binh_luan,
+                FORMAT(c.day_created, 'dd/MM/yyyy HH:mm') as ngay_binh_luan
+            FROM Comment c
+            LEFT JOIN Article a ON c.id_article = a.id_article
+            WHERE c.id_user = @id
+            ORDER BY c.day_created DESC
+        `;
+
     try {
       const result = await executeQuery(query, values, paramNames, false);
 
@@ -130,11 +153,12 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       result5 = await executeQuery(query5, [], [], isStoredProcedure);
 
       const result1 = await executeQuery(likeArticleQuery, [result.recordset[0].id_user], ["id"], false);
+      const result6 = await executeQuery(UserCommentQuery, [result.recordset[0].id_user], ["id"], false);
 
       // Lấy từ khóa tìm kiếm từ query string
       const searchQuery = req.query.searchInp || "";
-
-      // Nếu có từ khóa tìm kiếm, thực hiện tìm kiếm
+      const searchQueryCategory = req.query.searchInpCate || "";
+      
       if (searchQuery) {
         const searchQuerySQL = `
           SELECT id_user, username, email, password, role
@@ -155,10 +179,28 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
         result5 = { recordset: searchResult.recordset };
       }
 
+      if (searchQueryCategory) {
+        const searchQuery = `
+          SELECT *
+          FROM [dbo].[Category]
+          WHERE 
+            (id_category LIKE @searchQuery OR
+            category_name LIKE @searchQuery OR
+            alias_name LIKE @searchQuery OR
+            id_parent LIKE @searchQuery)
+          `;
+        const searchValues = [`%${searchQueryCategory}%`];
+        const searchParamNames = ["searchQuery"];
+        const searchResultCate = await executeQuery(searchQuery, searchValues, searchParamNames, false);
+
+        result3 = { recordset: searchResultCate.recordset };
+      }
+
       // Route handling code
       const articlePage = parseInt(req.query.articlePage) || 1;
       const categoryPage = parseInt(req.query.categoryPage) || 1;
       const userPage = parseInt(req.query.userPage) || 1;
+      
       const commentPage = parseInt(req.query.commentPage) || 1;
       const limit = parseInt(req.query.limit) || 10;
       const activeSection = req.query.section || "dashboard";
@@ -187,7 +229,30 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       const categoriesData = paginate(result3.recordset || [], categoryPage, limit);
       const usersData = paginate(result5.recordset || [], userPage, limit);
       const commentsData = paginate(result4.recordset || [], commentPage, limit);
+      const resultCate = await executeQuery(queryCate, [], [], false);
 
+      // Tạo cấu trúc category cha - con
+      const categories = resultCate.recordset;
+      const categoryMap = {};
+
+      // Tạo một map để lưu các category
+      categories.forEach((category) => {
+        category.children = []; // Thêm mảng `children` để chứa các category con
+        categoryMap[category.id_category] = category; // Lưu category vào map
+      });
+
+      // Gắn các category con vào category cha
+      const structuredCategories = [];
+      categories.forEach((category) => {
+        if (category.id_parent) {
+          // Nếu có `id_parent`, thêm vào mảng `children` của category cha
+          categoryMap[category.id_parent]?.children.push(category);
+        } else {
+          // Nếu không có `id_parent`, đây là category cha
+          structuredCategories.push(category);
+        }
+      });
+      
       res.render("admin.ejs", {
         user: result.recordset, 
         likeArticles: result1.recordset, 
@@ -198,6 +263,8 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
         limit: limit,
         activeSection: activeSection,
         currentPage: currentPage,
+        structuredCategories: structuredCategories,
+        userComments: result6.recordset,
         pagination: {
           articles: {
             totalPages: articlesData.totalPages,
@@ -225,7 +292,20 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       res.render("notFound404.ejs");
     }
   } else if (role == "NhaBao") {
-    res.render("nhaBao.ejs");
+    const query = `SELECT * FROM [dbo].[User] WHERE email = @email`;
+    const values = [res.locals.email];
+    const paramNames = ["email"];
+    let resultUserNhaBao;
+
+    try {
+      resultUserNhaBao = await executeQuery(query, values, paramNames, false);
+    } catch (error) {
+      console.error(error);
+    }
+
+    res.render("nhaBao.ejs", {
+      user: resultUserNhaBao.recordset
+    });
   } else if (role == "DocGia") {
     res.render("docGia.ejs");
   }
@@ -236,7 +316,6 @@ router.post("/add-article", authController.authenticateToken, (req, res) => {
   // Call your existing insertArticle controller
   insertArticle(req, res);
 });
-
 
 router.get("/test12", articleController.searchArticles);
 
@@ -302,6 +381,27 @@ router.get("/home", async (req, res) => {
       categoryTree: [],
     });
   }
+});
+
+router.post('/processFile', upload.single('file'), async (req, res) => {
+    try {
+
+       console.log('Thông tin file:', req.file); // Kiểm tra thông tin file
+        console.log('Đường dẫn file:', req.file?.path); // Kiểm tra đường dẫn file
+        console.log('Loại file:', req.file?.mimetype); // Kiểm tra loại file
+
+
+        const filePath = req.file.path;
+        const fileType = req.file.mimetype;
+
+        // Xử lý file và chuyển đổi nội dung thành text
+        const text = await processFileContent(filePath, fileType);
+
+        res.json({ success: true, text });
+    } catch (error) {
+        console.error('Lỗi khi xử lý file:', error);
+        res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi xử lý file!' });
+    }
 });
 
 export { router };

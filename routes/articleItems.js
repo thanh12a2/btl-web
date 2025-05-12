@@ -6,11 +6,12 @@ import {
     insertArticle, 
     updateArticle, 
     deleteArticle,
-    updateArticleStatus
+    updateArticleStatus,
+    updateArticleFeatured
   } from '../controllers/CRUD_ArticleController.js';
 
 import { insertCate, updateCate, deleteCate } from '../controllers/CRUD_CategoryController.js'
-import { render } from 'ejs';
+
 
 
 const router = express.Router();
@@ -19,7 +20,7 @@ router.get("/articles", getArticles);
 router.get("/categories", getCategories)
 router.get("/users", getUsers)
 
-router.post('/articles', insertArticle);
+router.post('/insertArticles', insertArticle);
 router.put('/articles/:id', updateArticle);
 router.delete('/articles/:id', deleteArticle);
 
@@ -29,6 +30,7 @@ router.put('/categories/:id', updateCate);
 router.delete('/categories/:id', deleteCate);
 
 router.post('/article/updateStatus/:id', updateArticleStatus);
+router.post('/article/updateFeatured/:id', updateArticleFeatured);
 
 
 

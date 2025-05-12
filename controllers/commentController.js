@@ -7,12 +7,14 @@ async function getLastRecordId() {
                    ORDER BY id_comment DESC`;
 
   try {
-    const result = await executeQuery(query, [], [], false);
+    const resultIdComment = await executeQuery(query, [], [], false);
 
-    if (result && result.recordset && result.recordset.length > 0) {
-      const lastId = result.recordset[0].id_comment; // Sửa chỗ này
-      const lastNumber = parseInt(lastId.substring(1));
-      return `C${String(lastNumber + 1).padStart(3, "0")}`;
+    if (resultIdComment && resultIdComment.recordset && resultIdComment.recordset.length > 0) {
+      const lastId = resultIdComment.recordset[0].id_comment; // Sửa chỗ này
+      const lastNumber = parseInt(lastId.substring(2));
+      console.log("lastId: " + lastId)
+      console.log("lastNumber: " + lastNumber);
+      return `CM${String(lastNumber + 1).padStart(3, "0")}`;
     }
     return "C001"; // Trả về ID đầu tiên nếu chưa có bản ghi nào
   } catch (error) {
@@ -45,6 +47,7 @@ export const commentController = {
                     FROM UserCTE u
                     CROSS JOIN ArticleCTE a; `;
     const newId = await getLastRecordId();
+    console.log(newId);
     const values = [
       res.locals.email,
       req.params.id,
@@ -165,6 +168,26 @@ export const commentController = {
     }
   },
 
+  removeComment: async (req, res) => {
+    try {
+      const query = `DELETE FROM [dbo].[Comment] 
+                    WHERE id_comment = @id_comment 
+                    AND id_user IN (
+                      SELECT id_user 
+                      FROM [dbo].[User] 
+                      WHERE email = @email
+                    );`;
+
+      const values = [req.params.id, res.locals.email];
+      const paramName = ["id_comment", "email"];
+      await executeQuery(query, values, paramName, false);
+
+      res.redirect("back");
+    } catch (error) {
+      res.json({ success: false, message: "Có lỗi xảy ra khi xóa bình luận!" });
+    }
+  },
+
   getCommentByArticle: async (req, res) => {
     const query = `SELECT * 
                     FROM [dbo].[Comment]
@@ -179,7 +202,6 @@ export const commentController = {
     try {
       const result = await executeQuery(query, values, paramNames, false);
 
-      
       res.json({ success: "Thanh cong", data: result.recordset });
     } catch (error) {
       res.json({ failed: "Khong thanh cong !" });
@@ -204,20 +226,28 @@ export const commentController = {
       res.json({ failed: "Khong thanh cong !" });
     }
   },
-  
 
   deleteComment: async (req, res) => {
     try {
       const commentId = req.params.id || req.body["data-id"];
-      
+
       // Kiểm tra xem comment có tồn tại không
       const checkCommentQuery = `
         SELECT * FROM [dbo].[Comment]
         WHERE id_comment = @id_comment
       `;
-      const commentResult = await executeQuery(checkCommentQuery, [commentId], ["id_comment"], false);
-      
-      if (!commentResult || !commentResult.recordset || commentResult.recordset.length === 0) {
+      const commentResult = await executeQuery(
+        checkCommentQuery,
+        [commentId],
+        ["id_comment"],
+        false
+      );
+
+      if (
+        !commentResult ||
+        !commentResult.recordset ||
+        commentResult.recordset.length === 0
+      ) {
         return res.status(404).json({ error: "Không tìm thấy bình luận" });
       }
 
@@ -226,7 +256,12 @@ export const commentController = {
         DELETE FROM [dbo].[Comment]
         WHERE id_parent = @id_comment
       `;
-      await executeQuery(deleteChildrenQuery, [commentId], ["id_comment"], false);
+      await executeQuery(
+        deleteChildrenQuery,
+        [commentId],
+        ["id_comment"],
+        false
+      );
 
       // Xóa tất cả like của comment
       const deleteLikesQuery = `
@@ -240,14 +275,19 @@ export const commentController = {
         DELETE FROM [dbo].[Comment]
         WHERE id_comment = @id_comment
       `;
-      await executeQuery(deleteCommentQuery, [commentId], ["id_comment"], false);
+      await executeQuery(
+        deleteCommentQuery,
+        [commentId],
+        ["id_comment"],
+        false
+      );
 
-      res.redirect('back');
+      res.redirect("back");
     } catch (error) {
       console.error("Lỗi khi xóa bình luận:", error);
       res.status(500).json({
         error: "Xóa bình luận không thành công",
-        details: error.message
+        details: error.message,
       });
     }
   },

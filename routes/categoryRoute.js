@@ -174,15 +174,6 @@ router.post("/deleteCategory/:id", categoryController.deleteCategory);
 
 router.post("/updateCategory", authController.authenticateToken, express.urlencoded({ extended: true }), express.json(), categoryController.updateCategory);
 
-router.get('/getAllCategories', authController.authenticateToken, async (req, res) => {
-    const query = `SELECT * FROM [dbo].[Category]`;
-    try {
-        const result = await executeQuery(query, [], [], false);
-        res.json(result.recordset);
-    } catch (error) {
-        res.status(500).json({ error: 'Không lấy được danh mục' });
-    }
-});
 
 router.post("/addCategory", authController.authenticateToken, express.urlencoded({ extended: true }), express.json(), categoryController.addCategory);
 
@@ -196,7 +187,30 @@ router.get("/getAllCategories", authController.authenticateToken, async (req, re
                 id_category ASC
         `;
         const result = await executeQuery(query, [], [], false);
-        res.json(result.recordset);
+
+        // Tạo cấu trúc category cha - con
+        const categories = result.recordset;
+        const categoryMap = {};
+
+        // Tạo một map để lưu các category
+        categories.forEach(category => {
+            category.children = []; // Thêm mảng `children` để chứa các category con
+            categoryMap[category.id_category] = category; // Lưu category vào map
+        });
+
+        // Gắn các category con vào category cha
+        const structuredCategories = [];
+        categories.forEach(category => {
+            if (category.id_parent) {
+                // Nếu có `id_parent`, thêm vào mảng `children` của category cha
+                categoryMap[category.id_parent]?.children.push(category);
+            } else {
+                // Nếu không có `id_parent`, đây là category cha
+                structuredCategories.push(category);
+            }
+        });
+
+        res.json(structuredCategories);
     } catch (error) {
         console.error("Lỗi khi lấy danh mục:", error);
         res.status(500).json({ error: "Không thể lấy danh sách danh mục" });
