@@ -15,6 +15,14 @@ import {
 } from '../controllers/CRUD_ArticleController.js';
 import multer from 'multer';
 import { processFileContent } from '../controllers/fileController.js';
+import dayjs from 'dayjs';
+import 'dayjs/locale/vi.js'; // Import tiếng Việt
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.locale('vi');
 
 
 const router = express.Router();
@@ -120,6 +128,10 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
 
     try {
       result2 = await executeQuery(query1, [], [], isStoredProcedure);
+      result2.recordset.forEach(article => {        
+        const formattedDate = dayjs(article.day_created).format('dddd, D/M/YYYY, HH:mm');
+        article.day_created = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+      });
     } catch (error) {
       console.error(error);
     }
@@ -151,6 +163,11 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       result3 = await executeQuery(query3, [], [], isStoredProcedure);
       result4 = await executeQuery(query4, [], [], isStoredProcedure);
       result5 = await executeQuery(query5, [], [], isStoredProcedure);
+
+      result4.recordset.forEach(article => {        
+        const formattedDate = dayjs(article.day_created).format('dddd, D/M/YYYY, HH:mm');
+        article.day_created = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+      });
 
       const result1 = await executeQuery(likeArticleQuery, [result.recordset[0].id_user], ["id"], false);
       const result6 = await executeQuery(UserCommentQuery, [result.recordset[0].id_user], ["id"], false);
