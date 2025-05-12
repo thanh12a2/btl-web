@@ -78,89 +78,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // CRUD mẫu cho Bình luận của tôi
-    let myComments = [
-        {id: 1, post: 'Bài viết A', content: 'Bình luận 1', date: '2024-06-01'},
-        {id: 2, post: 'Bài viết B', content: 'Bình luận 2', date: '2024-06-02'}
-    ];
-    function renderMyComments() {
-        const tbody = document.getElementById('myCommentsBody');
-        tbody.innerHTML = myComments.map(c => `
-            <tr>
-                <td>${c.id}</td>
-                <td>${c.post}</td>
-                <td>${c.content}</td>
-                <td>${c.date}</td>
-                <td>
-                    <button class=\"info_management-action-btn\" onclick=\"deleteMyComment(${c.id})\">Xóa</button>
-                </td>
-            </tr>
-        `).join('');
-    }
-    window.deleteMyComment = function(id) {
-        myComments = myComments.filter(c => c.id !== id);
-        renderMyComments();
-    }
-    renderMyComments();
-
-    // CRUD mẫu cho Bình luận yêu thích
-    let favoriteComments = [
-        {id: 1, post: 'Bài viết A', content: 'Bình luận hay', date: '2024-06-01'},
-        {id: 2, post: 'Bài viết B', content: 'Bình luận xuất sắc', date: '2024-06-02'}
-    ];
-    function renderFavoriteComments() {
-        const tbody = document.getElementById('favoriteCommentsBody');
-        tbody.innerHTML = favoriteComments.map(c => `
-            <tr>
-                <td>${c.id}</td>
-                <td>${c.post}</td>
-                <td>${c.content}</td>
-                <td>${c.date}</td>
-                <td>
-                    <button class=\"info_management-action-btn\" onclick=\"deleteFavoriteComment(${c.id})\">Xóa</button>
-                </td>
-            </tr>
-        `).join('');
-    }
-    window.deleteFavoriteComment = function(id) {
-        favoriteComments = favoriteComments.filter(c => c.id !== id);
-        renderFavoriteComments();
-    }
-    renderFavoriteComments();
-
-    // Dữ liệu mẫu cho Thống kê bài viết của tôi
-    let statisticMyArticles = [
-        {id: 1, title: 'Bài viết A', views: 120, likes: 10, date: '2024-06-01', status: 'Đã duyệt'},
-        {id: 2, title: 'Bài viết B', views: 80, likes: 5, date: '2024-06-02', status: 'Chờ duyệt'}
-    ];
-    function renderStatisticMyArticles() {
-        const tbody = document.getElementById('statisticMyArticlesBody');
-        if (!tbody) return;
-        tbody.innerHTML = statisticMyArticles.map(a => `
-            <tr>
-                <td>${a.id}</td>
-                <td>${a.title}</td>
-                <td>${a.views}</td>
-                <td>${a.likes}</td>
-                <td>${a.date}</td>
-                <td>${a.status}</td>
-            </tr>
-        `).join('');
-    }
-    renderStatisticMyArticles();
-
-    // Dữ liệu mẫu cho Thông báo bài viết được duyệt
-    let statisticApproveNotify = [
-        'Bài viết "Bài viết A" đã được duyệt ngày 2024-06-01',
-        'Bài viết "Bài viết B" đã được duyệt ngày 2024-06-02'
-    ];
-    function renderStatisticApproveNotify() {
-        const ul = document.getElementById('statisticApproveNotifyList');
-        if (!ul) return;
-        ul.innerHTML = statisticApproveNotify.map(n => `<li>${n}</li>`).join('');
-    }
-    renderStatisticApproveNotify();
-
     // Dữ liệu mẫu cho Thống kê tổng quan của nhà báo
     let statisticOverview = {
         totalArticles: 12,
@@ -749,9 +666,90 @@ function initStatusToggles() {
     });
 }
 
+// CSS cho checkbox nổi bật
+const featuredStyle = document.createElement('style');
+featuredStyle.textContent = `
+    .featured-checkbox {
+        position: relative;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+    }
+    .featured-checkbox input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        position: absolute;
+    }
+    .featured-checkbox .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #fff;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .featured-checkbox input:checked ~ .checkmark {
+        background-color: #2196F3;
+        border-color: #2196F3;
+    }
+    .featured-checkbox .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+    .featured-checkbox input:checked ~ .checkmark:after {
+        display: block;
+    }
+    .featured-checkbox .checkmark:after {
+        left: 6px;
+        top: 2px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+`;
+document.head.appendChild(featuredStyle);
+
+// Xử lý sự kiện khi checkbox nổi bật được click
+function initFeaturedToggles() {
+    const featuredToggles = document.querySelectorAll('.featured-toggle');
+
+    featuredToggles.forEach(toggle => {
+        // Xóa tất cả event listener trước đó để tránh trùng lặp
+        const newToggle = toggle.cloneNode(true);
+        toggle.parentNode.replaceChild(newToggle, toggle);
+
+        newToggle.addEventListener('change', function() {
+            const articleId = this.dataset.articleId;
+            const isFeatured = this.checked ? 1 : 0;
+
+            // Gửi request cập nhật trạng thái nổi bật
+            fetch(`/api/article/updateFeatured/${articleId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ is_featured: isFeatured })
+            })
+            .catch(error => {
+                console.error('Error updating featured status:', error);
+            });
+        });
+    });
+}
+
+
+
 // Chạy khi trang đã tải xong
 document.addEventListener('DOMContentLoaded', function() {
     initStatusToggles();
+    initFeaturedToggles();
     
     // Thêm xử lý cho trường hợp nội dung được tải động (AJAX)
     const tbodyArticle = document.getElementById('tbodyArticle');
@@ -759,10 +757,223 @@ document.addEventListener('DOMContentLoaded', function() {
         // Theo dõi thay đổi trong bảng bài viết
         const observer = new MutationObserver(function(mutations) {
             initStatusToggles();
+            initFeaturedToggles();
         });
         
         observer.observe(tbodyArticle, { childList: true, subtree: true });
     }
+});
+
+// Hàm hiển thị modal chỉnh sửa bài báo
+function editArticle(articleId) {
+    // Hiển thị loader
+    document.getElementById('loader').style.display = 'flex';
+    console.log('Đang lấy thông tin bài báo với ID:', articleId);
+
+    // Gọi API lấy thông tin bài báo
+    fetch(`/article/getArticle/${articleId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Kết quả trả về từ API:', data);
+            
+            if (data.success) {
+                const article = data.article;
+                
+                // Điền thông tin vào form
+                document.getElementById('editArticleId').value = article.id_article;
+                document.getElementById('editPostTitle').value = article.heading;
+                document.getElementById('editPostNameAlias').value = article.name_alias;
+                document.getElementById('editPostContent').value = article.content;
+                document.getElementById('editUploadedImageUrl').value = article.hero_image;
+                
+                // Hiển thị ảnh hiện tại
+                const currentImage = document.getElementById('currentImage');
+                currentImage.src = article.hero_image;
+                currentImage.style.display = 'block';
+
+                // Xác định danh mục chính và phụ
+                const idCategory = article.id_category;
+                console.log('Danh mục của bài báo:', idCategory);
+                
+                let subCategory = null;
+                let mainCategory = null;
+                
+                // Tìm danh mục chính và phụ
+                for (const cat of structuredCategories) {
+                    if (cat.id_category == idCategory) {
+                        mainCategory = cat;
+                        break;
+                    }
+                    if (cat.children && cat.children.length > 0) {
+                        for (const child of cat.children) {
+                            if (child.id_category == idCategory) {
+                                mainCategory = cat;
+                                subCategory = child;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // Set dropdown danh mục chính
+                const mainCategorySelect = document.getElementById('editMainCategory');
+                if (mainCategory) {
+                    console.log('Set danh mục chính:', mainCategory.id_category);
+                    mainCategorySelect.value = mainCategory.id_category;
+                    
+                    // Kích hoạt sự kiện change để load danh mục phụ
+                    const event = new Event('change');
+                    mainCategorySelect.dispatchEvent(event);
+                    
+                    // Set dropdown danh mục phụ (nếu có)
+                    if (subCategory) {
+                        setTimeout(() => {
+                            const subCategorySelect = document.getElementById('editSubCategory');
+                            if (subCategorySelect) {
+                                console.log('Set danh mục phụ:', subCategory.id_category);
+                                subCategorySelect.value = subCategory.id_category;
+                            }
+                        }, 100);
+                    }
+                }
+
+                // Hiển thị modal
+                document.getElementById('editPostModal').style.display = 'block';
+            } else {
+                console.error('Lỗi khi lấy thông tin bài báo:', data.message);
+                alert('Không thể lấy thông tin bài báo: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Đã xảy ra lỗi khi lấy thông tin bài báo: ' + error.message);
+        })
+        .finally(() => {
+            // Ẩn loader
+            document.getElementById('loader').style.display = 'none';
+        });
+}
+
+// Xử lý sự kiện khi chọn danh mục chính
+document.getElementById('editMainCategory').addEventListener('change', function() {
+    const selectedMainCategoryId = this.value;
+    const subCategorySelect = document.getElementById('editSubCategory');
+    
+    console.log('Danh mục chính được chọn:', selectedMainCategoryId);
+    
+    // Tìm danh mục chính được chọn
+    const selectedMainCategory = structuredCategories.find(category => category.id_category == selectedMainCategoryId);
+    
+    // Xóa các tùy chọn hiện tại trong danh mục phụ
+    subCategorySelect.innerHTML = '<option value="" disabled selected>Chọn danh mục phụ</option>';
+    
+    // Nếu có danh mục phụ, thêm chúng vào danh mục phụ
+    if (selectedMainCategory && selectedMainCategory.children && selectedMainCategory.children.length > 0) {
+        console.log('Danh mục phụ có sẵn:', selectedMainCategory.children.length);
+        selectedMainCategory.children.forEach(subCategory => {
+            const option = document.createElement('option');
+            option.value = subCategory.id_category;
+            option.textContent = subCategory.category_name;
+            subCategorySelect.appendChild(option);
+        });
+    } else {
+        console.log('Không có danh mục phụ');
+    }
+});
+
+// Xử lý upload ảnh
+document.getElementById('uploadEditImageBtn').addEventListener('click', function(event) {
+    event.preventDefault();
+    
+    const file = document.getElementById('editPostHeroImage').files[0];
+    if (!file) {
+        alert('Vui lòng chọn một ảnh để tải lên!');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('image', file);
+    
+    // Hiển thị loader
+    document.getElementById('loader').style.display = 'flex';
+    
+    // Gửi yêu cầu tải ảnh lên
+    fetch('/upload', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('editUploadedImageUrl').value = data.url;
+            document.getElementById('currentImage').src = data.url;
+            document.getElementById('currentImage').style.display = 'block';
+            alert('Tải ảnh lên thành công!');
+        } else {
+            alert('Đã xảy ra lỗi khi tải ảnh lên: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Đã xảy ra lỗi khi tải ảnh lên: ' + error.message);
+    })
+    .finally(() => {
+        // Ẩn loader
+        document.getElementById('loader').style.display = 'none';
+    });
+});
+
+// Xử lý submit form cập nhật bài báo
+document.getElementById('updateArticleForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Lấy dữ liệu từ form
+    const data = {
+        id_article: document.getElementById('editArticleId').value,
+        heading: document.getElementById('editPostTitle').value,
+        name_alias: document.getElementById('editPostNameAlias').value,
+        content: document.getElementById('editPostContent').value,
+        hero_image: document.getElementById('editUploadedImageUrl').value,
+        id_category: document.getElementById('editSubCategory').value || document.getElementById('editMainCategory').value
+    };
+
+    // Log dữ liệu để debug
+    console.log('Dữ liệu gửi đi:', data);
+
+    // Gửi dữ liệu dạng JSON
+    fetch('/article/updateArticle', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Cập nhật bài báo thành công!');
+            document.getElementById('editPostModal').style.display = 'none';
+            window.location.reload();
+        } else {
+            alert(data.message || 'Đã xảy ra lỗi khi cập nhật bài báo!');
+        }
+    })
+    .catch(error => {
+        alert('Đã xảy ra lỗi khi cập nhật bài báo: ' + error.message);
+    })
+    .finally(() => {
+        document.getElementById('loader').style.display = 'none';
+    });
+});
+
+// Đóng modal khi click nút đóng
+document.querySelector('#editPostModal .action-modal-close').addEventListener('click', function() {
+    document.getElementById('editPostModal').style.display = 'none';
 });
 
 

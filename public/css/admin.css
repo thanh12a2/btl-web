@@ -1750,3 +1750,54 @@ table td {
     height: 100%;
     display: flex;
 }
+
+.myChart {
+    display: block !important;
+    box-sizing: border-box !important;
+    height: 434px !important;
+    width: 868px !important;
+}
+
+#controls label {
+    width: fit-content;
+}
+
+#fetchStatsBtn {
+    margin-left: 10px;
+    background-color: #B32A45;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    width: 150px;
+    display: inline-block;
+}
+
+#controls label input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+#durationSelect {
+        width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+#mostApprovedJournalistCont {
+    padding: 30px;
+    border: 2px solid #B32A45;
+    border-radius: 5px;
+    padding-bottom: 100px;
+    background-color: aliceblue;
+}

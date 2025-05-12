@@ -12,6 +12,9 @@ app.use(express.urlencoded({ extended: true }));
 const router = express.Router();
 
 router.post('/deleteComment/:id', authController.authenticateToken, commentController.deleteComment);
+
 router.get('/getAllComments', authController.authenticateToken, commentController.getAllComments);
+
+router.post("/removeComment/:id", authController.authenticateToken, commentController.removeComment);
 
 export { router };

@@ -26,13 +26,6 @@
         </div>
 
         <ul class="nav_list">
-            <li>
-                <a href="#">
-                    <i class="bi bi-person-circle"></i>
-                    <span class="links_name">Thông tin cá nhân</span>
-                </a>
-                <span class="tooltip">Thông tin cá nhân</span>
-            </li>
             <% if (_locals.role == "NhaBao") { %>
                 <li>
                     <a href="#">
@@ -70,130 +63,44 @@
     </div>
 
     <div class="home_content">
-        <div id="infoManagement" class="info_management" style="display: none;">
-            <h2 class="info_management-title">Thông tin cá nhân</h2>
-            <div class="info_management-flex">
-                <div class="info_management-content">
-                    <!-- Họ và Tên -->
-                    <div class="info_management-row">
-                        <label class="info_management-label">Họ và Tên:</label>
-                        <div class="info_management-input-group">
-                            <input type="text" id="info_management-name" class="info_management-input" value="Nguyễn Văn A" disabled>
-                            <div class="info_management-button-group">
-                                <button id="info_management-edit-name" class="info_management-button">✏️</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Email (không chỉnh sửa, thêm placeholder) -->
-                    <div class="info_management-row">
-                        <label class="info_management-label">Email:</label>
-                        <div class="info_management-input-group">
-                            <input type="email" id="info_management-email" class="info_management-input" value="nguyenvana@gmail.com" disabled>
-                            <div class="info_management-email-placeholder"></div>
-                        </div>
-                    </div>
-                    <!-- Mật khẩu -->
-                    <div class="info_management-row">
-                        <label class="info_management-label">Mật khẩu:</label>
-                        <div class="info_management-input-group">
-                            <input type="password" id="info_management-password" class="info_management-input" value="passwordcc" disabled>
-                            <div class="info_management-button-group">
-                                <button id="info_management-change-password" class="info_management-button">🔑</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info_management-side">
-                    <div class="info_management-tabs">
-                        <button class="info_management-tab active" data-tab="favorite-articles">Bài viết yêu thích</button>
-                        <button class="info_management-tab" data-tab="my-comments">Bình luận của tôi</button>
-                        <button class="info_management-tab" data-tab="favorite-comments">Bình luận yêu thích</button>
-                    </div>
-                    <div class="info_management-tab-content" id="favorite-articles" style="display:block;">
-                        <div class="info_management-table-actions">
-                            <!-- Đã xóa nút Thêm -->
-                        </div>
-                        <table class="info_management-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tiêu đề</th>
-                                    <th>Tác giả</th>
-                                    <th>Ngày thêm</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody id="favoriteArticlesBody"></tbody>
-                        </table>
-                    </div>
-                    <div class="info_management-tab-content" id="my-comments" style="display:none;">
-                        <div class="info_management-table-actions">
-                            <!-- Đã xóa nút Thêm -->
-                        </div>
-                        <table class="info_management-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Bài viết</th>
-                                    <th>Nội dung</th>
-                                    <th>Ngày bình luận</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody id="myCommentsBody"></tbody>
-                        </table>
-                    </div>
-                    <div class="info_management-tab-content" id="favorite-comments" style="display:none;">
-                        <div class="info_management-table-actions">
-                            <!-- Đã xóa nút Thêm -->
-                        </div>
-                        <table class="info_management-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Bài viết</th>
-                                    <th>Nội dung</th>
-                                    <th>Ngày thêm</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody id="favoriteCommentsBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        
         <div id="info-nhabao-Management" class="info_management" style="display: none;">
                 <h2 class="info_management-title">Thông tin nhà báo</h2>
                 <div class="info_management-flex">
                     <div class="info_management-content">
+                    <form action="/auth/changePwdQuanTri" method="POST">
                         <div class="info_management-row">
                             <label class="info_management-label">Họ và Tên:</label>
                             <div class="info_management-input-group">
-                                <input type="text" id="info_management-name" class="info_management-input" value="Nguyễn Văn A" disabled>
-                                <div class="info_management-button-group">
-                                    <button id="info_management-edit-name" class="info_management-button">✏️</button>
-                                </div>
+                                <input type="text" id="info_management-name" class="info_management-input"
+                                    name="newUsername" value="<%= user[0].username %>" disabled>
                             </div>
                         </div>
+                        <!-- Email (không chỉnh sửa, thêm placeholder) -->
                         <div class="info_management-row">
                             <label class="info_management-label">Email:</label>
                             <div class="info_management-input-group">
-                                <input type="email" id="info_management-email" class="info_management-input" value="nguyenvana@gmail.com" disabled>
+                                <input type="email" id="info_management-email" class="info_management-input"
+                                    value="<%= user[0].email %>" disabled>
                                 <div class="info_management-email-placeholder"></div>
                             </div>
                         </div>
+                        <!-- Mật khẩu -->
                         <div class="info_management-row">
                             <label class="info_management-label">Mật khẩu:</label>
                             <div class="info_management-input-group">
-                                <input type="password" id="info_management-password" class="info_management-input" value="passwordcc" disabled>
+                                <input type="password" id="info_management-password" class="info_management-input"
+                                    name="pwdInp" value="<%= user[0].password %>" disabled>
                                 <div class="info_management-button-group">
-                                    <button id="info_management-change-password" class="info_management-button">🔑</button>
+                                    <button type="button" id="info_management-change-password"
+                                        class="info_management-button">🔑</button>
+                                </div>
+                                <div class="info_management-button-group">
+                                    <button type="submit" id="info_management-edit-name" class="info_management-button"
+                                        style="display:none"><i class="bi bi-floppy-fill"></i></button>
                                 </div>
                             </div>
                         </div>
+                    </form>
                     </div>
                     <div class="info_management-side">
                         <div class="statistic-overview">
