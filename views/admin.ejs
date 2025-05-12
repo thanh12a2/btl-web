@@ -1354,25 +1354,7 @@
 
     <script>
         // 2. Now let's create a client-side JavaScript to handle the form submission
-        // Add this to your admin.js or create a new file and include it in your admin page
-            // Handle form submission
-            const addPostBtn = document.getElementById('btnAddPost');
-            if (addPostBtn) {
-                addPostBtn.addEventListener('click', function () {
-                    // Get form values
-                    const heading = document.getElementById('addPostTitle').value.trim();
-                    const user = document.getElementById('addPostAuthor').value.trim();
-                    const mainCategory = document.getElementById('mainCategory').value;
-                    const category_name = document.getElementById('subCategory').value;
-                    const hero_image = document.getElementById('addPostHeroImage').value.trim();
-                    const content = document.getElementById('addPostContent').value.trim();
-
-                    // Validate form
-                    if (!heading || !user || !mainCategory || !category_name || !hero_image || !content) {
-                        alert('Vui lòng điền đầy đủ tất cả các trường!');
-                        return;
-                    }
-
+        // Add this to your admin.js or create a new file and include it in your admin pag
         // Handle form submission
         const addPostBtn = document.getElementById('btnAddPost');
         if (addPostBtn) {
