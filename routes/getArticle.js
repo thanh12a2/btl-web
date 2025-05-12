@@ -154,5 +154,115 @@ router.get(
   }
 );
 
+// Route lấy thông tin bài báo theo ID
+router.get('/getArticle/:id', async (req, res) => {
+    try {
+        const articleId = req.params.id;
+        console.log('Đang lấy bài báo với ID:', articleId);
+        
+        // Truy vấn bài viết
+        const articleQuery = `SELECT * FROM [dbo].[Article] WHERE id_article = @id`;
+        const articleValues = [articleId];
+        const articleParams = ["id"];
+        
+        const articleResult = await executeQuery(articleQuery, articleValues, articleParams, false);
+        
+        if (!articleResult.recordset || articleResult.recordset.length === 0) {
+            console.log('Không tìm thấy bài báo với ID:', articleId);
+            return res.json({ success: false, message: 'Không tìm thấy bài báo!' });
+        }
+        
+        console.log('Tìm thấy bài báo:', articleResult.recordset[0].heading);
+        res.json({ success: true, article: articleResult.recordset[0] });
+    } catch (error) {
+        console.error('Lỗi khi lấy thông tin bài báo:', error);
+        res.json({ success: false, message: 'Đã xảy ra lỗi khi lấy thông tin bài báo!' });
+    }
+});
+
+// Route cập nhật bài báo
+router.post('/updateArticle', async (req, res) => {
+    try {
+        // In ra dữ liệu nhận được để debug
+        console.log('Dữ liệu nhận được từ form:', req.body);
+        
+        const { id_article, heading, name_alias, id_category, hero_image, content } = req.body;
+        
+        // Kiểm tra dữ liệu đầu vào
+        if (!id_article) {
+            console.error('Thiếu ID bài báo');
+            return res.json({ success: false, message: 'Thiếu ID bài báo!' });
+        }
+        
+        // Kiểm tra bài báo tồn tại
+        const checkQuery = `SELECT * FROM [dbo].[Article] WHERE id_article = @id`;
+        const checkValues = [id_article];
+        const checkParams = ["id"];
+        
+        const checkResult = await executeQuery(checkQuery, checkValues, checkParams, false);
+        
+        if (!checkResult.recordset || checkResult.recordset.length === 0) {
+            console.error('Không tìm thấy bài báo với ID:', id_article);
+            return res.json({ success: false, message: 'Không tìm thấy bài báo!' });
+        }
+        
+        // Lấy thông tin hiện tại của bài báo
+        const currentArticle = checkResult.recordset[0];
+        
+        // Sử dụng giá trị hiện tại nếu không có giá trị mới
+        const updatedHeading = heading || currentArticle.heading;
+        const updatedNameAlias = name_alias || currentArticle.name_alias;
+        const updatedCategory = id_category || currentArticle.id_category;
+        const updatedHeroImage = hero_image || currentArticle.hero_image;
+        const updatedContent = content || currentArticle.content;
+        
+        console.log('Cập nhật bài báo với thông tin:', {
+            id: id_article,
+            heading: updatedHeading,
+            name_alias: updatedNameAlias,
+            category: updatedCategory
+        });
+        
+        // Cập nhật thông tin bài báo
+        const updateQuery = `
+            UPDATE [dbo].[Article]
+            SET heading = @heading,
+                name_alias = @name_alias,
+                id_category = @id_category,
+                hero_image = @hero_image,
+                content = @content
+            WHERE id_article = @id_article
+        `;
+        
+        const updateValues = [
+            updatedHeading, 
+            updatedNameAlias, 
+            updatedCategory, 
+            updatedHeroImage, 
+            updatedContent, 
+            id_article
+        ];
+        
+        const updateParams = [
+            "heading", 
+            "name_alias", 
+            "id_category", 
+            "hero_image", 
+            "content", 
+            "id_article"
+        ];
+        
+        await executeQuery(updateQuery, updateValues, updateParams, false);
+        
+        console.log('Cập nhật bài báo thành công với ID:', id_article);
+        
+        // Luôn trả về JSON response
+        res.json({ success: true, message: 'Cập nhật bài báo thành công!' });
+        
+    } catch (error) {
+        console.error('Lỗi khi cập nhật bài báo:', error);
+        res.json({ success: false, message: 'Đã xảy ra lỗi khi cập nhật bài báo: ' + error.message });
+    }
+});
 
 export { router }
