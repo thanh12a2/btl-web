@@ -457,6 +457,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       });
     } catch (error) {
       res.render("notFound404.ejs");
+      console.log("error: " + error)
     }
   } else if (role == "NhaBao") {
     const query = `SELECT * FROM [dbo].[User] WHERE email = @email`;
@@ -465,14 +466,79 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
     let resultUserNhaBao;
 
     try {
+
+      const queryCate = `
+            SELECT id_category, category_name, id_parent 
+            FROM [dbo].[Category]
+            ORDER BY 
+                CASE WHEN id_parent IS NULL THEN 0 ELSE 1 END, 
+                id_category ASC`;
+
+      let result3;
+      
+      const query3 = `SELECT * FROM [dbo].[Category]`;
+      result3 = await executeQuery(query3, [], [], false);
+      const categoryPage = parseInt(req.query.categoryPage) || 1;
+
+      function paginate(data, page, limit) {
+        if (!data || !Array.isArray(data)) {
+          return {
+            data: [],
+            totalPages: 0,
+            totalItems: 0,
+            currentPage: page,
+          };
+        }
+        const start = (page - 1) * limit;
+        const end = start + limit;
+        return {
+          data: data.slice(start, end),
+          totalPages: Math.ceil(data.length / limit),
+          totalItems: data.length,
+          currentPage: page,
+        };
+      }
+
+      const resultCate = await executeQuery(queryCate, [], [], false);
+
+      const limit = parseInt(req.query.limit) || 10;
+      const activeSection = req.query.section || "dashboard";
+      const currentPage = parseInt(req.query.page) || 1;
+
+      const categoriesData = paginate(result3.recordset || [], categoryPage, limit);
+
+      // Tạo cấu trúc category cha - con
+      const categories = resultCate.recordset;
+      const categoryMap = {};
+
+      // Tạo một map để lưu các category
+      categories.forEach((category) => {
+        category.children = []; // Thêm mảng `children` để chứa các category con
+        categoryMap[category.id_category] = category; // Lưu category vào map
+      });
+
+      // Gắn các category con vào category cha
+      const structuredCategories = [];
+      categories.forEach((category) => {
+        if (category.id_parent) {
+          // Nếu có `id_parent`, thêm vào mảng `children` của category cha
+          categoryMap[category.id_parent]?.children.push(category);
+        } else {
+          // Nếu không có `id_parent`, đây là category cha
+          structuredCategories.push(category);
+        }
+      });
+
       resultUserNhaBao = await executeQuery(query, values, paramNames, false);
+      res.render("nhaBao.ejs", {
+      user: resultUserNhaBao.recordset,
+      structuredCategories: structuredCategories,
+    });
     } catch (error) {
       console.error(error);
     }
 
-    res.render("nhaBao.ejs", {
-      user: resultUserNhaBao.recordset
-    });
+    
   } else if (role == "DocGia") {
     const query = `SELECT * FROM [dbo].[User] WHERE email = @email`;
     const values = [res.locals.email];
