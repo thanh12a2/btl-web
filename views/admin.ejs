@@ -593,6 +593,21 @@
                 </div>
 
             </div>
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label for="categoryFilter">Danh mục:</label>
+                    <select id="categoryFilter">
+                        <option value="all" selected>Tất cả danh mục</option>
+                        <% if (getAllCate && getAllCate.length) { %>
+                            <% for (let i=0; i < getAllCate.length; i++) { %>
+                                <option value="<%= getAllCate[i].category_name %>">
+                                    <%= getAllCate[i].category_name %>
+                                </option>
+                                <% } %>
+                                    <% } %>
+                    </select>
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
                     <div class="chart-container">
@@ -612,15 +627,7 @@
                         <option value="365">1 năm qua</option>
                     </select>
                 </div>
-                <div class="filter-group">
-                    <label for="categoryFilter">Danh mục:</label>
-                    <select id="categoryFilter">
-                        <option value="all" selected>Tất cả danh mục</option>
-                        <!-- Sẽ được điền bởi JavaScript -->
-                    </select>
-                </div>
-                <button onclick="applyFilters()">Áp dụng</button>
-                <button onclick="resetFilters()">Đặt lại</button>
+
             </div>
 
             <div class="row">
@@ -1596,7 +1603,6 @@
     <script>
         const categoryData = JSON.parse('<%- JSON.stringify(categoryArticleStats) %>');
 
-        // Tạo màu ngẫu nhiên nhưng dễ nhìn cho mỗi cột
         function generateColors(length) {
             const baseColors = [
                 'rgba(54, 162, 235, 0.7)',
@@ -1609,92 +1615,175 @@
             return Array.from({ length }, (_, i) => baseColors[i % baseColors.length]);
         }
 
-        const labels = categoryData.map(c => c.name);
-        const dataCounts = categoryData.map(c => c.count);
-        const colors = generateColors(labels.length);
+        let chartInstance;
 
-        const ctx = document.getElementById('articlesByCategory').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels,
-                datasets: [{
-                    label: 'Số lượng bài viết',
-                    data: dataCounts,
-                    backgroundColor: colors,
-                    borderRadius: 6,
-                    hoverBackgroundColor: 'rgba(0, 0, 0, 0.2)'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                layout: {
-                    padding: 20
+        function renderChart(dataToDisplay) {
+            const labels = dataToDisplay.map(c => c.name);
+            const dataCounts = dataToDisplay.map(c => c.count);
+            const colors = generateColors(labels.length);
+
+            const ctx = document.getElementById('articlesByCategory').getContext('2d');
+
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Số lượng bài viết',
+                        data: dataCounts,
+                        backgroundColor: colors,
+                        borderRadius: 6,
+                        hoverBackgroundColor: 'rgba(0, 0, 0, 0.2)'
+                    }]
                 },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Số lượng bài viết theo danh mục',
-                        font: {
-                            size: 24,
-                            weight: 'bold',
-                            family: 'Arial'
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: { padding: 20 },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Số lượng bài viết theo danh mục',
+                            font: { size: 24, weight: 'bold', family: 'Arial' },
+                            color: '#333',
+                            padding: { top: 10, bottom: 30 },
+                            align: 'center'
                         },
-                        color: '#333',
-                        padding: {
-                            top: 10,
-                            bottom: 30
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#333',
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 13 },
+                            callbacks: {
+                                label: function (context) {
+                                    return `${context.dataset.label}: ${context.raw} bài viết`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                font: { size: 12, family: 'Arial' },
+                                maxRotation: labels.length === 1 ? 0 : 45,
+                                minRotation: labels.length === 1 ? 0 : 45,
+                            },
+                            grid: { display: false }
                         },
-                        align: 'center'
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                font: { size: 12, family: 'Arial' },
+                                stepSize: 5
+                            },
+                            grid: { color: 'rgba(0,0,0,0.05)' }
+                        }
                     },
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        backgroundColor: '#333',
-                        titleFont: { size: 14 },
-                        bodyFont: { size: 13 },
-                        callbacks: {
-                            label: function (context) {
-                                return `${context.dataset.label}: ${context.raw} bài viết`;
+                    animation: { duration: 1200, easing: 'easeOutBounce' }
+                }
+            });
+        }
+
+
+        // Gọi renderChart lần đầu với tất cả dữ liệu
+        renderChart(categoryData);
+
+        // Lắng nghe sự kiện chọn danh mục
+        document.getElementById('categoryFilter').addEventListener('change', function () {
+            const selected = this.value;
+            if (selected === 'all') {
+                renderChart(categoryData);
+            } else {
+                const filteredData = categoryData.filter(c => c.name === selected);
+                renderChart(filteredData);
+            }
+        });
+    </script>
+    <script>
+        // Khởi tạo dữ liệu từ server
+        const allArticleStats = {
+            '7': JSON.parse('<%- JSON.stringify(articleDateStats7) %>'),
+            '30': JSON.parse('<%- JSON.stringify(articleDateStats30) %>'),
+            '90': JSON.parse('<%- JSON.stringify(articleDateStats90) %>'),
+            '180': JSON.parse('<%- JSON.stringify(articleDateStats180) %>'),
+            '365': JSON.parse('<%- JSON.stringify(articleDateStats365) %>')
+        };
+
+        // Khai báo biến chart ở phạm vi global để có thể cập nhật sau
+        let chart;
+
+        // Hàm khởi tạo biểu đồ
+        function initChart(timeRange) {
+            const articleStats = allArticleStats[timeRange];
+            const labels = articleStats.map(item => item.date);
+            const data = articleStats.map(item => item.count);
+
+            // Đặt label phù hợp với loại thời gian
+            let timeLabel = 'Ngày';
+            let chartTitle = 'Số bài viết theo ngày';
+
+            if (['90', '180', '365'].includes(timeRange)) {
+                timeLabel = 'Tháng';
+                chartTitle = 'Số bài viết theo tháng';
+            }
+
+            const ctx = document.getElementById('articlesByTime').getContext('2d');
+
+            // Nếu chart đã tồn tại, hủy nó để tránh lỗi
+            if (chart) {
+                chart.destroy();
+            }
+
+            // Tạo biểu đồ mới
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: chartTitle,
+                        data: data,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: timeLabel
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Số bài viết'
+                            },
+                            ticks: {
+                                precision: 0 // Hiển thị số nguyên
                             }
                         }
                     }
-                },
-                scales: {
-                    x: {
-                        ticks: {
-                            font: {
-                                size: 12,
-                                family: 'Arial'
-                            },
-                            maxRotation: 90,
-                            minRotation: 45,
-                        },
-                        grid: {
-                            display: false
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            font: {
-                                size: 12,
-                                family: 'Arial'
-                            },
-                            stepSize: 5
-                        },
-                        grid: {
-                            color: 'rgba(0,0,0,0.05)'
-                        }
-                    }
-                },
-                animation: {
-                    duration: 1200,
-                    easing: 'easeOutBounce'
                 }
-            }
+            });
+        }
+
+        // Xử lý sự kiện thay đổi khoảng thời gian
+        document.getElementById('timeRange').addEventListener('change', function () {
+            initChart(this.value);
+        });
+
+        // Khởi tạo biểu đồ với giá trị mặc định (30 ngày)
+        document.addEventListener('DOMContentLoaded', function () {
+            initChart('30');
         });
     </script>
     <script src="/../js/admin.js"></script>

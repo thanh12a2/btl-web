@@ -167,6 +167,120 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
         count: articleCountByCategory[c.id_category] || 0
       }));
 
+      // Hàm xử lý khoảng thời gian (giữ nguyên như bạn đã cung cấp)
+      const handleTimeRange = (range, result2) => {
+        const articleCountByDate = {};
+        const today = new Date();
+        let dateFormat, startDate;
+
+        // Xác định khoảng thời gian và định dạng ngày dựa trên range
+        switch (range) {
+          case '7':  // 7 ngày
+            startDate = new Date(today);
+            startDate.setDate(startDate.getDate() - 7);
+            dateFormat = 'day';
+            break;
+          case '30': // 30 ngày
+            startDate = new Date(today);
+            startDate.setDate(startDate.getDate() - 30);
+            dateFormat = 'day';
+            break;
+          case '90':  // 3 tháng
+            startDate = new Date(today);
+            startDate.setMonth(startDate.getMonth() - 3);
+            dateFormat = 'month';
+            break;
+          case '180':  // 6 tháng
+            startDate = new Date(today);
+            startDate.setMonth(startDate.getMonth() - 6);
+            dateFormat = 'month';
+            break;
+          case '365': // 1 năm
+            startDate = new Date(today);
+            startDate.setFullYear(startDate.getFullYear() - 1);
+            dateFormat = 'month';
+            break;
+          default:   // Mặc định 30 ngày
+            startDate = new Date(today);
+            startDate.setDate(startDate.getDate() - 30);
+            dateFormat = 'day';
+            break;
+        }
+
+        // Lọc và đếm bài viết
+        result2.recordset.forEach(article => {
+          const articleDate = new Date(article.day_created);
+
+          // Chỉ đếm bài viết trong khoảng thời gian đã chọn
+          if (articleDate >= startDate && articleDate <= today) {
+            let dateKey;
+
+            if (dateFormat === 'day') {
+              // Định dạng ngày/tháng/năm cho hiển thị theo ngày
+              dateKey = `${articleDate.getDate().toString().padStart(2, '0')}/${(articleDate.getMonth() + 1).toString().padStart(2, '0')}/${articleDate.getFullYear()}`;
+            } else {
+              // Định dạng tháng/năm cho hiển thị theo tháng
+              dateKey = `Tháng ${articleDate.getMonth() + 1}/${articleDate.getFullYear()}`;
+            }
+
+            articleCountByDate[dateKey] = (articleCountByDate[dateKey] || 0) + 1;
+          }
+        });
+
+        // Tạo đầy đủ các ngày/tháng trong khoảng thời gian
+        let current = new Date(startDate);
+        while (current <= today) {
+          let dateKey;
+
+          if (dateFormat === 'day') {
+            dateKey = `${current.getDate().toString().padStart(2, '0')}/${(current.getMonth() + 1).toString().padStart(2, '0')}/${current.getFullYear()}`;
+            // Tăng lên 1 ngày
+            current.setDate(current.getDate() + 1);
+          } else {
+            dateKey = `Tháng ${current.getMonth() + 1}/${current.getFullYear()}`;
+            // Tăng lên 1 tháng
+            current.setMonth(current.getMonth() + 1);
+          }
+
+          // Đảm bảo tất cả các ngày/tháng đều tồn tại trong kết quả, kể cả khi không có bài viết
+          if (articleCountByDate[dateKey] === undefined) {
+            articleCountByDate[dateKey] = 0;
+          }
+        }
+
+        // Biến đổi thành mảng để vẽ biểu đồ và sắp xếp theo ngày/tháng
+        const articleDateStats = Object.entries(articleCountByDate)
+          .map(([date, count]) => ({ date, count }));
+
+        // Sắp xếp theo ngày/tháng
+        if (dateFormat === 'day') {
+          articleDateStats.sort((a, b) => {
+            const [dayA, monthA, yearA] = a.date.split('/').map(Number);
+            const [dayB, monthB, yearB] = b.date.split('/').map(Number);
+
+            if (yearA !== yearB) return yearA - yearB;
+            if (monthA !== monthB) return monthA - monthB;
+            return dayA - dayB;
+          });
+        } else {
+          articleDateStats.sort((a, b) => {
+            const monthYearA = a.date.replace('Tháng ', '').split('/').map(Number);
+            const monthYearB = b.date.replace('Tháng ', '').split('/').map(Number);
+
+            if (monthYearA[1] !== monthYearB[1]) return monthYearA[1] - monthYearB[1];
+            return monthYearA[0] - monthYearB[0];
+          });
+        }
+
+        return articleDateStats;
+      };
+      // Chuẩn bị dữ liệu cho tất cả các khoảng thời gian
+      const articleDateStats7 = handleTimeRange('7', result2);
+      const articleDateStats30 = handleTimeRange('30', result2);
+      const articleDateStats90 = handleTimeRange('90', result2);
+      const articleDateStats180 = handleTimeRange('180', result2);
+      const articleDateStats365 = handleTimeRange('365', result2);
+
       // Lấy từ khóa tìm kiếm từ query string
       const searchQuery = req.query.searchInp || "";
 
@@ -224,6 +338,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       const usersData = paginate(result5.recordset || [], userPage, limit);
       const commentsData = paginate(result4.recordset || [], commentPage, limit);
       const resultCate = await executeQuery(queryCate, [], [], false);
+      const getAllCate = result3.recordset;
 
       // Tạo cấu trúc category cha - con
       const categories = resultCate.recordset;
@@ -262,6 +377,12 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
         totalLikes,
         featuredArticles,
         categoryArticleStats,
+        getAllCate,
+        articleDateStats7,
+        articleDateStats30,
+        articleDateStats90,
+        articleDateStats180,
+        articleDateStats365,
         pagination: {
           articles: {
             totalPages: articlesData.totalPages,
