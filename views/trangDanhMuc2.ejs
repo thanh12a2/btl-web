@@ -40,7 +40,9 @@
                         </div>
                         <div class="content">
                             <a href="/article/transportArticle/<%= articles[i].name_alias %>"><div class="title-section"><%= articles[i].heading %></div></a>
-                            <div class="date"><%= articles[i].day_created %></div>
+                            <div class="date">
+                                <%=articles[i].day_created.charAt(0).toUpperCase() + articles[i].day_created.slice(1) %>
+                            </div>
                             <div class="description">
                                 <p>
                                     <a href="/article/transportArticle/<%= articles[i].name_alias %>">

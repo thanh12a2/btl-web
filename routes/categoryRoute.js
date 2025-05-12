@@ -5,8 +5,12 @@ import { authController } from '../controllers/authController.js';
 import { executeQuery } from "../config/db.js";
 import dayjs from 'dayjs';
 import 'dayjs/locale/vi.js'; // Import tiếng Việt
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
 
-dayjs.locale('vi'); // Đặt ngôn ngữ tiếng Việt
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.locale('vi');
 
 const router = express.Router();
 
@@ -39,7 +43,8 @@ router.get('/firstcategory/:id', async (req, res) => {
 
         // Format `day_created` trong kết quả của query2
         result3.recordset.forEach(article => {
-            article.day_created = dayjs(article.day_created).format("dddd, D/M/YYYY, HH:mm");
+            // article.day_created = dayjs(article.day_created).format("dddd, D/M/YYYY, HH:mm");
+            article.day_created = dayjs(article.day_created).format('dddd, D/M/YYYY, HH:mm');
         });
 
         const page = parseInt(req.query.page);
@@ -140,7 +145,11 @@ router.get('/secondcategory/:id', async (req, res) => {
         const paramNames1 = ["id"];
 
         const result1 = await executeQuery(query1, values1, paramNames1, false);
-        
+
+        result1.recordset.forEach(article => {
+            article.day_created = dayjs(article.day_created).format('dddd, D/M/YYYY, HH:mm');
+        });
+
         const page = parseInt(req.query.page);
         const limit = parseInt(req.query.limit);
  

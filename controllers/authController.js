@@ -200,7 +200,6 @@ export const authController = {
         const isStoredProcedure = false;
         try {
           const userResult = await executeQuery(query, values, paramNames, isStoredProcedure);
-          console.log("==> userResult:", JSON.stringify(userResult));
           if (!userResult || !userResult.recordset || userResult.recordset.length === 0) {
             req.isLoggedIn = false;
             req.user = null;

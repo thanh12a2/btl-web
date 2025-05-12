@@ -1,10 +1,14 @@
 import { v2 as cloudinary } from "cloudinary";
 import { executeQuery } from "../config/db.js";
 import bodyParser from "body-parser";
-import dayjs from "dayjs";
-import "dayjs/locale/vi.js";
+import dayjs from 'dayjs';
+import 'dayjs/locale/vi.js'; // Import tiếng Việt
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
 
-dayjs.locale("vi");
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.locale('vi');
 
 cloudinary.config({
   cloud_name: "drh4upxz5",
@@ -107,7 +111,8 @@ export const articleController = {
 
         // Format `day_created` trong kết quả
         commentsResult.recordset.forEach(comment => {
-          comment.day_created = dayjs(comment.day_created).format("dddd, D/M/YYYY, HH:mm");
+          comment.day_created = dayjs.utc(comment.day_created).format('dddd, D/M/YYYY, HH:mm');
+          console.log(comment.day_created)
         });
 
         // Lấy thông tin bài viết
