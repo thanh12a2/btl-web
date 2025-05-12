@@ -8,9 +8,9 @@ import { authController } from "../controllers/authController.js";
 import { getArticles } from "../controllers/All_ItemController.js";
 import { getCategories } from '../controllers/All_ItemController.js';
 import { getUsers } from '../controllers/All_ItemController.js';
-import { 
-  insertArticle, 
-  updateArticle, 
+import {
+  insertArticle,
+  updateArticle,
   deleteArticle,
 } from '../controllers/CRUD_ArticleController.js';
 import multer from 'multer';
@@ -155,6 +155,145 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       const result1 = await executeQuery(likeArticleQuery, [result.recordset[0].id_user], ["id"], false);
       const result6 = await executeQuery(UserCommentQuery, [result.recordset[0].id_user], ["id"], false);
 
+      const allArticles = result2.recordset || [];
+
+      // Tổng lượt xem
+      const totalViews = allArticles.reduce((sum, a) => sum + (a.views || 0), 0);
+
+      // Tổng lượt thích
+      const totalLikes = allArticles.reduce((sum, a) => sum + (a.like_count || 0), 0);
+
+      // Số bài viết nổi bật
+      const featuredArticles = allArticles.filter(a => a.is_featured).length;
+
+      // Tính số bài theo danh mục
+      const articleCountByCategory = {};
+      result2.recordset.forEach(a => {
+        const categoryId = a.id_category;
+        if (!articleCountByCategory[categoryId]) articleCountByCategory[categoryId] = 0;
+        articleCountByCategory[categoryId]++;
+      });
+
+      // Ghép tên danh mục
+      const categoryArticleStats = result3.recordset.map(c => ({
+        name: c.category_name,
+        count: articleCountByCategory[c.id_category] || 0
+      }));
+
+      // Hàm xử lý khoảng thời gian (giữ nguyên như bạn đã cung cấp)
+      const handleTimeRange = (range, result2) => {
+        const articleCountByDate = {};
+        const today = new Date();
+        let dateFormat, startDate;
+
+        // Xác định khoảng thời gian và định dạng ngày dựa trên range
+        switch (range) {
+          case '7':  // 7 ngày
+            startDate = new Date(today);
+            startDate.setDate(startDate.getDate() - 7);
+            dateFormat = 'day';
+            break;
+          case '30': // 30 ngày
+            startDate = new Date(today);
+            startDate.setDate(startDate.getDate() - 30);
+            dateFormat = 'day';
+            break;
+          case '90':  // 3 tháng
+            startDate = new Date(today);
+            startDate.setMonth(startDate.getMonth() - 3);
+            dateFormat = 'month';
+            break;
+          case '180':  // 6 tháng
+            startDate = new Date(today);
+            startDate.setMonth(startDate.getMonth() - 6);
+            dateFormat = 'month';
+            break;
+          case '365': // 1 năm
+            startDate = new Date(today);
+            startDate.setFullYear(startDate.getFullYear() - 1);
+            dateFormat = 'month';
+            break;
+          default:   // Mặc định 30 ngày
+            startDate = new Date(today);
+            startDate.setDate(startDate.getDate() - 30);
+            dateFormat = 'day';
+            break;
+        }
+
+        // Lọc và đếm bài viết
+        result2.recordset.forEach(article => {
+          const articleDate = new Date(article.day_created);
+
+          // Chỉ đếm bài viết trong khoảng thời gian đã chọn
+          if (articleDate >= startDate && articleDate <= today) {
+            let dateKey;
+
+            if (dateFormat === 'day') {
+              // Định dạng ngày/tháng/năm cho hiển thị theo ngày
+              dateKey = `${articleDate.getDate().toString().padStart(2, '0')}/${(articleDate.getMonth() + 1).toString().padStart(2, '0')}/${articleDate.getFullYear()}`;
+            } else {
+              // Định dạng tháng/năm cho hiển thị theo tháng
+              dateKey = `Tháng ${articleDate.getMonth() + 1}/${articleDate.getFullYear()}`;
+            }
+
+            articleCountByDate[dateKey] = (articleCountByDate[dateKey] || 0) + 1;
+          }
+        });
+
+        // Tạo đầy đủ các ngày/tháng trong khoảng thời gian
+        let current = new Date(startDate);
+        while (current <= today) {
+          let dateKey;
+
+          if (dateFormat === 'day') {
+            dateKey = `${current.getDate().toString().padStart(2, '0')}/${(current.getMonth() + 1).toString().padStart(2, '0')}/${current.getFullYear()}`;
+            // Tăng lên 1 ngày
+            current.setDate(current.getDate() + 1);
+          } else {
+            dateKey = `Tháng ${current.getMonth() + 1}/${current.getFullYear()}`;
+            // Tăng lên 1 tháng
+            current.setMonth(current.getMonth() + 1);
+          }
+
+          // Đảm bảo tất cả các ngày/tháng đều tồn tại trong kết quả, kể cả khi không có bài viết
+          if (articleCountByDate[dateKey] === undefined) {
+            articleCountByDate[dateKey] = 0;
+          }
+        }
+
+        // Biến đổi thành mảng để vẽ biểu đồ và sắp xếp theo ngày/tháng
+        const articleDateStats = Object.entries(articleCountByDate)
+          .map(([date, count]) => ({ date, count }));
+
+        // Sắp xếp theo ngày/tháng
+        if (dateFormat === 'day') {
+          articleDateStats.sort((a, b) => {
+            const [dayA, monthA, yearA] = a.date.split('/').map(Number);
+            const [dayB, monthB, yearB] = b.date.split('/').map(Number);
+
+            if (yearA !== yearB) return yearA - yearB;
+            if (monthA !== monthB) return monthA - monthB;
+            return dayA - dayB;
+          });
+        } else {
+          articleDateStats.sort((a, b) => {
+            const monthYearA = a.date.replace('Tháng ', '').split('/').map(Number);
+            const monthYearB = b.date.replace('Tháng ', '').split('/').map(Number);
+
+            if (monthYearA[1] !== monthYearB[1]) return monthYearA[1] - monthYearB[1];
+            return monthYearA[0] - monthYearB[0];
+          });
+        }
+
+        return articleDateStats;
+      };
+      // Chuẩn bị dữ liệu cho tất cả các khoảng thời gian
+      const articleDateStats7 = handleTimeRange('7', result2);
+      const articleDateStats30 = handleTimeRange('30', result2);
+      const articleDateStats90 = handleTimeRange('90', result2);
+      const articleDateStats180 = handleTimeRange('180', result2);
+      const articleDateStats365 = handleTimeRange('365', result2);
+
       // Lấy từ khóa tìm kiếm từ query string
       const searchQuery = req.query.searchInp || "";
       const searchQueryCategory = req.query.searchInpCate || "";
@@ -230,6 +369,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       const usersData = paginate(result5.recordset || [], userPage, limit);
       const commentsData = paginate(result4.recordset || [], commentPage, limit);
       const resultCate = await executeQuery(queryCate, [], [], false);
+      const getAllCate = result3.recordset;
 
       // Tạo cấu trúc category cha - con
       const categories = resultCate.recordset;
@@ -252,18 +392,28 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
           structuredCategories.push(category);
         }
       });
-      
+
       res.render("admin.ejs", {
-        user: result.recordset, 
-        likeArticles: result1.recordset, 
-        articles: articlesData.data, 
-        categories: categoriesData.data, 
-        comments: commentsData.data, 
+        user: result.recordset,
+        likeArticles: result1.recordset,
+        articles: articlesData.data,
+        categories: categoriesData.data,
+        comments: commentsData.data,
         users: usersData.data,
         limit: limit,
         activeSection: activeSection,
         currentPage: currentPage,
         structuredCategories: structuredCategories,
+        totalViews,
+        totalLikes,
+        featuredArticles,
+        categoryArticleStats,
+        getAllCate,
+        articleDateStats7,
+        articleDateStats30,
+        articleDateStats90,
+        articleDateStats180,
+        articleDateStats365,
         userComments: result6.recordset,
         pagination: {
           articles: {
@@ -384,24 +534,24 @@ router.get("/home", async (req, res) => {
 });
 
 router.post('/processFile', upload.single('file'), async (req, res) => {
-    try {
+  try {
 
-       console.log('Thông tin file:', req.file); // Kiểm tra thông tin file
-        console.log('Đường dẫn file:', req.file?.path); // Kiểm tra đường dẫn file
-        console.log('Loại file:', req.file?.mimetype); // Kiểm tra loại file
+    console.log('Thông tin file:', req.file); // Kiểm tra thông tin file
+    console.log('Đường dẫn file:', req.file?.path); // Kiểm tra đường dẫn file
+    console.log('Loại file:', req.file?.mimetype); // Kiểm tra loại file
 
 
-        const filePath = req.file.path;
-        const fileType = req.file.mimetype;
+    const filePath = req.file.path;
+    const fileType = req.file.mimetype;
 
-        // Xử lý file và chuyển đổi nội dung thành text
-        const text = await processFileContent(filePath, fileType);
+    // Xử lý file và chuyển đổi nội dung thành text
+    const text = await processFileContent(filePath, fileType);
 
-        res.json({ success: true, text });
-    } catch (error) {
-        console.error('Lỗi khi xử lý file:', error);
-        res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi xử lý file!' });
-    }
+    res.json({ success: true, text });
+  } catch (error) {
+    console.error('Lỗi khi xử lý file:', error);
+    res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi xử lý file!' });
+  }
 });
 
 export { router };
