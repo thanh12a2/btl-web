@@ -7,12 +7,14 @@ async function getLastRecordId() {
                    ORDER BY id_comment DESC`;
 
   try {
-    const result = await executeQuery(query, [], [], false);
+    const resultIdComment = await executeQuery(query, [], [], false);
 
-    if (result && result.recordset && result.recordset.length > 0) {
-      const lastId = result.recordset[0].id_comment; // Sửa chỗ này
-      const lastNumber = parseInt(lastId.substring(1));
-      return `C${String(lastNumber + 1).padStart(3, "0")}`;
+    if (resultIdComment && resultIdComment.recordset && resultIdComment.recordset.length > 0) {
+      const lastId = resultIdComment.recordset[0].id_comment; // Sửa chỗ này
+      const lastNumber = parseInt(lastId.substring(2));
+      console.log("lastId: " + lastId)
+      console.log("lastNumber: " + lastNumber);
+      return `CM${String(lastNumber + 1).padStart(3, "0")}`;
     }
     return "C001"; // Trả về ID đầu tiên nếu chưa có bản ghi nào
   } catch (error) {
@@ -45,6 +47,7 @@ export const commentController = {
                     FROM UserCTE u
                     CROSS JOIN ArticleCTE a; `;
     const newId = await getLastRecordId();
+    console.log(newId);
     const values = [
       res.locals.email,
       req.params.id,
