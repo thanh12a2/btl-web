@@ -1,6 +1,6 @@
 @media screen and (max-width: 1366px) {
     .page-body{
-        margin-left :2px;
+        
         margin-right: 2px;
         width: 100%;
         
@@ -8,8 +8,7 @@
 }
 @media screen and (max-width: 1024px)  {
     .page-body{
-        margin-left: 5px;
-        margin-right: 5px;
+        
         width: 100%;
         padding-left: 5px;  
         padding-right: 5px;
@@ -124,165 +123,7 @@
     }
 }
 
-/*giáo dục */
 
-
-/* Laptop (14 inch and under) */
-@media screen and (max-width: 1366px) {
-    .edu-section {
-        max-width: 1100px;
-    }
-    
-    .edu-item-1 img {
-        max-height: 320px;
-    }
-    
-    .edu-item-1-article h3 {
-        font-size: 28px;
-    }
-    
-    .edu-item-1-article p {
-        font-size: 18px;
-    }
-    
-    .right-container h3 {
-        font-size: 22px;
-    }
-    
-    .extra-container h3 {
-        font-size: 18px;
-    }
-}
-
-/* Tablet */
-@media screen and (max-width: 992px) {
-    .edu-section {
-        max-width: 720px;
-    }
-    
-    .edu-section-heading {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-    
-    .edu-section-title h3 {
-        font-size: 28px;
-        margin-bottom: -5px;
-    }
-    
-    .edu-section-sub-title p {
-        font-size: 20px;
-    }
-    
-    .edu-main-content {
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-    }
-    
-    .edu-item-1 {
-        grid-column: 1 / span 2;
-    }
-    
-    .edu-item-1 img {
-        max-height: 300px;
-    }
-    
-    .edu-item-1-article h3 {
-        font-size: 26px;
-    }
-    
-    .edu-item-1-article p {
-        font-size: 16px;
-    }
-    
-    .right-container img {
-        max-height: 150px;
-    }
-    
-    .right-container h3 {
-        font-size: 20px;
-    }
-    
-    .extra-container .edu-item-3 {
-        flex-direction: column;
-    }
-    
-    .extra-container img {
-        width: 100%;
-        height: auto;
-        max-height: 150px;
-        margin-bottom: 10px;
-    }
-    
-    .extra-container h3 {
-        margin-left: 0;
-    }
-}
-
-/* Mobile */
-@media screen and (max-width: 576px) {
-    .edu-section {
-        max-width: 100%;
-        padding: 0 10px;
-    }
-    
-    .edu-section-title h3 {
-        font-size: 28px;
-    }
-    
-    .edu-section-sub-title {
-        gap: 15px;
-    } 
-    .edu-section-sub-title p {
-        font-size: 20px;
-    }
-    
-    .edu-main-content {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        margin-right: 0;
-    }
-    
-    .edu-item-1 {
-        grid-column: 1;
-    }
-    
-    .edu-item-1 img {
-        max-height: 250px;
-    }
-    
-    .edu-item-1-article h3 {
-        font-size: 22px;
-    }
-    
-    .edu-item-1-article p {
-        font-size: 16px;
-        max-width: 100%;
-    }
-    
-    .right-container {
-        width: 100%;
-    }
-    
-    .right-container img {
-        width: 100%;
-        height: auto;
-    }
-    
-    .right-container h3 {
-        width: 100%;
-        height: auto;
-    }
-    
-    .right-container .edu-item-2 {
-        width: 100%;
-    }
-    
-    .extra-container .edu-item-3 {
-        width: 100%;
-    }
-}
 
 
 /* GIAI TRI SECTION */
@@ -315,6 +156,15 @@
     .giai-tri-item-3-article p
      {
         font-size: 18px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        word-break: break-word;
+        max-height: 110px;
+        line-height: 1.4;
     }
     
     .giai-tri-the-be-article > h3 {
@@ -326,9 +176,9 @@
         font-size: 26px;
     }
     .giai-tri-item-4-article p {
-        font-size: 16.5px;
+        font-size: 18px;
         width: 310px;
-        height: 150px;
+        height: auto;
         margin-left: 4px;
     }
     .giai-tri-item-4-article h3 {
@@ -438,6 +288,20 @@
     
     .giai-tri-the-be-article {
         width: calc(100% - 170px) !important;
+    }
+    .giai-tri-item-1-article p,
+    .giai-tri-item-3-article p
+     {
+        font-size: 18px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        word-break: break-word;
+        max-height: 110px;
+        line-height: 1.4;
     }
     
 }
@@ -735,10 +599,6 @@
         margin: 20px 15px 15px 15px;
     }
     
-    .container-right-card-content p {
-        font-size: 18px;
-        padding: 0px 15px 15px 15px;
-    }
 }
 
 /* For tablets (max-width: 1024px) */
@@ -788,21 +648,17 @@
     }
     
     .container-right-card-content h3 {
-        font-size: 20px;
-        height: 150px;
+        font-size: 24px;
+        height: 100%;
     }
     
     .container-right-card-content p {
         font-size: 20px;
-        margin-bottom: 50px;
-        height: 150px;
-
+        margin-bottom: 20px;
     }
-    .container-right-card-content h3{
-        font-size: 25px;
-    }
+    
     .divider{
-        margin-top:60px;
+        margin-top: 60px;
     }
 }
 
@@ -1044,7 +900,7 @@
 
 
 /*sức khỏe*/
-@media (max-width: 1400px) {
+/* @media (max-width: 1400px) {
     .card1 {
       width: 550px;
     }
@@ -1097,6 +953,12 @@
     
     .article1 p {
       font-size: 16px;
+      font-size: 18px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
     }
     
     .card1 {
@@ -1129,96 +991,155 @@
   }
   
   /* Tablet responsive */
-  @media (max-width: 992px) {
+@media (max-width: 992px) {
     .header1 {
       flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
+      margin-bottom: 20px;
     }
     
     .header1 .menu1 {
       font-size: 20px;
       text-align: center;
       width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
     }
     
     .header1 .menu1 .active1 {
       font-size: 24px;
       width: 100px;
       height: 40px;
+      margin-bottom: 5px;
     }
     
     .menu1 p {
       margin-left: 10px;
+      margin-right: 10px;
+      margin-bottom: 5px;
     }
     
     .content1 {
       padding: 0 15px;
+      width: 100%;
+      box-sizing: border-box;
     }
     
     .articles {
       flex-direction: column;
       align-items: center;
+      width: 100%;
     }
     
     .article1 {
       width: 100%;
-      max-width: 600px;
+      max-width: 700px;
       height: auto;
       margin-bottom: 15px;
+      display: flex;
+      flex-direction: row;
     }
     
     .article1 img {
       height: 180px;
       width: 200px;
+      object-fit: cover;
     }
     
     .article-text {
       height: auto;
+      padding: 0 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .article1 h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    
+    .article1 p {
+      font-size: 15px;
+      line-height: 1.4;
+      max-height: 120px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
     }
     
     .container1 {
       justify-content: center;
       gap: 20px;
       padding: 0 15px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      width: 100%;
+      box-sizing: border-box;
     }
     
     .card1 {
-      width: 45%;
-      min-width: 320px;
+      width: 100%;
+      min-width: 280px;
+      max-width: 100%;
+      margin: 0 auto;
+      height: auto;
     }
     
     .card1-image {
       height: 200px;
+      width: 100%;
+      object-fit: cover;
     }
     
     .card1-content {
-      height: 200px;
+      height: auto;
+      min-height: 200px;
+      max-height: 250px;
+      overflow: hidden;
     }
     
     .card1-header {
       font-size: 20px;
       padding-left: 15px;
       padding-right: 15px;
+      
     }
     
     .card1-title {
       font-size: 20px;
+      margin-bottom: 8px;
+      line-height: 1.3;
     }
     
     .card1-description {
       font-size: 16px;
+      padding: 0 15px;
+      line-height: 1.4;
+      max-height: 110px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
     }
+    
     .giai-tri-1-section-sub-title{
-        font-size: 20px;
+      font-size: 20px;
     }
+    
     .divider{
-        margin-top: 38px;
+      margin-top: 38px;
     }
-  }
+}
   
-  /* Mobile responsive */
-  @media (max-width: 576px) {
+/* Mobile responsive */
+@media (max-width: 576px) {
     .header1 {
       flex-direction: column;
       gap: 5px;
@@ -1249,7 +1170,7 @@
     }
     
     .article1 {
-      flex-direction: column;
+      flex-direction: row;
       height: auto;
     }
     
@@ -1322,8 +1243,328 @@
     .card1-header {
       opacity: 0;
     }
-  }
+  } 
 
+/* Responsive cho section giáo dục */
+@media (max-width: 1400px) {
+    .edu-section {
+      max-width: 1200px;
+    }
+    
+    .edu-main-content {
+      gap: 25px;
+      height: 620px;
+    }
+    
+    .edu-item-1-article h3 {
+      font-size: 28px;
+    }
+    
+    .edu-item-1-article p {
+      font-size: 18px;
+    }
+    
+    .right-container h3 {
+      font-size: 22px;
+    }
+    
+    .extra-container h3 {
+      font-size: 18px;
+    }
+  }
+  
+  
+  @media (max-width: 1200px) {
+    .edu-section {
+      max-width: 960px;
+    }
+    
+    .edu-section-title h3 {
+      font-size: 28px;
+    }
+    
+    .edu-section-sub-title p {
+      font-size: 22px;
+    }
+    
+    .edu-main-content {
+      height: 580px;
+    }
+    
+    .edu-item-1 {
+      height: 650px;
+    }
+    
+    .edu-item-1 img {
+      max-height: 300px;
+    }
+    
+    .edu-item-1-article h3 {
+      font-size: 26px;
+    }
+    
+    .edu-item-1-article p {
+      font-size: 16px;
+    }
+    
+    .right-container img {
+      height: 160px;
+    }
+    
+    .right-container h3 {
+      font-size: 20px;
+    }
+    
+    .right-container .edu-item-2 {
+      height: 280px;
+    }
+    
+    .extra-container img {
+      width: 100px;
+      height: 105px;
+    }
+    
+    .extra-container h3 {
+      font-size: 16px;
+      margin-left: 10px;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .edu-section {
+      max-width: 720px;
+      padding: 0 15px;
+    }
+    
+    .edu-section-heading {
+      gap: 15px;
+    }
+    
+    .edu-section-title h3 {
+      font-size: 26px;
+      border-bottom: 5px solid rgba(179, 42, 69, 1);
+    }
+    
+    .edu-section-sub-title {
+      gap: 15px;
+    }
+    
+    .edu-section-sub-title p {
+      font-size: 20px;
+    }
+    
+    .edu-main-content {
+      grid-template-columns: 1fr 1fr;
+      height: auto;
+    }
+    
+    .edu-item-1 {
+      grid-column: 1 / -1;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    
+    .edu-item-1 img {
+      max-height: 400px;
+    }
+    
+    .right-container {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+    }
+    
+    .extra-container {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+    }
+    
+    .right-container .edu-item-2 {
+      height: 100%;
+      margin-bottom: 0;
+    }
+    
+    .right-container img {
+      height: 200px;
+      max-height: 200px;
+    }
+    
+    .extra-container .edu-item-3 {
+      margin-bottom: 15px;
+    }
+    
+    .extra-container img {
+      width: 110px;
+      height: 115px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .edu-section {
+      max-width: 540px;
+    }
+    
+    .edu-section-heading {
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .edu-section-title h3 {
+      font-size: 24px;
+      border-bottom: 4px solid rgba(179, 42, 69, 1);
+    }
+    
+    .edu-section-sub-title p {
+      font-size: 18px;
+    }
+    
+    .edu-main-content {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+    
+    .edu-item-1 {
+      margin-bottom: 15px;
+    }
+    
+    .edu-item-1-article h3 {
+      font-size: 22px;
+      margin: 8px 0;
+    }
+    
+    .edu-item-1-article p {
+      font-size: 16px;
+    }
+    
+    .right-container {
+      grid-column: 1 / -1;
+      grid-row: 2 / 3;
+    }
+    
+    .extra-container {
+      grid-column: 1 / -1;
+      grid-row: 3 / 4;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    
+    .right-container .edu-item-2 {
+      height: auto;
+      margin-bottom: 15px;
+    }
+    
+    .right-container img {
+      height: 180px;
+    }
+    
+    .extra-container .edu-item-3 {
+      margin-bottom: 0;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .edu-section {
+      padding: 0 10px;
+    }
+    
+    .edu-section-heading {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    
+    .edu-section-title h3 {
+      font-size: 22px;
+      border-bottom: 3px solid rgba(179, 42, 69, 1);
+    }
+    
+    .edu-section-sub-title {
+      gap: 10px;
+    }
+    
+    .edu-section-sub-title p {
+      font-size: 16px;
+    }
+    
+    .edu-item-1 img {
+      max-height: 220px;
+    }
+    
+    .edu-item-1-article h3 {
+      font-size: 20px;
+      margin: 6px 0;
+    }
+    
+    .edu-item-1-article p {
+      font-size: 14px;
+    }
+    
+    .right-container h3 {
+      font-size: 18px;
+    }
+    
+    .right-container img {
+      height: 160px;
+    }
+    
+    .extra-container {
+      grid-template-columns: 1fr;
+    }
+    
+    .extra-container .edu-item-3 {
+      margin-bottom: 10px;
+    }
+    
+    .extra-container img {
+      width: 100px;
+      height: 100px;
+    }
+    
+    .extra-container h3 {
+      font-size: 16px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .edu-section-title h3 {
+      font-size: 20px;
+    }
+    
+    .edu-section-sub-title p {
+      font-size: 14px;
+    }
+    
+    .edu-item-1 img {
+      max-height: 200px;
+    }
+    
+    .edu-item-1-article h3 {
+      font-size: 18px;
+    }
+    
+    .edu-item-1-article p {
+      font-size: 13px;
+    }
+    
+    .right-container h3 {
+      font-size: 16px;
+    }
+    
+    .right-container img {
+      height: 140px;
+    }
+    
+    .extra-container img {
+      width: 90px;
+      height: 90px;
+    }
+    
+    .extra-container h3 {
+      font-size: 14px;
+    }
+  }
+  
   /* trang danh mục */
 
 @media (max-width: 1366px) {
@@ -2011,11 +2252,16 @@
         object-fit: cover;
         
     }
+
+    #carouselExampleSlidesOnlyThirdNews {
+        height: 100% !important;
+
+    }
 }
 
 
 /* --- Breakpoint 1: Below 1400px --- */
-@media (max-width: 1400px) {
+@media (max-width: 1366px) {
 
     .tin-tuc-noi-bat {
         display: grid;
@@ -2037,7 +2283,6 @@
     .tin-tuc-noi-bat .big-news-image { max-width: 800px; margin: 0 auto; height: auto;}
     .tin-tuc-noi-bat .big-news-title { max-width: 800px; margin: 0 auto; }
     .tin-tuc-noi-bat .big-news .big-news-title h2 { font-size: clamp(1.8rem, 2.2vw, 2.2rem); } 
-    .tin-tuc-noi-bat .big-news-article { font-size: clamp(0.9rem, 1.5vw, 1rem); }
 
     .tin-tuc-noi-bat .second-news,
     .tin-tuc-noi-bat .third-news {
@@ -2048,21 +2293,22 @@
 
     #carouselExampleSlidesOnlySecondNews img.image-content,
     #carouselExampleSlidesOnlyThirdNews img {
-        width: 100%;
-        height: 100%;
+        height: 100% !important;
         object-fit: cover;
     }
-    #carouselExampleSlidesOnlyThirdNews { height: 60% !important; }
 
+    #thirdNewsImg {
+        width: 100px !important;
+    }
 
     .tin-tuc-noi-bat .second-news .second-news-title h2 { font-size: clamp(1.1rem, 1.8vw, 1.4rem); }
     .tin-tuc-noi-bat .third-news-heading { font-size: clamp(1rem, 1.7vw, 1.3rem); } 
-    .tin-tuc-noi-bat .third-news-article { font-size: clamp(0.8rem, 1.4vw, 0.9rem); }
-    .tin-tuc-noi-bat .second-news,
-    .tin-tuc-noi-bat .third-news {
-        height: 240px; 
-    }
+    .tin-tuc-noi-bat .third-news-article { font-size: clamp(0.8rem, 1.4vw, 0.9rem);  -webkit-line-clamp: 11; }
 
+}
+.carousel-inner{
+    height: 100%;
+    width: 100%;
 }
 
 /* --- Breakpoint 2: Below 992px --- */
