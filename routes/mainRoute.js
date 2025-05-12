@@ -474,7 +474,45 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       user: resultUserNhaBao.recordset
     });
   } else if (role == "DocGia") {
-    res.render("docGia.ejs");
+    const query = `SELECT * FROM [dbo].[User] WHERE email = @email`;
+    const values = [res.locals.email];
+    const paramNames = ["email"];
+    let resultUserNguoiDung;
+    let result20;
+    let result21;
+
+    const likeArticleQueryNguoiDung = `SELECT A.*
+                              FROM LikeArticle LA
+                              JOIN Article A ON LA.id_article = A.id_article
+                              WHERE LA.id_user = @id;`;
+
+    const UserCommentQueryNguoiDung = `
+            SELECT 
+                id_comment,
+                a.heading as ten_bai_viet,
+                c.comment_content as noi_dung_binh_luan,
+                FORMAT(c.day_created, 'dd/MM/yyyy HH:mm') as ngay_binh_luan
+            FROM Comment c
+            LEFT JOIN Article a ON c.id_article = a.id_article
+            WHERE c.id_user = @id
+            ORDER BY c.day_created DESC
+        `;
+
+    try {
+      resultUserNguoiDung = await executeQuery(query, values, paramNames, false);
+
+      result20 = await executeQuery(likeArticleQueryNguoiDung, [resultUserNguoiDung.recordset[0].id_user], ["id"], false);
+      result21 = await executeQuery(UserCommentQueryNguoiDung, [resultUserNguoiDung.recordset[0].id_user], ["id"], false);
+    } catch (error) {
+      console.error(error);
+    }
+
+    res.render("docGia.ejs", {
+      user: resultUserNguoiDung.recordset,
+      likeArticles: result20.recordset,
+      userComments: result21.recordset,
+
+    });
   }
 });
 
