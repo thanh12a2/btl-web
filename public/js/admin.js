@@ -764,4 +764,216 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Hàm hiển thị modal chỉnh sửa bài báo
+function editArticle(articleId) {
+    // Hiển thị loader
+    document.getElementById('loader').style.display = 'flex';
+    console.log('Đang lấy thông tin bài báo với ID:', articleId);
+
+    // Gọi API lấy thông tin bài báo
+    fetch(`/article/getArticle/${articleId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Kết quả trả về từ API:', data);
+            
+            if (data.success) {
+                const article = data.article;
+                
+                // Điền thông tin vào form
+                document.getElementById('editArticleId').value = article.id_article;
+                document.getElementById('editPostTitle').value = article.heading;
+                document.getElementById('editPostNameAlias').value = article.name_alias;
+                document.getElementById('editPostContent').value = article.content;
+                document.getElementById('editUploadedImageUrl').value = article.hero_image;
+                
+                // Hiển thị ảnh hiện tại
+                const currentImage = document.getElementById('currentImage');
+                currentImage.src = article.hero_image;
+                currentImage.style.display = 'block';
+
+                // Xác định danh mục chính và phụ
+                const idCategory = article.id_category;
+                console.log('Danh mục của bài báo:', idCategory);
+                
+                let subCategory = null;
+                let mainCategory = null;
+                
+                // Tìm danh mục chính và phụ
+                for (const cat of structuredCategories) {
+                    if (cat.id_category == idCategory) {
+                        mainCategory = cat;
+                        break;
+                    }
+                    if (cat.children && cat.children.length > 0) {
+                        for (const child of cat.children) {
+                            if (child.id_category == idCategory) {
+                                mainCategory = cat;
+                                subCategory = child;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // Set dropdown danh mục chính
+                const mainCategorySelect = document.getElementById('editMainCategory');
+                if (mainCategory) {
+                    console.log('Set danh mục chính:', mainCategory.id_category);
+                    mainCategorySelect.value = mainCategory.id_category;
+                    
+                    // Kích hoạt sự kiện change để load danh mục phụ
+                    const event = new Event('change');
+                    mainCategorySelect.dispatchEvent(event);
+                    
+                    // Set dropdown danh mục phụ (nếu có)
+                    if (subCategory) {
+                        setTimeout(() => {
+                            const subCategorySelect = document.getElementById('editSubCategory');
+                            if (subCategorySelect) {
+                                console.log('Set danh mục phụ:', subCategory.id_category);
+                                subCategorySelect.value = subCategory.id_category;
+                            }
+                        }, 100);
+                    }
+                }
+
+                // Hiển thị modal
+                document.getElementById('editPostModal').style.display = 'block';
+            } else {
+                console.error('Lỗi khi lấy thông tin bài báo:', data.message);
+                alert('Không thể lấy thông tin bài báo: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Đã xảy ra lỗi khi lấy thông tin bài báo: ' + error.message);
+        })
+        .finally(() => {
+            // Ẩn loader
+            document.getElementById('loader').style.display = 'none';
+        });
+}
+
+// Xử lý sự kiện khi chọn danh mục chính
+document.getElementById('editMainCategory').addEventListener('change', function() {
+    const selectedMainCategoryId = this.value;
+    const subCategorySelect = document.getElementById('editSubCategory');
+    
+    console.log('Danh mục chính được chọn:', selectedMainCategoryId);
+    
+    // Tìm danh mục chính được chọn
+    const selectedMainCategory = structuredCategories.find(category => category.id_category == selectedMainCategoryId);
+    
+    // Xóa các tùy chọn hiện tại trong danh mục phụ
+    subCategorySelect.innerHTML = '<option value="" disabled selected>Chọn danh mục phụ</option>';
+    
+    // Nếu có danh mục phụ, thêm chúng vào danh mục phụ
+    if (selectedMainCategory && selectedMainCategory.children && selectedMainCategory.children.length > 0) {
+        console.log('Danh mục phụ có sẵn:', selectedMainCategory.children.length);
+        selectedMainCategory.children.forEach(subCategory => {
+            const option = document.createElement('option');
+            option.value = subCategory.id_category;
+            option.textContent = subCategory.category_name;
+            subCategorySelect.appendChild(option);
+        });
+    } else {
+        console.log('Không có danh mục phụ');
+    }
+});
+
+// Xử lý upload ảnh
+document.getElementById('uploadEditImageBtn').addEventListener('click', function(event) {
+    event.preventDefault();
+    
+    const file = document.getElementById('editPostHeroImage').files[0];
+    if (!file) {
+        alert('Vui lòng chọn một ảnh để tải lên!');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('image', file);
+    
+    // Hiển thị loader
+    document.getElementById('loader').style.display = 'flex';
+    
+    // Gửi yêu cầu tải ảnh lên
+    fetch('/upload', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('editUploadedImageUrl').value = data.url;
+            document.getElementById('currentImage').src = data.url;
+            document.getElementById('currentImage').style.display = 'block';
+            alert('Tải ảnh lên thành công!');
+        } else {
+            alert('Đã xảy ra lỗi khi tải ảnh lên: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Đã xảy ra lỗi khi tải ảnh lên: ' + error.message);
+    })
+    .finally(() => {
+        // Ẩn loader
+        document.getElementById('loader').style.display = 'none';
+    });
+});
+
+// Xử lý submit form cập nhật bài báo
+document.getElementById('updateArticleForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Lấy dữ liệu từ form
+    const data = {
+        id_article: document.getElementById('editArticleId').value,
+        heading: document.getElementById('editPostTitle').value,
+        name_alias: document.getElementById('editPostNameAlias').value,
+        content: document.getElementById('editPostContent').value,
+        hero_image: document.getElementById('editUploadedImageUrl').value,
+        id_category: document.getElementById('editSubCategory').value || document.getElementById('editMainCategory').value
+    };
+
+    // Log dữ liệu để debug
+    console.log('Dữ liệu gửi đi:', data);
+
+    // Gửi dữ liệu dạng JSON
+    fetch('/article/updateArticle', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Cập nhật bài báo thành công!');
+            document.getElementById('editPostModal').style.display = 'none';
+            window.location.reload();
+        } else {
+            alert(data.message || 'Đã xảy ra lỗi khi cập nhật bài báo!');
+        }
+    })
+    .catch(error => {
+        alert('Đã xảy ra lỗi khi cập nhật bài báo: ' + error.message);
+    })
+    .finally(() => {
+        document.getElementById('loader').style.display = 'none';
+    });
+});
+
+// Đóng modal khi click nút đóng
+document.querySelector('#editPostModal .action-modal-close').addEventListener('click', function() {
+    document.getElementById('editPostModal').style.display = 'none';
+});
+
 

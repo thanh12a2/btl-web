@@ -518,71 +518,56 @@
             </div>
 
 
-            <div id="editPostModal" class="action-modal-overlay">
-                <div class="action-modal-content" id ="editPostModalContent" style="gap: 20px!important;">
-                    <button class="action-modal-close">&times;</button>
-                    <div class="action-modal-header">
-                        <h2>Chỉnh sửa bài báo</h2>
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Tên Bài báo</label>
-                        <input type="text" id="editPostTitle" placeholder="Nhập tên bài báo">
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Tên nhà báo</label>
-                        <input type="text" id="editPostAuthorId" placeholder="Nhập tên nhà báo">
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Danh mục chính</label>
-                        <select id="editMainCategory">
-                            <option value="" disabled selected>Chọn danh mục chính</option>
-                            <option value="society">Xã hội</option>
-                            <option value="science">Khoa học & Công nghệ</option>
-                            <option value="health">Sức khỏe</option>
-                            <option value="sports">Thể Thao</option>
-                            <option value="entertainment">Giải trí</option>
-                            <option value="education">Giáo dục</option>
-                        </select>
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Danh mục phụ</label>
-                        <select id="editSubCategory">
-                            <option value="" disabled selected>Chọn danh mục phụ</option>
-                        </select>
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Ảnh</label>
-                        <input type="text" id="editPostHeroImage" placeholder="Image">
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Link bài báo</label>
-                        <input type="text" id="editPostNameAlias" placeholder="Link bài báo">
-                    </div>
-
-                    <div class="action-form-group">
-                        <label>Nổi bật</label>
-                        <select id="editIsFeatured">
-                            <option value="false">Không</option>
-                            <option value="true">Có</option>
-                        </select>
-                    </div>
-
-                    <div class="action-form-group" style="grid-column: 1 / -1;">
-                        <label>Nội dung bài báo</label>
-                        <textarea id="editPostContent" placeholder="Nhập nội dung bài báo"></textarea>
-                    </div>
-                    
-
-                    <div class="action-modal-footer">
-                        <button id="btnUpdatePost" class="btn-edit">Cập nhật bài báo</button>
-                    </div>
-                    
+            <div id="editPostModal" class="modal-overlay">
+                <div class="modal-content" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; min-width: 400px; margin: 0 auto; border-radius: 8px; box-shadow: 0 2px 16px rgba(0,0,0,0.15);">
+                    <button class="modal-close-btn action-modal-close" style="position: absolute; top: 10px; right: 10px; font-size: 24px; background: none; border: none; cursor: pointer;">&times;</button>
+                    <h2 class="modal-title" style="color: #B32A45; margin-bottom: 20px; text-align: center;">Chỉnh sửa bài báo</h2>
+                    <form id="updateArticleForm" class="modal-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <input type="hidden" id="editArticleId" name="id_article" value="">
+                        <div>
+                            <label style="font-weight: 600;">Tên Bài báo</label>
+                            <input type="text" id="editPostTitle" name="heading" placeholder="Nhập tên bài báo" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                        </div>
+                        <div>
+                            <label style="font-weight: 600;">Tên alias</label>
+                            <input type="text" id="editPostNameAlias" name="name_alias" placeholder="Nhập tên alias" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                        </div>
+                        <div>
+                            <label style="font-weight: 600;">Danh mục chính</label>
+                            <select id="editMainCategory" name="id_category" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                                <option value="" disabled selected>Chọn danh mục chính</option>
+                                <% for (let b = 0; b < structuredCategories.length; b++) { %>
+                                    <option value="<%= structuredCategories[b].id_category %>">
+                                        <%= structuredCategories[b].category_name %>
+                                    </option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-weight: 600;">Danh mục phụ</label>
+                            <select id="editSubCategory" name="id_subcategory" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                                <option value="" disabled selected>Chọn danh mục phụ</option>
+                            </select>
+                        </div>
+                        <div style="grid-column: 1 / -1;">
+                            <label style="font-weight: 600;">Ảnh bài báo</label>
+                            <div style="display: flex; align-items: center; gap: 15px; margin-top: 5px;">
+                                <input type="file" id="editPostHeroImage" accept="image/*" style="flex: 1;">
+                                <button id="uploadEditImageBtn" class="btn-upload" style="background-color: #B32A45; color: white; border: none; padding: 8px 18px; border-radius: 5px; cursor: pointer; font-size: 15px;">Tải ảnh lên</button>
+                            </div>
+                            <input type="hidden" id="editUploadedImageUrl" name="hero_image">
+                            <div id="currentImagePreview" style="margin-top: 10px; text-align: center;">
+                                <img id="currentImage" src="" alt="Ảnh hiện tại" style="max-width: 180px; max-height: 120px; border-radius: 6px; display: none; border: 1px solid #eee; box-shadow: 0 1px 4px rgba(0,0,0,0.08);">
+                            </div>
+                        </div>
+                        <div style="grid-column: 1 / -1;">
+                            <label style="font-weight: 600;">Nội dung bài báo</label>
+                            <textarea id="editPostContent" name="content" placeholder="Nhập nội dung bài báo" style="width: 100%; min-height: 120px; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;"></textarea>
+                        </div>
+                        <div class="form-submit-wrapper" style="grid-column: 1 / -1; text-align: center; margin-top: 10px;">
+                            <button type="submit" id="btnUpdatePost" class="modal-submit-btn" style="background-color: #B32A45; color: white; border: none; padding: 10px 32px; border-radius: 5px; font-size: 16px; cursor: pointer;">Cập nhật bài báo</button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
