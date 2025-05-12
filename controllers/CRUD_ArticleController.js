@@ -38,7 +38,7 @@ const insertArticle = async (req, res) => {
     INSERT INTO [dbo].[Article] 
     (id_article, id_user, id_category, heading, hero_image, content, name_alias, views, like_count, status, is_featured, day_created)
     VALUES 
-    (@id_article, @id_user, @id_category, @heading, @hero_image, @content, @name_alias, 0, 0, N'Chưa duyệt', 0, GETDATE())
+    (@id_article, @id_user, @id_category, @heading, @hero_image, @content, @name_alias, 0, 0, N'Chưa duyệt', 0, SYSDATETIMEOFFSET())
   `;
 
   try {
