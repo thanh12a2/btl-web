@@ -237,7 +237,7 @@
         </div>
 
         <ul class="nav_list">
-            <% if (_locals.role == "NhaBao") { %>
+            <% if (_locals.role=="NhaBao" ) { %>
                 <li>
                     <a href="#">
                         <i class="bi bi-person-badge"></i>
@@ -252,40 +252,40 @@
                     </a>
                     <span class="tooltip">Danh sách bài viết</span>
                 </li>
-            <% } %>
-            <% if (_locals.role == "NhaBao" || _locals.role == "Admin") { %>
-                <li>
-                    <a href="#">
-                        <i class='bx bxs-plus-circle'></i>
-                        <span class="links_name">Thêm bài báo</span>
-                    </a>
-                    <span class="tooltip">Thêm bài báo</span>
-                </li>
-            <% } %>
-            
-            <li style="margin-top: 50px; margin-right: 10px; padding-right: 10px;">
-                                        <form action="/home" method="GET" style="height: 50px;">
-                                            <button style="    
+                <% } %>
+                    <% if (_locals.role=="NhaBao" || _locals.role=="Admin" ) { %>
+                        <li>
+                            <a href="#">
+                                <i class='bx bxs-plus-circle'></i>
+                                <span class="links_name">Thêm bài báo</span>
+                            </a>
+                            <span class="tooltip">Thêm bài báo</span>
+                        </li>
+                        <% } %>
+
+                            <li style="margin-top: 50px; margin-right: 10px; padding-right: 10px;">
+                                <form action="/home" method="GET" style="height: 50px;">
+                                    <button style="    
                                             background-color: transparent;
                                             border: none;
                                             color: white;
                                             font-size: 20px;
                                             height: 100%;
                                             " type="submit">
-                                                <i class='bx bx-log-out' style="padding-right: 15px !important;"></i>
-                                                <span class="links_name" style="font-size: medium;">Quay lại</span>
-                                            </button>
-                                        </form>
-                                        <span class="tooltip">Quay lại</span>
-                                    </li>
+                                        <i class='bx bx-log-out' style="padding-right: 15px !important;"></i>
+                                        <span class="links_name" style="font-size: medium;">Quay lại</span>
+                                    </button>
+                                </form>
+                                <span class="tooltip">Quay lại</span>
+                            </li>
         </ul>
     </div>
 
     <div class="home_content">
         <div id="info-nhabao-Management" class="info_management" style="display: none;">
-                <h2 class="info_management-title">Thông tin nhà báo</h2>
-                <div class="info_management-flex">
-                    <div class="info_management-content">
+            <h2 class="info_management-title">Thông tin nhà báo</h2>
+            <div class="info_management-flex">
+                <div class="info_management-content">
                     <form action="/auth/changePwdQuanTri" method="POST">
                         <div class="info_management-row">
                             <label class="info_management-label">Họ và Tên:</label>
@@ -320,60 +320,244 @@
                             </div>
                         </div>
                     </form>
-                    </div>
-                    <div class="info_management-side">
-                        <div class="statistic-overview">
-                            <div class="statistic-box">
-                                <div class="statistic-number" id="statisticTotalArticles">0</div>
-                                <div class="statistic-label">Tổng số bài viết</div>
+                </div>
+                <div class="info_management-side">
+                    <div class="statistic-overview">
+                        <div class="statistic-box">
+                            <div class="statistic-number" id="statisticTotalArticles">
+                                <%= statistics.totalArticles %>
                             </div>
-                            <div class="statistic-box">
-                                <div class="statistic-number" id="statisticTotalViews">0</div>
-                                <div class="statistic-label">Tổng lượt xem</div>
+                            <div class="statistic-label">Tổng số bài viết</div>
+                        </div>
+                        <div class="statistic-box">
+                            <div class="statistic-number" id="statisticTotalViews">
+                                <%= statistics.totalViews %>
                             </div>
-                            <div class="statistic-box">
-                                <div class="statistic-number" id="statisticTotalLikes">0</div>
-                                <div class="statistic-label">Tổng lượt thích</div>
+                            <div class="statistic-label">Tổng lượt xem</div>
+                        </div>
+                        <div class="statistic-box">
+                            <div class="statistic-number" id="statisticTotalLikes">
+                                <%= statistics.totalLikes %>
                             </div>
-                            <div class="statistic-box">
-                                <div class="statistic-number" id="statisticTotalComments">0</div>
-                                <div class="statistic-label">Tổng bình luận</div>
+                            <div class="statistic-label">Tổng lượt thích</div>
+                        </div>
+                        <div class="statistic-box">
+                            <div class="statistic-number" id="statisticTotalComments">
+                                <%= statistics.totalComments %>
                             </div>
+                            <div class="statistic-label">Tổng bình luận</div>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
 
         <div id="statistic-nhabao-Management" class="info_management" style="display: none;">
-                <h2 class="info_management-title">Thống kê của nhà báo</h2>
-                <div class="info_management-flex">
-                    <div class="info_management-side" style="width:100%">
-                        <div class="info_management-tabs">
-                            <button class="info_management-tab active" data-tab="statistic-my-articles">Danh sách bài viết của tôi</button>
-                            <button class="info_management-tab" data-tab="statistic-approve-notify">Thông báo bài viết được duyệt</button>
+            <h2 class="info_management-title">Danh sách bài viết của nhà báo</h2>
+            <div class="info_management-flex">
+                <div class="info_management-side" style="width:100%">
+                    <div class="info_management-tab-content" id="statistic-my-articles" style="display:block;">
+                        <table class="info_management-table">
+                            <thead>
+                                <tr>
+                                    <th>ID bài báo</th>
+                                    <th>Tác giả</th>
+                                    <th>ID danh mục</th>
+                                    <th>Bài viết</th>
+                                    <th>Số lượt xem</th>
+                                    <th>Số lượt thích</th>
+                                    <th>Nổi bật</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyArticle">
+                                <% if (articles && articles.length) { %>
+                                    <% for (let i=0; i < articles.length; i++) { %>
+                                        <tr data-article-id="<%= articles[i].id_article %>">
+                                            <td>
+                                                <%= articles[i].id_article %>
+                                            </td>
+                                            <td>
+                                                <%= articles[i].id_user %>
+                                            </td>
+                                            <td>
+                                                <%= articles[i].id_category %>
+                                            </td>
+                                            <td style="width: 100px;">
+                                                <div class="search-items"
+                                                    style="background: transparent; margin-bottom: 0px; width: 700px; height: auto; text-align: left !important;">
+                                                    <div class="image" style="width: 150px;">
+                                                        <a href="/article/checkArticle/<%= articles[i].name_alias %>">
+                                                            <img src="<%= articles[i].hero_image %>" alt=""
+                                                                style="width: 150px;">
+                                                        </a>
+                                                    </div>
+                                                    <div class="content">
+                                                        <a href="/article/checkArticle/<%=articles[i].name_alias %>"
+                                                            style="text-decoration: none;  ">
+                                                            <div class="title-section" style="font-size: 18px;">
+                                                                <%= articles[i].heading %>
+                                                            </div>
+                                                        </a>
+                                                        <div class="date" style="font-size: 16px;">
+                                                            <%= articles[i].day_created %>
+                                                        </div>
+                                                        <div class="description">
+                                                            <p>
+                                                                <a
+                                                                    href="/article/checkArticle/<%= articles[i].name_alias %> ">
+                                                                    <div style="font-size: 16px;">
+                                                                        <%= articles[i].content %>
+                                                                    </div>
+                                                                </a>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <%= articles[i].views %>
+                                            </td>
+                                            <td>
+                                                <%= articles[i].like_count %>
+                                            </td>
+                                            <td>
+                                                <label class="featured-checkbox">
+                                                    <input type="checkbox" class="featured-toggle" disabled
+                                                        data-article-id="<%= articles[i].id_article %>"
+                                                        <%=articles[i].is_featured ? 'checked' : '' %>>
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="status-checkbox">
+                                                    <input type="checkbox" class="status-toggle" disabled
+                                                        data-article-id="<%= articles[i].id_article %>"
+                                                        <%=articles[i].status==='Đã duyệt' ? 'checked' : '' %>>
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm" style="margin-bottom: 5px;"
+                                                    onclick="editArticle('<%= articles[i].id_article %>')">Sửa</button>
+                                                <button class="btn btn-danger btn-sm"
+                                                    onclick="showDeleteModal('<%= articles[i].id_article %>')">Xóa</button>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="13" class="text-center">Không có bài viết nào</td>
+                                                </tr>
+                                                <% } %>
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <% if (pagination.articles.totalPages> 1) { %>
+                                <% for (let i=1; i <=pagination.articles.totalPages; i++) { %>
+                                    <a href="?articlePage=<%= i %>&userPage=<%= pagination.users.currentPage %>&categoryPage=<%= pagination.categories.currentPage %>&section=articles#articles"
+                                        class="<%= i === pagination.articles.currentPage ? 'active' : '' %>">
+                                        <%= i %>
+                                    </a>
+                                    <% } %>
+                                        <% } %>
                         </div>
-                        <div class="info_management-tab-content" id="statistic-my-articles" style="display:block;">
-                            <table class="info_management-table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Tiêu đề</th>
-                                        <th>Lượt xem</th>
-                                        <th>Lượt thích</th>
-                                        <th>Ngày đăng</th>
-                                        <th>Trạng thái</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="statisticMyArticlesBody"></tbody>
-                            </table>
+
+                        <div id="editPostModal" class="modal-overlay">
+                            <div class="modal-content"
+                                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; min-width: 400px; margin: 0 auto; border-radius: 8px; box-shadow: 0 2px 16px rgba(0,0,0,0.15);">
+                                <button class="modal-close-btn action-modal-close"
+                                    style="position: absolute; top: 10px; right: 10px; font-size: 24px; background: none; border: none; cursor: pointer;">&times;</button>
+                                <h2 class="modal-title"
+                                    style="color: #B32A45; margin-bottom: 20px; text-align: center;">Chỉnh sửa bài báo
+                                </h2>
+                                <form id="updateArticleForm" class="modal-form"
+                                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                    <input type="hidden" id="editArticleId" name="id_article" value="">
+                                    <div>
+                                        <label style="font-weight: 600;">Tên Bài báo</label>
+                                        <input type="text" id="editPostTitle" name="heading"
+                                            placeholder="Nhập tên bài báo"
+                                            style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                                    </div>
+                                    <div>
+                                        <label style="font-weight: 600;">Tên alias</label>
+                                        <input type="text" id="editPostNameAlias" name="name_alias"
+                                            placeholder="Nhập tên alias"
+                                            style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                                    </div>
+                                    <div>
+                                        <label style="font-weight: 600;">Danh mục chính</label>
+                                        <select id="editMainCategory" name="id_category"
+                                            style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                                            <option value="" disabled selected>Chọn danh mục chính</option>
+                                            <% for (let b=0; b < structuredCategories.length; b++) { %>
+                                                <option value="<%= structuredCategories[b].id_category %>">
+                                                    <%= structuredCategories[b].category_name %>
+                                                </option>
+                                                <% } %>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label style="font-weight: 600;">Danh mục phụ</label>
+                                        <select id="editSubCategory" name="id_subcategory"
+                                            style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                                            <option value="" disabled selected>Chọn danh mục phụ</option>
+                                        </select>
+                                    </div>
+                                    <div style="grid-column: 1 / -1;">
+                                        <label style="font-weight: 600;">Ảnh bài báo</label>
+                                        <div style="display: flex; align-items: center; gap: 15px; margin-top: 5px;">
+                                            <input type="file" id="editPostHeroImage" accept="image/*" style="flex: 1;">
+                                            <button id="uploadEditImageBtn" class="btn-upload"
+                                                style="background-color: #B32A45; color: white; border: none; padding: 8px 18px; border-radius: 5px; cursor: pointer; font-size: 15px;">Tải
+                                                ảnh lên</button>
+                                        </div>
+                                        <input type="hidden" id="editUploadedImageUrl" name="hero_image">
+                                        <div id="currentImagePreview" style="margin-top: 10px; text-align: center;">
+                                            <img id="currentImage" src="" alt="Ảnh hiện tại"
+                                                style="max-width: 180px; max-height: 120px; border-radius: 6px; display: none; border: 1px solid #eee; box-shadow: 0 1px 4px rgba(0,0,0,0.08);">
+                                        </div>
+                                    </div>
+                                    <div style="grid-column: 1 / -1;">
+                                        <label style="font-weight: 600;">Nội dung bài báo</label>
+                                        <textarea id="editPostContent" name="content"
+                                            placeholder="Nhập nội dung bài báo"
+                                            style="width: 100%; min-height: 120px; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;"></textarea>
+                                    </div>
+                                    <div class="form-submit-wrapper"
+                                        style="grid-column: 1 / -1; text-align: center; margin-top: 10px;">
+                                        <button type="submit" id="btnUpdatePost" class="modal-submit-btn"
+                                            style="background-color: #B32A45; color: white; border: none; padding: 10px 32px; border-radius: 5px; font-size: 16px; cursor: pointer;">Cập
+                                            nhật bài báo</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div class="info_management-tab-content" id="statistic-approve-notify" style="display:none;">
-                            <ul id="statisticApproveNotifyList" style="padding-left: 18px;">
-                                <!-- Thông báo sẽ được render ở đây -->
-                            </ul>
+
+                        <div id="deletePostModal" class="delete-modal">
+                            <div
+                                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 5px; text-align: center; min-width: 300px;">
+                                <p>Bạn có chắc chắn muốn xóa bài báo này không?</p>
+                                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
+                                    <form id="formDeleteArticle" action="" method="POST">
+                                        <button type="submit" class="btn-confirm">Có</button>
+                                    </form>
+                                    <button onclick="hideDeleteModal()" class="btn-cancel">Không</button>
+                                </div>
+                            </div>
                         </div>
+
+
+                    </div>
+                    <div class="info_management-tab-content" id="statistic-approve-notify" style="display:none;">
+                        <ul id="statisticApproveNotifyList" style="padding-left: 18px;">
+                            <!-- Thông báo sẽ được render ở đây -->
+                        </ul>
                     </div>
                 </div>
+            </div>
         </div>
 
         <div id="addPostManagement" class="add_post_management" style="display: none;">
@@ -450,8 +634,11 @@
             </div>
         </div>
     </div>
-    <div id="loader" style="display: none !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; display: flex; justify-content: center; align-items: center;">
-        <div style="width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    <div id="loader"
+        style="display: none !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; display: flex; justify-content: center; align-items: center;">
+        <div
+            style="width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;">
+        </div>
     </div>
 
     <script>
@@ -734,6 +921,7 @@
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }

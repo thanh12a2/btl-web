@@ -128,7 +128,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
 
     try {
       result2 = await executeQuery(query1, [], [], isStoredProcedure);
-      result2.recordset.forEach(article => {        
+      result2.recordset.forEach(article => {
         const formattedDate = dayjs(article.day_created).format('dddd, D/M/YYYY, HH:mm');
         article.day_created = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
       });
@@ -164,7 +164,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       result4 = await executeQuery(query4, [], [], isStoredProcedure);
       result5 = await executeQuery(query5, [], [], isStoredProcedure);
 
-      result4.recordset.forEach(article => {        
+      result4.recordset.forEach(article => {
         const formattedDate = dayjs(article.day_created).format('dddd, D/M/YYYY, HH:mm');
         article.day_created = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
       });
@@ -314,7 +314,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       // Lấy từ khóa tìm kiếm từ query string
       const searchQuery = req.query.searchInp || "";
       const searchQueryCategory = req.query.searchInpCate || "";
-      
+
       if (searchQuery) {
         const searchQuerySQL = `
           SELECT id_user, username, email, password, role
@@ -356,7 +356,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       const articlePage = parseInt(req.query.articlePage) || 1;
       const categoryPage = parseInt(req.query.categoryPage) || 1;
       const userPage = parseInt(req.query.userPage) || 1;
-      
+
       const commentPage = parseInt(req.query.commentPage) || 1;
       const limit = parseInt(req.query.limit) || 10;
       const activeSection = req.query.section || "dashboard";
@@ -465,7 +465,14 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
     const paramNames = ["email"];
     let resultUserNhaBao;
 
+    let result22;
+    const isStoredProcedure = false;
+
+    const query22 = `SELECT * FROM [dbo].[Article] WHERE id_user = @id_user`;
+
     try {
+
+      resultUserNhaBao = await executeQuery(query, values, paramNames, false);
 
       const queryCate = `
             SELECT id_category, category_name, id_parent 
@@ -475,35 +482,76 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
                 id_category ASC`;
 
       let result3;
-      
+
+      result22 = await executeQuery(query22, [resultUserNhaBao.recordset[0].id_user], ["id_user"], isStoredProcedure);
+
+      const articlePage = parseInt(req.query.articlePage) || 1;
+
+      const limit = parseInt(req.query.limit) || 10;
+
+      const currentPage = parseInt(req.query.page) || 1;
+
+      const resultCate = await executeQuery(queryCate, [], [], false);
+
       const query3 = `SELECT * FROM [dbo].[Category]`;
       result3 = await executeQuery(query3, [], [], false);
       const categoryPage = parseInt(req.query.categoryPage) || 1;
 
-      function paginate(data, page, limit) {
-        if (!data || !Array.isArray(data)) {
-          return {
-            data: [],
-            totalPages: 0,
-            totalItems: 0,
-            currentPage: page,
-          };
-        }
-        const start = (page - 1) * limit;
-        const end = start + limit;
-        return {
-          data: data.slice(start, end),
-          totalPages: Math.ceil(data.length / limit),
-          totalItems: data.length,
-          currentPage: page,
-        };
-      }
 
-      const resultCate = await executeQuery(queryCate, [], [], false);
+      // Truy vấn thống kê tổng số bài viết (đã có từ result22)
+      const totalArticles = result22.recordset.length;
 
-      const limit = parseInt(req.query.limit) || 10;
+      // Truy vấn thống kê tổng lượt xem
+      const queryTotalViews = `
+        SELECT SUM(views) as totalViews 
+        FROM [dbo].[Article] 
+        WHERE id_user = @id_user`;
+      const totalViewsResult = await executeQuery(
+        queryTotalViews,
+        [resultUserNhaBao.recordset[0].id_user],
+        ["id_user"],
+        false
+      );
+      const totalViews = totalViewsResult.recordset[0].totalViews || 0;
+
+      // Truy vấn thống kê tổng lượt thích
+      const queryTotalLikes = `
+        SELECT COUNT(*) as totalLikes 
+        FROM [dbo].[LikeArticle] 
+        WHERE id_article IN (
+            SELECT id_article 
+            FROM [dbo].[Article] 
+            WHERE id_user = @id_user
+        )`;
+      const totalLikesResult = await executeQuery(
+        queryTotalLikes,
+        [resultUserNhaBao.recordset[0].id_user],
+        ["id_user"],
+        false
+      );
+      const totalLikes = totalLikesResult.recordset[0].totalLikes || 0;
+
+      // Truy vấn thống kê tổng bình luận
+      const queryTotalComments = `
+        SELECT COUNT(*) as totalComments 
+        FROM [dbo].[Comment] 
+        WHERE id_article IN (
+            SELECT id_article 
+            FROM [dbo].[Article] 
+            WHERE id_user = @id_user
+        )`;
+      const totalCommentsResult = await executeQuery(
+        queryTotalComments,
+        [resultUserNhaBao.recordset[0].id_user],
+        ["id_user"],
+        false
+      );
+      const totalComments = totalCommentsResult.recordset[0].totalComments || 0;
+
+
+
       const activeSection = req.query.section || "dashboard";
-      const currentPage = parseInt(req.query.page) || 1;
+
 
       const categoriesData = paginate(result3.recordset || [], categoryPage, limit);
 
@@ -529,16 +577,57 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
         }
       });
 
-      resultUserNhaBao = await executeQuery(query, values, paramNames, false);
+      function paginate(data, page, limit) {
+        if (!data || !Array.isArray(data)) {
+          return {
+            data: [],
+            totalPages: 0,
+            totalItems: 0,
+            currentPage: page,
+          };
+        }
+        const start = (page - 1) * limit;
+        const end = start + limit;
+        return {
+          data: data.slice(start, end),
+          totalPages: Math.ceil(data.length / limit),
+          totalItems: data.length,
+          currentPage: page,
+        };
+      }
+
+      const articlesData = paginate(result22.recordset || [], articlePage, limit);
+
       res.render("nhaBao.ejs", {
-      user: resultUserNhaBao.recordset,
-      structuredCategories: structuredCategories,
-    });
+        user: resultUserNhaBao.recordset,
+        structuredCategories: structuredCategories,
+        articles: articlesData.data,
+        currentPage: currentPage,
+        statistics: {
+          totalArticles: totalArticles,
+          totalViews: totalViews,
+          totalLikes: totalLikes,
+          totalComments: totalComments
+        },
+        pagination: {
+          articles: {
+            totalPages: articlesData.totalPages,
+            totalItems: articlesData.totalItems,
+            currentPage: articlePage
+          },
+          users: {
+            currentPage: 1
+          },
+          categories: {
+            currentPage: 1
+          }
+        }
+      });
     } catch (error) {
       console.error(error);
     }
 
-    
+
   } else if (role == "DocGia") {
     const query = `SELECT * FROM [dbo].[User] WHERE email = @email`;
     const values = [res.locals.email];
