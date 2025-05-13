@@ -108,7 +108,6 @@ router.get("/api/weather", async (req, res) => {
 
 router.get("/backdetails", authController.authenticateToken, getArticles, getCategories, getUsers, async (req, res) => {
   const role = res.locals.role;
-
   if (role == "Admin") {
     const query3 = `SELECT * FROM [dbo].[Category]`;
     const query4 = `SELECT * FROM [dbo].[Comment]`;
