@@ -669,13 +669,13 @@
             <h2>Quản lý bài viết</h2>
             <div class="search-container">
                 <div class="search-container-box">
-                    <div class="search-box" id="search-box1">
-                        <input type="text" placeholder="Tìm kiếm...">
-                        <label class="search-icon" id="search-icon1">
-                            <i class="bi bi-search"></i>
-                        </label>
+                        <div class="search-box">
+                            <form id='userSearchBar' action="/backdetails" method="GET">
+                                <input type="text" name="searchPostInp" placeholder="Tìm kiếm...">
+                                <button type="submit"> <i class="bi bi-search"></i></button>
+                            </form>
+                        </div>
                     </div>
-                </div>
             </div>
             <table>
                 <thead>
@@ -1437,47 +1437,6 @@
                     });
             });
         }
-
-        // Helper function to get subcategories based on main category
-        function getSubCategories(mainCategory) {
-            // You might want to fetch these dynamically from your database in a production environment
-            // For now, we're using a static mapping
-            const categoriesMap = {
-                'society': [
-                    { value: 'Chính trị', text: 'Chính trị' },
-                    { value: 'Pháp luật', text: 'Pháp luật' },
-                    { value: 'Tin tức xã hội', text: 'Tin tức xã hội' }
-                ],
-                'science': [
-                    { value: 'Công nghệ', text: 'Công nghệ' },
-                    { value: 'Tin khoa học', text: 'Tin khoa học' },
-                    { value: 'Số hóa', text: 'Số hóa' }
-                ],
-                'health': [
-                    { value: 'Y tế', text: 'Y tế' },
-                    { value: 'Dinh dưỡng', text: 'Dinh dưỡng' },
-                    { value: 'Sức khỏe tâm thần', text: 'Sức khỏe tâm thần' }
-                ],
-                'sports': [
-                    { value: 'Bóng đá', text: 'Bóng đá' },
-                    { value: 'Quần vợt', text: 'Quần vợt' },
-                    { value: 'Thể thao khác', text: 'Thể thao khác' }
-                ],
-                'entertainment': [
-                    { value: 'Phim ảnh', text: 'Phim ảnh' },
-                    { value: 'Âm nhạc', text: 'Âm nhạc' },
-                    { value: 'Người nổi tiếng', text: 'Người nổi tiếng' }
-                ],
-                'education': [
-                    { value: 'Đại học', text: 'Đại học' },
-                    { value: 'Phổ thông', text: 'Phổ thông' },
-                    { value: 'Học tập', text: 'Học tập' }
-                ]
-            };
-
-            return categoriesMap[mainCategory] || [];
-        }
-
 
         // 3. Add the function to show/hide the add article form
         function setupPostManagementUI() {

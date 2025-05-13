@@ -126,16 +126,6 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
     let result4;
     let result5;
 
-    try {
-      result2 = await executeQuery(query1, [], [], isStoredProcedure);
-      result2.recordset.forEach(article => {
-        const formattedDate = dayjs(article.day_created).format('dddd, D/M/YYYY, HH:mm');
-        article.day_created = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
-      });
-    } catch (error) {
-      console.error(error);
-    }
-
     const query = `SELECT * FROM [dbo].[User] WHERE email = @email`;
     const values = [res.locals.email];
     const paramNames = ["email"];
@@ -158,6 +148,13 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
         `;
 
     try {
+
+      result2 = await executeQuery(query1, [], [], isStoredProcedure);
+      result2.recordset.forEach(article => {
+        const formattedDate = dayjs(article.day_created).format('dddd, D/M/YYYY, HH:mm');
+        article.day_created = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+      });
+
       const result = await executeQuery(query, values, paramNames, false);
 
       result3 = await executeQuery(query3, [], [], isStoredProcedure);
@@ -314,6 +311,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       // Lấy từ khóa tìm kiếm từ query string
       const searchQuery = req.query.searchInp || "";
       const searchQueryCategory = req.query.searchInpCate || "";
+      const searchQueryArticle = req.query.searchPostInp || "";
 
       if (searchQuery) {
         const searchQuerySQL = `
@@ -350,6 +348,26 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
         const searchResultCate = await executeQuery(searchQuery, searchValues, searchParamNames, false);
 
         result3 = { recordset: searchResultCate.recordset };
+      }
+
+      if (searchQueryArticle) {
+        const searchQuerySQL = `
+          SELECT *
+          FROM [dbo].[Article]
+          WHERE 
+              (id_article LIKE @searchQuery OR
+              id_user LIKE @searchQuery OR
+			        id_category LIKE @searchQuery OR
+              heading LIKE @searchQuery OR
+              name_alias LIKE @searchQuery OR
+			        status LIKE @searchQuery OR
+			        day_created LIKE @searchQuery)
+        `;
+        const searchValues = [`%${searchQueryArticle}%`];
+        const searchParamNames = ["searchQuery"];
+        console.log(searchQuery)
+        const searchResult = await executeQuery(searchQuerySQL, searchValues, searchParamNames, false);
+        result2 = { recordset: searchResult.recordset}
       }
 
       // Route handling code
