@@ -14,7 +14,7 @@ router.post('/getUserById', authController.authenticateToken, userController.get
 router.post('/addUser', authController.authenticateToken, userController.addUser);
 
 // API cập nhật thông tin người dùng - yêu cầu xác thực
-router.post('/updateUser', authController.authenticateToken, userController.updateUser);
+router.put('/updateUser/:id', authController.authenticateToken, userController.updateUser);
 
 // API xóa người dùng - yêu cầu xác thực
 router.post('/deleteUser', authController.authenticateToken, userController.deleteUser);

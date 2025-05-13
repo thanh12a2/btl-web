@@ -100,7 +100,6 @@ router.get("/api/weather", async (req, res) => {
 
 router.get("/backdetails", authController.authenticateToken, getArticles, getCategories, getUsers, async (req, res) => {
   const role = res.locals.role;
-
   if (role == "Admin") {
     const query3 = `SELECT * FROM [dbo].[Category]`;
     const query4 = `SELECT * FROM [dbo].[Comment]`;
@@ -297,7 +296,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       // Lấy từ khóa tìm kiếm từ query string
       const searchQuery = req.query.searchInp || "";
       const searchQueryCategory = req.query.searchInpCate || "";
-      
+
       if (searchQuery) {
         const searchQuerySQL = `
           SELECT id_user, username, email, password, role
@@ -339,7 +338,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       const articlePage = parseInt(req.query.articlePage) || 1;
       const categoryPage = parseInt(req.query.categoryPage) || 1;
       const userPage = parseInt(req.query.userPage) || 1;
-      
+
       const commentPage = parseInt(req.query.commentPage) || 1;
       const limit = parseInt(req.query.limit) || 10;
       const activeSection = req.query.section || "dashboard";

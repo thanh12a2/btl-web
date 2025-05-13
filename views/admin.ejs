@@ -330,6 +330,9 @@
             <h2 class="info_management-title">Thông tin cá nhân</h2>
             <div class="info_management-flex">
                 <div class="info_management-content">
+                    <div>
+
+                    </div>
                     <!-- Họ và Tên -->
                     <form action="/auth/changePwdQuanTri" method="POST">
                         <div class="info_management-row">
@@ -464,12 +467,13 @@
                                             <%= userComments[k].ngay_binh_luan %>
                                         </td>
                                         <td>
-                                            <form action="/comment/removeComment/<%= userComments[k].id_comment %>" method="POST">
+                                            <form action="/comment/removeComment/<%= userComments[k].id_comment %>"
+                                                method="POST">
                                                 <button class="info_management-action-btn">Xóa</button>
                                             </form>
                                         </td>
                                     </tr>
-                                <% } %>
+                                    <% } %>
                             </tbody>
                         </table>
                     </div>
@@ -736,14 +740,17 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td><%= articles[i].views %></td>
-                                <td><%= articles[i].like_count %></td>
+                                <td>
+                                    <%= articles[i].views %>
+                                </td>
+                                <td>
+                                    <%= articles[i].like_count %>
+                                </td>
                                 <td>
                                     <label class="featured-checkbox">
-                                        <input type="checkbox" 
-                                               class="featured-toggle" 
-                                               data-article-id="<%= articles[i].id_article %>"
-                                               <%= articles[i].is_featured ? 'checked' : '' %>>
+                                        <input type="checkbox" class="featured-toggle"
+                                            data-article-id="<%= articles[i].id_article %>" <%=articles[i].is_featured
+                                            ? 'checked' : '' %>>
                                         <span class="checkmark"></span>
                                     </label>
                                 </td>
@@ -785,33 +792,41 @@
             </div>
 
             <div id="editPostModal" class="modal-overlay">
-                <div class="modal-content" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; min-width: 400px; margin: 0 auto; border-radius: 8px; box-shadow: 0 2px 16px rgba(0,0,0,0.15);">
-                    <button class="modal-close-btn action-modal-close" style="position: absolute; top: 10px; right: 10px; font-size: 24px; background: none; border: none; cursor: pointer;">&times;</button>
-                    <h2 class="modal-title" style="color: #B32A45; margin-bottom: 20px; text-align: center;">Chỉnh sửa bài báo</h2>
-                    <form id="updateArticleForm" class="modal-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="modal-content"
+                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; min-width: 400px; margin: 0 auto; border-radius: 8px; box-shadow: 0 2px 16px rgba(0,0,0,0.15);">
+                    <button class="modal-close-btn action-modal-close"
+                        style="position: absolute; top: 10px; right: 10px; font-size: 24px; background: none; border: none; cursor: pointer;">&times;</button>
+                    <h2 class="modal-title" style="color: #B32A45; margin-bottom: 20px; text-align: center;">Chỉnh sửa
+                        bài báo</h2>
+                    <form id="updateArticleForm" class="modal-form"
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                         <input type="hidden" id="editArticleId" name="id_article" value="">
                         <div>
                             <label style="font-weight: 600;">Tên Bài báo</label>
-                            <input type="text" id="editPostTitle" name="heading" placeholder="Nhập tên bài báo" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                            <input type="text" id="editPostTitle" name="heading" placeholder="Nhập tên bài báo"
+                                style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
                         </div>
                         <div>
                             <label style="font-weight: 600;">Tên alias</label>
-                            <input type="text" id="editPostNameAlias" name="name_alias" placeholder="Nhập tên alias" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                            <input type="text" id="editPostNameAlias" name="name_alias" placeholder="Nhập tên alias"
+                                style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
                         </div>
                         <div>
                             <label style="font-weight: 600;">Danh mục chính</label>
-                            <select id="editMainCategory" name="id_category" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                            <select id="editMainCategory" name="id_category"
+                                style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
                                 <option value="" disabled selected>Chọn danh mục chính</option>
-                                <% for (let b = 0; b < structuredCategories.length; b++) { %>
+                                <% for (let b=0; b < structuredCategories.length; b++) { %>
                                     <option value="<%= structuredCategories[b].id_category %>">
                                         <%= structuredCategories[b].category_name %>
                                     </option>
-                                <% } %>
+                                    <% } %>
                             </select>
                         </div>
                         <div>
                             <label style="font-weight: 600;">Danh mục phụ</label>
-                            <select id="editSubCategory" name="id_subcategory" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
+                            <select id="editSubCategory" name="id_subcategory"
+                                style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;">
                                 <option value="" disabled selected>Chọn danh mục phụ</option>
                             </select>
                         </div>
@@ -819,19 +834,26 @@
                             <label style="font-weight: 600;">Ảnh bài báo</label>
                             <div style="display: flex; align-items: center; gap: 15px; margin-top: 5px;">
                                 <input type="file" id="editPostHeroImage" accept="image/*" style="flex: 1;">
-                                <button id="uploadEditImageBtn" class="btn-upload" style="background-color: #B32A45; color: white; border: none; padding: 8px 18px; border-radius: 5px; cursor: pointer; font-size: 15px;">Tải ảnh lên</button>
+                                <button id="uploadEditImageBtn" class="btn-upload"
+                                    style="background-color: #B32A45; color: white; border: none; padding: 8px 18px; border-radius: 5px; cursor: pointer; font-size: 15px;">Tải
+                                    ảnh lên</button>
                             </div>
                             <input type="hidden" id="editUploadedImageUrl" name="hero_image">
                             <div id="currentImagePreview" style="margin-top: 10px; text-align: center;">
-                                <img id="currentImage" src="" alt="Ảnh hiện tại" style="max-width: 180px; max-height: 120px; border-radius: 6px; display: none; border: 1px solid #eee; box-shadow: 0 1px 4px rgba(0,0,0,0.08);">
+                                <img id="currentImage" src="" alt="Ảnh hiện tại"
+                                    style="max-width: 180px; max-height: 120px; border-radius: 6px; display: none; border: 1px solid #eee; box-shadow: 0 1px 4px rgba(0,0,0,0.08);">
                             </div>
                         </div>
                         <div style="grid-column: 1 / -1;">
                             <label style="font-weight: 600;">Nội dung bài báo</label>
-                            <textarea id="editPostContent" name="content" placeholder="Nhập nội dung bài báo" style="width: 100%; min-height: 120px; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;"></textarea>
+                            <textarea id="editPostContent" name="content" placeholder="Nhập nội dung bài báo"
+                                style="width: 100%; min-height: 120px; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; margin-top: 5px;"></textarea>
                         </div>
-                        <div class="form-submit-wrapper" style="grid-column: 1 / -1; text-align: center; margin-top: 10px;">
-                            <button type="submit" id="btnUpdatePost" class="modal-submit-btn" style="background-color: #B32A45; color: white; border: none; padding: 10px 32px; border-radius: 5px; font-size: 16px; cursor: pointer;">Cập nhật bài báo</button>
+                        <div class="form-submit-wrapper"
+                            style="grid-column: 1 / -1; text-align: center; margin-top: 10px;">
+                            <button type="submit" id="btnUpdatePost" class="modal-submit-btn"
+                                style="background-color: #B32A45; color: white; border: none; padding: 10px 32px; border-radius: 5px; font-size: 16px; cursor: pointer;">Cập
+                                nhật bài báo</button>
                         </div>
                     </form>
                 </div>
@@ -857,13 +879,13 @@
             <h2>Quản lý danh mục</h2>
             <div class="search-container">
                 <div class="search-container-box">
-                        <div class="search-box">
-                            <form id='userSearchBar' action="/backdetails" method="GET">
-                                <input type="text" name="searchInpCate" placeholder="Tìm kiếm...">
-                                <button type="submit"> <i class="bi bi-search"></i></button>
-                            </form>
-                        </div>
+                    <div class="search-box">
+                        <form id='userSearchBar' action="/backdetails" method="GET">
+                            <input type="text" name="searchInpCate" placeholder="Tìm kiếm...">
+                            <button type="submit"> <i class="bi bi-search"></i></button>
+                        </form>
                     </div>
+                </div>
                 <button class="add-category-btn">Thêm danh mục</button>
             </div>
             <table>
@@ -881,10 +903,18 @@
 
                         <% for (let i=0; i < categories.length; i++) { %>
                             <tr>
-                                <td><%= categories[i].id_category %></td>
-                                <td><%= categories[i].id_parent %></td>
-                                <td><%= categories[i].category_name %></td>
-                                <td><%= categories[i].alias_name %></td>
+                                <td>
+                                    <%= categories[i].id_category %>
+                                </td>
+                                <td>
+                                    <%= categories[i].id_parent %>
+                                </td>
+                                <td>
+                                    <%= categories[i].category_name %>
+                                </td>
+                                <td>
+                                    <%= categories[i].alias_name %>
+                                </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm"
                                         onclick="showEditCategoryModal('<%= categories[i].id_category %>', '<%= categories[i].category_name %>', '<%= categories[i].alias_name %>', '<%= categories[i].id_parent %>')"
@@ -1140,7 +1170,7 @@
                     <div class="modal-content">
                         <button id="closeBtnFixUser" class="modal-close-btn">&times;</button>
                         <h2 class="modal-title">Chỉnh sửa người dùng</h2>
-                        <form id="updateUserForm" class="modal-form" action="/user/updateUser" method="POST">
+                        <form id="updateUserForm" class="modal-form">
                             <input type="hidden" name="userId" id="editUserId"> <!-- Input ẩn để lưu ID người dùng -->
                             <div>
                                 <label>Tên người dùng</label>
@@ -1348,31 +1378,65 @@
 
     </div>
 
-    <div id="loader" style="display: none !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; display: flex; justify-content: center; align-items: center;">
-        <div style="width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    <div id="loader"
+        style="display: none !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; display: flex; justify-content: center; align-items: center;">
+        <div
+            style="width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;">
+        </div>
     </div>
 
     <script>
+        document.getElementById('updateUserBtn').addEventListener('click', function () {
+            const userId = document.getElementById('editUserId').value;
+            const username = document.getElementById('editUsername').value;
+            const email = document.getElementById('editEmail').value;
+            const password = document.getElementById('editPassword').value;
+            const role = document.getElementById('editRole').value;
+
+            // Tạo đối tượng dữ liệu để gửi đi
+            const userData = {
+                username: username,
+                email: email,
+                role: role
+            };
+
+            // Chỉ thêm password nếu người dùng đã nhập (có thể để trống khi không muốn thay đổi)
+            if (password.trim() !== '') {
+                userData.password = password;
+            }
+
+            // Lấy token xác thực từ localStorage hoặc sessionStorage
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+
+            // Gửi request PUT đến API
+            fetch(`/updateUser/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // Thêm token xác thực
+                },
+                body: JSON.stringify(userData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Lỗi khi cập nhật người dùng');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Cập nhật người dùng thành công!');
+                    // Đóng modal hoặc chuyển hướng trang nếu cần
+                    // window.location.reload(); // Nếu muốn tải lại trang
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                    alert('Đã xảy ra lỗi khi cập nhật người dùng. Vui lòng thử lại!');
+                });
+        });
+    </script>
+    <script>
         // 2. Now let's create a client-side JavaScript to handle the form submission
         // Add this to your admin.js or create a new file and include it in your admin page
-            // Handle form submission
-            const addPostBtn = document.getElementById('btnAddPost');
-            if (addPostBtn) {
-                addPostBtn.addEventListener('click', function () {
-                    // Get form values
-                    const heading = document.getElementById('addPostTitle').value.trim();
-                    const user = document.getElementById('addPostAuthor').value.trim();
-                    const mainCategory = document.getElementById('mainCategory').value;
-                    const category_name = document.getElementById('subCategory').value;
-                    const hero_image = document.getElementById('addPostHeroImage').value.trim();
-                    const content = document.getElementById('addPostContent').value.trim();
-
-                    // Validate form
-                    if (!heading || !user || !mainCategory || !category_name || !hero_image || !content) {
-                        alert('Vui lòng điền đầy đủ tất cả các trường!');
-                        return;
-                    }
-
         // Handle form submission
         const addPostBtn = document.getElementById('btnAddPost');
         if (addPostBtn) {
@@ -1391,258 +1455,278 @@
                     return;
                 }
 
-                // Create a URL-friendly alias from the title
-                const name_alias = heading
-                    .toLowerCase()
-                    .trim()
-                    .replace(/[^\w\s-]/g, '')
-                    .replace(/[\s_-]+/g, '-')
-                    .replace(/^-+|-+$/g, '');
+                // Handle form submission
+                const addPostBtn = document.getElementById('btnAddPost');
+                if (addPostBtn) {
+                    addPostBtn.addEventListener('click', function () {
+                        // Get form values
+                        const heading = document.getElementById('addPostTitle').value.trim();
+                        const user = document.getElementById('addPostAuthor').value.trim();
+                        const mainCategory = document.getElementById('mainCategory').value;
+                        const category_name = document.getElementById('subCategory').value;
+                        const hero_image = document.getElementById('addPostHeroImage').value.trim();
+                        const content = document.getElementById('addPostContent').value.trim();
 
-                // Default to not featured
-                const is_featured = 'Không';
-
-                // Prepare data for API call to match your controller's expected format
-                const articleData = {
-                    user,
-                    category_name,
-                    heading,
-                    hero_image,
-                    content,
-                    name_alias,
-                    is_featured
-                };
-
-                // Send API request
-                fetch('/add-article', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(articleData)
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert(data.message || 'Bài báo đã được thêm thành công');
-                            // Clear form fields
-                            document.getElementById('addPostTitle').value = '';
-                            document.getElementById('addPostAuthor').value = '';
-                            document.getElementById('mainCategory').selectedIndex = 0;
-                            document.getElementById('subCategory').innerHTML = '<option value="" disabled selected>Chọn danh mục phụ</option>';
-                            document.getElementById('addPostHeroImage').value = '';
-                            document.getElementById('addPostContent').value = '';
-
-                            // Hide the add form and show the post management table
-                            document.getElementById('addPostManagement').style.display = 'none';
-                            document.getElementById('postManagement').style.display = 'block';
-
-                            // Reload the page to see the updated table
-                            window.location.reload();
-                        } else {
-                            alert(data.message || 'Đã xảy ra lỗi khi thêm bài báo');
+                        // Validate form
+                        if (!heading || !user || !mainCategory || !category_name || !hero_image || !content) {
+                            alert('Vui lòng điền đầy đủ tất cả các trường!');
+                            return;
                         }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Đã xảy ra lỗi khi thêm bài báo!');
+
+                        // Create a URL-friendly alias from the title
+                        const name_alias = heading
+                            .toLowerCase()
+                            .trim()
+                            .replace(/[^\w\s-]/g, '')
+                            .replace(/[\s_-]+/g, '-')
+                            .replace(/^-+|-+$/g, '');
+
+                        // Default to not featured
+                        const is_featured = 'Không';
+
+                        // Prepare data for API call to match your controller's expected format
+                        const articleData = {
+                            user,
+                            category_name,
+                            heading,
+                            hero_image,
+                            content,
+                            name_alias,
+                            is_featured
+                        };
+
+                        // Send API request
+                        fetch('/add-article', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(articleData)
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert(data.message || 'Bài báo đã được thêm thành công');
+                                    // Clear form fields
+                                    document.getElementById('addPostTitle').value = '';
+                                    document.getElementById('addPostAuthor').value = '';
+                                    document.getElementById('mainCategory').selectedIndex = 0;
+                                    document.getElementById('subCategory').innerHTML = '<option value="" disabled selected>Chọn danh mục phụ</option>';
+                                    document.getElementById('addPostHeroImage').value = '';
+                                    document.getElementById('addPostContent').value = '';
+
+                                    // Hide the add form and show the post management table
+                                    document.getElementById('addPostManagement').style.display = 'none';
+                                    document.getElementById('postManagement').style.display = 'block';
+
+                                    // Reload the page to see the updated table
+                                    window.location.reload();
+                                } else {
+                                    alert(data.message || 'Đã xảy ra lỗi khi thêm bài báo');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Đã xảy ra lỗi khi thêm bài báo!');
+                            });
                     });
-            });
-        }
+                }
 
-        // Helper function to get subcategories based on main category
-        function getSubCategories(mainCategory) {
-            // You might want to fetch these dynamically from your database in a production environment
-            // For now, we're using a static mapping
-            const categoriesMap = {
-                'society': [
-                    { value: 'Chính trị', text: 'Chính trị' },
-                    { value: 'Pháp luật', text: 'Pháp luật' },
-                    { value: 'Tin tức xã hội', text: 'Tin tức xã hội' }
-                ],
-                'science': [
-                    { value: 'Công nghệ', text: 'Công nghệ' },
-                    { value: 'Tin khoa học', text: 'Tin khoa học' },
-                    { value: 'Số hóa', text: 'Số hóa' }
-                ],
-                'health': [
-                    { value: 'Y tế', text: 'Y tế' },
-                    { value: 'Dinh dưỡng', text: 'Dinh dưỡng' },
-                    { value: 'Sức khỏe tâm thần', text: 'Sức khỏe tâm thần' }
-                ],
-                'sports': [
-                    { value: 'Bóng đá', text: 'Bóng đá' },
-                    { value: 'Quần vợt', text: 'Quần vợt' },
-                    { value: 'Thể thao khác', text: 'Thể thao khác' }
-                ],
-                'entertainment': [
-                    { value: 'Phim ảnh', text: 'Phim ảnh' },
-                    { value: 'Âm nhạc', text: 'Âm nhạc' },
-                    { value: 'Người nổi tiếng', text: 'Người nổi tiếng' }
-                ],
-                'education': [
-                    { value: 'Đại học', text: 'Đại học' },
-                    { value: 'Phổ thông', text: 'Phổ thông' },
-                    { value: 'Học tập', text: 'Học tập' }
-                ]
-            };
+                // Helper function to get subcategories based on main category
+                function getSubCategories(mainCategory) {
+                    // You might want to fetch these dynamically from your database in a production environment
+                    // For now, we're using a static mapping
+                    const categoriesMap = {
+                        'society': [
+                            { value: 'Chính trị', text: 'Chính trị' },
+                            { value: 'Pháp luật', text: 'Pháp luật' },
+                            { value: 'Tin tức xã hội', text: 'Tin tức xã hội' }
+                        ],
+                        'science': [
+                            { value: 'Công nghệ', text: 'Công nghệ' },
+                            { value: 'Tin khoa học', text: 'Tin khoa học' },
+                            { value: 'Số hóa', text: 'Số hóa' }
+                        ],
+                        'health': [
+                            { value: 'Y tế', text: 'Y tế' },
+                            { value: 'Dinh dưỡng', text: 'Dinh dưỡng' },
+                            { value: 'Sức khỏe tâm thần', text: 'Sức khỏe tâm thần' }
+                        ],
+                        'sports': [
+                            { value: 'Bóng đá', text: 'Bóng đá' },
+                            { value: 'Quần vợt', text: 'Quần vợt' },
+                            { value: 'Thể thao khác', text: 'Thể thao khác' }
+                        ],
+                        'entertainment': [
+                            { value: 'Phim ảnh', text: 'Phim ảnh' },
+                            { value: 'Âm nhạc', text: 'Âm nhạc' },
+                            { value: 'Người nổi tiếng', text: 'Người nổi tiếng' }
+                        ],
+                        'education': [
+                            { value: 'Đại học', text: 'Đại học' },
+                            { value: 'Phổ thông', text: 'Phổ thông' },
+                            { value: 'Học tập', text: 'Học tập' }
+                        ]
+                    };
 
-            return categoriesMap[mainCategory] || [];
-        }
+                    return categoriesMap[mainCategory] || [];
+                }
 
 
-        // 3. Add the function to show/hide the add article form
-        function setupPostManagementUI() {
-            const addPostBtn = document.getElementById('addPostBtn');
-            const addPostManagement = document.getElementById('addPostManagement');
-            const postManagement = document.getElementById('postManagement');
+                // 3. Add the function to show/hide the add article form
+                function setupPostManagementUI() {
+                    const addPostBtn = document.getElementById('addPostBtn');
+                    const addPostManagement = document.getElementById('addPostManagement');
+                    const postManagement = document.getElementById('postManagement');
 
-            if (addPostBtn) {
-                addPostBtn.addEventListener('click', function () {
-                    if (addPostManagement.style.display === 'none') {
-                        addPostManagement.style.display = 'block';
-                        postManagement.style.display = 'none';
-                    } else {
-                        addPostManagement.style.display = 'none';
-                        postManagement.style.display = 'block';
+                    if (addPostBtn) {
+                        addPostBtn.addEventListener('click', function () {
+                            if (addPostManagement.style.display === 'none') {
+                                addPostManagement.style.display = 'block';
+                                postManagement.style.display = 'none';
+                            } else {
+                                addPostManagement.style.display = 'none';
+                                postManagement.style.display = 'block';
+                            }
+                        });
                     }
-                });
-            }
 
-            // Add cancel button functionality if needed
-            const cancelAddPostBtn = document.getElementById('cancelAddPostBtn');
-            if (cancelAddPostBtn) {
-                cancelAddPostBtn.addEventListener('click', function () {
-                    addPostManagement.style.display = 'none';
-                    postManagement.style.display = 'block';
-                });
-            }
-        }
-
-        const uploadImageBtn = document.getElementById('uploadImageBtn');
-        const addPostHeroImage = document.getElementById('addPostHeroImage');
-        const uploadedImageUrl = document.getElementById('uploadedImageUrl');
-        const loader = document.getElementById('loader'); // Tham chiếu đến loader
-
-        if (uploadImageBtn && addPostHeroImage) {
-            uploadImageBtn.addEventListener('click', function (event) {
-                event.preventDefault(); // Ngăn form submit mặc định
-
-                const file = addPostHeroImage.files[0];
-                if (!file) {
-                    alert('Vui lòng chọn một ảnh để tải lên!');
-                    return;
+                    // Add cancel button functionality if needed
+                    const cancelAddPostBtn = document.getElementById('cancelAddPostBtn');
+                    if (cancelAddPostBtn) {
+                        cancelAddPostBtn.addEventListener('click', function () {
+                            addPostManagement.style.display = 'none';
+                            postManagement.style.display = 'block';
+                        });
+                    }
                 }
 
-                const formData = new FormData();
-                formData.append('image', file);
+                const uploadImageBtn = document.getElementById('uploadImageBtn');
+                const addPostHeroImage = document.getElementById('addPostHeroImage');
+                const uploadedImageUrl = document.getElementById('uploadedImageUrl');
+                const loader = document.getElementById('loader'); // Tham chiếu đến loader
 
-                // Hiển thị loader
-                loader.style.display = 'flex';
+                if (uploadImageBtn && addPostHeroImage) {
+                    uploadImageBtn.addEventListener('click', function (event) {
+                        event.preventDefault(); // Ngăn form submit mặc định
 
-                // Gửi yêu cầu tải ảnh lên API `/uploadPics`
-                fetch('/upload', {
-                    method: 'POST',
-                    body: formData,
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Ẩn loader
-                        loader.style.display = 'none';
-
-                        if (data.success) {
-                            uploadedImageUrl.value = data.url; // Lưu URL ảnh vào input ẩn
-                            alert('Tải ảnh lên thành công!');
-                        } else {
-                            alert('Đã xảy ra lỗi khi tải ảnh lên!');
+                        const file = addPostHeroImage.files[0];
+                        if (!file) {
+                            alert('Vui lòng chọn một ảnh để tải lên!');
+                            return;
                         }
-                    })
-                    .catch(error => {
-                        // Ẩn loader
-                        loader.style.display = 'none';
 
-                        console.error('Lỗi khi tải ảnh lên:', error);
-                        alert('Đã xảy ra lỗi khi tải ảnh lên!');
+                        const formData = new FormData();
+                        formData.append('image', file);
+
+                        // Hiển thị loader
+                        loader.style.display = 'flex';
+
+                        // Gửi yêu cầu tải ảnh lên API `/uploadPics`
+                        fetch('/upload', {
+                            method: 'POST',
+                            body: formData,
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                // Ẩn loader
+                                loader.style.display = 'none';
+
+                                if (data.success) {
+                                    uploadedImageUrl.value = data.url; // Lưu URL ảnh vào input ẩn
+                                    alert('Tải ảnh lên thành công!');
+                                } else {
+                                    alert('Đã xảy ra lỗi khi tải ảnh lên!');
+                                }
+                            })
+                            .catch(error => {
+                                // Ẩn loader
+                                loader.style.display = 'none';
+
+                                console.error('Lỗi khi tải ảnh lên:', error);
+                                alert('Đã xảy ra lỗi khi tải ảnh lên!');
+                            });
                     });
-            });
-        }
-
-        const processFileBtn = document.getElementById('processFileBtn');
-        const uploadArticleFile = document.getElementById('uploadArticleFile');
-        const addPostContent = document.getElementById('addPostContent');
-
-        if (processFileBtn && uploadArticleFile) {
-            processFileBtn.addEventListener('click', function (event) {
-                event.preventDefault(); // Ngăn form submit mặc định
-
-                const file = uploadArticleFile.files[0];
-                if (!file) {
-                    alert('Vui lòng chọn một file DOCX hoặc PDF!');
-                    return;
                 }
 
-                const formData = new FormData();
-                formData.append('file', file);
+                const processFileBtn = document.getElementById('processFileBtn');
+                const uploadArticleFile = document.getElementById('uploadArticleFile');
+                const addPostContent = document.getElementById('addPostContent');
 
-                // Hiển thị loader
-                loader.style.display = 'flex';
+                if (processFileBtn && uploadArticleFile) {
+                    processFileBtn.addEventListener('click', function (event) {
+                        event.preventDefault(); // Ngăn form submit mặc định
 
-                // Gửi yêu cầu tải file lên API `/processFile`
-                fetch('/processFile', {
-                    method: 'POST',
-                    body: formData,
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Ẩn loader
-                        loader.style.display = 'none';
-
-                        if (data.success) {
-                            addPostContent.value = data.text; // Hiển thị nội dung file trong textarea
-                            alert('Xử lý file thành công!');
-                        } else {
-                            alert('Đã xảy ra lỗi khi xử lý file!');
+                        const file = uploadArticleFile.files[0];
+                        if (!file) {
+                            alert('Vui lòng chọn một file DOCX hoặc PDF!');
+                            return;
                         }
-                    })
-                    .catch(error => {
-                        // Ẩn loader
-                        loader.style.display = 'none';
 
-                        console.error('Lỗi khi xử lý file:', error);
-                        alert('Đã xảy ra lỗi khi xử lý file!');
-                    });
-            });
-        }
+                        const formData = new FormData();
+                        formData.append('file', file);
 
-        // Nhúng structuredCategories từ backend vào frontend
+                        // Hiển thị loader
+                        loader.style.display = 'flex';
 
-        // LỖI ĐỎ NÀY IGNORE ĐƯỢC KO CẦN SỬA !!!!!!!!!!!!!!!!!!!!!!!!
-        const structuredCategories = <%- JSON.stringify(structuredCategories) %>;
+                        // Gửi yêu cầu tải file lên API `/processFile`
+                        fetch('/processFile', {
+                            method: 'POST',
+                            body: formData,
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                // Ẩn loader
+                                loader.style.display = 'none';
 
+                                if (data.success) {
+                                    addPostContent.value = data.text; // Hiển thị nội dung file trong textarea
+                                    alert('Xử lý file thành công!');
+                                } else {
+                                    alert('Đã xảy ra lỗi khi xử lý file!');
+                                }
+                            })
+                            .catch(error => {
+                                // Ẩn loader
+                                loader.style.display = 'none';
 
-        const mainCategorySelect = document.getElementById('mainCategory');
-        const subCategorySelect = document.getElementById('subCategory');
-
-        if (mainCategorySelect && subCategorySelect) {
-            mainCategorySelect.addEventListener('change', function () {
-                const selectedMainCategoryId = this.value;
-
-                // Tìm danh mục chính được chọn
-                const selectedMainCategory = structuredCategories.find(category => category.id_category == selectedMainCategoryId);
-
-                // Xóa các tùy chọn hiện tại trong danh mục phụ
-                subCategorySelect.innerHTML = '<option value="" disabled selected>Chọn danh mục phụ</option>';
-
-                // Nếu có danh mục phụ, thêm chúng vào danh mục phụ
-                if (selectedMainCategory && selectedMainCategory.children) {
-                    selectedMainCategory.children.forEach(subCategory => {
-                        const option = document.createElement('option');
-                        option.value = subCategory.id_category;
-                        option.textContent = subCategory.category_name;
-                        subCategorySelect.appendChild(option);
+                                console.error('Lỗi khi xử lý file:', error);
+                                alert('Đã xảy ra lỗi khi xử lý file!');
+                            });
                     });
                 }
-            });
+
+                // Nhúng structuredCategories từ backend vào frontend
+
+                // LỖI ĐỎ NÀY IGNORE ĐƯỢC KO CẦN SỬA !!!!!!!!!!!!!!!!!!!!!!!!
+                const structuredCategories = <% - JSON.stringify(structuredCategories) %>;
+
+
+                const mainCategorySelect = document.getElementById('mainCategory');
+                const subCategorySelect = document.getElementById('subCategory');
+
+                if (mainCategorySelect && subCategorySelect) {
+                    mainCategorySelect.addEventListener('change', function () {
+                        const selectedMainCategoryId = this.value;
+
+                        // Tìm danh mục chính được chọn
+                        const selectedMainCategory = structuredCategories.find(category => category.id_category == selectedMainCategoryId);
+
+                        // Xóa các tùy chọn hiện tại trong danh mục phụ
+                        subCategorySelect.innerHTML = '<option value="" disabled selected>Chọn danh mục phụ</option>';
+
+                        // Nếu có danh mục phụ, thêm chúng vào danh mục phụ
+                        if (selectedMainCategory && selectedMainCategory.children) {
+                            selectedMainCategory.children.forEach(subCategory => {
+                                const option = document.createElement('option');
+                                option.value = subCategory.id_category;
+                                option.textContent = subCategory.category_name;
+                                subCategorySelect.appendChild(option);
+                            });
+                        }
+                    });
+                }
+            })
         }
     </script>
     <script>
@@ -1732,7 +1816,6 @@
                 }
             });
         }
-
 
         // Gọi renderChart lần đầu với tất cả dữ liệu
         renderChart(categoryData);
@@ -1836,6 +1919,7 @@
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
