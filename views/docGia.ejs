@@ -6,13 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The PTIT News</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/../css/trangDanhMuc2.css">
+    <link rel="stylesheet" href="/../css/admin2.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -33,14 +37,22 @@
                 </a>
                 <span class="tooltip">Thông tin cá nhân</span>
             </li>
-            
-            <li>
-                <a href="#">
-                    <i class='bx bx-log-out'></i>
-                    <span class="links_name">Quay lại</span>
-                </a>
-                <span class="tooltip">Quay lại</span>
-            </li>
+
+            <li style="margin-top: 50px; margin-right: 10px; padding-right: 10px;">
+                                        <form action="/home" method="GET" style="height: 50px;">
+                                            <button style="    
+                                            background-color: transparent;
+                                            border: none;
+                                            color: white;
+                                            font-size: 20px;
+                                            height: 100%;
+                                            " type="submit">
+                                                <i class='bx bx-log-out' style="padding-right: 15px !important;"></i>
+                                                <span class="links_name" style="font-size: medium;">Quay lại</span>
+                                            </button>
+                                        </form>
+                                        <span class="tooltip">Quay lại</span>
+                                    </li>
         </ul>
     </div>
 
@@ -49,41 +61,48 @@
             <h2 class="info_management-title">Thông tin cá nhân</h2>
             <div class="info_management-flex">
                 <div class="info_management-content">
-                    <!-- Họ và Tên -->
-                    <div class="info_management-row">
-                        <label class="info_management-label">Họ và Tên:</label>
-                        <div class="info_management-input-group">
-                            <input type="text" id="info_management-name" class="info_management-input" value="Nguyễn Văn A" disabled>
-                            <div class="info_management-button-group">
-                                <button id="info_management-edit-name" class="info_management-button">✏️</button>
+                    <form action="/auth/changePwdQuanTri" method="POST">
+                        <div class="info_management-row">
+                            <label class="info_management-label">Họ và Tên:</label>
+                            <div class="info_management-input-group">
+                                <input type="text" id="info_management-name" class="info_management-input"
+                                    name="newUsername" value="<%= user[0].username %>" disabled>
                             </div>
                         </div>
-                    </div>
-                    <!-- Email (không chỉnh sửa, thêm placeholder) -->
-                    <div class="info_management-row">
-                        <label class="info_management-label">Email:</label>
-                        <div class="info_management-input-group">
-                            <input type="email" id="info_management-email" class="info_management-input" value="nguyenvana@gmail.com" disabled>
-                            <div class="info_management-email-placeholder"></div>
-                        </div>
-                    </div>
-                    <!-- Mật khẩu -->
-                    <div class="info_management-row">
-                        <label class="info_management-label">Mật khẩu:</label>
-                        <div class="info_management-input-group">
-                            <input type="password" id="info_management-password" class="info_management-input" value="passwordcc" disabled>
-                            <div class="info_management-button-group">
-                                <button id="info_management-change-password" class="info_management-button">🔑</button>
+                        <!-- Email (không chỉnh sửa, thêm placeholder) -->
+                        <div class="info_management-row">
+                            <label class="info_management-label">Email:</label>
+                            <div class="info_management-input-group">
+                                <input type="email" id="info_management-email" class="info_management-input"
+                                    value="<%= user[0].email %>" disabled>
+                                <div class="info_management-email-placeholder"></div>
                             </div>
                         </div>
-                    </div>
+                        <!-- Mật khẩu -->
+                        <div class="info_management-row">
+                            <label class="info_management-label">Mật khẩu:</label>
+                            <div class="info_management-input-group">
+                                <input type="password" id="info_management-password" class="info_management-input"
+                                    name="pwdInp" value="<%= user[0].password %>" disabled>
+                                <div class="info_management-button-group">
+                                    <button type="button" id="info_management-change-password"
+                                        class="info_management-button">🔑</button>
+                                </div>
+                                <div class="info_management-button-group">
+                                    <button type="submit" id="info_management-edit-name" class="info_management-button"
+                                        style="display:none"><i class="bi bi-floppy-fill"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="info_management-side">
                     <div class="info_management-tabs">
-                        <button class="info_management-tab active" data-tab="favorite-articles">Bài viết yêu thích</button>
+                        <button class="info_management-tab active" data-tab="favorite-articles">Bài viết yêu
+                            thích</button>
                         <button class="info_management-tab" data-tab="my-comments">Bình luận của tôi</button>
-                        <button class="info_management-tab" data-tab="favorite-comments">Bình luận yêu thích</button>
                     </div>
+
                     <div class="info_management-tab-content" id="favorite-articles" style="display:block;">
                         <div class="info_management-table-actions">
                             <!-- Đã xóa nút Thêm -->
@@ -91,16 +110,60 @@
                         <table class="info_management-table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Tiêu đề</th>
-                                    <th>Tác giả</th>
-                                    <th>Ngày thêm</th>
+                                    <th>STT</th>
+                                    <th>Bài viết</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
-                            <tbody id="favoriteArticlesBody"></tbody>
+                            <tbody>
+                                <% for (let k=0; k < likeArticles.length; k++) { %>
+                                    <tr>
+                                        <td>
+                                            <%= k + 1 %>
+                                        </td>
+                                        <td class="center-items-table">
+                                            <div class="search-items"
+                                                style="background: transparent; margin-bottom: 0px">
+                                                <div class="image-like" style="width: 300px !important;">
+                                                    <a
+                                                        href="/article/transportArticle/<%= likeArticles[k].name_alias %>">
+                                                        <img src="<%= likeArticles[k].hero_image %>" alt=""
+                                                            style="width: 300px !important; height: 100% !important;">
+                                                    </a>
+                                                </div>
+                                                <div class="content">
+                                                    <a href="/article/transportArticle/<%=likeArticles[k].name_alias %>"
+                                                        style="text-decoration: none;">
+                                                        <div class="title-section">
+                                                            <%= likeArticles[k].heading %>
+                                                        </div>
+                                                    </a>
+                                                    <div class="date">
+                                                        <%= likeArticles[k].day_created %>
+                                                    </div>
+                                                    <div class="description">
+                                                        <p>
+                                                            <a
+                                                                href="/article/transportArticle/<%= likeArticles[k].name_alias %>">
+                                                                <%= likeArticles[k].content %>
+                                                            </a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <form action="/article/removeArticle/<%= likeArticles[k].name_alias %>"
+                                                method="POST">
+                                                <button class="info_management-action-btn">Xóa</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                            </tbody>
                         </table>
                     </div>
+
                     <div class="info_management-tab-content" id="my-comments" style="display:none;">
                         <div class="info_management-table-actions">
                             <!-- Đã xóa nút Thêm -->
@@ -108,38 +171,44 @@
                         <table class="info_management-table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>STT</th>
                                     <th>Bài viết</th>
-                                    <th>Nội dung</th>
+                                    <th>Nội dung bình luận</th>
                                     <th>Ngày bình luận</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
-                            <tbody id="myCommentsBody"></tbody>
+                            <tbody>
+                                <% for (let k=0; k < userComments.length; k++) { %>
+                                    <tr>
+                                        <td>
+                                            <%= k + 1 %>
+                                        </td>
+                                        <td>
+                                            <%= userComments[k].ten_bai_viet %>
+                                        </td>
+                                        <td>
+                                            <%= userComments[k].noi_dung_binh_luan %>
+                                        </td>
+                                        <td>
+                                            <%= userComments[k].ngay_binh_luan %>
+                                        </td>
+                                        <td>
+                                            <form action="/comment/removeComment/<%= userComments[k].id_comment %>" method="POST">
+                                                <button class="info_management-action-btn">Xóa</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
                         </table>
                     </div>
-                    <div class="info_management-tab-content" id="favorite-comments" style="display:none;">
-                        <div class="info_management-table-actions">
-                            <!-- Đã xóa nút Thêm -->
-                        </div>
-                        <table class="info_management-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Bài viết</th>
-                                    <th>Nội dung</th>
-                                    <th>Ngày thêm</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody id="favoriteCommentsBody"></tbody>
-                        </table>
-                    </div>
+
                 </div>
             </div>
         </div>
-        
-        
+
+
     </div>
 
     <script src="/../js/admin.js"></script>

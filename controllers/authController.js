@@ -194,6 +194,32 @@ export const authController = {
           throw new Error("Invalid token payload");
         }
 
+        const query = `SELECT * FROM [dbo].[User] WHERE email = @email`;
+        const values = [decoded.email];
+        const paramNames = ["email"];
+        const isStoredProcedure = false;
+        try {
+          const userResult = await executeQuery(query, values, paramNames, isStoredProcedure);
+          if (!userResult || !userResult.recordset || userResult.recordset.length === 0) {
+            req.isLoggedIn = false;
+            req.user = null;
+            res.locals.isLoggedIn = false;
+            res.locals.username = "";
+            res.locals.role = "";
+            res.clearCookie("user");
+            return next();
+          }
+        } catch(error) {
+            // Xử lý khi token không hợp lệ
+            req.isLoggedIn = false;
+            req.user = null;
+            res.locals.isLoggedIn = false;
+            res.locals.username = "";
+            res.locals.role = "";
+            res.clearCookie("user"); // Xóa cookie nếu token không hợp lệ
+            return next();
+        }
+
         // Gán thông tin người dùng vào `req` và `res.locals`
         req.user = decoded;
         req.isLoggedIn = true;

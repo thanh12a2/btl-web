@@ -78,24 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Dữ liệu mẫu cho Thống kê tổng quan của nhà báo
-    let statisticOverview = {
-        totalArticles: 12,
-        totalViews: 3456,
-        totalLikes: 234,
-        totalComments: 78
-    };
-    function renderStatisticOverview() {
-        if(document.getElementById('statisticTotalArticles'))
-            document.getElementById('statisticTotalArticles').innerText = statisticOverview.totalArticles;
-        if(document.getElementById('statisticTotalViews'))
-            document.getElementById('statisticTotalViews').innerText = statisticOverview.totalViews;
-        if(document.getElementById('statisticTotalLikes'))
-            document.getElementById('statisticTotalLikes').innerText = statisticOverview.totalLikes;
-        if(document.getElementById('statisticTotalComments'))
-            document.getElementById('statisticTotalComments').innerText = statisticOverview.totalComments;
-    }
-    renderStatisticOverview();
+    
 
 
 

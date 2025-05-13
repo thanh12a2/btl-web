@@ -67,7 +67,6 @@
         }
 
         h2 {
-            color: #3498db;
             border-bottom: 2px solid #eee;
             padding-bottom: 10px;
             margin-top: 0;
@@ -674,13 +673,13 @@
             <h2>Quản lý bài viết</h2>
             <div class="search-container">
                 <div class="search-container-box">
-                    <div class="search-box" id="search-box1">
-                        <input type="text" placeholder="Tìm kiếm...">
-                        <label class="search-icon" id="search-icon1">
-                            <i class="bi bi-search"></i>
-                        </label>
+                        <div class="search-box">
+                            <form id='userSearchBar' action="/backdetails" method="GET">
+                                <input type="text" name="searchPostInp" placeholder="Tìm kiếm...">
+                                <button type="submit"> <i class="bi bi-search"></i></button>
+                            </form>
+                        </div>
                     </div>
-                </div>
             </div>
             <table>
                 <thead>
@@ -694,7 +693,6 @@
                         <th>Nổi bật</th>
                         <th>Trạng thái</th>
                         <th>Hành động</th>
-                        <th>Time</th>
                     </tr>
                 </thead>
                 <tbody id="tbodyArticle">
@@ -714,13 +712,20 @@
                                     <div class="search-items"
                                         style="background: transparent; margin-bottom: 0px; width: 700px; height: auto; text-align: left !important;">
                                         <div class="image" style="width: 150px;">
-                                            <a href="/article/checkArticle/<%= articles[i].name_alias %>">
+                                            <% if (articles[i].status==='Đã duyệt') {%>
+                                                <a href="/article/transportArticle/<%= articles[i].name_alias %>">
+                                            <% } else { %>
+                                                <a href="/article/checkArticle/<%=articles[i].name_alias %>">
+                                            <% } %>
                                                 <img src="<%= articles[i].hero_image %>" alt="" style="width: 150px;">
                                             </a>
                                         </div>
                                         <div class="content">
-                                            <a href="/article/checkArticle/<%=articles[i].name_alias %>"
-                                                style="text-decoration: none;  ">
+                                            <% if (articles[i].status==='Đã duyệt') {%>
+                                                <a href="/article/transportArticle/<%= articles[i].name_alias %>" style="text-decoration: none;">
+                                            <% } else { %>
+                                                <a href="/article/checkArticle/<%=articles[i].name_alias %>" style="text-decoration: none;">
+                                            <% } %>
                                                 <div class="title-section" style="font-size: 18px;">
                                                     <%= articles[i].heading %>
                                                 </div>
@@ -730,7 +735,11 @@
                                             </div>
                                             <div class="description">
                                                 <p>
-                                                    <a href="/article/checkArticle/<%= articles[i].name_alias %> ">
+                                                    <% if (articles[i].status==='Đã duyệt') {%>
+                                                        <a href="/article/transportArticle/<%= articles[i].name_alias %>" style="text-decoration: none;">
+                                                    <% } else { %>
+                                                        <a href="/article/checkArticle/<%=articles[i].name_alias %>" style="text-decoration: none;">
+                                                    <% } %>
                                                         <div style="font-size: 16px;">
                                                             <%= articles[i].content %>
                                                         </div>
@@ -767,9 +776,6 @@
                                         onclick="editArticle('<%= articles[i].id_article %>')">Sửa</button>
                                     <button class="btn btn-danger btn-sm"
                                         onclick="showDeleteModal('<%= articles[i].id_article %>')">Xóa</button>
-                                </td>
-                                <td>
-                                    <%= articles[i].day_created %>
                                 </td>
                             </tr>
                             <% } %>

@@ -15,6 +15,14 @@ import {
 } from '../controllers/CRUD_ArticleController.js';
 import multer from 'multer';
 import { processFileContent } from '../controllers/fileController.js';
+import dayjs from 'dayjs';
+import 'dayjs/locale/vi.js'; // Import tiếng Việt
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.locale('vi');
 
 
 const router = express.Router();
@@ -117,12 +125,6 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
     let result4;
     let result5;
 
-    try {
-      result2 = await executeQuery(query1, [], [], isStoredProcedure);
-    } catch (error) {
-      console.error(error);
-    }
-
     const query = `SELECT * FROM [dbo].[User] WHERE email = @email`;
     const values = [res.locals.email];
     const paramNames = ["email"];
@@ -145,11 +147,23 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
         `;
 
     try {
+
+      result2 = await executeQuery(query1, [], [], isStoredProcedure);
+      result2.recordset.forEach(article => {
+        const formattedDate = dayjs(article.day_created).format('dddd, D/M/YYYY, HH:mm');
+        article.day_created = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+      });
+
       const result = await executeQuery(query, values, paramNames, false);
 
       result3 = await executeQuery(query3, [], [], isStoredProcedure);
       result4 = await executeQuery(query4, [], [], isStoredProcedure);
       result5 = await executeQuery(query5, [], [], isStoredProcedure);
+
+      result4.recordset.forEach(article => {
+        const formattedDate = dayjs(article.day_created).format('dddd, D/M/YYYY, HH:mm');
+        article.day_created = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+      });
 
       const result1 = await executeQuery(likeArticleQuery, [result.recordset[0].id_user], ["id"], false);
       const result6 = await executeQuery(UserCommentQuery, [result.recordset[0].id_user], ["id"], false);
@@ -296,6 +310,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       // Lấy từ khóa tìm kiếm từ query string
       const searchQuery = req.query.searchInp || "";
       const searchQueryCategory = req.query.searchInpCate || "";
+      const searchQueryArticle = req.query.searchPostInp || "";
 
       if (searchQuery) {
         const searchQuerySQL = `
@@ -332,6 +347,26 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
         const searchResultCate = await executeQuery(searchQuery, searchValues, searchParamNames, false);
 
         result3 = { recordset: searchResultCate.recordset };
+      }
+
+      if (searchQueryArticle) {
+        const searchQuerySQL = `
+          SELECT *
+          FROM [dbo].[Article]
+          WHERE 
+              (id_article LIKE @searchQuery OR
+              id_user LIKE @searchQuery OR
+			        id_category LIKE @searchQuery OR
+              heading LIKE @searchQuery OR
+              name_alias LIKE @searchQuery OR
+			        status LIKE @searchQuery OR
+			        day_created LIKE @searchQuery)
+        `;
+        const searchValues = [`%${searchQueryArticle}%`];
+        const searchParamNames = ["searchQuery"];
+        console.log(searchQuery)
+        const searchResult = await executeQuery(searchQuerySQL, searchValues, searchParamNames, false);
+        result2 = { recordset: searchResult.recordset}
       }
 
       // Route handling code
@@ -439,6 +474,7 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
       });
     } catch (error) {
       res.render("notFound404.ejs");
+      console.log("error: " + error)
     }
   } else if (role == "NhaBao") {
     const query = `SELECT * FROM [dbo].[User] WHERE email = @email`;
@@ -446,17 +482,209 @@ router.get("/backdetails", authController.authenticateToken, getArticles, getCat
     const paramNames = ["email"];
     let resultUserNhaBao;
 
+    let result22;
+    const isStoredProcedure = false;
+
+    const query22 = `SELECT * FROM [dbo].[Article] WHERE id_user = @id_user`;
+
     try {
+
       resultUserNhaBao = await executeQuery(query, values, paramNames, false);
+
+      const queryCate = `
+            SELECT id_category, category_name, id_parent 
+            FROM [dbo].[Category]
+            ORDER BY 
+                CASE WHEN id_parent IS NULL THEN 0 ELSE 1 END, 
+                id_category ASC`;
+
+      let result3;
+
+      result22 = await executeQuery(query22, [resultUserNhaBao.recordset[0].id_user], ["id_user"], isStoredProcedure);
+
+      const articlePage = parseInt(req.query.articlePage) || 1;
+
+      const limit = parseInt(req.query.limit) || 10;
+
+      const currentPage = parseInt(req.query.page) || 1;
+
+      const resultCate = await executeQuery(queryCate, [], [], false);
+
+      const query3 = `SELECT * FROM [dbo].[Category]`;
+      result3 = await executeQuery(query3, [], [], false);
+      const categoryPage = parseInt(req.query.categoryPage) || 1;
+
+
+      // Truy vấn thống kê tổng số bài viết (đã có từ result22)
+      const totalArticles = result22.recordset.length;
+
+      // Truy vấn thống kê tổng lượt xem
+      const queryTotalViews = `
+        SELECT SUM(views) as totalViews 
+        FROM [dbo].[Article] 
+        WHERE id_user = @id_user`;
+      const totalViewsResult = await executeQuery(
+        queryTotalViews,
+        [resultUserNhaBao.recordset[0].id_user],
+        ["id_user"],
+        false
+      );
+      const totalViews = totalViewsResult.recordset[0].totalViews || 0;
+
+      // Truy vấn thống kê tổng lượt thích
+      const queryTotalLikes = `
+        SELECT COUNT(*) as totalLikes 
+        FROM [dbo].[LikeArticle] 
+        WHERE id_article IN (
+            SELECT id_article 
+            FROM [dbo].[Article] 
+            WHERE id_user = @id_user
+        )`;
+      const totalLikesResult = await executeQuery(
+        queryTotalLikes,
+        [resultUserNhaBao.recordset[0].id_user],
+        ["id_user"],
+        false
+      );
+      const totalLikes = totalLikesResult.recordset[0].totalLikes || 0;
+
+      // Truy vấn thống kê tổng bình luận
+      const queryTotalComments = `
+        SELECT COUNT(*) as totalComments 
+        FROM [dbo].[Comment] 
+        WHERE id_article IN (
+            SELECT id_article 
+            FROM [dbo].[Article] 
+            WHERE id_user = @id_user
+        )`;
+      const totalCommentsResult = await executeQuery(
+        queryTotalComments,
+        [resultUserNhaBao.recordset[0].id_user],
+        ["id_user"],
+        false
+      );
+      const totalComments = totalCommentsResult.recordset[0].totalComments || 0;
+
+
+
+      const activeSection = req.query.section || "dashboard";
+
+
+      const categoriesData = paginate(result3.recordset || [], categoryPage, limit);
+
+      // Tạo cấu trúc category cha - con
+      const categories = resultCate.recordset;
+      const categoryMap = {};
+
+      // Tạo một map để lưu các category
+      categories.forEach((category) => {
+        category.children = []; // Thêm mảng `children` để chứa các category con
+        categoryMap[category.id_category] = category; // Lưu category vào map
+      });
+
+      // Gắn các category con vào category cha
+      const structuredCategories = [];
+      categories.forEach((category) => {
+        if (category.id_parent) {
+          // Nếu có `id_parent`, thêm vào mảng `children` của category cha
+          categoryMap[category.id_parent]?.children.push(category);
+        } else {
+          // Nếu không có `id_parent`, đây là category cha
+          structuredCategories.push(category);
+        }
+      });
+
+      function paginate(data, page, limit) {
+        if (!data || !Array.isArray(data)) {
+          return {
+            data: [],
+            totalPages: 0,
+            totalItems: 0,
+            currentPage: page,
+          };
+        }
+        const start = (page - 1) * limit;
+        const end = start + limit;
+        return {
+          data: data.slice(start, end),
+          totalPages: Math.ceil(data.length / limit),
+          totalItems: data.length,
+          currentPage: page,
+        };
+      }
+
+      const articlesData = paginate(result22.recordset || [], articlePage, limit);
+
+      res.render("nhaBao.ejs", {
+        user: resultUserNhaBao.recordset,
+        structuredCategories: structuredCategories,
+        articles: articlesData.data,
+        currentPage: currentPage,
+        statistics: {
+          totalArticles: totalArticles,
+          totalViews: totalViews,
+          totalLikes: totalLikes,
+          totalComments: totalComments
+        },
+        pagination: {
+          articles: {
+            totalPages: articlesData.totalPages,
+            totalItems: articlesData.totalItems,
+            currentPage: articlePage
+          },
+          users: {
+            currentPage: 1
+          },
+          categories: {
+            currentPage: 1
+          }
+        }
+      });
     } catch (error) {
       console.error(error);
     }
 
-    res.render("nhaBao.ejs", {
-      user: resultUserNhaBao.recordset
-    });
+
   } else if (role == "DocGia") {
-    res.render("docGia.ejs");
+    const query = `SELECT * FROM [dbo].[User] WHERE email = @email`;
+    const values = [res.locals.email];
+    const paramNames = ["email"];
+    let resultUserNguoiDung;
+    let result20;
+    let result21;
+
+    const likeArticleQueryNguoiDung = `SELECT A.*
+                              FROM LikeArticle LA
+                              JOIN Article A ON LA.id_article = A.id_article
+                              WHERE LA.id_user = @id;`;
+
+    const UserCommentQueryNguoiDung = `
+            SELECT 
+                id_comment,
+                a.heading as ten_bai_viet,
+                c.comment_content as noi_dung_binh_luan,
+                FORMAT(c.day_created, 'dd/MM/yyyy HH:mm') as ngay_binh_luan
+            FROM Comment c
+            LEFT JOIN Article a ON c.id_article = a.id_article
+            WHERE c.id_user = @id
+            ORDER BY c.day_created DESC
+        `;
+
+    try {
+      resultUserNguoiDung = await executeQuery(query, values, paramNames, false);
+
+      result20 = await executeQuery(likeArticleQueryNguoiDung, [resultUserNguoiDung.recordset[0].id_user], ["id"], false);
+      result21 = await executeQuery(UserCommentQueryNguoiDung, [resultUserNguoiDung.recordset[0].id_user], ["id"], false);
+    } catch (error) {
+      console.error(error);
+    }
+
+    res.render("docGia.ejs", {
+      user: resultUserNguoiDung.recordset,
+      likeArticles: result20.recordset,
+      userComments: result21.recordset,
+
+    });
   }
 });
 
